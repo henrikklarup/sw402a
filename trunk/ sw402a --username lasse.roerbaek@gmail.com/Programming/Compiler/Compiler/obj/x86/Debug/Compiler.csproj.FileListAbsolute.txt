@@ -1,0 +1,5 @@
+C:\Users\Lasse\Documents\A A U\SWF11\SVN\Programming\Compiler\Compiler\bin\Debug\Compiler.exe
+C:\Users\Lasse\Documents\A A U\SWF11\SVN\Programming\Compiler\Compiler\bin\Debug\Compiler.pdb
+C:\Users\Lasse\Documents\A A U\SWF11\SVN\Programming\Compiler\Compiler\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Lasse\Documents\A A U\SWF11\SVN\Programming\Compiler\Compiler\obj\x86\Debug\Compiler.exe
+C:\Users\Lasse\Documents\A A U\SWF11\SVN\Programming\Compiler\Compiler\obj\x86\Debug\Compiler.pdb
