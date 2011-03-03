@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'Calibri::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Calibri'), url('https://themes.googleusercontent.com/font?kit=9coX2bxtmeZhxv91CXw7qQ') format('truetype');
+}
+@font-face {
+  font-family: 'Cambria::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Cambria'), url('https://themes.googleusercontent.com/font?kit=qOP3jt5fC7RVkXxxuZ0KQA') format('truetype');
+}
+@font-face {
+  font-family: 'Consolas::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Consolas'), url('https://themes.googleusercontent.com/font?kit=AHTQE2f8E-7C4Fagw1YmbfesZW2xOQ-xsNqO47m55DA') format('truetype');
+}
+@font-face {
+  font-family: 'Corsiva::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Corsiva'), url('https://themes.googleusercontent.com/font?kit=cJrGG4Js3mYb0ayrvsDybQ') format('truetype');
+}
+@font-face {
+  font-family: 'Droid Sans::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('https://themes.googleusercontent.com/font?kit=vk1xBJHzOPMZIrllGO7pBC3USBnSvpkopQaUR-2r7iU') format('truetype');
+}
+@font-face {
+  font-family: 'Droid Serif::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Serif'), local('DroidSerif'), url('https://themes.googleusercontent.com/font?kit=0AKsP294HTD-nvJgucYTaGeudeTO44zf-ht3k-KNzwg') format('truetype');
+}
+@font-face {
+  font-family: 'Syncopate::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Syncopate'), local('Syncopate-Regular'), url('https://themes.googleusercontent.com/font?kit=J8LIyVp-BBfhgWRYSdAgPqCWcynf_cDxXwCLxiixG1c') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmbx10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmbx10'), url('https://themes.googleusercontent.com/font?kit=mQWqSxeuMfOFFco6wXjtYcsvD1d5ysUEWx6yn0Nx2tw') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmex10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmex10'), url('https://themes.googleusercontent.com/font?kit=n7p2sMu2ciQhmbPABQDTccsvD1d5ysUEWx6yn0Nx2tw') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmmi10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmmi10'), url('https://themes.googleusercontent.com/font?kit=0JSKQqP4Y5vIZB4l52jAjMsvD1d5ysUEWx6yn0Nx2tw') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmr10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmr10'), url('https://themes.googleusercontent.com/font?kit=_2fBznrzTFuHymY6OLQcEPXvv67LPsgjo12DOhGlfyc') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmsy10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmsy10'), url('https://themes.googleusercontent.com/font?kit=QTZ2F6-N2KBSZvG48dFYbcsvD1d5ysUEWx6yn0Nx2tw') format('truetype');
+}
+@font-face {
+  font-family: 'jsMath cmti10::Menu';
+  font-style: normal;
+  font-weight: normal;
+  src: local('jsMath-cmti10'), url('https://themes.googleusercontent.com/font?kit=mrXZJMtAIRbOuKCWEl5K0MsvD1d5ysUEWx6yn0Nx2tw') format('truetype');
+}

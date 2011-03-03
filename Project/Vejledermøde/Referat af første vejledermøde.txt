@@ -1,0 +1,17 @@
+Vi skal holde os til de emner vi har i kurserne. Grafik og spil er kun fyld.
+
+Vi skal lave et multi-agent-system, med en verden i 2D, med figurer (agents), som
+man kan programmere til at flytte sig, og interagere med hinanden. Hvis vi laver wargame, så skal agenternes "behavior" være mere specifik.
+
+   Det skal være imperisk opbygget på en eller anden måde.
+
+Lekser, parser og semantics er nøgleord.
+
+Det sprog vi skal lave skal putte agents ind i et miljø, og få dem til at flytte sig
+rundt og interagere. Selve miljøet skal nok laves i Java eller noget.
+
+Vi skal have fundet ud af om vi skal have en compiler eller en fortolker.
+
+
+Vi afventer Jorge, han vil finde et scenarie til os, når han har snakket med den
+vejleder der har foreslået wargame. Han sender en mail.
