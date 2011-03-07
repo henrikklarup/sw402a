@@ -1,0 +1,40 @@
+			//først vises dannelsen af agent-klassen.
+			//param:... viser hvilke parametre klassen tager ved new.
+Class Agent (param : int Armor, int Attack, int Type, func Behavior(param : int From, math Direction)){ 
+			//agent-klassens funktioner
+AgentCompare(); 	//sammenligner med fjende
+AgentDie(); 		//hvis den anden fjende er stærkere, kaldes denne, og denne agent dør (slettes)
+SetBehavior();	//kaldes når spillet starter, ved sammenstød med objekt, og ved vundet kamp.
+}
+
+
+			//vi laver en new agent og giver inputs.
+new Agent = Agent1(Armor = 5 , Attack = 12, Type = Infantry, Behavior = ());
+
+
+			//metoden til at sammenligne agenter.
+new method = AgentCompare(usedBy : Agent){
+	if(Armor > EnemyAttack and Attack >= EnemyArmor){
+		call SetBehavior();
+	}
+	if(Armor > EnemyAttack and Attack < EnemyArmor){
+		call SetBehavior();
+	}
+	if(Armor <= EnemyAttack){
+		call AgentDie();
+	}
+}
+
+
+			//bestemmelse af behavior parametren.
+new method = SetBehavior(usedBy : Agent){
+	From = CurrentGridPoint;
+	call RandomFunction(From);
+	send to Behavior;
+}
+
+
+			//random-funktionen.
+new method = RandomFunction(usedBy : SetBehavior){
+	From * 		//Aner ikke hvordan random skal være, men den skal lave en 			//retnings-funktion på baggrund af From og PC'ens/serverens 			//ur.
+}
