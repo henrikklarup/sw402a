@@ -1,0 +1,7 @@
+AddAgent(int type, string movementPattern)
+
+MoveAgent(int degrees)
+
+CompareAgentWith(//Hvilket id?)
+
+rnd.get(int minVal, int maxVal)
