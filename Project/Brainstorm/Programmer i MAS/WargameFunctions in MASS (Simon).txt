@@ -1,4 +1,3 @@
-			//først vises dannelsen af agent-klassen.
 			//param:... viser hvilke parametre klassen tager ved new.
 Class Agent (param : int Armor, int Attack, int Type, func Behavior(param : int From, math Direction)){ 
 			//agent-klassens funktioner
@@ -36,5 +35,5 @@ new method = SetBehavior(usedBy : Agent){
 
 			//random-funktionen.
 new method = RandomFunction(usedBy : SetBehavior){
-	From * 		//Aner ikke hvordan random skal være, men den skal lave en 			//retnings-funktion på baggrund af From og PC'ens/serverens 			//ur.
+	From * 		//Aner ikke hvordan random skal være, men den skal lave en 				//retnings-funktion på baggrund af From og PC'ens/serverens 				//ur.
 }
