@@ -1,0 +1,146 @@
+//Random func
+Integer  a = (int, 1,10);
+Random(string type, int min, int max)
+{
+	
+}
+
+//Compare agents
+
+agentName1.getState == agentName2.getState;
+
+//Movement
+
+Class Movement()
+{
+	Move(Agent agentName, Int X, Int Y)
+	{
+		agentName.setY = Y;
+		agentName.setX = X;
+	}
+	Font(Agent agentName, Int stepSize)
+	{
+		if(agentName.getY < 0)
+		{
+			agentName.setY = agentName.getY - |stepSize|;
+		} else
+		{
+			agentName.setY = agentName.getY + |stepSize|;	
+		}
+	}
+	Back(Agent agentName, Int stepSize)
+	{
+		if(agentName.getY < 0)
+		{
+			agentName.setY = agentName.getY + |stepSize|;
+		} else
+		{
+			agentName.setY = agentName.getY - |stepSize|;	
+		}
+	}
+	Right(Agent agentName, Int stepSize)
+	{
+		if(agentName.getX < 0)
+		{
+			agentName.setX = agentName.getX + |stepSize|;
+		} else
+		{
+			agentName.setX = agentName.getX + |stepSize|;	
+		}
+	}
+	Left(Agent agentName, Int stepSize)
+	{
+		if(agentName.getX < 0)
+		{
+			agentName.setX = agentName.getX - |stepSize|;
+		} else
+		{
+			agentName.setX = agentName.getX - |stepSize|;	
+		}
+	}
+}
+
+//Add agent
+
+Agent agentName1 = new Agent(String state,Int xStart,Int yStart, String type);
+
+
+Class Agent();
+private String _State;
+private Int _xStart;
+private Int _yStart;
+private String _Type;
+private String _bool = “true”;
+Agent(String State, Int xStart, Int yStart, String Type)
+
+	if(State&&xStart&&yStart&&Type)
+	{
+		if(State != “Dead” || State != “Alive”)
+{
+	_bool != “false”;
+}
+
+if(istype(xStart)==Integer)
+{
+	_bool != “false”;
+}
+
+if(istype(yStart)==Integer)
+{
+	_bool == “false”;
+}
+
+if(Type != “Ground” || Type != “Air”||Type != ”Water”)
+{
+	_bool == “false”;
+}
+
+if(_bool == “true”)
+{
+	_State = State;
+	_xStart = xStart;
+	_yStart = yStart;
+	_Type = Type;
+}
+	}
+
+	Integer getX()
+	{
+		Return _xStart;
+	}
+	setX(Int xStart)
+	{
+		_xStart = xStart;
+	}
+Integer getY()
+	{
+		Return _yStart;
+	}
+	setY(Int yStart)
+	{
+		_yStart = yStart;
+	}
+	String getType()
+	{
+		Return _Type;
+	}
+	setType(String Type)
+	{
+if(Type != “Ground” || Type != “Air”||Type != ”Water”)
+{
+	_Type = Type;
+}
+	}
+String getState()
+{
+	Return _State;
+}
+	setState(String State)
+	{
+		if(State != “Dead” || State != “Alive”)
+{
+	_State = State;
+}
+
+	}
+}
