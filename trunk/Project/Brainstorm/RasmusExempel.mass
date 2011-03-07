@@ -1,0 +1,36 @@
+//How to add an agent
+Team newTeam = new Team("Name of the Team");
+Agent newAgent = new Agent("Name of Agent");
+
+//All set methods also has a get version which returns the property
+newAgent.setRank(10);
+newAgent.setName("John");
+newAgent.setClass(Tank); //Takes some property which can be set as tank, infantry etc.
+//Maybe add more set/get methods.
+
+newTeam.add(newAgent);
+
+//Adds the team with the agent to the game.
+Game.add(newAgent);
+
+-------------------------------------------
+//How to move an agent
+newAgent.move(x,y) now; //Move to position
+newAgent.move() in 10; //Moves to a random position in 10 seconds
+newAgent.move(true) in 60;//false = stay, true = move
+newAgent.move(false) in 40;
+newAgent.move(int) in 120; //Moves to a position according to (int mod 360) = degree
+
+-------------------------------------------
+//Compare Agents
+//Calculates the distance between the two agents
+Game.compareDistance(Game.team1.agent1.getID, Game.team2.agent2.getID);
+
+//Returns the difference between agent1 and agent2, returns -int if agent2 is bigger than agent1
+Game.compareRank(Game.team1.agent1.getID, Game.team2.agent2.getID);
+
+-------------------------------------------
+//Random Function
+~int; //Returns a random int
+~float; //Returns a random float
+~double; //Returns a random double
