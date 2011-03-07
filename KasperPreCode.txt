@@ -1,0 +1,45 @@
+{
+	int units = 50;
+	int gridHeight = 400;
+	int gridWidth = gridHeight;
+	
+	InitializeWargame(gridWidth, gridHeight, units); /* Initialize new game with a 400*400 grid and a maximum of 50 units. */
+	
+	AddAgents("Infantry unit " + agent.id, 1, 20);   /*	Adds 20 agents of value 1 named "Infantry unit" 
+														followed by a number relative to the unit it was declared as.
+														So these units are named from 1 to 20. */
+	
+	AddAgents("Tank " + agent.id, 4, 5); /*	Adds five agents of value four named "Tank " followed by the agent id. */
+	
+	AddAgents("General Coster", 10, 1);  /*	Adds one unit of value 10 named "General Coster". */
+	
+	AttackFormation squareFormation; 
+	
+	squareFormation(int lowerAgentID, int higherAgentID) {
+		int totalAgents = amountOfValidAgents(lowerAgentID, higherAgentID);
+		if(totalAgents < 4)
+		{
+			verticalLineFormation(lowerAgentID, higherAgentID);
+		}
+		else
+		{
+			/* Algorithm for creating square formation of units. */
+		}
+	}
+	
+	unitSelection infantrySquareFormation = squareFormation(1, 20);  /*	Create new unit selection (as a square formation), 
+																		that can be moved as a single unit. */
+	
+	coordinats startPositionISF = coordinats(395, 200); 	/* Set the coordinatset startPositionISF to x = 395, y = 200. */
+	coordinats endPositionISF = coordinats(5, RandomInt(5, 395));    /*	Set the coordinatset endPositionISF to x = 5 and a random int from 5 to 395. */
+	
+	movementPattern infantrySquareMovement = movementPattern(LinearMovement(startPositionISF, endPositionISF, 5), true);	 /*	Create a linear movement pattern, 
+																																for	the unit to traverse, with 
+																																true indicating that it is
+																																repeated movement and 5 
+																																indicating speed (pixels/sec). */
+	
+	SpawnUnit(infantrySquareFormation, startPositionISF); 	 /*	Spawns the infantrySquareFormation at x = 395, y = 200. */
+	
+	MoveUnit(infantrySquareFormation, infantrySquareMovement); 
+}
