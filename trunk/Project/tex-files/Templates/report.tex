@@ -1,0 +1,151 @@
+\input{preamble}
+%
+% force breaks at right margin, if the text is too long
+%
+\sloppy
+\begin{document}
+
+% 
+% Include front page pdf file
+% 
+%\includepdf{forside.pdf}
+
+%
+% Make a new empty page   
+%
+%\newpage
+% Blank page after frontpage
+%\mbox{}
+%\thispagestyle{empty} 
+%\newpage
+
+% 
+% Use roman numbers on the start of the report   
+%
+\pagenumbering{Roman}
+
+% 
+% Files for writing preface
+%
+\input{preface/titlepage}
+
+\chapter*{Preface}
+\input{preface/preface}
+% 
+% Create table of contents
+%
+\newpage{}
+%\changepage{2.5cm}{}{}{}{}{}{}{-2.5cm}{}% fix table of contents to fit 2 pages
+\tableofcontents*
+%\changepage{-2.5cm}{}{}{}{}{}{}{2.5cm}{}% fix table of contents to fit 2 pages
+
+%
+% Use temporary line numbers on all pages
+%
+%\setpagewiselinenumbers
+%\linenumbers
+
+%
+% Main Contents of report, add chapters here
+%
+
+%
+% Use arabic numbers in the rest of the report (is in introduction/intro.tex)
+%
+\chapter{Introduction}
+\label{chap:intro}
+\pagenumbering{arabic}
+\input{introduction/intro}
+\newpage{}
+%\input{introduction/readingguide}
+
+
+\chapter{Analysis}
+\label{chap:analysis}
+\input{analysis/intro}
+\newpage{}
+\input{analysis/systemdefinition}
+\input{analysis/eventtable}
+\input{analysis/actors}
+\input{analysis/usecases}
+\input{analysis/functions}
+
+\chapter{Design}
+\label{chap:Design}
+
+
+\chapter{Development}
+\label{chap:development}
+%\input{developsubcomponent/intro}
+\newpage{}
+%\input{developsubcomponent/initialsetup}
+%\input{developsubcomponent/developmentapproach}
+%\input{developsubcomponent/databaseaccesslayer}
+%\input{developsubcomponent/calendar}
+%\input{developsubcomponent/componentannouncer}
+
+% Chapter: Integration
+\chapter{Testing}
+%\input{testing/intro}
+\newpage{}
+%\input{testing/component}
+%\input{testing/integration}
+%\input{testing/system}
+
+% Chapter: Reflection
+\chapter{Reflection}
+%\input{reflection/intro}
+\newpage{}
+%\input{reflection/developmentapproach}
+%\input{reflection/components}
+%\input{reflection/collaboration}
+
+% Chapter: Recapitulation
+\chapter{Recapitulation}
+%\input{recapitulation/intro}
+\newpage{}
+%\input{recapitulation/conclusion}
+%\input{recapitulation/futurework}
+
+\label{theend}
+%
+% Bibliography
+%
+%\bibliographystyle{alpha}
+%\bibliography{references}
+\label{bib}
+%
+% Creates an appendix 
+%
+\appendix
+% Add appendix to toc
+\addappheadtotoc
+% Only add the chapters, and not sections, subsections etc.
+\settocdepth{chapter}
+%\input{appendix/contract}
+%\input{appendix/userstories}
+%\input{appendix/eventbehavior}
+%\input{appendix/guimockups}
+%\input{appendix/testscripts}
+%\input{appendix/redmineguides}
+%\input{appendix/unittestdescription}
+%\input{appendix/resume}
+
+\label{pagecount}
+%
+% A page used to attach the CD-ROM
+%
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{4cm}
+\label{cd}
+{\centering This page is left blank for the purpose of containing the attached CD-ROM.}
+
+%
+% FixME's chapter.. Should be commented when finished :)
+%
+\newpage
+\chapter{FIXME's}
+\listoffixmes
+
+\end{document}
