@@ -31,7 +31,7 @@
 
 \pagenumbering{Roman}
 \clearpage{\thispagestyle{empty}\cleardoublepage}
-\InputIfFileExists{file destination (forord)}{}{}
+\InputIfFileExists{Preface\preface.tex}{}{}
 
 \tableofcontents
 \newpage
@@ -45,7 +45,7 @@
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 \bibliographystyle{plain}
-\bibliography{bibtex file destination}
+\bibliography{bibtex\eksempel.bib}
 
 
 \end{document}
