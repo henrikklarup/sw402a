@@ -1,0 +1,4 @@
+Der skal være et grid med koordinater, og så skal der for agenterne være en
+forende og en bagende, som viser hvilken retning de går.
+
+De næste møder skal handle om scanner (DFA) og parser, så vi skal kigge på grammatikken. Disse to ting vil tage omkring 30% af vores projekttid, det sværeste bliver omkring semantik.
