@@ -35,5 +35,11 @@ new method = SetBehavior(usedBy : Agent){
 
 			//random-funktionen.
 new method = RandomFunction(usedBy : SetBehavior){
-	From * 		//Aner ikke hvordan random skal være, men den skal lave en 				//retnings-funktion på baggrund af From og PC'ens/serverens 				//ur.
+	From * 		//Aner ikke hvordan random skal være, men den skal lave en 				
+			//retnings-funktion på baggrund af From og PC'ens/serverens ur.
 }
+
+
+
+
+Mere kode - til mandag d. 14. marts
