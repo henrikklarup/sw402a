@@ -88,3 +88,27 @@ new method = addition(usedBy : calculator){
 		}
 	write("the result is ", x - y);
 	}
+
+new method = addition(usedBy : calculator){
+	x.set(readline());
+	y.set(readline());
+		if(x =! num){
+		write("x is not a valid input!");
+		}
+		if(y =! num){
+		write("x is not a valid input!");
+		}
+	write("the result is ", x / y);
+	}
+
+new method = addition(usedBy : calculator){
+	x.set(readline());
+	y.set(readline());
+		if(x =! num){
+		write("x is not a valid input!");
+		}
+		if(y =! num){
+		write("x is not a valid input!");
+		}
+	write("the result is ", x * y);
+	}
