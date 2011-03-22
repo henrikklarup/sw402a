@@ -119,7 +119,7 @@ namespace CalcLang
             if (c == '*')
             {
                 ignoreIt();
-                if (c == '/')
+                if (currentChar == '/')
                 {
                     ignoreIt();
                     return false;
@@ -150,6 +150,8 @@ namespace CalcLang
             }
         }
 
+        //Ignores the current Character if its a blank space or a newline
+        //Ignores everything between /* and */ with the loop using the isMultiLineCommen method
         private void scanSeperator()
         {
             switch (currentChar)
@@ -168,6 +170,14 @@ namespace CalcLang
                     if (currentChar == '*')
                         while (isMultiLineComment(currentChar))
                         {
+                            if (currentChar == '\n')
+                            {
+                                if (fileCounter < fileLines.Length)
+                                {
+                                    charLine = fileLines[fileCounter++].ToCharArray();
+                                    charCounter = 0;
+                                }
+                            }
                             ignoreIt();
                         };
                     break;
