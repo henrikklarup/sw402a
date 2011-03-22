@@ -8,28 +8,28 @@ namespace CalcLang
 {
     class Scanzor
     {
-        //The input file we want to read
+        //The input file being read
         public string[] fileLines;
 
-        //Counts which line we're currently looking at
+        //Counts which line currently being looked at
         public int fileCounter;
 
         //Holds the current line as an array of chars
         public char[] charLine;
 
-        //Counts the current char we're at
+        //Counts the current char
         public int charCounter;
 
         //The current Char being processed by the scanner.
         public char currentChar;
 
-        //The kind of Token we expect the current char/string to have.
+        //The kind of Token expecting the current char/string to have.
         private byte currentKind;
 
         //Builds the string
         private StringBuilder currentSpelling;
 
-        //Used to accept characters that match the exact char we want to accept
+        //Used to accept characters that match the exact char.
         //Not used atm
         private void take(char expectedChar)
         {
@@ -113,7 +113,7 @@ namespace CalcLang
             return false;
         }
 
-        //Checks if
+        //Checks if the next char is a * and the char after that is a / if this is true it returns false and the loop breaks because the comment has ended
         private bool isMultiLineComment(char c)
         {
             if (c == '*')
@@ -128,6 +128,7 @@ namespace CalcLang
             return true;
         }
 
+        //Checks if the next char is a newline and returns false, to break the loop and end the comment section
         private bool isOneLineComment(char c)
         {
             if (c == '\n')
@@ -136,18 +137,6 @@ namespace CalcLang
                 return false;
             }
             return true;
-        }
-
-        private void scanOperator()
-        {
-            if (currentChar == '=')
-            {
-                takeIt();
-                if (currentChar == '=')
-                {
-                    takeIt();
-                }
-            }
         }
 
         //Ignores the current Character if its a blank space or a newline
@@ -184,6 +173,7 @@ namespace CalcLang
             }
         }
 
+        //Scans the current Character and returns the corresponding byte value (to the token) while building the string which is identifying the token
         private byte scanToken()
         {
             switch (char.ToLower(currentChar))
@@ -230,6 +220,7 @@ namespace CalcLang
                 case '7':
                 case '8':
                 case '9':
+                    //Builds a digit, adds "." if its added in the code
                     takeIt();
                     while (isDigit(currentChar))
                     {
@@ -246,14 +237,17 @@ namespace CalcLang
                 case '-':
                 case '*':
                 case '/':
+                    // returns any of the four usual operators
                     takeIt();
                     return Token.OPERATOR;
+                    //Checking if the operator is an "expanded" version
                 case '<':
                 case '>':
                     takeIt();
                     if (currentChar == '=')
                         takeIt();
                     return Token.OPERATOR;
+                    //Checking if the "=" means become or its an operator e.g. "=="
                 case '=':
                     takeIt();
                     switch (currentChar)
@@ -275,6 +269,7 @@ namespace CalcLang
                     takeIt();
                     return Token.RPAREN;
                 case '\n':
+                    //If the current char is a newline char, change the line we're looking at
                     char lastChar;
                     for (int i = 0; i < 20; i++)
                     {
@@ -292,6 +287,7 @@ namespace CalcLang
                     }
                     return Token.EOT;
                 default:
+                    //Someone has screwed up
                     Console.WriteLine("Somethings wrong");
                     return Token.EOT;
             }
@@ -308,6 +304,7 @@ namespace CalcLang
 
         public Token scan()
         {
+            //If the current character is the newline char, then change the line being read before starting the scan
             if (currentChar == '\n')
             {
                 if (fileCounter < fileLines.Length)
@@ -317,10 +314,15 @@ namespace CalcLang
                     currentChar = nextSourceChar();
                 }
             }
+            //If looking at a seperator, take the next character and start building a new string
             while (currentChar == ' ' || currentChar == '\\' || currentChar == '/')
                 scanSeperator();
             currentSpelling = new StringBuilder("");
+
+            //Scan for the next token, e.g. an identifier
             currentKind = scanToken();
+
+            //Returns the token found and the string build while searching for the token
             return new Token(currentKind, currentSpelling.ToString());
         }
     }
