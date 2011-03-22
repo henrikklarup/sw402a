@@ -15,18 +15,28 @@ namespace CalcLang
             Scanzor scanzor = new Scanzor();
             scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt");
 
-            foreach (string s in scanzor.fileLines)
+            /*foreach (string s in scanzor.fileLines)
             {
                 Console.WriteLine(s);
-            }
+            }*/
             scanzor.fileCounter = 0;
             scanzor.charLine = scanzor.fileLines[scanzor.fileCounter++].ToCharArray();
             scanzor.charCounter = 0;
             scanzor.currentChar = scanzor.charLine[scanzor.charCounter++];
 
-            for (int i = 0; i < 20; i++ )
+            Token newToken;
+            while(true)
             {
-                Tokens.Add(scanzor.scan());
+                newToken = scanzor.scan();
+                if (newToken.kind != Token.EOT)
+                {
+                    Tokens.Add(newToken);
+                }
+                else
+                {
+                    break;
+                }
+
             }
 
             foreach (Token t in Tokens)

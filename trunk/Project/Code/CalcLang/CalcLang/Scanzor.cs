@@ -11,6 +11,7 @@ namespace CalcLang
         //The input file we want to read
         public string[] fileLines;
 
+        //Counts which line we're currently looking at
         public int fileCounter;
 
         //Holds the current line as an array of chars
@@ -28,6 +29,8 @@ namespace CalcLang
         //Builds the string
         private StringBuilder currentSpelling;
 
+        //Used to accept characters that match the exact char we want to accept
+        //Not used atm
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -41,17 +44,20 @@ namespace CalcLang
             }
         }
 
+        //Used to take the current Character no matter which one it is and put it in the string
         private void takeIt()
         {
             currentSpelling.Append(currentChar);
             currentChar = nextSourceChar();
         }
 
+        //Used to ignore the current Character and get the next char from the source file
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
         }
 
+        //Used to check if the char is a digit (0-9)
         private bool isDigit(char c)
         {
             switch (c)
@@ -71,6 +77,7 @@ namespace CalcLang
             return false;
         }
 
+        //Checks if the char is a letter (a-z)
         private bool isLetter(char c)
         {
             switch (char.ToLower(c))
@@ -106,12 +113,13 @@ namespace CalcLang
             return false;
         }
 
+        //Checks if
         private bool isMultiLineComment(char c)
-        { 
-            if(c == '*')
+        {
+            if (c == '*')
             {
                 ignoreIt();
-                if(c == '/')
+                if (c == '/')
                 {
                     ignoreIt();
                     return false;
@@ -145,18 +153,19 @@ namespace CalcLang
         private void scanSeperator()
         {
             switch (currentChar)
-            { 
-                case ' ': case '\n':
+            {
+                case ' ':
+                case '\n':
                     ignoreIt();
                     break;
                 case '/':
                     ignoreIt();
                     if (currentChar == '/')
-                        while(isOneLineComment(currentChar))
+                        while (isOneLineComment(currentChar))
                         {
                             ignoreIt();
                         };
-                    if(currentChar == '*')
+                    if (currentChar == '*')
                         while (isMultiLineComment(currentChar))
                         {
                             ignoreIt();
@@ -201,8 +210,16 @@ namespace CalcLang
                         takeIt();
                     }
                     return Token.IDENTIFIER;
-                case '0': case '1': case '2': case '3': case '4': case '5': 
-                case '6': case '7': case '8': case '9':
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
                     takeIt();
                     while (isDigit(currentChar))
                     {
@@ -215,10 +232,14 @@ namespace CalcLang
                             takeIt();
                     }
                     return Token.NUMBER;
-                case '+': case '-': case '*': case '/':
+                case '+':
+                case '-':
+                case '*':
+                case '/':
                     takeIt();
                     return Token.OPERATOR;
-                case '<': case '>':
+                case '<':
+                case '>':
                     takeIt();
                     if (currentChar == '=')
                         takeIt();
@@ -226,8 +247,10 @@ namespace CalcLang
                 case '=':
                     takeIt();
                     switch (currentChar)
-                    { 
-                        case '<': case '>': case '=':
+                    {
+                        case '<':
+                        case '>':
+                        case '=':
                             takeIt();
                             return Token.OPERATOR;
                     }
@@ -241,8 +264,22 @@ namespace CalcLang
                 case ')':
                     takeIt();
                     return Token.RPAREN;
-                case '\\':
-                    charLine = fileLines[fileCounter++].ToCharArray();
+                case '\n':
+                    char lastChar;
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (fileCounter < fileLines.Length)
+                        {
+                            charLine = fileLines[fileCounter++].ToCharArray();
+                            charCounter = 0;
+                        }
+                        lastChar = currentChar;
+                        currentChar = nextSourceChar();
+                        if (currentChar != lastChar)
+                        {
+                            return scanToken();
+                        }
+                    }
                     return Token.EOT;
                 default:
                     Console.WriteLine("Somethings wrong");
@@ -270,7 +307,7 @@ namespace CalcLang
                     currentChar = nextSourceChar();
                 }
             }
-            while (currentChar == ' ' || currentChar == '\\')
+            while (currentChar == ' ' || currentChar == '\\' || currentChar == '/')
                 scanSeperator();
             currentSpelling = new StringBuilder("");
             currentKind = scanToken();
