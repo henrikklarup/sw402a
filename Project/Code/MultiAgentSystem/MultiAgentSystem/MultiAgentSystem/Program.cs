@@ -13,12 +13,10 @@ namespace MultiAgentSystem
         static void Main(string[] args)
         {
             Scanzor scanzor = new Scanzor();
-            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt"); //The name of the file with the input
+            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.mass"); //The name of the file with the input
 
             //Initializes the string being read by the scanner, and its counters
-            scanzor.fileCounter = 0;
             scanzor.charLine = scanzor.fileLines[scanzor.fileCounter++].ToCharArray();
-            scanzor.charCounter = 0;
             scanzor.currentChar = scanzor.charLine[scanzor.charCounter++];
 
             Token newToken;
@@ -45,7 +43,7 @@ namespace MultiAgentSystem
             //Printing the token list, for debuggin purpose only
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,13} -> {1,-20}", Token.spellings[t.kind], t.spelling));
+                Console.WriteLine(string.Format("{0,13} - {1,-20}", Token.spellings[t.kind], t.spelling));
             }
 
             Console.ReadKey();
