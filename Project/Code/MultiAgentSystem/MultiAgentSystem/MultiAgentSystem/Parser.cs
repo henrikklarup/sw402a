@@ -56,6 +56,17 @@ namespace MultiAgentSystem
 
         private Block parseBlock()
         {
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.LBRACKET:
+                    acceptIt();
+                    Block block = new Block(parseCommands());
+                    accept((int)Token.keywords.RBRACKET);
+                    return block;
+                default:
+                    accept(-1);
+                    return null;
+            }
             return new Block();
         }
 
