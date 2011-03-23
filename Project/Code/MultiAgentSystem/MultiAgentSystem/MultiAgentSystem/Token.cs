@@ -9,6 +9,8 @@ namespace MultiAgentSystem
     {
         public int kind;
         public string spelling;
+        public int row;
+        public int col;
 
         //The number identifying the token, as a byte to make sure it isn't misinterpreted
         public static const int
