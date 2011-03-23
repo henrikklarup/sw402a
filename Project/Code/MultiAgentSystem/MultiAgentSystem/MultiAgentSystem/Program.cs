@@ -42,7 +42,7 @@ namespace MultiAgentSystem
             //Printing the token list, for debuggin purpose only
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,13} - {1,-20}", Token.spellings[t.kind], t.spelling));
+                Console.WriteLine(string.Format("{0,13} - {1,-20} | {2, 10},{3,-10}", Token.spellings[t.kind], t.spelling, t.row, t.col));
             }
 
             Console.ReadKey();

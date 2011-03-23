@@ -29,6 +29,10 @@ namespace MultiAgentSystem
         //Builds the string
         private StringBuilder currentSpelling;
 
+        //Coordinates used by the parser to tell where a syntax error has been found
+        private int row;
+        private int col;
+
         //Used to accept characters that match the exact char.
         //Not used atm
         private void take(char expectedChar)
@@ -37,6 +41,7 @@ namespace MultiAgentSystem
             {
                 currentSpelling.Append(currentChar);
                 currentChar = nextSourceChar();
+                coords();
             }
             else
             {
@@ -49,12 +54,22 @@ namespace MultiAgentSystem
         {
             currentSpelling.Append(currentChar);
             currentChar = nextSourceChar();
+            coords();
         }
 
         //Used to ignore the current Character and get the next char from the source file
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
+        }
+
+        private void coords()
+        {
+            if (currentSpelling.ToString() == "")
+            {
+                row = fileCounter;
+                col = charCounter;
+            }
         }
 
         //Used to check if the char is a digit (0-9) and returns true if it is
@@ -329,7 +344,7 @@ namespace MultiAgentSystem
             {                
                 scanSeperator();
                 if(currentKind == Token.EOT)
-                    return new Token(currentKind, "<EOT>");
+                    return new Token(currentKind, "<EOT>", fileCounter, charCounter);
             }
             currentSpelling = new StringBuilder("");
 
@@ -337,7 +352,7 @@ namespace MultiAgentSystem
             currentKind = scanToken();
 
             //Returns the token found and the string build while searching for the token
-            return new Token(currentKind, currentSpelling.ToString());
+            return new Token(currentKind, currentSpelling.ToString(), row, col);
         }
     }
 }
