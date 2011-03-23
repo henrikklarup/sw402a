@@ -173,6 +173,20 @@ namespace CalcLang
             }
         }
 
+        private void scanDigit()
+        {
+            while (isDigit(currentChar))
+            {
+                takeIt();
+            }
+            if (currentChar == '.')
+            {
+                takeIt();
+                while (isDigit(currentChar))
+                    takeIt();
+            }
+        }
+
         //Scans the current Character and returns the corresponding byte value (to the token) while building the string which is identifying the token
         private byte scanToken()
         {
@@ -222,16 +236,7 @@ namespace CalcLang
                 case '9':
                     //Builds a digit, adds "." if its added in the code
                     takeIt();
-                    while (isDigit(currentChar))
-                    {
-                        takeIt();
-                    }
-                    if (currentChar == '.')
-                    {
-                        takeIt();
-                        while (isDigit(currentChar))
-                            takeIt();
-                    }
+                    scanDigit();
                     return Token.NUMBER;
                 case '+':
                 case '-':
@@ -304,16 +309,6 @@ namespace CalcLang
 
         public Token scan()
         {
-            //If the current character is the newline char, then change the line being read before starting the scan
-            if (currentChar == '\n')
-            {
-                if (fileCounter < fileLines.Length)
-                {
-                    charLine = fileLines[fileCounter++].ToCharArray();
-                    charCounter = 0;
-                    currentChar = nextSourceChar();
-                }
-            }
             //If looking at a seperator, take the next character and start building a new string
             while (currentChar == ' ' || currentChar == '\\' || currentChar == '/')
                 scanSeperator();
