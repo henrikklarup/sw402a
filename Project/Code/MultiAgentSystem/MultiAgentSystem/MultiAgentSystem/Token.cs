@@ -9,6 +9,8 @@ namespace MultiAgentSystem
     {
         public int kind;
         public string spelling;
+
+        //Stores the row and column the token was found at
         public int row;
         public int col;
 
