@@ -7,6 +7,6 @@ namespace MultiAgentSystem
 {
     class AST
     {
-
+        public Mainblock main = new Mainblock();
     }
 }
