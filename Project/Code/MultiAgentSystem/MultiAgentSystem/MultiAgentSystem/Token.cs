@@ -7,11 +7,11 @@ namespace MultiAgentSystem
 {
     class Token
     {
-        public byte kind;
+        public int kind;
         public string spelling;
 
         //The number identifying the token, as a byte to make sure it isn't misinterpreted
-        public static byte
+        public static const int
             IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
             RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11, 
             FOR_LOOP = 12, BOOL = 13, NEW = 14, MAIN = 15,
@@ -28,7 +28,7 @@ namespace MultiAgentSystem
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
-        public Token(byte kind, string spelling)
+        public Token(int kind, string spelling)
         {
             this.kind = kind;
             this.spelling = spelling;
@@ -39,7 +39,7 @@ namespace MultiAgentSystem
                 {
                     if (spelling.ToLower().Equals(spellings[i]))
                     {
-                        this.kind = (byte)i;
+                        this.kind = i;
                         break;
                     }
                 }
