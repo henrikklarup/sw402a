@@ -13,7 +13,7 @@ namespace MultiAgentSystem
         static void Main(string[] args)
         {
             Scanzor scanzor = new Scanzor();
-            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.mass"); //The name of the file with the input
+            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.mass"); //The name of the files input
 
             //Initializes the string being read by the scanner, and its counters
             scanzor.charLine = scanzor.fileLines[scanzor.fileCounter++].ToCharArray();
