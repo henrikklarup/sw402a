@@ -31,17 +31,18 @@
 
 \pagenumbering{Roman}
 \clearpage{\thispagestyle{empty}\cleardoublepage}
-\InputIfFileExists{file destination (forord)}{}{}
+\InputIfFileExists{forord}{}{}
 
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
-\InputIfFileExists{file destination}{}{}
+\InputIfFileExists{eksempel}{}{}
+\InputIfFileExists{wargame_scenario}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 
 \appendix
-\InputIfFileExists{file destination}{}{}
+\InputIfFileExists{appendix}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 \bibliographystyle{plain}
