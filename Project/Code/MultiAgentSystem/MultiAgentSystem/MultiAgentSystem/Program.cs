@@ -23,17 +23,16 @@ namespace MultiAgentSystem
             while (true)
             {
                 newToken = scanzor.scan();
-                //If the token just found is not the End Of Transmission token then add it, else break
-                if (newToken.kind != Token.EOT)
+
+                if (newToken.kind == Token.ERROR)
                 {
-                    if (newToken.kind == Token.ERROR)
-                    {
-                        Console.ReadKey();
-                        return;
-                    }
-                    Tokens.Add(newToken);
+                    Console.ReadKey();
+                    return;
                 }
-                else
+                Tokens.Add(newToken);
+
+                //If the token just found is the End Of Transmission token then break
+                if (newToken.kind == Token.EOT)
                 {
                     break;
                 }
