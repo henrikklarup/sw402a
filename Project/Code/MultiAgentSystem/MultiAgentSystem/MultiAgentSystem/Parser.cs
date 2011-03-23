@@ -10,48 +10,60 @@ namespace MultiAgentSystem
         // Holds the current token being checked.
         private Token currentToken;
 
+        // Holds all the tokens produced by the scanner.
         private List<Token> tokenList;
+
+        // Checks what token is being worked on currently.
         private int listCount = 0;
-        private AST abstractSyntaxTree = new AST();
 
-        public static const int
-            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
-            RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11,
-            FOR_LOOP = 12, BOOL = 13, NEW = 14, MAIN = 15,
-            TEAM = 16, AGENT = 17, SQUAD = 18, VOID = 19, ACTION_PATTERN = 20,
-            NUM = 21, TRUE = 22, FALSE = 23, COMMA = 24, PUNCTUATION = 25,
-            EOL = 26, EOT = 27, ERROR = 28;
-
+        /// <summary>
+        /// Creates a new parser.
+        /// </summary>
+        /// <param name="list">A list of tokens produced by the scanner.</param>
         public Parser(List<Token> list)
         {
             tokenList = list;
             currentToken = tokenList.ElementAt(listCount);
         }
 
-        private AST parse()
+        /// <summary>
+        /// Parse the tokens into an abstract syntax tree.
+        /// </summary>
+        /// <returns>Abstract Syntax Tree (AST)</returns>
+        private Mainblock parse()
         {
-            abstractSyntaxTree.main = parseMainblock();
-
-            return abstractSyntaxTree;
+            return parseMainblock();
         }
 
+        /// <summary>
+        /// Parses a mainblock token, and is executed as the first parse.
+        /// </summary>
+        /// <returns>A Mainblock instance.</returns>
         private Mainblock parseMainblock()
         {
-            Mainblock mainBlock = new Mainblock();
             switch(currentToken.kind)
             {
-                case MAIN:
+                case (int)Token.keywords.MAIN:
                     acceptIt();
-                    accept(Token.LPAREN);
-                    accept(Token.RPAREN);
-                    parseBlock();
-                    return mainBlock;
+                    accept((int)Token.keywords.LPAREN);
+                    accept((int)Token.keywords.RPAREN);
+                    return new Mainblock(parseBlock());
                 default:
                     accept(-1);
                     return null;
             }
         }
 
+        private Block parseBlock()
+        {
+            return new Block();
+        }
+
+        /// <summary>
+        /// Checks if the kind of the current token matches the expected value, 
+        /// it prints an error message is that is not the case.
+        /// </summary>
+        /// <param name="kind">The token kind to check against</param>
         private void accept(int kind)
         {
             if (kind == currentToken.kind)
@@ -64,11 +76,17 @@ namespace MultiAgentSystem
             }
         }
 
+        /// <summary>
+        /// Accepts the current token and updates it to take the next token.
+        /// </summary>
         private void acceptIt() 
         {
             UpdateToken();
         }
 
+        /// <summary>
+        /// Updates the current token to the next in the list.
+        /// </summary>
         private void UpdateToken()
         {
             listCount++;
