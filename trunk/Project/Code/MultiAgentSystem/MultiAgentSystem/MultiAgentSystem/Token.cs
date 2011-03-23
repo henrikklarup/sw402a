@@ -15,7 +15,7 @@ namespace MultiAgentSystem
         public int col;
 
         //The number identifying the token
-        public static const int
+        public static int
             IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
             RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11, 
             FOR_LOOP = 12, BOOL = 13, NEW = 14, MAIN = 15,
