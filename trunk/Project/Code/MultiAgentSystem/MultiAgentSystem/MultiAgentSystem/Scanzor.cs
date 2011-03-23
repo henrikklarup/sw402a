@@ -12,13 +12,13 @@ namespace MultiAgentSystem
         public string[] fileLines;
 
         //Counts which line currently being looked at
-        public int fileCounter;
+        public int fileCounter = 0;
 
         //Holds the current line as an array of chars
         public char[] charLine;
 
         //Counts the current char
-        public int charCounter;
+        public int charCounter = 0;
 
         //The current Char being processed by the scanner.
         public char currentChar;
