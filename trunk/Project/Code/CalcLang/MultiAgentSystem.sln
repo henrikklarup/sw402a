@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcLang", "CalcLang\CalcLang.csproj", "{7BA8C3E5-A6D2-4FA5-8871-938E528CDE3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiAgentSystem", "CalcLang\MultiAgentSystem.csproj", "{7BA8C3E5-A6D2-4FA5-8871-938E528CDE3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
