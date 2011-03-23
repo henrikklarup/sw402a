@@ -24,7 +24,7 @@ namespace MultiAgentSystem
         public char currentChar;
 
         //The kind of Token expecting the current char/string to have.
-        private byte currentKind;
+        private int currentKind;
 
         //Builds the string
         private StringBuilder currentSpelling;
@@ -228,7 +228,7 @@ namespace MultiAgentSystem
 
         /* Scans the current Character and returns the corresponding byte value 
          * (to the token) while building the string which is identifying the token */
-        private byte scanToken()
+        private int scanToken()
         {
             if (isLetter(currentChar))
             {
