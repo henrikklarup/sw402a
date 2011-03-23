@@ -57,11 +57,12 @@ namespace MultiAgentSystem
             currentChar = nextSourceChar();
         }
 
-        //Used to check if the char is a digit (0-9)
+        //Used to check if the char is a digit (0-9) and returns true if it is
         private bool isDigit(char c)
         {
             switch (c)
             {
+                case '0':
                 case '1':
                 case '2':
                 case '3':
@@ -71,13 +72,12 @@ namespace MultiAgentSystem
                 case '7':
                 case '8':
                 case '9':
-                case '0':
                     return true;
             }
             return false;
         }
 
-        //Checks if the char is a letter (a-z)
+        //Checks if the char is a letter (a-z) and returns true if it is
         private bool isLetter(char c)
         {
             switch (char.ToLower(c))
@@ -113,7 +113,8 @@ namespace MultiAgentSystem
             return false;
         }
 
-        //Checks if the next char is a * and the char after that is a / if this is true it returns false and the loop breaks because the comment has ended
+        /* Checks if the next char is a * and the char after that is a / 
+         * if this is true it returns false and the loop breaks because the comment has ended */
         private bool isMultiLineComment(char c)
         {
             if (c == '*')
@@ -128,7 +129,8 @@ namespace MultiAgentSystem
             return true;
         }
 
-        //Checks if the next char is a newline and returns false, to break the loop and end the comment section
+        /* Checks if the next char is a newline and returns false 
+         * to break the loop and end the comment section */
         private bool isOneLineComment(char c)
         {
             if (c == '\n')
@@ -139,8 +141,8 @@ namespace MultiAgentSystem
             return true;
         }
 
-        //Ignores the current Character if its a blank space or a newline
-        //Ignores everything between /* and */ with the loop using the isMultiLineCommen method
+        /* Ignores the current Character if its a blank space or a newline 
+         * Ignores everything between in multiline comments with the loop using the isMultiLineCommen method */
         private void scanSeperator()
         {
             switch (currentChar)
@@ -151,11 +153,15 @@ namespace MultiAgentSystem
                     break;
                 case '/':
                     ignoreIt();
+                    /* If the next character after the first / 
+                     * the current characters are a part of a single line comment */
                     if (currentChar == '/')
                         while (isOneLineComment(currentChar))
                         {
                             ignoreIt();
                         };
+                    /* If the next character is * the scanner is reading
+                     * a section of commenting */
                     if (currentChar == '*')
                         while (isMultiLineComment(currentChar))
                         {
@@ -170,6 +176,9 @@ namespace MultiAgentSystem
                             ignoreIt();
                         };
                     break;
+                    /* If the current character is \n, change to the next line read
+                     * unless the last line of the file has been reached then return
+                     * the End of Transmission token*/
                 case '\n':
                     if (fileCounter == fileLines.Length)
                         currentKind = Token.EOT;
@@ -183,6 +192,9 @@ namespace MultiAgentSystem
             }
         }
 
+        /* As long as the current character is a digit append it to the string and
+         * read the next untill no digit is read
+         * if a . is read build the last part of the digit */
         private void scanDigit()
         {
             while (isDigit(currentChar))
@@ -197,6 +209,8 @@ namespace MultiAgentSystem
             }
         }
 
+        /* Reads currentChar untill the current character is " and checks if the previous character " was \ (\")
+         * If the previous character wasn't \ the string has been completed and is returned */
         private void scanString()
         {
             char lastChar;
@@ -212,57 +226,31 @@ namespace MultiAgentSystem
             }
         }
 
-        //Scans the current Character and returns the corresponding byte value (to the token) while building the string which is identifying the token
+        /* Scans the current Character and returns the corresponding byte value 
+         * (to the token) while building the string which is identifying the token */
         private byte scanToken()
         {
+            if (isLetter(currentChar))
+            {
+                /* If the first character read is a letter, spell the word and 
+                 * let the Token class decided if its an identifier or a keyword */
+                takeIt();
+                while (isLetter(currentChar) || isDigit(currentChar))
+                {
+                    takeIt();
+                }
+                return Token.IDENTIFIER;
+            }
+
+            if (isDigit(currentChar))
+            {
+                //Builds a digit, adds "." if its added in the code
+                takeIt();
+                scanDigit();
+                return Token.NUMBER;
+            }
             switch (char.ToLower(currentChar))
             {
-                case 'a':
-                case 'b':
-                case 'c':
-                case 'd':
-                case 'e':
-                case 'f':
-                case 'g':
-                case 'h':
-                case 'i':
-                case 'j':
-                case 'k':
-                case 'l':
-                case 'm':
-                case 'n':
-                case 'o':
-                case 'p':
-                case 'q':
-                case 'r':
-                case 's':
-                case 't':
-                case 'u':
-                case 'v':
-                case 'w':
-                case 'x':
-                case 'y':
-                case 'z':
-                    takeIt();
-                    while (isLetter(currentChar) || isDigit(currentChar))
-                    {
-                        takeIt();
-                    }
-                    return Token.IDENTIFIER;
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    //Builds a digit, adds "." if its added in the code
-                    takeIt();
-                    scanDigit();
-                    return Token.NUMBER;
                 case '+':
                 case '-':
                 case '*':
@@ -324,6 +312,7 @@ namespace MultiAgentSystem
             }
         }
 
+        //if the next character exists return it, if not return next line char
         private char nextSourceChar()
         {
             if (charCounter < charLine.Length)
