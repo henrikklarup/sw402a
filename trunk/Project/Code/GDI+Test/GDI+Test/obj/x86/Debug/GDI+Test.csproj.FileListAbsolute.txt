@@ -7,3 +7,5 @@ C:\Users\Henrik Klarup\Documents\Visual Studio 2010\Projects\GDI+Test\GDI+Test\o
 C:\Users\Henrik Klarup\Documents\Visual Studio 2010\Projects\GDI+Test\GDI+Test\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Henrik Klarup\Documents\Visual Studio 2010\Projects\GDI+Test\GDI+Test\obj\x86\Debug\GDI+Test.exe
 C:\Users\Henrik Klarup\Documents\Visual Studio 2010\Projects\GDI+Test\GDI+Test\obj\x86\Debug\GDI+Test.pdb
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\GDI+Test\GDI+Test\obj\x86\Debug\GDI+Test.exe
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\GDI+Test\GDI+Test\obj\x86\Debug\GDI+Test.pdb
