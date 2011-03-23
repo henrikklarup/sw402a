@@ -12,25 +12,32 @@ namespace MultiAgentSystem
 
         //The number identifying the token, as a byte to make sure it isn't misinterpreted
         public static byte
-            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, SEMICOLON = 3, COLON = 4, LPAREN = 5, RPAREN = 6, BECOMES = 7, LBRACKET = 8, RBRACKET = 9, IF_LOOP = 10, FOR_LOOP = 11, EOL = 12, EOT = 13;
+            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
+            RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11, 
+            FOR_LOOP = 12, BOOL = 13, NEW = 14, MAIN = 15,
+            TEAM = 16, AGENT = 17, SQUAD = 18,  VOID = 19, ACTION_PATTERN = 20, 
+            NUM = 21, TRUE = 22, FALSE = 23, COMMA = 24, PUNCTUATION = 25,
+            EOL = 26, EOT = 27, ERROR = 28;
 
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
-            "<identifier>", "<number>", "<operator>", ";", ":", "(", ")", "=", "{", "}", "if", "for", "<EOL>", "<EOT>"                           
+            "<identifier>", "<number>", "<operator>", "<string>", ";", ":", "(", ")", "=", "{", "}", 
+            "if", "for", "bool", "new", "main", "team", "squad", "void", 
+            "actionpattern", "num", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
         public Token(byte kind, string spelling)
         {
             this.kind = kind;
-            this.spelling = spelling.ToLower();
+            this.spelling = spelling;
 
             if (kind == IDENTIFIER)
             {
-                for (int i = LPAREN; i <= BECOMES; i++)
+                for (int i = IF_LOOP; i <= FALSE; i++)
                 {
-                    if (spelling.Equals(spellings[i]))
+                    if (spelling.ToLower().Equals(spellings[i]))
                     {
                         this.kind = (byte)i;
                         break;

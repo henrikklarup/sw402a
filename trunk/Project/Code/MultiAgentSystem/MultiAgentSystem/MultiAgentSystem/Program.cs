@@ -28,6 +28,11 @@ namespace MultiAgentSystem
                 //If the token just found is not the End Of Transmission token then add it, else break
                 if (newToken.kind != Token.EOT)
                 {
+                    if (newToken.kind == Token.ERROR)
+                    {
+                        Console.ReadKey();
+                        return;
+                    }
                     Tokens.Add(newToken);
                 }
                 else
@@ -40,10 +45,10 @@ namespace MultiAgentSystem
             //Printing the token list, for debuggin purpose only
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(t.kind + " -> " + t.spelling);
+                Console.WriteLine(string.Format("{0,13} -> {1,-20}", Token.spellings[t.kind], t.spelling));
             }
 
-            Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }

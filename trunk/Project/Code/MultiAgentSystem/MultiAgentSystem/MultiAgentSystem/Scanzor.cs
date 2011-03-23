@@ -146,7 +146,7 @@ namespace MultiAgentSystem
             switch (currentChar)
             {
                 case ' ':
-                case '\n':
+                case '\t':
                     ignoreIt();
                     break;
                 case '/':
@@ -170,6 +170,16 @@ namespace MultiAgentSystem
                             ignoreIt();
                         };
                     break;
+                case '\n':
+                    if (fileCounter == fileLines.Length)
+                        currentKind = Token.EOT;
+                    if (fileCounter < fileLines.Length)
+                    {
+                        charLine = fileLines[fileCounter++].ToCharArray();
+                        charCounter = 0;
+                    }
+                    ignoreIt();
+                    break;
             }
         }
 
@@ -184,6 +194,21 @@ namespace MultiAgentSystem
                 takeIt();
                 while (isDigit(currentChar))
                     takeIt();
+            }
+        }
+
+        private void scanString()
+        {
+            char lastChar;
+            while (true)
+            {
+                lastChar = currentChar;
+                takeIt();
+                if (currentChar == '"' && lastChar != '\\')
+                {
+                    takeIt();
+                    break;
+                }
             }
         }
 
@@ -264,6 +289,10 @@ namespace MultiAgentSystem
                             return Token.OPERATOR;
                     }
                     return Token.BECOMES;
+                case '"':
+                    takeIt();
+                    scanString();
+                    return Token.STRING;
                 case ';':
                     takeIt();
                     return Token.SEMICOLON;
@@ -273,28 +302,25 @@ namespace MultiAgentSystem
                 case ')':
                     takeIt();
                     return Token.RPAREN;
-                case '\n':
-                    //If the current char is a newline char, change the line we're looking at
-                    char lastChar;
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (fileCounter < fileLines.Length)
-                        {
-                            charLine = fileLines[fileCounter++].ToCharArray();
-                            charCounter = 0;
-                        }
-                        lastChar = currentChar;
-                        currentChar = nextSourceChar();
-                        if (currentChar != lastChar)
-                        {
-                            return scanToken();
-                        }
-                    }
-                    return Token.EOT;
+                case '{':
+                    takeIt();
+                    return Token.LBRACKET;
+                case '}':
+                    takeIt();
+                    return Token.RBRACKET;
+                case ',':
+                    takeIt();
+                    return Token.COMMA;
+                case ':':
+                    takeIt();
+                    return Token.COLON;
+                case '.':
+                    takeIt();
+                    return Token.PUNCTUATION;
                 default:
                     //Someone has screwed up
-                    Console.WriteLine("Somethings wrong");
-                    return Token.EOT;
+                    Console.WriteLine("ERROR at line " + fileCounter + " col " + charCounter);
+                    return Token.ERROR;
             }
         }
 
@@ -310,8 +336,12 @@ namespace MultiAgentSystem
         public Token scan()
         {
             //If looking at a seperator, take the next character and start building a new string
-            while (currentChar == ' ' || currentChar == '\\' || currentChar == '/')
+            while (currentChar == ' ' || currentChar == '/' || currentChar == '\n' || currentChar == '\t')
+            {                
                 scanSeperator();
+                if(currentKind == Token.EOT)
+                    return new Token(currentKind, "<EOT>");
+            }
             currentSpelling = new StringBuilder("");
 
             //Scan for the next token, e.g. an identifier
