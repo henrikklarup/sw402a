@@ -23,10 +23,6 @@ namespace MultiAgentSystem
     {
     }
 
-    abstract class Commands : Command
-    {
-    }
-
     abstract class SingleCommand : Command
     {
     }
@@ -42,11 +38,12 @@ namespace MultiAgentSystem
     
     class Block : AST
     {
-        Commands commands;
+        List<Command> commandList = new List<Command>();
+        Command command;
 
-        public Block(Commands commands)
+        public Block(Command command)
         {
-            this.commands = commands;
+            this.command = command;
         }
     }
 

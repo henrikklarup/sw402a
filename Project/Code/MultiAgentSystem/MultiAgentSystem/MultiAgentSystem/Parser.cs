@@ -30,44 +30,265 @@ namespace MultiAgentSystem
         /// Parse the tokens into an abstract syntax tree.
         /// </summary>
         /// <returns>Abstract Syntax Tree (AST)</returns>
-        private Mainblock parse()
+        private /*Mainblock*/ void parse()
         {
-            return parseMainblock();
+            /*return*/ parseMainblock();
         }
 
         /// <summary>
         /// Parses a mainblock token, and is executed as the first parse.
         /// </summary>
-        /// <returns>A Mainblock instance.</returns>
-        private Mainblock parseMainblock()
+        private void parseMainblock()
         {
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.MAIN:
                     acceptIt();
-                    accept((int)Token.keywords.LPAREN);
-                    accept((int)Token.keywords.RPAREN);
-                    return new Mainblock(parseBlock());
+                    accept(Token.keywords.LPAREN);
+                    accept(Token.keywords.RPAREN);
+                    parseBlock();
+                    break;
                 default:
-                    accept(-1);
-                    return null;
+                    // Error message
+                    accept(Token.keywords.ERROR);
+                    break;
             }
         }
 
-        private Block parseBlock()
+        /// <summary>
+        /// Method for parsing a block.
+        /// </summary>
+        private void parseBlock()
         {
+            // parseCommand is run until the end of the block is reached.
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.LBRACKET:
                     acceptIt();
-                    Block block = new Block(parseCommands());
-                    accept((int)Token.keywords.RBRACKET);
-                    return block;
+                    while (currentToken.kind != (int)Token.keywords.RBRACKET)
+                    {
+                        parseCommand();
+                    }
+                    acceptIt();
+                    break;
                 default:
-                    accept(-1);
-                    return null;
+                    // Error message
+                    accept(Token.keywords.ERROR);
+                    break;
             }
-            return new Block();
+        }
+
+        /// <summary>
+        /// Method for parsing a command.
+        /// </summary>
+        private void parseCommand()
+        {
+            switch (currentToken.kind)
+            {
+                    // The command can be a block...
+                case (int)Token.keywords.LBRACKET:
+                    parseBlock();
+                    break;
+                    // or an object declaration...
+                case (int)Token.keywords.NEW:
+                    parseObjectDeclaration();
+                    accept(Token.keywords.SEMICOLON);
+                    break;
+                    // or an if-sentence...
+                case (int)Token.keywords.IF_LOOP:
+                    parseIfCommand();
+                    break;
+                    // for loop...
+                case (int)Token.keywords.FOR_LOOP:
+                    parseForCommand();
+                    break;
+                    // while loop...
+                case (int)Token.keywords.WHILE_LOOP:
+                    parseWhileCommand();
+                    break;
+                    // type declaration...
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.STRING:
+                case (int)Token.keywords.BOOL:
+                    parseTypeDeclaration();
+                    accept(Token.keywords.SEMICOLON);
+                    break;
+                    // or expression or method call.
+                case (int)Token.keywords.IDENTIFIER:
+                    /* If the next token is an operator, this is an expression. 
+                     * Else it's a method call. */
+                    if (tokenList.ElementAt(listCount + 1).kind ==
+                        (int)Token.keywords.OPERATOR)
+                    {
+                        parseExpression();
+                    }
+                    else
+                    {
+                        parseMethodCall();
+                    }
+                    accept(Token.keywords.SEMICOLON);
+                    break;
+                default:
+                    // Error message
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method for parsing an object declaration.
+        /// </summary>
+        private void parseObjectDeclaration()
+        {
+            /* As the current token will already have been checked,
+             * we can just accept it. */
+            accept(Token.keywords.NEW);
+            parseObject();
+            parseIdentifier();
+            accept(Token.keywords.LPAREN);
+            parseInput();
+            accept(Token.keywords.RPAREN);
+        }
+
+        /// <summary>
+        /// Method for parsing an object.
+        /// </summary>
+        private void parseObject()
+        {
+            switch (currentToken.kind)
+            {
+                    // If the token represents an object, accept.
+                case (int)Token.keywords.TEAM:
+                case (int)Token.keywords.AGENT:
+                case (int)Token.keywords.SQUAD:
+                case (int)Token.keywords.COORDINATES:
+                    acceptIt();
+                    break;
+                default:
+                    // Error message
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method for parsing a type.
+        /// </summary>
+        private void parseType()
+        {
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.BOOL:
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.STRING:
+                    acceptIt();
+                    break;
+                default:
+                    // Error message
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method for parsing an if command.
+        /// </summary>
+        private void parseIfCommand()
+        {
+            accept(Token.keywords.IF_LOOP);
+            accept(Token.keywords.LPAREN);
+            parseExpression();
+            accept(Token.keywords.RPAREN);
+            parseBlock();
+            // Check for an else-statement and react accordingly.
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.ELSE:
+                    acceptIt();
+                    parseBlock();
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method for parsing a for-loop.
+        /// </summary>
+        private void parseForCommand()
+        {
+            accept(Token.keywords.FOR_LOOP);
+            accept(Token.keywords.LPAREN);
+            parseTypeDeclaration();
+            accept(Token.keywords.SEMICOLON);
+            parseExpression();
+            accept(Token.keywords.SEMICOLON);
+            parseExpression();
+            accept(Token.keywords.RPAREN);
+            parseBlock();
+        }
+
+        /// <summary>
+        /// Method for parsing a while loop.
+        /// </summary>
+        private void parseWhileCommand()
+        {
+            accept(Token.keywords.WHILE);
+            accept(Token.keywords.LPAREN);
+            parseExpression();
+            accept(Token.keywords.RPAREN);
+            parseBlock();
+        }
+
+        private void parseTypeDeclaration()
+        {
+            parseType();
+            parseIdentifier();
+            accept(Token.keywords.BECOMES);
+            parseType();
+        }
+
+        private void parseMethodCall()
+        {
+            acceptIt();
+            if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
+            {
+                accept(Token.keywords.PUNCTUATION);
+                parseIdentifier();
+            }
+            accept(Token.keywords.LPAREN);
+            parseInput();
+            accept(Token.keywords.RPAREN);
+        }
+
+        private void parseExpression()
+        {
+            // Problem med grammatik, hvordan sætter man parenteser?
+        }
+
+        private void parseIdentifier()
+        {
+            // spelling?
+        }
+
+        private void parseInput()
+        {
+            acceptIt();
+            while (currentToken.kind == (int)Token.keywords.COMMA)
+            {
+                acceptIt();
+                switch (currentToken.kind)
+                {
+                    case (int)Token.keywords.IDENTIFIER:
+                    case (int)Token.keywords.NUM:
+                    case (int)Token.keywords.STRING:
+                    case (int)Token.keywords.BOOL:
+                        acceptIt();
+                        break;
+                    case (int)Token.keywords.NEW:
+                        parseObjectDeclaration();
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -75,9 +296,9 @@ namespace MultiAgentSystem
         /// it prints an error message is that is not the case.
         /// </summary>
         /// <param name="kind">The token kind to check against</param>
-        private void accept(int kind)
+        private void accept(Token.keywords kind)
         {
-            if (kind == currentToken.kind)
+            if ((int)kind == currentToken.kind)
             {
                 UpdateToken();
             }

@@ -14,6 +14,9 @@ namespace MultiAgentSystem
         public int row;
         public int col;
 
+        // MANGLER WHILE_LOOP TOKEN!
+        // ....... ELSE ......
+        // ....... COORDINATES ...
         public enum keywords
         { 
             IDENTIFIER,
