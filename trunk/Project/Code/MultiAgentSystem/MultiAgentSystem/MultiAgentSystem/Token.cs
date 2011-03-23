@@ -14,7 +14,7 @@ namespace MultiAgentSystem
         public int row;
         public int col;
 
-        //The number identifying the token, as a byte to make sure it isn't misinterpreted
+        //The number identifying the token
         public static const int
             IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
             RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11, 
@@ -32,10 +32,12 @@ namespace MultiAgentSystem
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
-        public Token(int kind, string spelling)
+        public Token(int kind, string spelling, int row, int col)
         {
             this.kind = kind;
             this.spelling = spelling;
+            this.row = row;
+            this.col = col;
 
             if (kind == IDENTIFIER)
             {
