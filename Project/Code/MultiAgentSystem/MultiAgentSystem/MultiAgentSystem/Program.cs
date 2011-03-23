@@ -27,7 +27,6 @@ namespace MultiAgentSystem
                 if (newToken.kind == (int)Token.keywords.ERROR)
                 {
                     Console.ReadKey();
-                    return;
                 }
                 Tokens.Add(newToken);
 
@@ -40,9 +39,13 @@ namespace MultiAgentSystem
             }
 
             //Printing the token list, for debuggin purpose only
+
+            Console.WriteLine(string.Format("{0,13} - {1,-30}  {2, 4}", "Kind", "Spelling", "Coords"));
+            Console.WriteLine();
+
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,13} - {1,-20} | {2, 10} - {3,-10}", Token.spellings[t.kind], t.spelling, t.row, t.col));
+                Console.WriteLine(string.Format("{0,13} - {1,-30}  {2, 4},{3,-4}", Token.spellings[t.kind], t.spelling, t.row, t.col));
             }
 
             Console.ReadKey();
