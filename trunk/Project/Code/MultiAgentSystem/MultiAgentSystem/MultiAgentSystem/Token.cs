@@ -54,7 +54,7 @@ namespace MultiAgentSystem
         public static string[] spellings = 
         {
             "<identifier>", "<number>", "<operator>", "<string>", ";", ":", "(", ")", "=", "{", "}", 
-            "if", "for", "bool", "new", "main", "team", "squad", "void", 
+            "if", "for", "bool", "new", "main", "team", "agent", "squad", "void", 
             "actionpattern", "num", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
         };
 

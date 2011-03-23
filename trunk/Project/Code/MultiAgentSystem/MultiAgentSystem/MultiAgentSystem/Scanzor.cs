@@ -39,9 +39,9 @@ namespace MultiAgentSystem
         {
             if (currentChar == expectedChar)
             {
+                coords();
                 currentSpelling.Append(currentChar);
                 currentChar = nextSourceChar();
-                coords();
             }
             else
             {
@@ -52,9 +52,9 @@ namespace MultiAgentSystem
         //Used to take the current Character no matter which one it is and put it in the string
         private void takeIt()
         {
+            coords();
             currentSpelling.Append(currentChar);
             currentChar = nextSourceChar();
-            coords();
         }
 
         //Used to ignore the current Character and get the next char from the source file
@@ -322,7 +322,11 @@ namespace MultiAgentSystem
                     return (int)Token.keywords.PUNCTUATION;
                 default:
                     //Someone has screwed up
-                    Console.WriteLine("ERROR at line " + fileCounter + " col " + charCounter);
+                    currentChar = '\n';
+                    currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
+                    Console.WriteLine(currentSpelling.ToString());
+                    row = fileCounter;
+                    col = charCounter;
                     return (int)Token.keywords.ERROR;
             }
         }
