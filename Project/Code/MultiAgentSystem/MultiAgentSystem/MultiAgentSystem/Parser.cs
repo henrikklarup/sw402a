@@ -239,6 +239,9 @@ namespace MultiAgentSystem
             parseBlock();
         }
 
+        /// <summary>
+        /// Method for parsing a type declaration.
+        /// </summary>
         private void parseTypeDeclaration()
         {
             parseType();
@@ -247,12 +250,16 @@ namespace MultiAgentSystem
             parseType();
         }
 
+        /// <summary>
+        /// Method for parsing a method call.
+        /// </summary>
         private void parseMethodCall()
         {
-            acceptIt();
-            if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
+            parseIdentifier();
+            // If there is a punctuation, dot your way through.
+            while (currentToken.kind == (int)Token.keywords.PUNCTUATION)
             {
-                accept(Token.keywords.PUNCTUATION);
+                acceptIt();
                 parseIdentifier();
             }
             accept(Token.keywords.LPAREN);
@@ -260,19 +267,29 @@ namespace MultiAgentSystem
             accept(Token.keywords.RPAREN);
         }
 
+        /// <summary>
+        /// Method for parsing an expression (unfinished).
+        /// </summary>
         private void parseExpression()
         {
-            // Problem med grammatik, hvordan sætter man parenteser?
+            
         }
 
+        /// <summary>
+        /// Method for parsing an identifier (unfinished).
+        /// </summary>
         private void parseIdentifier()
         {
             // spelling?
         }
 
+        /// <summary>
+        /// Method for parsing method input.
+        /// </summary>
         private void parseInput()
         {
             acceptIt();
+            // Input variables are seperated by comma.
             while (currentToken.kind == (int)Token.keywords.COMMA)
             {
                 acceptIt();
