@@ -14,14 +14,41 @@ namespace MultiAgentSystem
         public int row;
         public int col;
 
+        public enum keywords
+        { 
+            IDENTIFIER,
+            NUMBER,
+            OPERATOR,
+            STRING,
+            SEMICOLON, 
+            COLON, 
+            LPAREN,
+            RPAREN,
+            BECOMES,
+            LBRACKET,
+            RBRACKET,
+            IF_LOOP,
+            FOR_LOOP,
+            BOOL,
+            NEW,
+            MAIN,
+            TEAM,
+            AGENT,
+            SQUAD,
+            VOID,
+            ACTION_PATTERN,
+            NUM,
+            TRUE,
+            FALSE,
+            COMMA,
+            PUNCTUATION,
+            EOL,
+            EOT,
+            ERROR,
+        }
         //The number identifying the token
-        public static int
-            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3, SEMICOLON = 4, COLON = 5, LPAREN = 6,
-            RPAREN = 7, BECOMES = 8, LBRACKET = 9, RBRACKET = 10, IF_LOOP = 11, 
-            FOR_LOOP = 12, BOOL = 13, NEW = 14, MAIN = 15,
-            TEAM = 16, AGENT = 17, SQUAD = 18,  VOID = 19, ACTION_PATTERN = 20, 
-            NUM = 21, TRUE = 22, FALSE = 23, COMMA = 24, PUNCTUATION = 25,
-            EOL = 26, EOT = 27, ERROR = 28;
+      /*  public static int
+            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3; */
 
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
@@ -39,9 +66,9 @@ namespace MultiAgentSystem
             this.row = row;
             this.col = col;
 
-            if (kind == IDENTIFIER)
+            if (kind == (int)keywords.IDENTIFIER)
             {
-                for (int i = IF_LOOP; i <= FALSE; i++)
+                for (int i = (int)keywords.IF_LOOP; i <= (int)keywords.FALSE; i++)
                 {
                     if (spelling.ToLower().Equals(spellings[i]))
                     {

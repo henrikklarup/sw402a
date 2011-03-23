@@ -196,7 +196,7 @@ namespace MultiAgentSystem
                      * the End of Transmission token*/
                 case '\n':
                     if (fileCounter == fileLines.Length)
-                        currentKind = Token.EOT;
+                        currentKind = (int)Token.keywords.EOT;
                     if (fileCounter < fileLines.Length)
                     {
                         charLine = fileLines[fileCounter++].ToCharArray();
@@ -254,7 +254,7 @@ namespace MultiAgentSystem
                 {
                     takeIt();
                 }
-                return Token.IDENTIFIER;
+                return (int)Token.keywords.IDENTIFIER;
             }
 
             if (isDigit(currentChar))
@@ -262,7 +262,7 @@ namespace MultiAgentSystem
                 //Builds a digit, adds "." if its added in the code
                 takeIt();
                 scanDigit();
-                return Token.NUMBER;
+                return (int)Token.keywords.NUMBER;
             }
             switch (char.ToLower(currentChar))
             {
@@ -272,14 +272,14 @@ namespace MultiAgentSystem
                 case '/':
                     // returns any of the four usual operators
                     takeIt();
-                    return Token.OPERATOR;
+                    return (int)Token.keywords.OPERATOR;
                 //Checking if the operator is an "expanded" version
                 case '<':
                 case '>':
                     takeIt();
                     if (currentChar == '=')
                         takeIt();
-                    return Token.OPERATOR;
+                    return (int)Token.keywords.OPERATOR;
                 //Checking if the "=" means become or its an operator e.g. "=="
                 case '=':
                     takeIt();
@@ -289,41 +289,41 @@ namespace MultiAgentSystem
                         case '>':
                         case '=':
                             takeIt();
-                            return Token.OPERATOR;
+                            return (int)Token.keywords.OPERATOR;
                     }
-                    return Token.BECOMES;
+                    return (int)Token.keywords.BECOMES;
                 case '"':
                     takeIt();
                     scanString();
-                    return Token.STRING;
+                    return (int)Token.keywords.STRING;
                 case ';':
                     takeIt();
-                    return Token.SEMICOLON;
+                    return (int)Token.keywords.SEMICOLON;
                 case '(':
                     takeIt();
-                    return Token.LPAREN;
+                    return (int)Token.keywords.LPAREN;
                 case ')':
                     takeIt();
-                    return Token.RPAREN;
+                    return (int)Token.keywords.RPAREN;
                 case '{':
                     takeIt();
-                    return Token.LBRACKET;
+                    return (int)Token.keywords.LBRACKET;
                 case '}':
                     takeIt();
-                    return Token.RBRACKET;
+                    return (int)Token.keywords.RBRACKET;
                 case ',':
                     takeIt();
-                    return Token.COMMA;
+                    return (int)Token.keywords.COMMA;
                 case ':':
                     takeIt();
-                    return Token.COLON;
+                    return (int)Token.keywords.COLON;
                 case '.':
                     takeIt();
-                    return Token.PUNCTUATION;
+                    return (int)Token.keywords.PUNCTUATION;
                 default:
                     //Someone has screwed up
                     Console.WriteLine("ERROR at line " + fileCounter + " col " + charCounter);
-                    return Token.ERROR;
+                    return (int)Token.keywords.ERROR;
             }
         }
 
@@ -343,7 +343,7 @@ namespace MultiAgentSystem
             while (currentChar == ' ' || currentChar == '/' || currentChar == '\n' || currentChar == '\t')
             {                
                 scanSeperator();
-                if(currentKind == Token.EOT)
+                if (currentKind == (int)Token.keywords.EOT)
                     return new Token(currentKind, "<EOT>", fileCounter, charCounter);
             }
             currentSpelling = new StringBuilder("");

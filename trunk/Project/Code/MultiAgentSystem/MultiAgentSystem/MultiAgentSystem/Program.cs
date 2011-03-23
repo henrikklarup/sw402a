@@ -24,7 +24,7 @@ namespace MultiAgentSystem
             {
                 newToken = scanzor.scan();
 
-                if (newToken.kind == Token.ERROR)
+                if (newToken.kind == (int)Token.keywords.ERROR)
                 {
                     Console.ReadKey();
                     return;
@@ -32,7 +32,7 @@ namespace MultiAgentSystem
                 Tokens.Add(newToken);
 
                 //If the token just found is the End Of Transmission token then break
-                if (newToken.kind == Token.EOT)
+                if (newToken.kind == (int)Token.keywords.EOT)
                 {
                     break;
                 }
@@ -42,7 +42,7 @@ namespace MultiAgentSystem
             //Printing the token list, for debuggin purpose only
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,13} - {1,-20} | {2, 10},{3,-10}", Token.spellings[t.kind], t.spelling, t.row, t.col));
+                Console.WriteLine(string.Format("{0,13} - {1,-20} | {2, 10} - {3,-10}", Token.spellings[t.kind], t.spelling, t.row, t.col));
             }
 
             Console.ReadKey();
