@@ -14,15 +14,12 @@ namespace MultiAgentSystem
         public int row;
         public int col;
 
-        // MANGLER WHILE_LOOP TOKEN!
-        // ....... ELSE ......
-        // ....... COORDINATES ...
         public enum keywords
         { 
             IDENTIFIER,
             NUMBER,
             OPERATOR,
-            STRING,
+            ACTUAL_STRING,
             SEMICOLON, 
             COLON, 
             LPAREN,
@@ -31,16 +28,20 @@ namespace MultiAgentSystem
             LBRACKET,
             RBRACKET,
             IF_LOOP,
+            ELSE_LOOP,
             FOR_LOOP,
+            WHILE_LOOP,
             BOOL,
             NEW,
             MAIN,
             TEAM,
             AGENT,
             SQUAD,
+            COORDINATES,
             VOID,
             ACTION_PATTERN,
             NUM,
+            STRING,
             TRUE,
             FALSE,
             COMMA,
@@ -49,16 +50,13 @@ namespace MultiAgentSystem
             EOT,
             ERROR,
         }
-        //The number identifying the token
-      /*  public static int
-            IDENTIFIER = 0, NUMBER = 1, OPERATOR = 2, STRING = 3; */
 
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
             "<identifier>", "<number>", "<operator>", "<string>", ";", ":", "(", ")", "=", "{", "}", 
-            "if", "for", "bool", "new", "main", "team", "agent", "squad", "void", 
-            "actionpattern", "num", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
+            "if", "else", "for", "while", "bool", "new", "main", "team", "agent", "squad", "coord", "void", 
+            "actionpattern", "num", "string", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
