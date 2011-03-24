@@ -129,13 +129,13 @@ namespace MultiAgentSystem
                         parseMethodCall();
                     }
                     accept(Token.keywords.SEMICOLON);
-                    Console.WriteLine("Command accepted.");
                     break;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
                     break;
             }
+            Console.WriteLine("Command accepted.");
         }
 
         /// <summary>
@@ -256,20 +256,27 @@ namespace MultiAgentSystem
             parseType();
             parseIdentifier();
             accept(Token.keywords.BECOMES);
-            switch (currentToken.kind)
+            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
             {
-                case (int)Token.keywords.TRUE:
-                case (int)Token.keywords.FALSE:
-                case (int)Token.keywords.NUMBER:
-                case (int)Token.keywords.ACTUAL_STRING:
-                    acceptIt();
-                    break;
-                case (int)Token.keywords.IDENTIFIER:
-                    parseIdentifier();
-                    break;
-                default:
-                    accept(Token.keywords.ERROR);
-                    break;
+                parseExpression();
+            }
+            else
+            {
+                switch (currentToken.kind)
+                {
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.FALSE:
+                    case (int)Token.keywords.NUMBER:
+                    case (int)Token.keywords.ACTUAL_STRING:
+                        acceptIt();
+                        break;
+                    case (int)Token.keywords.IDENTIFIER:
+                        parseIdentifier();
+                        break;
+                    default:
+                        accept(Token.keywords.ERROR);
+                        break;
+                }
             }
             Console.WriteLine("Typedeclaration accepted.");
         }
@@ -297,29 +304,11 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseExpression()
         {
-            switch (currentToken.kind)
+            if (currentToken.kind == (int)Token.keywords.LPAREN)
             {
-                case (int)Token.keywords.IDENTIFIER:
-                    parseIdentifier();
-                    break;
-                case (int)Token.keywords.NUMBER:
-                    acceptIt();
-                    break;
-                case (int)Token.keywords.LPAREN:
-                    acceptIt();
-                    parseExpression();
-                    accept(Token.keywords.RPAREN);
-                    break;
-                default:
-                    accept(Token.keywords.ERROR);
-                    break;
-            }
-            accept(Token.keywords.OPERATOR);
-
-            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
-                currentToken.kind == (int)Token.keywords.LPAREN)
-            {
+                acceptIt();
                 parseExpression();
+                accept(Token.keywords.RPAREN);
             }
             else
             {
@@ -331,14 +320,40 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.NUMBER:
                         acceptIt();
                         break;
-                    case (int)Token.keywords.LPAREN:
+                    default:
+                        accept(Token.keywords.ERROR);
+                        break;
+                }
+                switch (currentToken.kind)
+                {
+                    case (int)Token.keywords.OPERATOR:
+                    case (int)Token.keywords.BECOMES:
                         acceptIt();
-                        parseExpression();
-                        accept(Token.keywords.RPAREN);
                         break;
                     default:
                         accept(Token.keywords.ERROR);
                         break;
+                }
+
+                if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
+                    currentToken.kind == (int)Token.keywords.LPAREN)
+                {
+                    parseExpression();
+                }
+                else
+                {
+                    switch (currentToken.kind)
+                    {
+                        case (int)Token.keywords.IDENTIFIER:
+                            parseIdentifier();
+                            break;
+                        case (int)Token.keywords.NUMBER:
+                            acceptIt();
+                            break;
+                        default:
+                            accept(Token.keywords.ERROR);
+                            break;
+                    }
                 }
                 Console.WriteLine("Expression accepted.");
             }
@@ -423,6 +438,7 @@ namespace MultiAgentSystem
             {
                 Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col + 
                     ". The recieved token of kind " + (Token.keywords)currentToken.kind + " was not legal.");
+                Console.ReadKey();
             }
 
             if (currentToken.kind != (int)Token.keywords.EOT)
