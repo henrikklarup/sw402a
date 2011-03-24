@@ -295,7 +295,7 @@ namespace MultiAgentSystem
                 case '"':
                     takeIt();
                     scanString();
-                    return (int)Token.keywords.STRING;
+                    return (int)Token.keywords.ACTUAL_STRING;
                 case ';':
                     takeIt();
                     return (int)Token.keywords.SEMICOLON;
