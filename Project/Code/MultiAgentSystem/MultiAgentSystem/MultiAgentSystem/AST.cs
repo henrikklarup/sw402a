@@ -49,9 +49,6 @@ namespace MultiAgentSystem
 
     class Expression : PrimaryExpression
     {
-        PrimaryExpression primaryExpression1;
-        MASOperator masOperator;
-        PrimaryExpression primaryExpression2;
     }
 
     class ObjectDeclaration : Command
