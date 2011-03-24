@@ -13,51 +13,125 @@ namespace WindowsFormsApplication6
     public partial class WarGame : Form
     {
         Point Point1;
+        Point mousePointGrid;
         Size GridSize;
+        Color figureColor;
+        Color LineColor;
+        Color backGroundColor;
+        int LineWidth;
+
+
+        Point[] shit = new Point[10];
 
 
         public WarGame()
         {
-            Point1 = new Point(0, 0);
-            GridSize = new Size(21, 21);
+            LineWidth = 1;
+            Point1 = new Point(0,0);
+            mousePointGrid = new Point(0, 0);
+            GridSize = new Size(10, 10);
+            figureColor = Color.FromArgb(102, 130, 102);
+            LineColor = Color.Black;
+            backGroundColor = Color.FromArgb(102,153,102);
+
+            Random rnd = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                shit[i] = getGridPixelFromGrid(new Point(rnd.Next(100), rnd.Next(100)));
+            }
+
             InitializeComponent();
         }
 
+        #region Paint Event
         private void dbPanel1_Paint(object sender, PaintEventArgs e)
         {
             //Clear Screen to Color
-            e.Graphics.Clear(Color.LightCyan);
+            e.Graphics.Clear(backGroundColor);
 
             //Draw Grid
-            for (int i = GridSize.Width+1; i < dbPanel1.Width; i += GridSize.Width+1)
+            for (int i = -1; i < dbPanel1.Width; i += GridSize.Width + LineWidth)
             {
-                e.Graphics.DrawLine(Pens.White, new Point(i-1, 0), new Point(i-1, dbPanel1.Height));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i, 0), new Point(i, dbPanel1.Height));
             }
-            for (int i = GridSize.Height + 1; i < dbPanel1.Height; i += GridSize.Height + 1)
+            for (int i = -1; i < dbPanel1.Height; i += GridSize.Height + LineWidth)
             {
-                e.Graphics.DrawLine(Pens.White, new Point(0, i-1), new Point(dbPanel1.Width, i-1));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, i), new Point(dbPanel1.Width, i));
+            }
+
+            foreach(Point p in shit)
+            {
+                e.Graphics.FillEllipse(Brushes.Pink, new Rectangle(p,GridSize));
             }
 
             //Draw Rectangles
-            e.Graphics.FillRectangle(Brushes.Red, new Rectangle(Point1, GridSize));
+            e.Graphics.FillEllipse(new SolidBrush(figureColor), new Rectangle(Point1, GridSize));
+            e.Graphics.DrawEllipse(Pens.White, new Rectangle(Point1.X,Point1.Y, GridSize.Width-1, GridSize.Height-1));
         }
+        #endregion
 
+        #region Timers
+        #region DrawTimer Tick
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
             dbPanel1.Invalidate();
         }
+        #endregion
 
+        #region GameTimer Tick
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Point1.X += GridSize.Width+1;
+            Point1.X += GridSize.Width + LineWidth;
         }
+        #endregion
+        #endregion
 
+
+        #region Raised Events
         private void dbPanel1_MouseClick(object sender, MouseEventArgs e)
         {
-            int x = e.Location.X + (e.Location.X % GridSize.Width)+((e.Location.X - (e.Location.X % GridSize.Width))/GridSize.Width);
-            int y = e.Location.Y - (e.Location.Y % GridSize.Height);
+            Point1 = getGridPixelFromPixel(e.Location);
+        }
 
-            Point1 = new Point(x,y);
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string[] text = textBox1.Text.Split(',');
+            Point1 = getGridPixelFromGrid(new Point(int.Parse(text[0]), int.Parse(text[1])));
+        }
+        #endregion
+
+
+        #region Logic
+        public Point getGridPixelFromPixel(Point inputPoint)
+        {
+            //(cut digits) (Point.V / (gx+lw)) * (gx+lw)
+            int x = (int)(inputPoint.X / (GridSize.Width + LineWidth)) * (GridSize.Width + LineWidth);
+            int y = (int)(inputPoint.Y / (GridSize.Height + LineWidth)) * (GridSize.Height + LineWidth);
+
+            return new Point(x, y);
+        }
+
+        public Point getGridPixelFromGrid(Point inputPoint)
+        {
+            int x = (int)((inputPoint.X - 1) * (GridSize.Width + LineWidth));
+            int y = (int)((inputPoint.Y - 1) * (GridSize.Height + LineWidth));
+
+            return new Point(x, y);
+        }
+
+        public Point getGridFromPixel(Point inputPoint)
+        {
+            int x = (int)(inputPoint.X / GridSize.Width) +1;
+            int y = (int)(inputPoint.Y / GridSize.Height) +1;
+
+            return new Point(x, y);
+        }
+        #endregion
+
+        private void dbPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            mousePointGrid = getGridFromPixel(e.Location);
+            label4.Text = "MousePos Grid: " + mousePointGrid.X + "," + mousePointGrid.Y;
         }
     }
 }
