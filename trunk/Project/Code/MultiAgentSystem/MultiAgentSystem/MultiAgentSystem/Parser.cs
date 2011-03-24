@@ -29,10 +29,9 @@ namespace MultiAgentSystem
         /// <summary>
         /// Parse the tokens into an abstract syntax tree.
         /// </summary>
-        /// <returns>Abstract Syntax Tree (AST)</returns>
-        private /*Mainblock*/ void parse()
+        private void parse()
         {
-            /*return*/ parseMainblock();
+            parseMainblock();
         }
 
         /// <summary>
@@ -322,9 +321,10 @@ namespace MultiAgentSystem
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.IDENTIFIER:
-                case (int)Token.keywords.NUM:
-                case (int)Token.keywords.STRING:
-                case (int)Token.keywords.BOOL:
+                case (int)Token.keywords.NUMBER:
+                case (int)Token.keywords.ACTUAL_STRING:
+                case (int)Token.keywords.TRUE:
+                case (int)Token.keywords.FALSE:
                     acceptIt();
                     break;
                 case (int)Token.keywords.NEW:
@@ -338,9 +338,10 @@ namespace MultiAgentSystem
                 switch (currentToken.kind)
                 {
                     case (int)Token.keywords.IDENTIFIER:
-                    case (int)Token.keywords.NUM:
-                    case (int)Token.keywords.STRING:
-                    case (int)Token.keywords.BOOL:
+                    case (int)Token.keywords.NUMBER:
+                    case (int)Token.keywords.ACTUAL_STRING:
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.FALSE:
                         acceptIt();
                         break;
                     case (int)Token.keywords.NEW:
