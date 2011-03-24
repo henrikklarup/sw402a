@@ -203,9 +203,10 @@ namespace MultiAgentSystem
             // Check for an else-statement and react accordingly.
             switch (currentToken.kind)
             {
-                case (int)Token.keywords.ELSE:
+                case (int)Token.keywords.ELSE_LOOP:
                     acceptIt();
                     parseBlock();
+                    break;
                 default:
                     break;
             }
@@ -247,7 +248,21 @@ namespace MultiAgentSystem
             parseType();
             parseIdentifier();
             accept(Token.keywords.BECOMES);
-            parseType();
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.TRUE:
+                case (int)Token.keywords.FALSE:
+                case (int)Token.keywords.NUMBER:
+                case (int)Token.keywords.ACTUAL_STRING:
+                    acceptIt();
+                    break;
+                case (int)Token.keywords.IDENTIFIER:
+                    parseIdentifier();
+                    break;
+                default:
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
         }
 
         /// <summary>
@@ -280,7 +295,23 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseIdentifier()
         {
-            // spelling?
+            // spelling
+        }
+
+        /// <summary>
+        /// Method for parsing an operator.
+        /// </summary>
+        private void parseOperator()
+        {
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.OPERATOR:
+                    acceptIt();
+                    break;
+                default:
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
         }
 
         /// <summary>
@@ -326,7 +357,11 @@ namespace MultiAgentSystem
         /// <param name="kind">The token kind to check against</param>
         private void accept(Token.keywords kind)
         {
-            if ((int)kind == currentToken.kind)
+            if (kind == Token.keywords.ERROR)
+            {
+                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col);
+            }
+            else if ((int)kind == currentToken.kind)
             {
                 UpdateToken();
             }
