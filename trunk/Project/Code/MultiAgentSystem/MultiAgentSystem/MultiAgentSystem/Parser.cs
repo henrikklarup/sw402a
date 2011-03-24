@@ -369,21 +369,13 @@ namespace MultiAgentSystem
             {
                 Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col);
             }
-            UpdateToken();
+            acceptIt();
         }
 
         /// <summary>
         /// Accepts the current token and updates it to take the next token.
         /// </summary>
         private void acceptIt() 
-        {
-            UpdateToken();
-        }
-
-        /// <summary>
-        /// Updates the current token to the next in the list.
-        /// </summary>
-        private void UpdateToken()
         {
             listCount++;
             currentToken = tokenList.ElementAt(listCount);
