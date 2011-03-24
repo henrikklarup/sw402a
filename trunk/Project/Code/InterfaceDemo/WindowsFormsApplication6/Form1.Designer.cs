@@ -44,6 +44,7 @@
             this.DrawTimer = new System.Windows.Forms.Timer(this.components);
             this.GamerTimer = new System.Windows.Forms.Timer(this.components);
             this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,6 +165,7 @@
             this.button4.TabIndex = 10;
             this.button4.Text = "Execute";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // DrawTimer
             // 
@@ -189,12 +191,24 @@
             this.dbPanel1.TabIndex = 11;
             this.dbPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.dbPanel1_Paint);
             this.dbPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseClick);
+            this.dbPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseMove);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 384);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "MousePos Grid:";
             // 
             // WarGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 487);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.dbPanel1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
@@ -231,6 +245,7 @@
         private DBPanel dbPanel1;
         private System.Windows.Forms.Timer DrawTimer;
         private System.Windows.Forms.Timer GamerTimer;
+        private System.Windows.Forms.Label label4;
     }
 }
 
