@@ -107,4 +107,9 @@ namespace MultiAgentSystem
             spelling = num.ToString();
         }
     }
+
+    class String : Terminal
+    {
+
+    }
 }
