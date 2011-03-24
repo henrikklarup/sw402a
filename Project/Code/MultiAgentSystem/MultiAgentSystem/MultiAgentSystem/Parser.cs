@@ -290,11 +290,11 @@ namespace MultiAgentSystem
         }
 
         /// <summary>
-        /// Method for parsing an identifier (unfinished).
+        /// Method for parsing an identifier.
         /// </summary>
         private void parseIdentifier()
         {
-            // spelling
+            acceptIt();
         }
 
         /// <summary>
@@ -364,12 +364,12 @@ namespace MultiAgentSystem
             }
             else if ((int)kind == currentToken.kind)
             {
-                UpdateToken();
             }
             else
             {
                 Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col);
             }
+            UpdateToken();
         }
 
         /// <summary>
