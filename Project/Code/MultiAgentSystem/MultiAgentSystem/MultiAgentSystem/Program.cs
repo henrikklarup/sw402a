@@ -49,6 +49,11 @@ namespace MultiAgentSystem
             }
 
             Console.ReadKey();
+
+            Parser parzor = new Parser(Tokens);
+            parzor.parse();
+
+            Console.ReadKey();
         }
     }
 }
