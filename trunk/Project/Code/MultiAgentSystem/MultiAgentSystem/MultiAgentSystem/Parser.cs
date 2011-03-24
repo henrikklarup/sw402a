@@ -29,7 +29,7 @@ namespace MultiAgentSystem
         /// <summary>
         /// Parse the tokens into an abstract syntax tree.
         /// </summary>
-        private void parse()
+        public void parse()
         {
             parseMainblock();
         }
