@@ -46,6 +46,8 @@ namespace MultiAgentSystem
                     accept(Token.keywords.LPAREN);
                     accept(Token.keywords.RPAREN);
                     parseBlock();
+                    accept(Token.keywords.EOT);
+                    Console.WriteLine("Mainblock accepted.");
                     break;
                 default:
                     // Error message
@@ -69,6 +71,7 @@ namespace MultiAgentSystem
                         parseCommand();
                     }
                     acceptIt();
+                    Console.WriteLine("Block accepted.");
                     break;
                 default:
                     // Error message
@@ -126,6 +129,7 @@ namespace MultiAgentSystem
                         parseMethodCall();
                     }
                     accept(Token.keywords.SEMICOLON);
+                    Console.WriteLine("Command accepted.");
                     break;
                 default:
                     // Error message
@@ -147,6 +151,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.LPAREN);
             parseInput();
             accept(Token.keywords.RPAREN);
+            Console.WriteLine("Objectdeclaration accepted.");
         }
 
         /// <summary>
@@ -199,12 +204,14 @@ namespace MultiAgentSystem
             parseExpression();
             accept(Token.keywords.RPAREN);
             parseBlock();
+            Console.WriteLine("If command accepted.");
             // Check for an else-statement and react accordingly.
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.ELSE_LOOP:
                     acceptIt();
                     parseBlock();
+                    Console.WriteLine("Else loop accepted.");
                     break;
                 default:
                     break;
@@ -225,6 +232,7 @@ namespace MultiAgentSystem
             parseExpression();
             accept(Token.keywords.RPAREN);
             parseBlock();
+            Console.WriteLine("For command accepted.");
         }
 
         /// <summary>
@@ -237,6 +245,7 @@ namespace MultiAgentSystem
             parseExpression();
             accept(Token.keywords.RPAREN);
             parseBlock();
+            Console.WriteLine("While command accepted.");
         }
 
         /// <summary>
@@ -262,7 +271,7 @@ namespace MultiAgentSystem
                     accept(Token.keywords.ERROR);
                     break;
             }
-            accept(Token.keywords.SEMICOLON);
+            Console.WriteLine("Typedeclaration accepted.");
         }
 
         /// <summary>
@@ -280,6 +289,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.LPAREN);
             parseInput();
             accept(Token.keywords.RPAREN);
+            Console.WriteLine("Methodcall accepted.");
         }
 
         /// <summary>
@@ -330,6 +340,7 @@ namespace MultiAgentSystem
                         accept(Token.keywords.ERROR);
                         break;
                 }
+                Console.WriteLine("Expression accepted.");
             }
         }
 
@@ -364,6 +375,8 @@ namespace MultiAgentSystem
         {
             switch (currentToken.kind)
             {
+                case (int)Token.keywords.RPAREN:
+                    break;
                 case (int)Token.keywords.IDENTIFIER:
                 case (int)Token.keywords.NUMBER:
                 case (int)Token.keywords.ACTUAL_STRING:
@@ -373,6 +386,9 @@ namespace MultiAgentSystem
                     break;
                 case (int)Token.keywords.NEW:
                     parseObjectDeclaration();
+                    break;
+                default:
+                    accept(Token.keywords.ERROR);
                     break;
             }
             // Input variables are seperated by comma.
@@ -393,6 +409,7 @@ namespace MultiAgentSystem
                         break;
                 }
             }
+            Console.WriteLine("Input accepted.");
         }
 
         /// <summary>
@@ -402,19 +419,16 @@ namespace MultiAgentSystem
         /// <param name="kind">The token kind to check against</param>
         private void accept(Token.keywords kind)
         {
-            if (kind == Token.keywords.ERROR)
+            if (kind == Token.keywords.ERROR || (int)kind != currentToken.kind)
             {
                 Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col + 
                     ". The recieved token of kind " + (Token.keywords)currentToken.kind + " was not legal.");
             }
-            else if ((int)kind == currentToken.kind)
+
+            if (currentToken.kind != (int)Token.keywords.EOT)
             {
+                acceptIt();
             }
-            else
-            {
-                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col);
-            }
-            acceptIt();
         }
 
         /// <summary>
