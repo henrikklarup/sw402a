@@ -262,6 +262,7 @@ namespace MultiAgentSystem
                     accept(Token.keywords.ERROR);
                     break;
             }
+            accept(Token.keywords.SEMICOLON);
         }
 
         /// <summary>
@@ -286,7 +287,50 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseExpression()
         {
-            
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.IDENTIFIER:
+                    parseIdentifier();
+                    break;
+                case (int)Token.keywords.NUMBER:
+                    acceptIt();
+                    break;
+                case (int)Token.keywords.LPAREN:
+                    acceptIt();
+                    parseExpression();
+                    accept(Token.keywords.RPAREN);
+                    break;
+                default:
+                    accept(Token.keywords.ERROR);
+                    break;
+            }
+            accept(Token.keywords.OPERATOR);
+
+            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
+                currentToken.kind == (int)Token.keywords.LPAREN)
+            {
+                parseExpression();
+            }
+            else
+            {
+                switch (currentToken.kind)
+                {
+                    case (int)Token.keywords.IDENTIFIER:
+                        parseIdentifier();
+                        break;
+                    case (int)Token.keywords.NUMBER:
+                        acceptIt();
+                        break;
+                    case (int)Token.keywords.LPAREN:
+                        acceptIt();
+                        parseExpression();
+                        accept(Token.keywords.RPAREN);
+                        break;
+                    default:
+                        accept(Token.keywords.ERROR);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -360,7 +404,8 @@ namespace MultiAgentSystem
         {
             if (kind == Token.keywords.ERROR)
             {
-                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col);
+                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col + 
+                    ". The recieved token of kind " + (Token.keywords)currentToken.kind + " was not legal.");
             }
             else if ((int)kind == currentToken.kind)
             {
