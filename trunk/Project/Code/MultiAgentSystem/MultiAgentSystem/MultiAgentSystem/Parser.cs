@@ -232,7 +232,7 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseWhileCommand()
         {
-            accept(Token.keywords.WHILE);
+            accept(Token.keywords.WHILE_LOOP);
             accept(Token.keywords.LPAREN);
             parseExpression();
             accept(Token.keywords.RPAREN);
@@ -288,7 +288,18 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseInput()
         {
-            acceptIt();
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.IDENTIFIER:
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.STRING:
+                case (int)Token.keywords.BOOL:
+                    acceptIt();
+                    break;
+                case (int)Token.keywords.NEW:
+                    parseObjectDeclaration();
+                    break;
+            }
             // Input variables are seperated by comma.
             while (currentToken.kind == (int)Token.keywords.COMMA)
             {
