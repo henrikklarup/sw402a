@@ -45,7 +45,7 @@ namespace MultiAgentSystem
 
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,13} - {1,-30}  {2, 4},{3,-4}", Token.spellings[t.kind], t.spelling, t.row, t.col));
+                Console.WriteLine(string.Format("{0,13} - {1,-30}  {2, 4},{3,-4}", Enum.GetName(typeof(Token.keywords), t.kind) , t.spelling, t.row, t.col));
             }
 
             Console.ReadKey();
