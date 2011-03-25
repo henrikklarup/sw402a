@@ -25,24 +25,32 @@
 
 \begin{document}
 
+\InputIfFileExists{Frontpage/frontpage}{}{}
+
 \thispagestyle{empty}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 
 \pagenumbering{Roman}
+\InputIfFileExists{Title_page/title_page}{}{}
 \clearpage{\thispagestyle{empty}\cleardoublepage}
-\InputIfFileExists{preface\preface.tex}{}{}
+
+\InputIfFileExists{Preface\preface}{}{}
+\clearpage{\thispagestyle{empty}\cleardoublepage}
 
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
 \InputIfFileExists{eksempel}{}{}
+\InputIfFileExists{Introduction/introduction}{}{}
 \InputIfFileExists{wargame_scenario}{}{}
+
+\InputIfFileExists{Epilogue/epilogue}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 
 \appendix
-\InputIfFileExists{appendix}{}{}
+\InputIfFileExists{Appendix/appendix}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 \bibliographystyle{plain}
