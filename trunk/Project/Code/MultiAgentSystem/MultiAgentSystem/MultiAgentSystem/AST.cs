@@ -9,104 +9,31 @@ namespace MultiAgentSystem
     {
     }
 
-    class Mainblock : AST
-    {
-        Block block;
-
-        public Mainblock(Block block)
-        {
-            this.block = block;
-        }
-    }
-
     abstract class Command : AST
-    {
-    }
+    { }
 
-    abstract class SingleCommand : Command
-    {
-    }
+    abstract class Expression : AST
+    { }
 
-    abstract class PrimaryExpression : AST
-    {
-    }
+    abstract class Declaration : AST
+    { }
 
     abstract class Terminal : AST
+    { }
+
+    class Mainblock : AST
     {
-        public string spelling;
+        public Block B;
     }
-    
+
     class Block : AST
     {
-        List<Command> commandList = new List<Command>();
-        Command command;
-
-        public Block(Command command)
-        {
-            this.command = command;
-        }
+        public Commands C;
     }
 
-    class Expression : PrimaryExpression
+    class Commands : AST
     {
-    }
-
-    class ObjectDeclaration : Command
-    {
-
-    }
-
-    class TypeDeclaration : Command
-    {
-
-    }
-
-    class MethodCall : Command
-    {
-
-    }
-
-    class IfCommand : Command
-    {
-
-    }
-
-    class WhileCommand : Command
-    {
-
-    }
-
-    class ForCommand : Command
-    {
-        TypeDeclaration typeD;
-        Expression E1, E2;
-
-        public ForCommand(TypeDeclaration type, Expression e1, Expression e2)
-        {
-            this.typeD = type;
-            this.E1 = e1;
-            this.E2 = e2;
-        }
-    }
-
-    class MASOperator : Terminal
-    {
-        public MASOperator(string op)
-        {
-            this.spelling = op;
-        }
-    }
-
-    class Number : Terminal
-    {
-        public Number(double num)
-        {
-            spelling = num.ToString();
-        }
-    }
-
-    class String : Terminal
-    {
-
+        public Command C;
+        public Commands Cs;
     }
 }
