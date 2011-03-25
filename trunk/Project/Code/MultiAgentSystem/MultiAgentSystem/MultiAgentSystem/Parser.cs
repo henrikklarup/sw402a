@@ -29,38 +29,39 @@ namespace MultiAgentSystem
         /// <summary>
         /// Parse the tokens into an abstract syntax tree.
         /// </summary>
-        public void parse()
+        public AST parse()
         {
-            parseMainblock();
+            return parseMainblock();
         }
 
         /// <summary>
         /// Parses a mainblock token, and is executed as the first parse.
         /// </summary>
-        private void parseMainblock()
+        private AST parseMainblock()
         {
+            Mainblock main;
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.MAIN:
                     acceptIt();
                     accept(Token.keywords.LPAREN);
                     accept(Token.keywords.RPAREN);
-                    parseBlock();
+                    main = new Mainblock(parseBlock());
                     accept(Token.keywords.EOT);
-                    Console.WriteLine("Mainblock accepted.");
-                    break;
+                    return main;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
         }
 
         /// <summary>
         /// Method for parsing a block.
         /// </summary>
-        private void parseBlock()
+        private Command parseBlock()
         {
+            Block block = new Block();
             // parseCommand is run until the end of the block is reached.
             switch (currentToken.kind)
             {
@@ -68,42 +69,38 @@ namespace MultiAgentSystem
                     acceptIt();
                     while (currentToken.kind != (int)Token.keywords.RBRACKET)
                     {
-                        parseCommand();
+                        block.commands.Add(parseCommand());
                     }
                     acceptIt();
-                    Console.WriteLine("Block accepted.");
-                    break;
+                    return block;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
         }
 
         /// <summary>
         /// Method for parsing a command.
         /// </summary>
-        private void parseCommand()
+        private Command parseCommand()
         {
             switch (currentToken.kind)
             {
                     // The command can be a block...
                 case (int)Token.keywords.LBRACKET:
-                    parseBlock();
-                    break;
+                    return parseBlock();
                     // or an object declaration...
                 case (int)Token.keywords.NEW:
-                    parseObjectDeclaration();
+                    Command OD = parseObjectDeclaration();
                     accept(Token.keywords.SEMICOLON);
-                    break;
+                    return OD;
                     // or an if-sentence...
                 case (int)Token.keywords.IF_LOOP:
-                    parseIfCommand();
-                    break;
+                    return parseIfCommand();
                     // for loop...
                 case (int)Token.keywords.FOR_LOOP:
-                    parseForCommand();
-                    break;
+                    return parseForCommand();
                     // while loop...
                 case (int)Token.keywords.WHILE_LOOP:
                     parseWhileCommand();
@@ -141,23 +138,23 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing an object declaration.
         /// </summary>
-        private void parseObjectDeclaration()
+        private Command parseObjectDeclaration()
         {
             /* As the current token will already have been checked,
              * we can just accept it. */
             accept(Token.keywords.NEW);
-            parseObject();
-            parseIdentifier();
+            Object obj = parseObject();
+            Identifier id = parseIdentifier();
             accept(Token.keywords.LPAREN);
-            parseInput();
+            Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
-            Console.WriteLine("Objectdeclaration accepted.");
+            return new ObjectDeclaration(obj, id, input);
         }
 
         /// <summary>
         /// Method for parsing an object.
         /// </summary>
-        private void parseObject()
+        private Object parseObject()
         {
             switch (currentToken.kind)
             {
@@ -165,20 +162,19 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.TEAM:
                 case (int)Token.keywords.AGENT:
                 case (int)Token.keywords.SQUAD:
-                case (int)Token.keywords.COORDINATES:
                     acceptIt();
-                    break;
+                    return new Object(((Token.keywords)currentToken.kind).ToString());
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
         }
 
         /// <summary>
         /// Method for parsing a type.
         /// </summary>
-        private void parseType()
+        private Terminal parseType()
         {
             switch (currentToken.kind)
             {
@@ -186,53 +182,52 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
                     acceptIt();
-                    break;
+                    return new MASType(currentToken.spelling);
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
         }
 
         /// <summary>
         /// Method for parsing an if command.
         /// </summary>
-        private void parseIfCommand()
+        private Command parseIfCommand()
         {
             accept(Token.keywords.IF_LOOP);
             accept(Token.keywords.LPAREN);
-            parseExpression();
+            Expression E = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
-            parseBlock();
-            Console.WriteLine("If command accepted.");
+            Block B1 = (Block)parseBlock();
             // Check for an else-statement and react accordingly.
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.ELSE_LOOP:
                     acceptIt();
-                    parseBlock();
+                    Block B2 = (Block)parseBlock();
                     Console.WriteLine("Else loop accepted.");
-                    break;
+                    return new IfCommand(E, B1, B2);
                 default:
-                    break;
+                    return new IfCommand(E, B1);
             }
         }
 
         /// <summary>
         /// Method for parsing a for-loop.
         /// </summary>
-        private void parseForCommand()
+        private Command parseForCommand()
         {
             accept(Token.keywords.FOR_LOOP);
             accept(Token.keywords.LPAREN);
-            parseTypeDeclaration();
+            TypeDeclaration T = (TypeDeclaration)parseTypeDeclaration();
             accept(Token.keywords.SEMICOLON);
-            parseExpression();
+            Expression E1 = (Expression)parseExpression();
             accept(Token.keywords.SEMICOLON);
-            parseExpression();
+            Expression E2 = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
-            parseBlock();
-            Console.WriteLine("For command accepted.");
+            Block B = (Block)parseBlock();
+            return new ForCommand(T, E1, E2, B);
         }
 
         /// <summary>
@@ -251,10 +246,11 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing a type declaration.
         /// </summary>
-        private void parseTypeDeclaration()
+        private Command parseTypeDeclaration()
         {
-            parseType();
-            parseIdentifier();
+            TypeDeclaration T = new TypeDeclaration();
+            T.T = (MASType)parseType();
+            T.parseIdentifier();
             accept(Token.keywords.BECOMES);
             if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
             {
@@ -278,7 +274,6 @@ namespace MultiAgentSystem
                         break;
                 }
             }
-            Console.WriteLine("Typedeclaration accepted.");
         }
 
         /// <summary>
@@ -302,14 +297,16 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing an expression (unfinished).
         /// </summary>
-        private void parseExpression()
+        private Command parseExpression()
         {
+            Expression E = new Expression();
             // If the expression starts with a parenthesis, parse that.
             if (currentToken.kind == (int)Token.keywords.LPAREN)
             {
                 acceptIt();
-                parseExpression();
+                E = (Expression)parseExpression();
                 accept(Token.keywords.RPAREN);
+                return E;
             }
             // Else parse a normal expression.
             else
@@ -317,12 +314,10 @@ namespace MultiAgentSystem
                 switch (currentToken.kind)
                 {
                     case (int)Token.keywords.IDENTIFIER:
-                        parseIdentifier();
+                        E.I1 = parseIdentifier();
                         break;
                     case (int)Token.keywords.NUMBER:
-                    case (int)Token.keywords.ACTUAL_STRING:
-                    case (int)Token.keywords.TRUE:
-                    case (int)Token.keywords.FALSE:
+                        E.N1 = new MASNumber(currentToken.spelling);
                         acceptIt();
                         break;
                     default:
@@ -333,6 +328,7 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.OPERATOR:
                     case (int)Token.keywords.BECOMES:
+                        E.O = new Operator(currentToken.spelling);
                         acceptIt();
                         break;
                     default:
@@ -344,19 +340,17 @@ namespace MultiAgentSystem
                 if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
                     currentToken.kind == (int)Token.keywords.LPAREN)
                 {
-                    parseExpression();
+                    E.E = (Expression)parseExpression();
                 }
                 else
                 {
                     switch (currentToken.kind)
                     {
                         case (int)Token.keywords.IDENTIFIER:
-                            parseIdentifier();
+                            E.I2 = parseIdentifier();
                             break;
                         case (int)Token.keywords.NUMBER:
-                        case (int)Token.keywords.ACTUAL_STRING:
-                        case (int)Token.keywords.TRUE:
-                        case (int)Token.keywords.FALSE:
+                            E.N2 = new MASNumber(currentToken.spelling);
                             acceptIt();
                             break;
                         default:
@@ -364,16 +358,18 @@ namespace MultiAgentSystem
                             break;
                     }
                 }
-                Console.WriteLine("Expression accepted.");
+                return E;
             }
         }
 
         /// <summary>
         /// Method for parsing an identifier.
         /// </summary>
-        private void parseIdentifier()
+        private Identifier parseIdentifier()
         {
+            Identifier id = new Identifier(((Token.keywords)currentToken.kind).ToString());
             acceptIt();
+            return id;
         }
 
         /// <summary>
@@ -395,45 +391,56 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing method input.
         /// </summary>
-        private void parseInput()
+        private AST parseInput()
         {
+            Terminal T1;
+            ObjectDeclaration O;
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.RPAREN:
-                    break;
+                    return null;
                 case (int)Token.keywords.IDENTIFIER:
+                    T1 = (Identifier)T1;
+                    T1 = new Identifier(currentToken.spelling);
+                    acceptIt();
+                    break;
                 case (int)Token.keywords.NUMBER:
+                    T1 = (MASNumber)T1;
+                    T1 = new MASNumber(currentToken.spelling);
+                    acceptIt();
+                    break;
                 case (int)Token.keywords.ACTUAL_STRING:
+                    T1 = (MASString)T1;
+                    T1 = new MASString(currentToken.spelling);
+                    acceptIt();
+                    break;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
+                    T1 = (MASBool)T1;
+                    T1 = new MASBool(currentToken.spelling);
                     acceptIt();
                     break;
                 case (int)Token.keywords.NEW:
-                    parseObjectDeclaration();
+                    O = (ObjectDeclaration)parseObjectDeclaration();
                     break;
                 default:
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
             // Input variables are seperated by comma.
-            while (currentToken.kind == (int)Token.keywords.COMMA)
+            if (currentToken.kind == (int)Token.keywords.COMMA)
             {
                 acceptIt();
-                switch (currentToken.kind)
-                {
-                    case (int)Token.keywords.IDENTIFIER:
-                    case (int)Token.keywords.NUMBER:
-                    case (int)Token.keywords.ACTUAL_STRING:
-                    case (int)Token.keywords.TRUE:
-                    case (int)Token.keywords.FALSE:
-                        acceptIt();
-                        break;
-                    case (int)Token.keywords.NEW:
-                        parseObjectDeclaration();
-                        break;
-                }
+                return new Input(T1, (Input)parseInput());
             }
-            Console.WriteLine("Input accepted.");
+            else if (T1 != null)
+            {
+                return new Input(T1);
+            }
+            else if (O != null)
+            {
+                return new Input(O);
+            }
         }
 
         /// <summary>
