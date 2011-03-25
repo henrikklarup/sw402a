@@ -1,0 +1,14 @@
+Det er fint at vi laver et turn-based spil, men det kunne være godt hvis vi lavede
+nogle pre-definerede movement behaviors, eksempelvis scouting, agressive, så man
+kan sætte nogle agenter til at køre, eventuelt så man kan sætte det ene hold til
+at køre pre-definerede bevægelses-mønstre, og så man selv kan spille mod den.
+
+Jorge mener at vi skal se om vi kan få det hele til at spille sammen i løbet af
+2-3 uger, og derefter vil det være "let" for os at implementere mere komplekse
+funktioner i vores program.
+
+Vi skal huske at lave nogle checks på nogle ting som ikke holder, evt. divide by 0.
+
+Alt i alt var Jorge godt tilfreds med hvor vi er kommet til i projektet, han var
+faktisk lidt imponeret over hvad vi var kommet frem til med scanner/parser og GUI.
+Han synes at det er et rigtig godt udgangspunkt.
