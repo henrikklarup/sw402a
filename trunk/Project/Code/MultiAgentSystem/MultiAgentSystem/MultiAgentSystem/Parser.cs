@@ -304,12 +304,14 @@ namespace MultiAgentSystem
         /// </summary>
         private void parseExpression()
         {
+            // If the expression starts with a parenthesis, parse that.
             if (currentToken.kind == (int)Token.keywords.LPAREN)
             {
                 acceptIt();
                 parseExpression();
                 accept(Token.keywords.RPAREN);
             }
+            // Else parse a normal expression.
             else
             {
                 switch (currentToken.kind)
@@ -318,6 +320,9 @@ namespace MultiAgentSystem
                         parseIdentifier();
                         break;
                     case (int)Token.keywords.NUMBER:
+                    case (int)Token.keywords.ACTUAL_STRING:
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.FALSE:
                         acceptIt();
                         break;
                     default:
@@ -335,6 +340,7 @@ namespace MultiAgentSystem
                         break;
                 }
 
+                // If the expression doesn't end after the next token, parse a new expression.
                 if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
                     currentToken.kind == (int)Token.keywords.LPAREN)
                 {
@@ -348,6 +354,9 @@ namespace MultiAgentSystem
                             parseIdentifier();
                             break;
                         case (int)Token.keywords.NUMBER:
+                        case (int)Token.keywords.ACTUAL_STRING:
+                        case (int)Token.keywords.TRUE:
+                        case (int)Token.keywords.FALSE:
                             acceptIt();
                             break;
                         default:
