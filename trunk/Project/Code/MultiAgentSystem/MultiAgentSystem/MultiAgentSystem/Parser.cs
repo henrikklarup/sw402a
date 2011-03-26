@@ -31,6 +31,7 @@ namespace MultiAgentSystem
         /// </summary>
         public AST parse()
         {
+
             return parseMainblock();
         }
 
@@ -103,15 +104,14 @@ namespace MultiAgentSystem
                     return parseForCommand();
                     // while loop...
                 case (int)Token.keywords.WHILE_LOOP:
-                    parseWhileCommand();
-                    break;
+                    return parseWhileCommand();
                     // type declaration...
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
                 case (int)Token.keywords.BOOL:
-                    parseTypeDeclaration();
+                    TypeDeclaration T = (TypeDeclaration)parseTypeDeclaration();
                     accept(Token.keywords.SEMICOLON);
-                    break;
+                    return T;
                     // or expression or method call.
                 case (int)Token.keywords.IDENTIFIER:
                     /* If the next token is an operator, this is an expression. 
@@ -119,20 +119,21 @@ namespace MultiAgentSystem
                     if (tokenList.ElementAt(listCount + 1).kind ==
                         (int)Token.keywords.OPERATOR)
                     {
-                        parseExpression();
+                        Expression E = (Expression)parseExpression();
+                        accept(Token.keywords.SEMICOLON);
+                        return E;
                     }
                     else
                     {
-                        parseMethodCall();
+                        MethodCall M = (MethodCall)parseMethodCall();
+                        accept(Token.keywords.SEMICOLON);
+                        return M;
                     }
-                    accept(Token.keywords.SEMICOLON);
-                    break;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
-            Console.WriteLine("Command accepted.");
         }
 
         /// <summary>
@@ -181,8 +182,9 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.BOOL:
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
+                    MASType M = new MASType(currentToken.spelling);
                     acceptIt();
-                    return new MASType(currentToken.spelling);
+                    return M;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
@@ -233,14 +235,16 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing a while loop.
         /// </summary>
-        private void parseWhileCommand()
+        private Command parseWhileCommand()
         {
+            WhileCommand W = new WhileCommand();
             accept(Token.keywords.WHILE_LOOP);
             accept(Token.keywords.LPAREN);
-            parseExpression();
+            W.E = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
-            parseBlock();
-            Console.WriteLine("While command accepted.");
+            W.B = (Block)parseBlock();
+            
+            return W;
         }
 
         /// <summary>
@@ -250,11 +254,11 @@ namespace MultiAgentSystem
         {
             TypeDeclaration T = new TypeDeclaration();
             T.T = (MASType)parseType();
-            T.parseIdentifier();
+            T.I1 = parseIdentifier();
             accept(Token.keywords.BECOMES);
             if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
             {
-                parseExpression();
+                T.E = (Expression)parseExpression();
             }
             else
             {
@@ -262,36 +266,45 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
+                        T.B = new MASBool(currentToken.spelling);
+                        acceptIt();
+                        break;
                     case (int)Token.keywords.NUMBER:
+                        T.N = new MASNumber(currentToken.spelling);
+                        acceptIt();
+                        break;
                     case (int)Token.keywords.ACTUAL_STRING:
+                        T.S = new MASString(currentToken.spelling);
                         acceptIt();
                         break;
                     case (int)Token.keywords.IDENTIFIER:
-                        parseIdentifier();
+                        T.I2 = parseIdentifier();
                         break;
                     default:
                         accept(Token.keywords.ERROR);
                         break;
                 }
             }
+            return T;
         }
 
         /// <summary>
         /// Method for parsing a method call.
         /// </summary>
-        private void parseMethodCall()
+        private Command parseMethodCall()
         {
-            parseIdentifier();
+            MethodCall M = new MethodCall();
+            M.I.Add(parseIdentifier());
             // If there is a punctuation, dot your way through.
             while (currentToken.kind == (int)Token.keywords.PUNCTUATION)
             {
                 acceptIt();
-                parseIdentifier();
+                M.I.Add(parseIdentifier());
             }
             accept(Token.keywords.LPAREN);
-            parseInput();
+            M.In = (Input)parseInput();
             accept(Token.keywords.RPAREN);
-            Console.WriteLine("Methodcall accepted.");
+            return M;
         }
 
         /// <summary>
@@ -375,16 +388,17 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing an operator.
         /// </summary>
-        private void parseOperator()
+        private Terminal parseOperator()
         {
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.OPERATOR:
+                    Operator O = new Operator(currentToken.spelling);
                     acceptIt();
-                    break;
+                    return O;
                 default:
                     accept(Token.keywords.ERROR);
-                    break;
+                    return null;
             }
         }
 
