@@ -53,9 +53,8 @@ namespace MultiAgentSystem
     class TypeDeclaration : Command
     {
         public MASType T;
-        public Identifier I;
-        public Expression E;
         public Identifier I1;
+        public Expression E;
         public Identifier I2;
         public MASNumber N;
         public MASString S;
@@ -111,6 +110,11 @@ namespace MultiAgentSystem
     {
         public Expression E;
         public Block B;
+
+        public WhileCommand()
+        {
+
+        }
     }
 
     class MethodCall : Command
