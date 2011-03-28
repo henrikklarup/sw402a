@@ -31,7 +31,6 @@ namespace MultiAgentSystem
         /// </summary>
         public AST parse()
         {
-
             return parseMainblock();
         }
 
@@ -49,6 +48,7 @@ namespace MultiAgentSystem
                     accept(Token.keywords.RPAREN);
                     main = new Mainblock(parseBlock());
                     accept(Token.keywords.EOT);
+                    Console.WriteLine("Main");
                     return main;
                 default:
                     // Error message
@@ -70,9 +70,12 @@ namespace MultiAgentSystem
                     acceptIt();
                     while (currentToken.kind != (int)Token.keywords.RBRACKET)
                     {
-                        block.commands.Add(parseCommand());
+                        Command c = parseCommand();
+                        if (c != null)
+                            block.commands.Add(c);
                     }
                     acceptIt();
+                    Console.WriteLine("Block");
                     return block;
                 default:
                     // Error message
@@ -149,6 +152,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.LPAREN);
             Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
+            Console.WriteLine("Object declaration");
             return new ObjectDeclaration(obj, id, input);
         }
 
@@ -164,6 +168,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.AGENT:
                 case (int)Token.keywords.SQUAD:
                     acceptIt();
+                    Console.WriteLine("Object");
                     return new Object(((Token.keywords)currentToken.kind).ToString());
                 default:
                     // Error message
@@ -184,6 +189,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.STRING:
                     MASType M = new MASType(currentToken.spelling);
                     acceptIt();
+                    Console.WriteLine("Type");
                     return M;
                 default:
                     // Error message
@@ -208,9 +214,10 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.ELSE_LOOP:
                     acceptIt();
                     Block B2 = (Block)parseBlock();
-                    Console.WriteLine("Else loop accepted.");
+                    Console.WriteLine("If else");
                     return new IfCommand(E, B1, B2);
                 default:
+                    Console.WriteLine("If");
                     return new IfCommand(E, B1);
             }
         }
@@ -229,6 +236,7 @@ namespace MultiAgentSystem
             Expression E2 = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
             Block B = (Block)parseBlock();
+            Console.WriteLine("For");
             return new ForCommand(T, E1, E2, B);
         }
 
@@ -243,7 +251,7 @@ namespace MultiAgentSystem
             W.E = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
             W.B = (Block)parseBlock();
-            
+            Console.WriteLine("While");
             return W;
         }
 
@@ -285,6 +293,7 @@ namespace MultiAgentSystem
                         break;
                 }
             }
+            Console.WriteLine("Type declaration");
             return T;
         }
 
@@ -304,6 +313,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.LPAREN);
             M.In = (Input)parseInput();
             accept(Token.keywords.RPAREN);
+            Console.WriteLine("Method call");
             return M;
         }
 
@@ -319,6 +329,7 @@ namespace MultiAgentSystem
                 acceptIt();
                 E = (Expression)parseExpression();
                 accept(Token.keywords.RPAREN);
+                Console.WriteLine("Expression");
                 return E;
             }
             // Else parse a normal expression.
@@ -371,6 +382,7 @@ namespace MultiAgentSystem
                             break;
                     }
                 }
+                Console.WriteLine("Expression");
                 return E;
             }
         }
@@ -380,8 +392,9 @@ namespace MultiAgentSystem
         /// </summary>
         private Identifier parseIdentifier()
         {
-            Identifier id = new Identifier(((Token.keywords)currentToken.kind).ToString());
+            Identifier id = new Identifier(currentToken.spelling);
             acceptIt();
+            Console.WriteLine("Identifier");
             return id;
         }
 
@@ -395,6 +408,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.OPERATOR:
                     Operator O = new Operator(currentToken.spelling);
                     acceptIt();
+                    Console.WriteLine("Operator");
                     return O;
                 default:
                     accept(Token.keywords.ERROR);
@@ -407,30 +421,26 @@ namespace MultiAgentSystem
         /// </summary>
         private AST parseInput()
         {
-            Terminal T1;
-            ObjectDeclaration O;
+            Terminal T1 = null;
+            ObjectDeclaration O = null;
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.RPAREN:
                     return null;
                 case (int)Token.keywords.IDENTIFIER:
-                    T1 = (Identifier)T1;
                     T1 = new Identifier(currentToken.spelling);
                     acceptIt();
                     break;
                 case (int)Token.keywords.NUMBER:
-                    T1 = (MASNumber)T1;
                     T1 = new MASNumber(currentToken.spelling);
                     acceptIt();
                     break;
                 case (int)Token.keywords.ACTUAL_STRING:
-                    T1 = (MASString)T1;
                     T1 = new MASString(currentToken.spelling);
                     acceptIt();
                     break;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
-                    T1 = (MASBool)T1;
                     T1 = new MASBool(currentToken.spelling);
                     acceptIt();
                     break;
@@ -445,15 +455,22 @@ namespace MultiAgentSystem
             if (currentToken.kind == (int)Token.keywords.COMMA)
             {
                 acceptIt();
+                Console.WriteLine("Input");
                 return new Input(T1, (Input)parseInput());
             }
             else if (T1 != null)
             {
+                Console.WriteLine("Input");
                 return new Input(T1);
             }
             else if (O != null)
             {
+                Console.WriteLine("Input");
                 return new Input(O);
+            }
+            else
+            {
+                return null;
             }
         }
 

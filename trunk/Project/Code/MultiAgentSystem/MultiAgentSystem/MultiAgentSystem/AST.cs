@@ -33,7 +33,7 @@ namespace MultiAgentSystem
         public List<Command> commands;
 
         public Block()
-        { }
+        { commands = new List<Command>(); }
     }
 
     class ObjectDeclaration : Command
@@ -119,7 +119,7 @@ namespace MultiAgentSystem
 
     class MethodCall : Command
     {
-        public List<Identifier> I;
+        public List<Identifier> I = new List<Identifier>();
         public Input In;
     }
 
@@ -220,6 +220,31 @@ namespace MultiAgentSystem
 
         public Input(ObjectDeclaration O, Input input)
             : this(O)
+        {
+            this.In = input;
+        }
+
+        public Input(Terminal T)
+        {
+            if (T is Identifier)
+            {
+                I = (Identifier)T;
+            }
+            else if (T is MASBool)
+            {
+                B = (MASBool)T;
+            }
+            else if (T is MASString)
+            {
+                S = (MASString)T;
+            }
+            else if (T is MASNumber)
+            {
+                N = (MASNumber)T;
+            }
+        }
+
+        public Input(Terminal T, Input input) : this(T)
         {
             this.In = input;
         }
