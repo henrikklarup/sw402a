@@ -1,1 +1,35 @@
 \section{Making the Scanner}
+The scanner is converting the string of text, the input, to a compilation of tokens and keywords. The first method of the scanner is a big switch created to sort the current word according to the token starters \ref{APPENDIX_STARTERS}. If the first character of a word is a letter, the word is automaticly assigned as an identifier and a string with the word is created.\\
+When the word is saved as a Token, the Token class searches for any keyword, that would be able to match the exact string, e.g. if the string spells the word "`for"', the Token class changes the string to a \textbf{for} token.\\
+
+\begin{source}{The token method with overloads.}{}
+public Token(int kind, string spelling, int row, int col)
+        {
+            this.kind = kind;
+            this.spelling = spelling;
+            this.row = row;
+            this.col = col;
+
+            if (kind == (int)keywords.IDENTIFIER)
+            {
+                for (int i = (int)keywords.IF_LOOP; i <= (int)keywords.FALSE; i++)
+                {
+                    if (spelling.ToLower().Equals(spellings[i]))
+                    {
+                        this.kind = i;
+                        break;
+                    }
+                }
+            }
+        }
+\end{source}
+In the token overload method, IF\_LOOP and FALSE is a part of an enum and then casted as an int, kind is an int identifier and spellings is a string array of the kinds of keywords and tokens availible, as seen below.
+
+\begin{source}{The string array spellings.}{}
+public static string[] spellings = 
+        {
+            "<identifier>", "<number>", "<operator>", "<string>", ";", ":", "(", ")", "=", "{", "}", 
+            "if", "else", "for", "while", "bool", "new", "main", "team", "agent", "squad", "coord", "void", 
+            "actionpattern", "num", "string", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
+        };
+\end{source}

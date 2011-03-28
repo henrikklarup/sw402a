@@ -1,0 +1,85 @@
+%
+% Define colors used in source code boxes
+%
+\definecolor{red}{rgb}{1,0,0}
+\definecolor{green}{rgb}{0,1,0}
+\definecolor{yellow}{rgb}{1,1,0}
+\definecolor{blue}{rgb}{0,0,1}
+\definecolor{darkblue}{rgb}{0,0,0.5}
+\definecolor{prggreen}{rgb}{0.18,0.55,0.34}
+\definecolor{prgviolet}{rgb}{0.63,0.13,0.94}
+\definecolor{prgred}{rgb}{0.65,0.16,0.16}
+\definecolor{prgpink}{rgb}{1,0,1}
+\definecolor{srcbg}{rgb}{.97,.97,.97}
+
+%
+% Source code boxes
+%
+
+\lstnewenvironment{source}[2][]{
+    \def\lstlistingname{Source Code}
+    \lstset{
+        aboveskip=0.5cm,
+        belowskip=0.5cm,
+        linewidth=\textwidth,
+        xleftmargin=0.05\textwidth,
+        basicstyle=\ttfamily\selectfont\small,
+        extendedchars=true,
+        columns=flexible,
+        escapechar=\$,
+        frame=lines,
+        numbers=left,
+        numberstyle=\tiny,
+        numbersep=10pt,
+        breaklines,
+        tabsize=3,
+        breakatwhitespace=true,
+        showspaces=false,
+        showstringspaces=false,
+        language=C,
+        prebreak=\Pisymbol{psy}{191},
+        emph={[1]root,base,public,private,protected,interface,abstract,class,throws,new,throwable},
+        emphstyle={[1]\color{prgred}\bfseries},
+        keywordstyle={[1]\bfseries},
+        emph={[2]while,for,do,return,goto,if,else,switch,break,default,case},
+        emphstyle={[2]\color{prggreen}},
+        keywordstyle={[2]\bfseries},
+        emph={[3]volatile,long,int,char,string,boolean,unsigned,void,external,double,byte,float,var},
+        emphstyle={[3]\color{prggreen}\bfseries},
+        keywordstyle={[3]\bfseries},
+        morecomment=[l][\color{blue}]{//},
+        morecomment=[s][\color{blue}]{/*}{*/},
+        morecomment=[s][\color{prgpink}]{"}{"},
+        captionpos=b,
+        label=#1,
+        caption=#2,
+    }
+}{}
+
+\lstnewenvironment{pseudo}[2][]{
+    \def\lstlistingname{Pseudo Code}
+    \lstset{
+    	aboveskip=0.5cm,
+    	belowskip=0.5cm,
+        linewidth=0.95\textwidth,
+        xleftmargin=0.05\textwidth,
+        basicstyle=\ttfamily\selectfont\small,
+        extendedchars=true,
+        columns=flexible,
+        escapechar=\$,
+        frame=lines,
+        numbers=left,
+        numberstyle=\tiny,
+        numbersep=10pt,
+        breaklines,
+        tabsize=3,
+        breakatwhitespace=true,
+        showspaces=false,
+        showstringspaces=false,
+        language=C,
+        prebreak=\Pisymbol{psy}{191},
+        captionpos=b,
+        caption={#1},
+        label={#2}
+    }
+}{}
