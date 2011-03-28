@@ -20,6 +20,7 @@ namespace WindowsFormsApplication6
         Color LineColor;
         Color backGroundColor;
         int LineWidth;
+        int Grids;
 
         //Random Blocks
         Point[] shit = new Point[10];
@@ -28,11 +29,23 @@ namespace WindowsFormsApplication6
         #region Constructor
         public WarGame()
         {
+
+            InitializeComponent();
+
             #region Initi props
-            LineWidth = 1;
-            Point1 = new Point(0,0);
+
+
+            //Small = 13
+            //Medium = 26
+            //Large = 46
+
+
+            Grids = 46;
+
+            LineWidth = 2;
+            Point1 = new Point(LineWidth, LineWidth);
             mousePointGrid = new Point(0, 0);
-            GridSize = new Size(10, 10);
+            GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
             figureColor = Color.FromArgb(102, 130, 102);
             LineColor = Color.Black;
             backGroundColor = Color.FromArgb(102,153,102);
@@ -42,11 +55,9 @@ namespace WindowsFormsApplication6
             Random rnd = new Random();
             for (int i = 0; i < 10; i++)
             {
-                shit[i] = getGridPixelFromGrid(new Point(rnd.Next(100), rnd.Next(100)));
+                shit[i] = getGridPixelFromGrid(new Point(rnd.Next(Grids), rnd.Next(Grids)));
             }
             #endregion
-
-            InitializeComponent();
         }
         #endregion
 
@@ -58,13 +69,22 @@ namespace WindowsFormsApplication6
 
             //Draw Grid
             #region DrawGrid
-            for (int i = -1; i < dbPanel1.Width; i += GridSize.Width + LineWidth)
+            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, LineWidth/2), new Point(dbPanel1.Width,LineWidth/2));
+            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth/2, 0), new Point(LineWidth/2,dbPanel1.Height));
+
+
+            //((GridSize.Width+LineWidth)*Grids) + (GridSize.Width + 2*LineWidth)
+            //eller
+            //dbPanel1.Width
+
+
+            for (int i = GridSize.Width + LineWidth; i < dbPanel1.Width; i += GridSize.Width + LineWidth)
             {
-                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i, 0), new Point(i, dbPanel1.Height));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i + (LineWidth/2), LineWidth), new Point(i +(LineWidth/2), dbPanel1.Height));
             }
-            for (int i = -1; i < dbPanel1.Height; i += GridSize.Height + LineWidth)
+            for (int i = GridSize.Height + LineWidth; i < dbPanel1.Height; i += GridSize.Height + LineWidth)
             {
-                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, i), new Point(dbPanel1.Width, i));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth, i + (LineWidth/2)), new Point(dbPanel1.Width, i + (LineWidth/2)));
             }
             #endregion
 
@@ -78,8 +98,8 @@ namespace WindowsFormsApplication6
 
             //Draw Figure
             #region Draw Figure
-            e.Graphics.FillEllipse(new SolidBrush(figureColor), new Rectangle(Point1, GridSize));
-            e.Graphics.DrawEllipse(Pens.White, new Rectangle(Point1.X,Point1.Y, GridSize.Width-1, GridSize.Height-1));
+            e.Graphics.FillEllipse(new SolidBrush(figureColor), new Rectangle(Point1.X, Point1.Y, GridSize.Width - LineWidth, GridSize.Height - LineWidth));
+            e.Graphics.DrawEllipse(Pens.White, new Rectangle(Point1.X,Point1.Y, GridSize.Width-LineWidth, GridSize.Height-LineWidth));
             #endregion
         }
         #endregion
@@ -126,7 +146,7 @@ namespace WindowsFormsApplication6
             //Split string to two numbers "x,y" = x y
             string[] text = textBox1.Text.Split(',');
             //Set Figure to x,y
-            Point1 = getGridPixelFromGrid(new Point(int.Parse(text[0]), int.Parse(text[1])));
+            Point1 = getGridPixelFromGrid(new Point(int.Parse(text[0]) -1, int.Parse(text[1])-1));
         }
         #endregion
         #endregion
@@ -136,31 +156,31 @@ namespace WindowsFormsApplication6
         #region GridPointLogic
         public Point getGridPixelFromPixel(Point inputPoint)
         {
-            //(cut digits) (Point.V / (g+lw)) * (g+lw)
-            int x = (int)(inputPoint.X / (GridSize.Width + LineWidth)) * (GridSize.Width + LineWidth);
-            int y = (int)(inputPoint.Y / (GridSize.Height + LineWidth)) * (GridSize.Height + LineWidth);
+            //(cut digits) (Point.V / (g+lw)) * (g+lw)   --  DONE!
+            int x = (int)(inputPoint.X / (GridSize.Width + LineWidth)) * (GridSize.Width + LineWidth) +LineWidth;
+            int y = (int)(inputPoint.Y / (GridSize.Height + LineWidth)) * (GridSize.Height + LineWidth) +LineWidth;
 
             return new Point(x, y);
         }
 
         public Point getGridPixelFromGrid(Point inputPoint)
         {
-            //Start equals 0,0
+            //Start equals 0,0   -- DONE!
 
-            //(cut digits) ((Point.V - 1) * (g+lw))
-            int x = (int)((inputPoint.X - 1) * (GridSize.Width + LineWidth));
-            int y = (int)((inputPoint.Y - 1) * (GridSize.Height + LineWidth));
+            //(cut digits) ((Point.V * (Gx + Lw)) + Lw)
+            int x = (int)((inputPoint.X * (GridSize.Width + LineWidth)) + LineWidth);
+            int y = (int)((inputPoint.Y * (GridSize.Height + LineWidth)) + LineWidth);
 
             return new Point(x, y);
         }
 
         public Point getGridFromPixel(Point inputPoint)
         {
-            //Start equals 0,0
+            //Start equals 0,0   -- DONE!
 
-            //(cut digits) (Point.V / g) +1
-            int x = (int)(inputPoint.X / GridSize.Width) +1;
-            int y = (int)(inputPoint.Y / GridSize.Height) +1;
+            //(cut digits) (Point.V - lw) / (Gx + lw)
+            int x = (int)((inputPoint.X - LineWidth) / (GridSize.Width + LineWidth)) +1;
+            int y = (int)((inputPoint.Y - LineWidth) / (GridSize.Height + LineWidth)) +1;
 
             return new Point(x, y);
         }

@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionPattern.cs" />
+    <Compile Include="Agent.cs" />
     <Compile Include="DBPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -60,6 +62,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Squad.cs" />
+    <Compile Include="Team.cs" />
     <EmbeddedResource Include="DBPanel.resx">
       <DependentUpon>DBPanel.cs</DependentUpon>
     </EmbeddedResource>
