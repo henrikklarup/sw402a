@@ -18,16 +18,18 @@ namespace ListToXML
         {
             Console.WriteLine("(R)ead or (S)ave lists: ");
 
+
+            //Initializing the lists
             Team team = new Team(1, "Team one", "Red");
-            Agent agent = new Agent(1, "Olsen", 2, team );
-            Squad squad = new Squad(1, "first squad", agent);
+            Agent agent = new Agent(1, "Olsen", 2, team);
+            //Squad squad = new Squad(1, "first squad", agent);
             ActionPattern aP = new ActionPattern(1, "first action pattern");
 
             teams.Add(team);
             agents.Add(agent);
-            squads.Add(squad);
             actionPatterns.Add(aP);
 
+            //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();
 
             while (cki.Key != ConsoleKey.Escape)
@@ -44,48 +46,55 @@ namespace ListToXML
             }
         }
 
+        /// <summary>
+        /// Generates the XML documents from the lists
+        /// </summary>
         public static void generateXML()
         {
-            if (agents.Any() && teams.Any())
+            //Tests if there is anything in the lists before saving them
+            if (!agents.Any() && !teams.Any())
             {
-                using (var sw = new StreamWriter(@"C:\agents.xml"))
-                {
-                    var serializer = new XmlSerializer(typeof(List<Agent>));
-                    serializer.Serialize(sw, agents);
-                }
-            }
-            else 
+                agents.Add(new Agent());
                 Console.WriteLine("Missing Agents or Teams.");
-
-            if (teams.Any())
-            {
-                using (var sw = new StreamWriter(@"C:\teams.xml"))
-                {
-                    var serializer = new XmlSerializer(typeof(List<Team>));
-                    serializer.Serialize(sw, teams);
-                }
+                return;
             }
-            else
+            using (var sw = new StreamWriter(@"C:\agents.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<Agent>));
+                serializer.Serialize(sw, agents);
+            }
+
+            if (!teams.Any())
+            {
+                teams.Add(new Team());
                 Console.WriteLine("Missing Teams.");
-
-            if (squads.Any() && agents.Any())
-            {
-                using (var sw = new StreamWriter(@"C:\squads.xml"))
-                {
-                    var serializer = new XmlSerializer(typeof(List<Squad>));
-                    serializer.Serialize(sw, squads);
-                }
             }
-            else
-                Console.WriteLine("Missing Squads or Agents");
-
-            if (actionPatterns.Any())
+            using (var sw = new StreamWriter(@"C:\teams.xml"))
             {
-                using (var sw = new StreamWriter(@"C:\actionPatterns.xml"))
-                {
-                    var serializer = new XmlSerializer(typeof(List<ActionPattern>));
-                    serializer.Serialize(sw, actionPatterns);
-                }
+                var serializer = new XmlSerializer(typeof(List<Team>));
+                serializer.Serialize(sw, teams);
+            }
+
+            if (!squads.Any())
+            {
+                squads.Add(new Squad());
+                Console.WriteLine("No Squads added.");
+            }
+            using (var sw = new StreamWriter(@"C:\squads.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<Squad>));
+                serializer.Serialize(sw, squads);
+            }
+
+            if (!actionPatterns.Any())
+            {
+                actionPatterns.Add(new ActionPattern());
+                Console.WriteLine("No Action Patterns added.");
+            }
+            using (var sw = new StreamWriter(@"C:\actionPatterns.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<ActionPattern>));
+                serializer.Serialize(sw, actionPatterns);
             }
         }
 
@@ -115,7 +124,7 @@ namespace ListToXML
                 actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
             }
         }
-       
+
     }
     public class Agent
     {
@@ -173,7 +182,7 @@ namespace ListToXML
             this.name = name;
 
             int i = 0;
-            foreach(Agent a in agents)
+            foreach (Agent a in agents)
             {
                 this.agents[i] = a.ID;
                 i++;
