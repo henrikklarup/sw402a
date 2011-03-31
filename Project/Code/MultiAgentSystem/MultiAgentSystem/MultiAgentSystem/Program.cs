@@ -9,11 +9,12 @@ namespace MultiAgentSystem
     class Program
     {
         private static List<Token> Tokens = new List<Token>();
+        private static AST newAst;
 
         static void Main(string[] args)
         {
             Scanzor scanzor = new Scanzor();
-            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Kasper/Desktop/test.txt"); //The name of the files input
+            scanzor.fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt"); //The name of the files input
 
             //Initializes the string being read by the scanner, and its counters
             scanzor.charLine = scanzor.fileLines[scanzor.fileCounter++].ToCharArray();
@@ -51,7 +52,7 @@ namespace MultiAgentSystem
             Console.ReadKey();
 
             Parser parzor = new Parser(Tokens);
-            parzor.parse();
+            newAst = parzor.parse();
 
             Console.ReadKey();
         }
