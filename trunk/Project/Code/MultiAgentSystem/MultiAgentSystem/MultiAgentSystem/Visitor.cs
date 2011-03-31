@@ -9,7 +9,7 @@ namespace MultiAgentSystem
     {
         public object visitMainBlock(Mainblock block, object arg)
         {
-            visitBlock(block.B, null);
+            visitBlock(block.block, null);
             return null;
         }
 
@@ -34,38 +34,38 @@ namespace MultiAgentSystem
 
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
-            Type eType = (Type)ifCommand.E.visit(this, null);
+            Type eType = (Type)ifCommand.Expression.visit(this, null);
             if (!eType.equals(Type._bool))
             {
                 Console.WriteLine("IfCommand: The expression is not a boolean.");
             }
-            ifCommand.B1.visit(this, null);
-            ifCommand.B2.visit(this, null);
+            ifCommand.IfBlock.visit(this, null);
+            ifCommand.ElseBlock.visit(this, null);
             return null;
         }
 
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
-            forCommand.TD.visit(this, null);
-            Type e1Type = (Type)forCommand.E1.visit(this, null);
+            forCommand.CounterDeclaration.visit(this, null);
+            Type e1Type = (Type)forCommand.LoopExpression.visit(this, null);
             if (!e1Type.equals(Type._bool))
             {
                 Console.WriteLine("ForCommand: The first expression is not a boolean");
             }
 
-            Type e2Type = (Type)forCommand.E2.visit(this, null);
-            forCommand.B.visit(this, null);
+            Type e2Type = (Type)forCommand.CounterExpression.visit(this, null);
+            forCommand.ForBlock.visit(this, null);
             return null;
         }
 
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
-            Type eType = (Type)whileCommand.E.visit(this, null);
+            Type eType = (Type)whileCommand.LoopExpression.visit(this, null);
             if (!eType.equals(Type._bool))
             {
                 Console.WriteLine("WhileCommand: The expression is not a boolean");
             }
-            whileCommand.B.visit(this, null);
+            whileCommand.WhileBlock.visit(this, null);
             return null;
         }
 
@@ -76,12 +76,12 @@ namespace MultiAgentSystem
 
         internal object visitExpression(Expression expression, object arg)
         {
-            expression.I1.visit(this, null);
-            expression.I2.visit(this, null);
-            expression.N1.visit(this, null);
-            expression.N2.visit(this, null);
-            expression.O.visit(this, null);
-            expression.E.visit(this, null);
+            expression.firstVariable.visit(this, null);
+            expression.secondVariable.visit(this, null);
+            expression.firstNumber.visit(this, null);
+            expression.secondNumber.visit(this, null);
+            expression.Operator.visit(this, null);
+            expression.innerExpression.visit(this, null);
 
             throw new NotImplementedException();
         }

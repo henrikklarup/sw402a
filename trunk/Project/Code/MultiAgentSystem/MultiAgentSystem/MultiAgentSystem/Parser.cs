@@ -248,9 +248,9 @@ namespace MultiAgentSystem
             WhileCommand W = new WhileCommand();
             accept(Token.keywords.WHILE_LOOP);
             accept(Token.keywords.LPAREN);
-            W.E = (Expression)parseExpression();
+            W.LoopExpression = (Expression)parseExpression();
             accept(Token.keywords.RPAREN);
-            W.B = (Block)parseBlock();
+            W.WhileBlock = (Block)parseBlock();
             Console.WriteLine("While");
             return W;
         }
@@ -261,12 +261,12 @@ namespace MultiAgentSystem
         private Command parseTypeDeclaration()
         {
             TypeDeclaration T = new TypeDeclaration();
-            T.T = (MASType)parseType();
-            T.I1 = parseIdentifier();
+            T.Type = (MASType)parseType();
+            T.VarName = parseIdentifier();
             accept(Token.keywords.BECOMES);
             if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
             {
-                T.E = (Expression)parseExpression();
+                T.becomesExpression = (Expression)parseExpression();
             }
             else
             {
@@ -274,19 +274,19 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
-                        T.B = new MASBool(currentToken.spelling);
+                        T.becomesBool = new MASBool(currentToken.spelling);
                         acceptIt();
                         break;
                     case (int)Token.keywords.NUMBER:
-                        T.N = new MASNumber(currentToken.spelling);
+                        T.becomesNumber = new MASNumber(currentToken.spelling);
                         acceptIt();
                         break;
                     case (int)Token.keywords.ACTUAL_STRING:
-                        T.S = new MASString(currentToken.spelling);
+                        T.becomesString = new MASString(currentToken.spelling);
                         acceptIt();
                         break;
                     case (int)Token.keywords.IDENTIFIER:
-                        T.I2 = parseIdentifier();
+                        T.becomesIdentifier = parseIdentifier();
                         break;
                     default:
                         accept(Token.keywords.ERROR);
@@ -303,9 +303,9 @@ namespace MultiAgentSystem
         private Command parseMethodCall()
         {
             MethodCall M = new MethodCall();
-            M.MI = (MethodIdentifier)parseMethodIdentifier();
+            M.MethodPath = (MethodIdentifier)parseMethodIdentifier();
             accept(Token.keywords.LPAREN);
-            M.In = (Input)parseInput();
+            M.Input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
             Console.WriteLine("Method call");
             return M;
@@ -314,11 +314,11 @@ namespace MultiAgentSystem
         private Terminal parseMethodIdentifier()
         {
             MethodIdentifier MI = new MethodIdentifier();
-            MI.I = parseIdentifier();
+            MI.Identifier = parseIdentifier();
             if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
             {
                 acceptIt();
-                MI.MI = (MethodIdentifier)parseMethodIdentifier();
+                MI.NextMethodIdentifier = (MethodIdentifier)parseMethodIdentifier();
             }
             return MI;
         }
@@ -344,10 +344,10 @@ namespace MultiAgentSystem
                 switch (currentToken.kind)
                 {
                     case (int)Token.keywords.IDENTIFIER:
-                        E.I1 = parseIdentifier();
+                        E.firstVariable = parseIdentifier();
                         break;
                     case (int)Token.keywords.NUMBER:
-                        E.N1 = new MASNumber(currentToken.spelling);
+                        E.firstNumber = new MASNumber(currentToken.spelling);
                         acceptIt();
                         break;
                     default:
@@ -358,7 +358,7 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.OPERATOR:
                     case (int)Token.keywords.BECOMES:
-                        E.O = new Operator(currentToken.spelling);
+                        E.Operator = new Operator(currentToken.spelling);
                         acceptIt();
                         break;
                     default:
@@ -370,17 +370,17 @@ namespace MultiAgentSystem
                 if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR ||
                     currentToken.kind == (int)Token.keywords.LPAREN)
                 {
-                    E.E = (Expression)parseExpression();
+                    E.innerExpression = (Expression)parseExpression();
                 }
                 else
                 {
                     switch (currentToken.kind)
                     {
                         case (int)Token.keywords.IDENTIFIER:
-                            E.I2 = parseIdentifier();
+                            E.secondVariable = parseIdentifier();
                             break;
                         case (int)Token.keywords.NUMBER:
-                            E.N2 = new MASNumber(currentToken.spelling);
+                            E.secondNumber = new MASNumber(currentToken.spelling);
                             acceptIt();
                             break;
                         default:
