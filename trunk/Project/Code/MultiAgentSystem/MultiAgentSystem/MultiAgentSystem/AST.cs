@@ -166,6 +166,11 @@ namespace MultiAgentSystem
         {
 
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMethodIdentifier(this, arg);
+        }
     }
 
     class MethodCall : Command
@@ -202,12 +207,13 @@ namespace MultiAgentSystem
     {
         string spelling;
 
+
         public Identifier(string s)
         {
             spelling = s;
         }
 
-        public override object visitor(Visitor v, object arg)
+        public override object visit(Visitor v, object arg)
         {
             return v.visitIdentifier(this, arg);
         }

@@ -7,12 +7,6 @@ namespace MultiAgentSystem
 {
     class Visitor
     {
-        public object visitIntegerExpression(Expression expr, object arg)
-        {
-            expr.type = Type._num;
-            return expr.type;
-        }
-
         public object visitMainBlock(Mainblock block, object arg)
         {
             visitBlock(block.B, null);
@@ -123,6 +117,11 @@ namespace MultiAgentSystem
         }
 
         internal object visitMASType(MASType mASType, object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
         {
             throw new NotImplementedException();
         }
