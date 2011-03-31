@@ -303,18 +303,24 @@ namespace MultiAgentSystem
         private Command parseMethodCall()
         {
             MethodCall M = new MethodCall();
-            M.I.Add(parseIdentifier());
-            // If there is a punctuation, dot your way through.
-            while (currentToken.kind == (int)Token.keywords.PUNCTUATION)
-            {
-                acceptIt();
-                M.I.Add(parseIdentifier());
-            }
+            M.MI = (MethodIdentifier)parseMethodIdentifier();
             accept(Token.keywords.LPAREN);
             M.In = (Input)parseInput();
             accept(Token.keywords.RPAREN);
             Console.WriteLine("Method call");
             return M;
+        }
+
+        private Terminal parseMethodIdentifier()
+        {
+            MethodIdentifier MI = new MethodIdentifier();
+            MI.I = parseIdentifier();
+            if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
+            {
+                acceptIt();
+                MI.MI = (MethodIdentifier)parseMethodIdentifier();
+            }
+            return MI;
         }
 
         /// <summary>
