@@ -20,11 +20,12 @@ namespace MultiAgentSystem
 
     class Mainblock : AST
     {
-        public Block B;
+        //The block part of the mainblock
+        public Block block;
 
         public Mainblock(Command C)
         {
-            this.B = (Block)C;
+            this.block = (Block)C;
         }
 
         public Mainblock()
@@ -36,8 +37,10 @@ namespace MultiAgentSystem
         }
     }
     
+    // { commands }
     class Block : Command
     {
+        // All Commands contained in the block.
         public List<Command> commands;
 
         public Block()
@@ -49,17 +52,23 @@ namespace MultiAgentSystem
         }
     }
 
+    // new ObjectKind ObjectName ( Input )
     class ObjectDeclaration : Command
     {
-        public Object O;
-        public Identifier I;
-        public Input In;
+        // What kind of object is being declared.
+        public Object ObjectKind;
+
+        // The name of the new object.
+        public Identifier ObjectName;
+
+        // The input the objectconstructor needs.
+        public Input Input;
 
         public ObjectDeclaration(Object O, Identifier I, Input In)
         {
-            this.O = O;
-            this.I = I;
-            this.In = In;
+            this.ObjectKind = O;
+            this.ObjectName = I;
+            this.Input = In;
         }
 
         public Type type;
@@ -69,15 +78,25 @@ namespace MultiAgentSystem
         }
     }
 
+    // Type VarName = becomes...SomethingSomething...
     class TypeDeclaration : Command
     {
-        public MASType T;
-        public Identifier I1;
-        public Expression E;
-        public Identifier I2;
-        public MASNumber N;
-        public MASString S;
-        public MASBool B;
+        // What kind of variable is being declared (bool, string or num).
+        public MASType Type;
+
+        // Name of the variable being declared.
+        public Identifier VarName;
+
+        // If the variable is instantiated to an expression (1 + 2 for example), this is the expression.
+        public Expression becomesExpression;
+
+        // If the variable is instantiated to another variable, it is held here.
+        public Identifier becomesIdentifier;
+
+        // If the variable is instantiated to a number, string or boolean value, it is held here.
+        public MASNumber becomesNumber;
+        public MASString becomesString;
+        public MASBool becomesBool;
 
         public Type type;
         public override object visit(Visitor v, object arg)
@@ -88,6 +107,7 @@ namespace MultiAgentSystem
 
     class Object
     {
+        // Name of the object (Agent, Team, etc.)
         string spelling;
 
         public Object(string s)
@@ -96,22 +116,28 @@ namespace MultiAgentSystem
         }
     }
 
+    // if ( Expression ) ifBlock elseBlock
     class IfCommand : Command
     {
-        public Expression E;
-        public Block B1;
-        public Block B2;
+        // The expression being evaluated.
+        public Expression Expression;
+
+        // The block coming after the if-command.
+        public Block IfBlock;
+
+        // the block coming after the else-command.
+        public Block ElseBlock;
 
         public IfCommand(Expression E, Block B1)
         {
-            this.E = E;
-            this.B1 = B1;
+            this.Expression = E;
+            this.IfBlock = B1;
         }
 
         public IfCommand(Expression E, Block B1, Block B2)
             : this(E, B1)
         {
-            this.B2 = B2;
+            this.ElseBlock = B2;
         }
 
         public override object visit(Visitor v, object arg)
@@ -120,19 +146,27 @@ namespace MultiAgentSystem
         }
     }
 
+    // for ( CounterDeclaration ; LoopExpression ; CounterExpression ) ForBlock
     class ForCommand : Command
     {
-        public TypeDeclaration TD;
-        public Expression E1;
-        public Expression E2;
-        public Block B;
+        // The type declaration with the counter variable.
+        public TypeDeclaration CounterDeclaration;
+
+        // The boolean expression that determines if the loop should continue.
+        public Expression LoopExpression;
+
+        // The expression that determines what happens to the counter after each run of the loop.
+        public Expression CounterExpression;
+
+        // The block with the code that is to be executed in the loop.
+        public Block ForBlock;
 
         public ForCommand(TypeDeclaration T, Expression E1, Expression E2, Block B)
         {
-            this.TD = T;
-            this.E1 = E1;
-            this.E2 = E2;
-            this.B = B;
+            this.CounterDeclaration = T;
+            this.LoopExpression = E1;
+            this.CounterExpression = E2;
+            this.ForBlock = B;
         }
 
         public override object visit(Visitor v, object arg)
@@ -141,14 +175,14 @@ namespace MultiAgentSystem
         }
     }
 
+    // while ( LoopExpression ) WhileBlock
     class WhileCommand : Command
     {
-        public Expression E;
-        public Block B;
+        public Expression LoopExpression;
+        public Block WhileBlock;
 
         public WhileCommand()
         {
-
         }
 
         public override object visit(Visitor v, object arg)
@@ -157,14 +191,17 @@ namespace MultiAgentSystem
         }
     }
 
+    // Identifier.(NextMethodIdentifier.Identifier).(etc.) (recursive, continues in each MethodIdentifier object)
     class MethodIdentifier : Terminal
     {
-        public Identifier I;
-        public MethodIdentifier MI;
+        // Identifier of the object or method being held here.
+        public Identifier Identifier;
+
+        // The MethodIdentifier containing the next identifier.
+        public MethodIdentifier NextMethodIdentifier;
 
         public MethodIdentifier()
         {
-
         }
 
         public override object visit(Visitor v, object arg)
@@ -173,10 +210,14 @@ namespace MultiAgentSystem
         }
     }
 
+    // MethodPath ( Input )
     class MethodCall : Command
     {
-        public MethodIdentifier MI;
-        public Input In;
+        // Path to the method, including the method name.
+        public MethodIdentifier MethodPath;
+
+        // Input to the method.
+        public Input Input;
 
         public override object visit(Visitor v, object arg)
         {
@@ -184,14 +225,26 @@ namespace MultiAgentSystem
         }
     }
 
+    // Can consist of other expressions, or an arbitrary combination of variables and numbers.
     class Expression : Command
     {
-        public Expression E;
-        public Identifier I1;
-        public Identifier I2;
-        public MASNumber N1;
-        public MASNumber N2;
-        public Operator O;
+        // If the expression contains another expression, it is kept here.
+        public Expression innerExpression;
+
+        // The variable on the left side of the operator.
+        public Identifier firstVariable;
+
+        // The variable on the right side of the operator.
+        public Identifier secondVariable;
+
+        // The number on the left side of the operator.
+        public MASNumber firstNumber;
+
+        // The number on the right side of the operator.
+        public MASNumber secondNumber;
+
+        // The operator
+        public Operator Operator;
 
         public Expression()
         {
@@ -236,94 +289,105 @@ namespace MultiAgentSystem
 
     class Input : AST
     {
-        public ObjectDeclaration O;
-        public Identifier I;
-        public MASBool B;
-        public MASString S;
-        public MASNumber N;
-        public Input In;
+        // Object declaration that takes place in the input.
+        public ObjectDeclaration ObjectDeclaration;
+
+        // An identifier as input.
+        public Identifier VarName;
+
+        // True or false as input.
+        public MASBool TrueOrFalse;
+
+        // String as input.
+        public MASString Text;
+
+        // Number as input.
+        public MASNumber Number;
+
+        // The next input variable.
+        public Input InputVar;
 
         public Input()
         { }
 
         public Input(Identifier I)
         {
-            this.I = I;
+            this.VarName = I;
         }
 
         public Input(MASBool B)
         {
-            this.B = B;
+            this.TrueOrFalse = B;
         }
 
         public Input(MASString S)
         {
-            this.S = S;
+            this.Text = S;
         }
 
         public Input(MASNumber N)
         {
-            this.N = N;
+            this.Number = N;
         }
 
         public Input(ObjectDeclaration obj)
         {
-            this.O = obj;
+            this.ObjectDeclaration = obj;
         }
 
         public Input(Identifier I, Input input) 
             : this(I)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public Input(MASBool B, Input input)
             : this(B)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public Input(MASString S, Input input)
             : this(S)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public Input(MASNumber N, Input input)
             : this(N)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public Input(ObjectDeclaration O, Input input)
             : this(O)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public Input(Terminal T)
         {
             if (T is Identifier)
             {
-                I = (Identifier)T;
+                VarName = (Identifier)T;
             }
             else if (T is MASBool)
             {
-                B = (MASBool)T;
+                TrueOrFalse = (MASBool)T;
             }
             else if (T is MASString)
             {
-                S = (MASString)T;
+                Text = (MASString)T;
             }
             else if (T is MASNumber)
             {
-                N = (MASNumber)T;
+                Number = (MASNumber)T;
             }
         }
 
         public Input(Terminal T, Input input) : this(T)
         {
-            this.In = input;
+            this.InputVar = input;
         }
 
         public override object visit(Visitor v, object arg)
@@ -332,19 +396,20 @@ namespace MultiAgentSystem
         }
     }
 
+    // Booleans of the system.
     class MASBool : Terminal
     {
-        bool content;
+        bool Value;
 
         public MASBool(string s)
         {
             if (s.ToLower() == "true")
             {
-                content = true;
+                Value = true;
             }
             else if (s.ToLower() == "false")
             {
-                content = false;
+                Value = false;
             }
         }
 
@@ -354,6 +419,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Strings of the system.
     class MASString : Terminal
     {
         string spelling;
@@ -369,6 +435,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Numbers of the system.
     class MASNumber : Terminal
     {
         double num;
@@ -384,6 +451,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Types of the system (either bool, num or string)
     class MASType : Terminal
     {
         string spelling;
