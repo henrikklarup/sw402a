@@ -7,13 +7,16 @@ namespace MultiAgentSystem
 {
     abstract class AST
     {
+        public abstract object visit(Visitor v, object arg);
     }
 
     abstract class Command : AST
-    { }
+    {
+    }
 
     abstract class Terminal : AST
-    { }
+    {
+    }
 
     class Mainblock : AST
     {
@@ -26,6 +29,11 @@ namespace MultiAgentSystem
 
         public Mainblock()
         { }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMainBlock(this, arg);
+        }
     }
     
     class Block : Command
@@ -34,6 +42,11 @@ namespace MultiAgentSystem
 
         public Block()
         { commands = new List<Command>(); }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitBlock(this, arg);
+        }
     }
 
     class ObjectDeclaration : Command
@@ -48,6 +61,12 @@ namespace MultiAgentSystem
             this.I = I;
             this.In = In;
         }
+
+        public Type type;
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitObjectDecleration(this, arg);
+        }
     }
 
     class TypeDeclaration : Command
@@ -59,6 +78,12 @@ namespace MultiAgentSystem
         public MASNumber N;
         public MASString S;
         public MASBool B;
+
+        public Type type;
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitTypeDecleration(this, arg);
+        }
     }
 
     class Object
@@ -88,6 +113,11 @@ namespace MultiAgentSystem
         {
             this.B2 = B2;
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitIfCommand(this, arg);
+        }
     }
 
     class ForCommand : Command
@@ -104,6 +134,11 @@ namespace MultiAgentSystem
             this.E2 = E2;
             this.B = B;
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitForCommand(this, arg);
+        }
     }
 
     class WhileCommand : Command
@@ -115,12 +150,22 @@ namespace MultiAgentSystem
         {
 
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitWhileCommand(this, arg);
+        }
     }
 
     class MethodCall : Command
     {
         public List<Identifier> I = new List<Identifier>();
         public Input In;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMethodCall(this, arg);
+        }
     }
 
     class Expression : Command
@@ -135,6 +180,11 @@ namespace MultiAgentSystem
         public Expression()
         {
         }
+        
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitExpression(this, arg);
+        }
     }
 
     class Identifier : Terminal
@@ -145,6 +195,11 @@ namespace MultiAgentSystem
         {
             spelling = s;
         }
+
+        public override object visitor(Visitor v, object arg)
+        {
+            return v.visitIdentifier(this, arg);
+        }
     }
 
     class Operator : Terminal
@@ -154,6 +209,11 @@ namespace MultiAgentSystem
         public Operator(string s)
         {
             spelling = s;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitOperator(this, arg);
         }
     }
 
@@ -248,6 +308,11 @@ namespace MultiAgentSystem
         {
             this.In = input;
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitInput(this, arg);
+        }
     }
 
     class MASBool : Terminal
@@ -265,6 +330,11 @@ namespace MultiAgentSystem
                 content = false;
             }
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMASBool(this, arg);
+        }
     }
 
     class MASString : Terminal
@@ -274,6 +344,11 @@ namespace MultiAgentSystem
         public MASString(string s)
         {
             spelling = s;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMASString(this, arg);
         }
     }
 
@@ -285,6 +360,11 @@ namespace MultiAgentSystem
         {
             num = Double.Parse(s);
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMASNumber(this, arg);
+        }
     }
 
     class MASType : Terminal
@@ -294,6 +374,11 @@ namespace MultiAgentSystem
         public MASType(string s)
         {
             spelling = s;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMASType(this, arg);
         }
     }
 }
