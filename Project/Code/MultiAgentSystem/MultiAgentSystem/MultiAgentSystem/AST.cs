@@ -157,9 +157,20 @@ namespace MultiAgentSystem
         }
     }
 
+    class MethodIdentifier : Terminal
+    {
+        public Identifier I;
+        public MethodIdentifier MI;
+
+        public MethodIdentifier()
+        {
+
+        }
+    }
+
     class MethodCall : Command
     {
-        public List<Identifier> I = new List<Identifier>();
+        public MethodIdentifier MI;
         public Input In;
 
         public override object visit(Visitor v, object arg)
