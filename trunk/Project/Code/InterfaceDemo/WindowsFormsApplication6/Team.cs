@@ -5,10 +5,20 @@ using System.Text;
 
 namespace WindowsFormsApplication6
 {
-    class Team
+    public class Team
     {
-        int Id;
-        string name;
-        string color;
+        public int ID;
+        public string name;
+        public string color;
+
+        public Team()
+        { }
+
+        public Team(int ID, string name, string color)
+        {
+            this.ID = ID;
+            this.name = name;
+            this.color = color;
+        }
     }
 }
