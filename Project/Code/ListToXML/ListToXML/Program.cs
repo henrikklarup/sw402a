@@ -14,9 +14,21 @@ namespace ListToXML
         public static List<Squad> squads = new List<Squad>();
         public static List<ActionPattern> actionPatterns = new List<ActionPattern>();
 
-        public static string agentXML, teamXML, squadXML, actionPatternXML;
+        private static string _agentXML, _teamXML, _squadXML, _actionPatternXML;
         public const string xmlTag = ".xml";
         public const string filePath = @"C:\";
+
+        public static string AgentXML
+        { get { return filePath + _agentXML + xmlTag; } }
+
+        public static string TeamXML
+        { get { return filePath + _teamXML + xmlTag; } }
+
+        public static string SquadXML
+        { get { return filePath + _squadXML + xmlTag; } }
+
+        public static string ActionPatternXML
+        { get { return filePath + _actionPatternXML + xmlTag; } }
 
         static void Main(string[] args)
         {
@@ -58,10 +70,10 @@ namespace ListToXML
         /// </summary>
         public static void DefaultXMLFileNames()
         {
-            agentXML = "agents";
-            teamXML = "teams";
-            squadXML = "squads";
-            actionPatternXML = "actionPatterns";
+            _agentXML = "agents";
+            _teamXML = "teams";
+            _squadXML = "squads";
+            _actionPatternXML = "actionPatterns";
         }
 
         /// <summary>
@@ -78,7 +90,7 @@ namespace ListToXML
                 Console.WriteLine("Missing Agents or Teams.");
                 return;
             }
-            using (var sw = new StreamWriter(filePath + agentXML + xmlTag))
+            using (var sw = new StreamWriter(AgentXML))
             {
                 var serializer = new XmlSerializer(typeof(List<Agent>));
                 serializer.Serialize(sw, agents);
@@ -89,7 +101,7 @@ namespace ListToXML
                 teams.Add(new Team());
                 Console.WriteLine("Missing Teams.");
             }
-            using (var sw = new StreamWriter(filePath + teamXML + xmlTag))
+            using (var sw = new StreamWriter(TeamXML))
             {
                 var serializer = new XmlSerializer(typeof(List<Team>));
                 serializer.Serialize(sw, teams);
@@ -100,7 +112,7 @@ namespace ListToXML
                 squads.Add(new Squad());
                 Console.WriteLine("No Squads added.");
             }
-            using (var sw = new StreamWriter(filePath + squadXML + xmlTag))
+            using (var sw = new StreamWriter(SquadXML))
             {
                 var serializer = new XmlSerializer(typeof(List<Squad>));
                 serializer.Serialize(sw, squads);
@@ -111,7 +123,7 @@ namespace ListToXML
                 actionPatterns.Add(new ActionPattern());
                 Console.WriteLine("No Action Patterns added.");
             }
-            using (var sw = new StreamWriter(filePath + actionPatternXML + xmlTag))
+            using (var sw = new StreamWriter(ActionPatternXML))
             {
                 var serializer = new XmlSerializer(typeof(List<ActionPattern>));
                 serializer.Serialize(sw, actionPatterns);
@@ -126,30 +138,30 @@ namespace ListToXML
         {
             CheckExistingFilesRead();
 
-            using (var sr = new StreamReader(filePath + agentXML + xmlTag))
+            using (var sr = new StreamReader(AgentXML))
             {
                 var deserializer = new XmlSerializer(typeof(List<Agent>));
                 agents = (List<Agent>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(filePath + teamXML + xmlTag))
+            using (var sr = new StreamReader(TeamXML))
             {
                 var deserializer = new XmlSerializer(typeof(List<Team>));
                 teams = (List<Team>)deserializer.Deserialize(sr);
             }
 
-            if (File.Exists(filePath + squadXML + xmlTag))
+            if (File.Exists(SquadXML))
             {
-                using (var sr = new StreamReader(filePath + squadXML + xmlTag))
+                using (var sr = new StreamReader(SquadXML))
                 {
                     var deserializer = new XmlSerializer(typeof(List<Squad>));
                     squads = (List<Squad>)deserializer.Deserialize(sr);
                 }
             }
 
-            if (File.Exists(filePath + actionPatternXML + xmlTag))
+            if (File.Exists(ActionPatternXML))
             {
-                using (var sr = new StreamReader(filePath + actionPatternXML + xmlTag))
+                using (var sr = new StreamReader(ActionPatternXML))
                 {
                     var deserializer = new XmlSerializer(typeof(List<ActionPattern>));
                     actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
@@ -167,10 +179,10 @@ namespace ListToXML
         /// <param name="suffix">The suffix to add.</param>
         public static void AddSuffix(string suffix)
         {
-            agentXML += suffix;
-            teamXML += suffix;
-            squadXML += suffix;
-            actionPatternXML += suffix;
+            _agentXML += suffix;
+            _teamXML += suffix;
+            _squadXML += suffix;
+            _actionPatternXML += suffix;
         }
 
         /// <summary>
@@ -179,10 +191,8 @@ namespace ListToXML
         /// </summary>
         public static void CheckExistingFilesWrite()
         {
-            if (File.Exists(filePath + agentXML + xmlTag) 
-                || File.Exists(filePath + teamXML + xmlTag)
-                || File.Exists(filePath + squadXML + xmlTag) 
-                || File.Exists(filePath + actionPatternXML + xmlTag))
+            if (File.Exists(AgentXML) || File.Exists(TeamXML) 
+                || File.Exists(SquadXML) || File.Exists(ActionPatternXML))
             {
                 Console.WriteLine("An older series of files already exist with this name. \n " +
                 "Would you like to (C)hange the suffix of your series or (O)verwrite the default one?");
