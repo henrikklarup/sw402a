@@ -18,3 +18,4 @@ C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplica
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.Properties.Resources.resources
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.GameSettings.resources
