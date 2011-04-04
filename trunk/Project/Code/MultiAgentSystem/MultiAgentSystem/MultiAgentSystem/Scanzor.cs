@@ -341,6 +341,15 @@ namespace MultiAgentSystem
             return '\n';
         }
 
+        public Scanzor()
+        {
+            fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt"); //The name of the files input
+
+            //Initializes the string being read by the scanner, and its counters
+            charLine = fileLines[fileCounter++].ToCharArray();
+            currentChar = charLine[charCounter++];
+        }
+
         public Token scan()
         {
             //If looking at a seperator, take the next character and start building a new string
