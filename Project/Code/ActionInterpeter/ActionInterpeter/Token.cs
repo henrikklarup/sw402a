@@ -21,11 +21,13 @@ namespace ActionInterpeter
             LPAREN,
             RPAREN,
             PUNCTUATION,
+            COMMA,
             UP,
             DOWN,
             LEFT,
             RIGHT,
             HOLD,
+            MOVE,
             EOL,
             EOT,
             ERROR,
@@ -34,7 +36,7 @@ namespace ActionInterpeter
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
-            "<identifier>", "<number>", "(", ")", ".", "up", "down", "left", "right", "hold", "<EOL>", "<EOT>", "<ERROR>"                         
+            "<identifier>", "<number>", "(", ")", ".", ",", "up", "down", "left", "right", "hold", "move", "<EOL>", "<EOT>", "<ERROR>"                         
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
@@ -47,7 +49,7 @@ namespace ActionInterpeter
 
             if (kind == (int)keywords.IDENTIFIER)
             {
-                for (int i = (int)keywords.UP; i <= (int)keywords.HOLD; i++)
+                for (int i = (int)keywords.UP; i <= (int)keywords.MOVE; i++)
                 {
                     if (spelling.ToLower().Equals(spellings[i]))
                     {

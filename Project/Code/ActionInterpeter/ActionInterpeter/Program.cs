@@ -12,24 +12,9 @@ namespace ActionInterpeter
 
         static void Main(string[] args)
         {
-            Scanzor scanzor = new Scanzor();
-            Token newToken;
-            while (true)
-            {
-                newToken = scanzor.scan();
-
-                if (newToken.kind == (int)Token.keywords.ERROR)
-                {
-                    Console.ReadKey();
-                }
-                Tokens.Add(newToken);
-
-                //If the token just found is the End Of Transmission token then break
-                if (newToken.kind == (int)Token.keywords.EOT)
-                {
-                    break;
-                }
-            }
+            Parser parser = new Parser();
+            AST ast = parser.parse();
+            Console.WriteLine("LOL DONE");
         }
     }
 }
