@@ -58,33 +58,4 @@ namespace ActionInterpeter
             }
         }
     }
-
-    public class Type
-    {
-        private int kind;
-
-        public Type(int kind)
-        {
-            this.kind = kind;
-        }
-
-        public bool equals(object other)
-        {
-            Type otherType = (Type)other;
-            return (
-                this.kind == otherType.kind
-                || this.kind == (int)Token.keywords.ERROR
-                || otherType.kind == (int)Token.keywords.ERROR);
-        }
-
-        public static Type _error = new Type((int)Token.keywords.ERROR);
-        public static Type _bool = new Type((int)Token.keywords.BOOL);
-        public static Type _num = new Type((int)Token.keywords.NUM);
-        public static Type _string = new Type((int)Token.keywords.STRING);
-        public static Type _main = new Type((int)Token.keywords.MAIN);
-        public static Type _team = new Type((int)Token.keywords.TEAM);
-        public static Type _agent = new Type((int)Token.keywords.AGENT);
-        public static Type _squad = new Type((int)Token.keywords.SQUAD);
-        public static Type _coordinates = new Type((int)Token.keywords.COORDINATES);
-    }
 }
