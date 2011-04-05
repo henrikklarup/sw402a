@@ -6,12 +6,12 @@ using System.Text;
 namespace ActionInterpeter
 {
     abstract class AST
-    { }
+    {
+        public abstract object visit(Visitor v, object arg);
+    }
 
     abstract class Terminal : AST
-    {
-        public Token token;
-    }
+    { }
 
     abstract class Action : AST
     { }
@@ -23,6 +23,10 @@ namespace ActionInterpeter
         public MainProgram(Action action)
         {
             this.action = action;
+        }
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMainProgram(this, arg);
         }
     }
 
@@ -36,6 +40,11 @@ namespace ActionInterpeter
             this.identifier = identifier;
             this.move_action = move_action;
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitSingle_Action(this, arg);
+        }
     }
 
     class Move_Action : Action
@@ -45,6 +54,11 @@ namespace ActionInterpeter
         public Move_Action(Move_Option move_option)
         {
             this.move_Option = move_option;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMove_Action(this, arg);
         }
     }
 
@@ -62,6 +76,11 @@ namespace ActionInterpeter
         {
             this.coordinate = coord;
         }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMove_Option(this, arg);
+        }
     }
 
     class Identifier : Terminal
@@ -71,6 +90,11 @@ namespace ActionInterpeter
         public Identifier(Token agent_Name_or_ID)
         {
             this.agent_Name_or_ID = agent_Name_or_ID;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitIdentifier(this, arg);
         }
     }
 
@@ -83,6 +107,11 @@ namespace ActionInterpeter
         {
             this.num1 = num1;
             this.num2 = num2;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitCoordinate(this, arg);
         }
     }
 
