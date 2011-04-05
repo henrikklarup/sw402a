@@ -30,21 +30,27 @@ namespace ListToXML
         public static string ActionPatternXML
         { get { return filePath + _actionPatternXML + xmlTag; } }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            
+            
             Console.WriteLine("(R)ead or (S)ave lists: ");
 
             DefaultXMLFileNames();
 
+
             //Initializing the lists
             Team team = new Team(1, "Team one", "Red");
             Agent agent = new Agent(1, "Olsen", 2, team);
-            //Squad squad = new Squad(1, "first squad", agent);
+            Squad squad = new Squad(1, "first squad", agent);
             ActionPattern aP = new ActionPattern(1, "first action pattern");
 
             teams.Add(team);
             agents.Add(agent);
+            squads.Add(squad);
             actionPatterns.Add(aP);
+
+            XMLhelp.Generate(agents, teams, squads, actionPatterns);
 
             //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();
@@ -62,7 +68,10 @@ namespace ListToXML
                     returnLists();
                 }
                 cki = Console.ReadKey();
+
             }
+
+            
         }
 
         /// <summary>
@@ -81,6 +90,7 @@ namespace ListToXML
         /// </summary>
         public static void generateXML()
         {
+
             CheckExistingFilesWrite();
 
             //Tests if there is anything in the lists before saving them
@@ -327,4 +337,6 @@ namespace ListToXML
             this.actions = actionString;
         }
     }
+
+
 }
