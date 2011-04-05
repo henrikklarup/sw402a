@@ -55,9 +55,9 @@ namespace ActionInterpeter
             return ast;
         }
 
-        private Action parseAction()
+        private ActionAST parseAction()
         {
-            Action actionAST;
+            ActionAST actionAST;
             actionAST = parseSingle_Action();
 
             return actionAST;

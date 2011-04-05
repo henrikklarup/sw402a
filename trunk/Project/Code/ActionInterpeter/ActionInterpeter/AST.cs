@@ -13,8 +13,23 @@ namespace ActionInterpeter
     abstract class Terminal : AST
     { }
 
-    abstract class Action : AST
+    abstract class ActionAST : AST
     { }
+
+    class Action : ActionAST
+    {
+        public Single_Action single_action;
+
+        public Action(Single_Action single_action)
+        {
+            this.single_action = single_action;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitAction(this, arg);
+        }
+    }
 
     class MainProgram : AST 
     {
@@ -30,7 +45,7 @@ namespace ActionInterpeter
         }
     }
 
-    class Single_Action : Action
+    class Single_Action : ActionAST
     {
         public Move_Action move_action;
         public Identifier identifier;
@@ -47,7 +62,7 @@ namespace ActionInterpeter
         }
     }
 
-    class Move_Action : Action
+    class Move_Action : ActionAST
     {
         public Move_Option move_Option;
 
@@ -62,7 +77,7 @@ namespace ActionInterpeter
         }
     }
 
-    class Move_Option : Action
+    class Move_Option : ActionAST
     {
         public Token direction;
         public Coordinate coordinate;
