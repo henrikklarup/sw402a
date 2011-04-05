@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
 
 namespace ListToXML
 {
@@ -85,7 +83,22 @@ namespace ListToXML
 
         static string mActionPatterns(List<ActionPattern> actionPatterns)
         {
-            return "";
+            String _actions = "<ActionPatterns>";
+            for (int i = 0; i < actionPatterns.Count; i++)
+            {
+                _actions += "<ActionPattern>";
+                _actions += "<Id>" + actionPatterns[i].ID + "</Id>";
+                _actions += "<Actions>";
+                foreach (String a in actionPatterns[i].actions)
+                {
+                    _actions += "<Action>" + a +"</Action>";
+                }
+                _actions += "</Actions>";
+                _actions += "</ActionPattern>";
+            }
+
+            _actions += "</ActionPatterns>";
+            return _actions;
         }
 
         public static void Generate(List<Agent> agents, List<Team> teams, List<Squad> squads, List<ActionPattern> actionPatterns)
