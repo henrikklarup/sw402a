@@ -1,0 +1,5 @@
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\ActionInterpeter\ActionInterpeter\bin\Debug\ActionInterpeter.exe
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\ActionInterpeter\ActionInterpeter\bin\Debug\ActionInterpeter.pdb
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\ActionInterpeter\ActionInterpeter\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\ActionInterpeter\ActionInterpeter\obj\x86\Debug\ActionInterpeter.exe
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\ActionInterpeter\ActionInterpeter\obj\x86\Debug\ActionInterpeter.pdb
