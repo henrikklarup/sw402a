@@ -50,7 +50,8 @@ namespace ListToXML
             squads.Add(squad);
             actionPatterns.Add(aP);
 
-            XMLhelp.Generate(agents, teams, squads, actionPatterns);
+            //XMLhelp.Generate(agents, teams, squads, actionPatterns);
+            XML.GenerateThisShizzle(agents, teams, squads, actionPatterns, "MAS");
 
             //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();

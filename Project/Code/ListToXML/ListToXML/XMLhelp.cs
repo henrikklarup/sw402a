@@ -8,16 +8,46 @@ namespace ListToXML
 {
     static class XMLhelp
     {
+        public static List<XML> XmlList = new List<XML>();
+        public static int Depth = 0;
 
-        public static String space = "";
-        static void Child(String tag, String value)
+        public static void Root(String Tag, String Value)
         {
-
+            //Return to root
+            Depth = 0;
+            XML temp = new XML(Depth, Tag, Value, false);
+            XmlList.Add(temp);
         }
 
-        static void Node(String tag, String value)
+        public static void End()
         {
-             
+            //Return to root
+            Depth = 0;
+            XML temp = new XML(-1, null, null, false);
+            XmlList.Add(temp);
+        }
+
+        public static void Child(String Tag, String Value)
+        {
+            //Make child
+            Depth++;
+            XML temp = new XML(Depth, Tag, Value, false);
+            XmlList.Add(temp);
+            Depth++;
+        }
+
+        public static void Parent(String Tag, String Value)
+        {
+            //Make parent
+            Depth--;
+            XML temp = new XML(Depth, Tag, Value, false);
+            XmlList.Add(temp);
+        }
+
+        public static void Node(String Tag, String Value)
+        {
+            XML temp = new XML(Depth, Tag, Value, true);
+            XmlList.Add(temp);
         }
 
         static String mAgents(List<Agent> agents)
@@ -25,18 +55,18 @@ namespace ListToXML
             String _agents = "<Agents>\r\n";
             for (int i = 0; i < agents.Count; i++)
             {
-                _agents += space+"<Agent>\r\n";
-                _agents += space+space+"<Id>" + agents[i].ID + "</Id>\r\n";
-                _agents += space+space+"<posX>" + agents[i].posX + "</posX>\r\n";
-                _agents += space+space+"<posY>" + agents[i].posY + "</posY>\r\n";
-                _agents += space+space+"<name>" + agents[i].name + "</name>\r\n";
-                _agents += space+space+"<rank>" + agents[i].rank + "</rank>\r\n";
-                _agents += space+space+"<Team>\r\n";
-                _agents += space+space+space+"<Id>" + agents[i].team.ID + "</Id>\r\n";
-                _agents += space+space+space+"<Name>" + agents[i].team.name + "</Name>\r\n";
-                _agents += space+space+space+"<Color>" + agents[i].team.color + "</Color>\r\n";
-                _agents += space+space+"</Team>\r\n";
-                _agents += space+"</Agent>\r\n";
+                _agents += "<Agent>\r\n";
+                _agents += "<Id>" + agents[i].ID + "</Id>\r\n";
+                _agents += "<posX>" + agents[i].posX + "</posX>\r\n";
+                _agents += "<posY>" + agents[i].posY + "</posY>\r\n";
+                _agents += "<name>" + agents[i].name + "</name>\r\n";
+                _agents += "<rank>" + agents[i].rank + "</rank>\r\n";
+                _agents += "<Team>\r\n";
+                _agents += "<Id>" + agents[i].team.ID + "</Id>\r\n";
+                _agents += "<Name>" + agents[i].team.name + "</Name>\r\n";
+                _agents += "<Color>" + agents[i].team.color + "</Color>\r\n";
+                _agents += "</Team>\r\n";
+                _agents += "</Agent>\r\n";
             }
             _agents += "</Agents>\r\n";
             return _agents;
@@ -48,11 +78,11 @@ namespace ListToXML
             String _teams = "<Teams>\r\n";
             for (int i = 0; i < teams.Count; i++)
             {
-                _teams += space+"<Team>\r\n";
-                _teams += space+space+"<Id>" + teams[i].ID + "</Id>\r\n";
-                _teams += space+space+"<Name>" + teams[i].name + "</Name>\r\n";
-                _teams += space+space+"<Color>" + teams[i].color + "</Color>\r\n";
-                _teams += space+"</Team>\r\n";
+                _teams += "<Team>\r\n";
+                _teams += "<Id>" + teams[i].ID + "</Id>\r\n";
+                _teams += "<Name>" + teams[i].name + "</Name>\r\n";
+                _teams += "<Color>" + teams[i].color + "</Color>\r\n";
+                _teams += "</Team>\r\n";
 
             }
             _teams += "</Teams>\r\n";
@@ -64,18 +94,18 @@ namespace ListToXML
             String _squards = "<Squards>\r\n";
             for (int i = 0; i < squads.Count; i++)
             {
-                _squards += space+"<Squard>\r\n";
-                _squards += space+space+"<Id>" + squads[i].ID + "</Id>\r\n";
-                _squards += space+space+"<Name>" + squads[i].name + "</Name>\r\n";
-                _squards += space+space+"<Agents>\r\n";
+                _squards += "<Squard>\r\n";
+                _squards += "<Id>" + squads[i].ID + "</Id>\r\n";
+                _squards += "<Name>" + squads[i].name + "</Name>\r\n";
+                _squards += "<Agents>\r\n";
                 foreach (int a in squads[i].agents)
                 {
-                    _squards += space+space+space+"<Agent>\r\n";
-                    _squards += space+space+space+"<int>" + a + "</int>\r\n";
-                    _squards += space+space+space+"</Agent>\r\n";
+                    _squards += "<Agent>\r\n";
+                    _squards += "<int>" + a + "</int>\r\n";
+                    _squards += "</Agent>\r\n";
                 }
-                _squards += space+space+"</Agents>\r\n";
-                _squards += space+"</Squard>\r\n";
+                _squards += "</Agents>\r\n";
+                _squards += "</Squard>\r\n";
             }
             _squards += "</Squards>\r\n";
             return _squards; 
