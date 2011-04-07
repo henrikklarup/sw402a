@@ -23,6 +23,7 @@ namespace WindowsFormsApplication6
         Color backGroundColor;
         int LineWidth;
         int Grids;
+        Agent movedAgent;
 
         //Random Blocks
         Point[] shit = new Point[10];
@@ -54,11 +55,17 @@ namespace WindowsFormsApplication6
             backGroundColor = Color.FromArgb(102,153,102);
             #endregion
 
-            //Generate xml data
-            getXmlData();
-            placeTeams();
+            //Xml-path choosen
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //Generate xml data
+                getXmlData(fbd.SelectedPath);
+                placeTeams();
+            }
 
-            GamerTimer.Enabled = true;
+            //GamerTimer.Enabled = true;
+            DrawTimer.Enabled = true;
 
             #region Init random
             Random rnd = new Random();
@@ -78,8 +85,8 @@ namespace WindowsFormsApplication6
 
             //Draw Grid
             #region DrawGrid
-            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, LineWidth/2), new Point(dbPanel1.Width,LineWidth/2));
-            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth/2, 0), new Point(LineWidth/2,dbPanel1.Height));
+            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, LineWidth / 2), new Point(dbPanel1.Width, LineWidth / 2));
+            e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth / 2, 0), new Point(LineWidth / 2, dbPanel1.Height));
 
 
             //((GridSize.Width+LineWidth)*Grids) + (GridSize.Width + 2*LineWidth)
@@ -89,11 +96,11 @@ namespace WindowsFormsApplication6
 
             for (int i = GridSize.Width + LineWidth; i < dbPanel1.Width; i += GridSize.Width + LineWidth)
             {
-                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i + (LineWidth/2), LineWidth), new Point(i +(LineWidth/2), dbPanel1.Height));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i + (LineWidth / 2), LineWidth), new Point(i + (LineWidth / 2), dbPanel1.Height));
             }
             for (int i = GridSize.Height + LineWidth; i < dbPanel1.Height; i += GridSize.Height + LineWidth)
             {
-                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth, i + (LineWidth/2)), new Point(dbPanel1.Width, i + (LineWidth/2)));
+                e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth, i + (LineWidth / 2)), new Point(dbPanel1.Width, i + (LineWidth / 2)));
             }
             #endregion
 
@@ -109,19 +116,77 @@ namespace WindowsFormsApplication6
             #region Draw Soldiers
             foreach (Agent a in agents)
             {
-                e.Graphics.FillEllipse(new SolidBrush(Color.FromName(a.team.color)), new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth+1, GridSize.Height - LineWidth +1));
-                e.Graphics.DrawEllipse(Pens.White, new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth +1, GridSize.Height - LineWidth +1));
+                Rectangle drawRect = new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1);
+
+                FontFamily ff = new FontFamily("Arial");
+                float fontSizePixel = drawRect.Width;
+                Font fnt = new System.Drawing.Font(ff, fontSizePixel, FontStyle.Regular, GraphicsUnit.Pixel);
+
+                //Font rankFont = new System.Drawing.Font(e.Graphics.MeasureString(a.rank.ToString(),new Font(Font,FontStyle.Regular)), FontStyle.Regular);
+                e.Graphics.FillEllipse(new SolidBrush(Color.FromName(a.team.color)), drawRect);
+                e.Graphics.DrawEllipse(Pens.White, new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(a.posX, a.posY));
             }
             #endregion
         }
         #endregion
 
         #region Timers
+
         #region DrawTimer Tick
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
+            //Game Logic
+            #region GameLogic
+            //Die Agents
+            if (movedAgent != null)
+            {
+                foreach (Agent a in agents)
+                {
+                    if (a.team.ID != movedAgent.team.ID)
+                    {
+                        if (a.posX == movedAgent.posX && a.posY == movedAgent.posY)
+                        {
+                            //Some Logic
+
+                            CombatCompareAgents(a, movedAgent);
+                            break;
+
+                        }
+                    }
+                }
+            }
+            #endregion
+
+            //Update progress
+            #region Progress
+            int agentsOnTeam1 = 0;
+            int agentsOnTeam2 = 0;
+            int agentsOnTeam3 = 0;
+            int agentsOnTeam4 = 0;
+            foreach (Agent a in agents)
+            {
+                if (a.team.ID == 1)
+                    agentsOnTeam1++;
+                if (a.team.ID == 2)
+                    agentsOnTeam2++;
+                if (a.team.ID == 3)
+                    agentsOnTeam3++;
+                if (a.team.ID == 4)
+                    agentsOnTeam4++;
+            }
+
+            string gameStats = "Team 1: " + agentsOnTeam1 + Environment.NewLine + "Team 2: " + agentsOnTeam2 + Environment.NewLine + "Team 3: " + agentsOnTeam3 + Environment.NewLine + "Team 4: " + agentsOnTeam4;
+
+            if (textBox3.Text != gameStats)
+                textBox3.Text = gameStats;
+            #endregion
+
+            //this.Invalidate(true);
+
             //Update GameArea
             dbPanel1.Invalidate();
+
         }
         #endregion
 
@@ -161,8 +226,18 @@ namespace WindowsFormsApplication6
         {
             //Split string to two numbers "x,y" = x y
             string[] text = textBox1.Text.Split(',');
-            //Set Figure to x,y
-            Point1 = getGridPixelFromGrid(new Point(int.Parse(text[0]) -1, int.Parse(text[1])-1));
+
+
+            foreach (Agent a in agents)
+            {
+                if (a.ID == int.Parse(text[0]))
+                {
+                    //Set Figure to x,y
+                    a.posX = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).X;
+                    a.posY = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).Y;
+                    movedAgent = a;
+                }
+            }
         }
         #endregion
         #endregion
@@ -211,27 +286,27 @@ namespace WindowsFormsApplication6
 
 
         #region GetXMLData
-        public void getXmlData()
+        public void getXmlData(string path)
         {
-            using (var sr = new StreamReader(@"C:\agents.xml"))
+            using (var sr = new StreamReader(path + @"agents.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Agent>));
                 agents = (List<Agent>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(@"C:\teams.xml"))
+            using (var sr = new StreamReader(path + @"teams.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Team>));
                 teams = (List<Team>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(@"C:\squads.xml"))
+            using (var sr = new StreamReader(path + @"squads.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Squad>));
                 squads = (List<Squad>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(@"C:\actionPatterns.xml"))
+            using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<ActionPattern>));
                 actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
@@ -424,8 +499,6 @@ namespace WindowsFormsApplication6
             }
         }
         #endregion
-
-
         #endregion
 
         #region GameHandlers
@@ -443,27 +516,47 @@ namespace WindowsFormsApplication6
         #region GameTimer
         private void GamerTimer_Tick(object sender, EventArgs e)
         {
-            int agentsOnTeam1 = 0;
-            int agentsOnTeam2 = 0;
-            int agentsOnTeam3 = 0;
-            int agentsOnTeam4 = 0;
-            foreach (Agent a in agents)
+
+        }
+        #endregion
+
+        #region CombatCompareAgents
+        private void CombatCompareAgents(Agent a1, Agent a2)
+        {
+            DrawTimer.Stop();
+            Random rnd = new Random();
+            int agent1Value = a1.rank * rnd.Next(100);
+            Random rnd1 = new Random(agent1Value);
+            int agent2Value = a2.rank * rnd1.Next(100);
+
+            if (agent1Value > agent2Value)
             {
-                if (a.team.ID == 1)
-                    agentsOnTeam1++;
-                if (a.team.ID == 2)
-                    agentsOnTeam2++;
-                if (a.team.ID == 3)
-                    agentsOnTeam3++;
-                if (a.team.ID == 4)
-                    agentsOnTeam4++;
+                MessageBox.Show(a1.name + " beats " + a2.name);
+                foreach (Agent a in agents)
+                {
+                    if (a.ID == a2.ID)
+                    {
+                        agents.Remove(a);
+                        break;
+                    }
+
+                }
             }
+            else
+            {
+                MessageBox.Show(a2.name + " beats " + a1.name);
+                foreach (Agent a in agents)
+                {
+                    if (a.ID == a1.ID)
+                    {
+                        agents.Remove(a);
+                        break;
+                    }
 
-            string gameStats = "Team 1: " + agentsOnTeam1 + Environment.NewLine + "Team 2: " + agentsOnTeam2 + Environment.NewLine + "Team 3: " + agentsOnTeam3 + Environment.NewLine + "Team 4: " + agentsOnTeam4;
-
-            if (textBox3.Text != gameStats)
-                textBox3.Text = gameStats;
-
+                }
+            }
+            movedAgent = null;
+            DrawTimer.Start();
         }
         #endregion
     }
