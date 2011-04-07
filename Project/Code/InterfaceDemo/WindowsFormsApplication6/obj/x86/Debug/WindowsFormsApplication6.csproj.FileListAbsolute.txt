@@ -19,3 +19,14 @@ C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplica
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.GameSettings.resources
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.exe
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.pdb
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\WindowsFormsApplication6.exe
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\WindowsFormsApplication6.pdb
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.DBPanel.resources
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.WarGame.resources
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.GameSettings.resources
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.Properties.Resources.resources
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.write.1.tlog
