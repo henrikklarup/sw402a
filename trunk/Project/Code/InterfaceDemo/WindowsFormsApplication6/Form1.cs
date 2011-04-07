@@ -288,19 +288,19 @@ namespace WindowsFormsApplication6
         #region GetXMLData
         public void getXmlData(string path)
         {
-            using (var sr = new StreamReader(path + @"agents.xml"))
+            using (var sr = new StreamReader(path + @"\agents.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Agent>));
                 agents = (List<Agent>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(path + @"teams.xml"))
+            using (var sr = new StreamReader(path + @"\teams.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Team>));
                 teams = (List<Team>)deserializer.Deserialize(sr);
             }
 
-            using (var sr = new StreamReader(path + @"squads.xml"))
+            using (var sr = new StreamReader(path + @"\squads.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Squad>));
                 squads = (List<Squad>)deserializer.Deserialize(sr);
