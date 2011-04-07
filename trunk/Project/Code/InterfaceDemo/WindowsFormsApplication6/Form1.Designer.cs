@@ -46,6 +46,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
@@ -84,10 +85,13 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(165, 668);
-            this.textBox1.Multiline = true;
+            this.textBox1.BackColor = System.Drawing.Color.Black;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ForeColor = System.Drawing.Color.White;
+            this.textBox1.Location = new System.Drawing.Point(165, 722);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(361, 48);
+            this.textBox1.Size = new System.Drawing.Size(361, 11);
             this.textBox1.TabIndex = 1;
             // 
             // label1
@@ -103,7 +107,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(541, 668);
+            this.button1.Location = new System.Drawing.Point(532, 666);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -134,7 +138,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(747, 691);
+            this.button3.Location = new System.Drawing.Point(747, 695);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 7;
@@ -154,7 +158,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(541, 693);
+            this.button4.Location = new System.Drawing.Point(532, 695);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 10;
@@ -164,13 +168,11 @@
             // 
             // DrawTimer
             // 
-            this.DrawTimer.Enabled = true;
-            this.DrawTimer.Interval = 1;
             this.DrawTimer.Tick += new System.EventHandler(this.DrawTimer_Tick);
             // 
             // GamerTimer
             // 
-            this.GamerTimer.Interval = 1000;
+            this.GamerTimer.Interval = 1;
             this.GamerTimer.Tick += new System.EventHandler(this.GamerTimer_Tick);
             // 
             // label4
@@ -212,6 +214,20 @@
             this.label5.TabIndex = 15;
             this.label5.Text = "Agents left:";
             // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.Black;
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox4.Enabled = false;
+            this.textBox4.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.ForeColor = System.Drawing.Color.White;
+            this.textBox4.Location = new System.Drawing.Point(165, 665);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(361, 57);
+            this.textBox4.TabIndex = 16;
+            // 
             // dbPanel1
             // 
             this.dbPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -232,6 +248,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 752);
+            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
@@ -277,6 +294,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
 
