@@ -56,22 +56,21 @@ namespace MultiAgentSystem
     class ObjectDeclaration : Command
     {
         // What kind of object is being declared.
-        public Object ObjectKind;
+        public Object _object;
 
         // The name of the new object.
-        public Identifier ObjectName;
+        public Identifier identifier;
 
         // The input the objectconstructor needs.
-        public Input Input;
+        public Input input;
 
         public ObjectDeclaration(Object O, Identifier I, Input In)
         {
-            this.ObjectKind = O;
-            this.ObjectName = I;
-            this.Input = In;
+            this._object = O;
+            this.identifier = I;
+            this.input = In;
         }
 
-        public Type type;
         public override object visit(Visitor v, object arg)
         {
             return v.visitObjectDecleration(this, arg);
@@ -98,21 +97,25 @@ namespace MultiAgentSystem
         public MASString becomesString;
         public MASBool becomesBool;
 
-        public Type type;
         public override object visit(Visitor v, object arg)
         {
             return v.visitTypeDecleration(this, arg);
         }
     }
 
-    class Object
+    class Object : Terminal
     {
         // Name of the object (Agent, Team, etc.)
-        string spelling;
+        public Token token;
 
-        public Object(string s)
+        public Object(Token token)
         {
-            spelling = s;
+            this.token = token;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitObject(this, arg);
         }
     }
 
@@ -258,12 +261,11 @@ namespace MultiAgentSystem
 
     class Identifier : Terminal
     {
-        string spelling;
-
-
-        public Identifier(string s)
+        public Token token;
+        
+        public Identifier(Token token)
         {
-            spelling = s;
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
@@ -274,11 +276,11 @@ namespace MultiAgentSystem
 
     class Operator : Terminal
     {
-        string spelling;
+        public Token token;
 
-        public Operator(string s)
+        public Operator(Token token)
         {
-            spelling = s;
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
@@ -399,18 +401,11 @@ namespace MultiAgentSystem
     // Booleans of the system.
     class MASBool : Terminal
     {
-        bool Value;
+        public Token token;
 
-        public MASBool(string s)
+        public MASBool(Token token)
         {
-            if (s.ToLower() == "true")
-            {
-                Value = true;
-            }
-            else if (s.ToLower() == "false")
-            {
-                Value = false;
-            }
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
@@ -422,11 +417,11 @@ namespace MultiAgentSystem
     // Strings of the system.
     class MASString : Terminal
     {
-        string spelling;
+        public Token token;
 
-        public MASString(string s)
+        public MASString(Token token)
         {
-            spelling = s;
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
@@ -438,11 +433,11 @@ namespace MultiAgentSystem
     // Numbers of the system.
     class MASNumber : Terminal
     {
-        double num;
+        public Token token;
 
-        public MASNumber(string s)
+        public MASNumber(Token token)
         {
-            num = Double.Parse(s);
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
@@ -454,11 +449,11 @@ namespace MultiAgentSystem
     // Types of the system (either bool, num or string)
     class MASType : Terminal
     {
-        string spelling;
+        public Token token;
 
-        public MASType(string s)
+        public MASType(Token token)
         {
-            spelling = s;
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)

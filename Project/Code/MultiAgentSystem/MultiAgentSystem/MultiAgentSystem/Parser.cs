@@ -169,7 +169,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.SQUAD:
                     acceptIt();
                     Console.WriteLine("Object");
-                    return new Object(((Token.keywords)currentToken.kind).ToString());
+                    return new Object(currentToken);
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
@@ -187,7 +187,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.BOOL:
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
-                    MASType M = new MASType(currentToken.spelling);
+                    MASType M = new MASType(currentToken);
                     acceptIt();
                     Console.WriteLine("Type");
                     return M;
@@ -274,15 +274,15 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
-                        T.becomesBool = new MASBool(currentToken.spelling);
+                        T.becomesBool = new MASBool(currentToken);
                         acceptIt();
                         break;
                     case (int)Token.keywords.NUMBER:
-                        T.becomesNumber = new MASNumber(currentToken.spelling);
+                        T.becomesNumber = new MASNumber(currentToken);
                         acceptIt();
                         break;
                     case (int)Token.keywords.ACTUAL_STRING:
-                        T.becomesString = new MASString(currentToken.spelling);
+                        T.becomesString = new MASString(currentToken);
                         acceptIt();
                         break;
                     case (int)Token.keywords.IDENTIFIER:
@@ -347,7 +347,7 @@ namespace MultiAgentSystem
                         E.firstVariable = parseIdentifier();
                         break;
                     case (int)Token.keywords.NUMBER:
-                        E.firstNumber = new MASNumber(currentToken.spelling);
+                        E.firstNumber = new MASNumber(currentToken);
                         acceptIt();
                         break;
                     default:
@@ -358,7 +358,7 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.OPERATOR:
                     case (int)Token.keywords.BECOMES:
-                        E.Operator = new Operator(currentToken.spelling);
+                        E.Operator = new Operator(currentToken);
                         acceptIt();
                         break;
                     default:
@@ -380,7 +380,7 @@ namespace MultiAgentSystem
                             E.secondVariable = parseIdentifier();
                             break;
                         case (int)Token.keywords.NUMBER:
-                            E.secondNumber = new MASNumber(currentToken.spelling);
+                            E.secondNumber = new MASNumber(currentToken);
                             acceptIt();
                             break;
                         default:
@@ -398,7 +398,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Identifier parseIdentifier()
         {
-            Identifier id = new Identifier(currentToken.spelling);
+            Identifier id = new Identifier(currentToken);
             acceptIt();
             Console.WriteLine("Identifier");
             return id;
@@ -412,7 +412,7 @@ namespace MultiAgentSystem
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.OPERATOR:
-                    Operator O = new Operator(currentToken.spelling);
+                    Operator O = new Operator(currentToken);
                     acceptIt();
                     Console.WriteLine("Operator");
                     return O;
@@ -434,20 +434,20 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.RPAREN:
                     return null;
                 case (int)Token.keywords.IDENTIFIER:
-                    T1 = new Identifier(currentToken.spelling);
+                    T1 = new Identifier(currentToken);
                     acceptIt();
                     break;
                 case (int)Token.keywords.NUMBER:
-                    T1 = new MASNumber(currentToken.spelling);
+                    T1 = new MASNumber(currentToken);
                     acceptIt();
                     break;
                 case (int)Token.keywords.ACTUAL_STRING:
-                    T1 = new MASString(currentToken.spelling);
+                    T1 = new MASString(currentToken);
                     acceptIt();
                     break;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
-                    T1 = new MASBool(currentToken.spelling);
+                    T1 = new MASBool(currentToken);
                     acceptIt();
                     break;
                 case (int)Token.keywords.NEW:
