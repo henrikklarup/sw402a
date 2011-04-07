@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AST.cs" />
     <Compile Include="IdentificationTable.cs" />
+    <Compile Include="OldParser.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
