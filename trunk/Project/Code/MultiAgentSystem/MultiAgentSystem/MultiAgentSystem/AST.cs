@@ -10,10 +10,6 @@ namespace MultiAgentSystem
         public abstract object visit(Visitor v, object arg);
     }
 
-    abstract class Command : AST
-    {
-    }
-
     abstract class Terminal : AST
     {
     }
@@ -23,447 +19,406 @@ namespace MultiAgentSystem
         //The block part of the mainblock
         public Block block;
 
-        public Mainblock(Command C)
+        public Mainblock(Block block)
         {
-            this.block = (Block)C;
+            this.block = block;
         }
-
-        public Mainblock()
-        { }
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitMainBlock(this, arg);
         }
     }
-    
+
+    #region Block AST
+    abstract class BlockAST : AST
+    { }
+
     // { commands }
-    class Block : Command
+    class Block : BlockAST
     {
         // All Commands contained in the block.
-        public List<Command> commands;
+        public Commands commands;
 
-        public Block()
-        { commands = new List<Command>(); }
+        public Block(Commands commands)
+        {
+            this.commands = commands;
+        }
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitBlock(this, arg);
         }
     }
+    #endregion
 
-    // new ObjectKind ObjectName ( Input )
-    class ObjectDeclaration : Command
+    #region Commands AST
+    abstract class CommandsAST : AST
+    { }
+
+    class Commands : CommandsAST
     {
-        // What kind of object is being declared.
-        public Object ObjectKind;
+        public Command command;
+        public Commands commands;
 
-        // The name of the new object.
-        public Identifier ObjectName;
-
-        // The input the objectconstructor needs.
-        public Input Input;
-
-        public ObjectDeclaration(Object O, Identifier I, Input In)
+        public Commands(Command command, Commands commands)
         {
-            this.ObjectKind = O;
-            this.ObjectName = I;
-            this.Input = In;
+            this.command = command;
+            this.commands = commands;
         }
 
-        public Type type;
-        public override object visit(Visitor v, object arg)
+        public Commands(Command command)
         {
-            return v.visitObjectDecleration(this, arg);
+            this.command = command;
+        }
+    }
+    #endregion
+
+    #region Command AST
+    abstract class CommandAST : AST
+    { }
+
+    class Command : CommandAST
+    {
+        public Single_Command single_command;
+        public Declaration declaration;
+        public Method_Call method_call;
+
+        public Command(Single_Command single_command)
+        {
+            this.single_command = single_command;
+        }
+
+        public Command(Declaration declaration)
+        {
+            this.declaration = declaration;
+        }
+
+        public Command(Method_Call method_call)
+        {
+            this.method_call = method_call;
         }
     }
 
-    // Type VarName = becomes...SomethingSomething...
-    class TypeDeclaration : Command
+    abstract class Single_CommandAST : AST
+    { }
+
+    class Single_Command : Single_CommandAST
     {
-        // What kind of variable is being declared (bool, string or num).
-        public MASType Type;
+        public While_Command while_command;
+        public If_Command if_command;
+        public For_Command for_command;
 
-        // Name of the variable being declared.
-        public Identifier VarName;
-
-        // If the variable is instantiated to an expression (1 + 2 for example), this is the expression.
-        public Expression becomesExpression;
-
-        // If the variable is instantiated to another variable, it is held here.
-        public Identifier becomesIdentifier;
-
-        // If the variable is instantiated to a number, string or boolean value, it is held here.
-        public MASNumber becomesNumber;
-        public MASString becomesString;
-        public MASBool becomesBool;
-
-        public Type type;
-        public override object visit(Visitor v, object arg)
+        public Single_Command(While_Command while_command)
         {
-            return v.visitTypeDecleration(this, arg);
+            this.while_command = while_command;
+        }
+
+        public Single_Command(If_Command if_command)
+        {
+            this.if_command = if_command;
+        }
+
+        public Single_Command(For_Command for_command)
+        {
+            this.for_command = for_command;
         }
     }
 
-    class Object
+    class While_Command : Single_CommandAST
     {
-        // Name of the object (Agent, Team, etc.)
-        string spelling;
+        Bool_Expression bool_expression;
+        Block block;
 
-        public Object(string s)
+        public While_Command(Bool_Expression bool_expression, Block block)
         {
-            spelling = s;
+            this.bool_expression = bool_expression;
+            this.block = block;
         }
     }
 
-    // if ( Expression ) ifBlock elseBlock
-    class IfCommand : Command
+    class If_Command : Single_CommandAST
     {
-        // The expression being evaluated.
-        public Expression Expression;
+        public Bool_Expression bool_expression;
+        public Block block;
 
-        // The block coming after the if-command.
-        public Block IfBlock;
-
-        // the block coming after the else-command.
-        public Block ElseBlock;
-
-        public IfCommand(Expression E, Block B1)
+        public If_Command(Bool_Expression bool_expression, Block block)
         {
-            this.Expression = E;
-            this.IfBlock = B1;
-        }
-
-        public IfCommand(Expression E, Block B1, Block B2)
-            : this(E, B1)
-        {
-            this.ElseBlock = B2;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitIfCommand(this, arg);
+            this.bool_expression = bool_expression;
+            this.block = block;
         }
     }
 
-    // for ( CounterDeclaration ; LoopExpression ; CounterExpression ) ForBlock
-    class ForCommand : Command
+    class For_Command : Single_CommandAST
     {
-        // The type declaration with the counter variable.
-        public TypeDeclaration CounterDeclaration;
+        public Type_Declaration type_declaration;
+        public Bool_Expression bool_expression;
+        public Math_Expression math_expression;
+        public Block block;
 
-        // The boolean expression that determines if the loop should continue.
-        public Expression LoopExpression;
-
-        // The expression that determines what happens to the counter after each run of the loop.
-        public Expression CounterExpression;
-
-        // The block with the code that is to be executed in the loop.
-        public Block ForBlock;
-
-        public ForCommand(TypeDeclaration T, Expression E1, Expression E2, Block B)
+        public For_Command(
+            Type_Declaration type_declaration,
+            Bool_Expression bool_expression,
+            Math_Expression math_expression,
+            Block block            
+            )
         {
-            this.CounterDeclaration = T;
-            this.LoopExpression = E1;
-            this.CounterExpression = E2;
-            this.ForBlock = B;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitForCommand(this, arg);
+            this.type_declaration = type_declaration;
+            this.bool_expression = bool_expression;
+            this.math_expression = math_expression;
+            this.block = block;
         }
     }
 
-    // while ( LoopExpression ) WhileBlock
-    class WhileCommand : Command
-    {
-        public Expression LoopExpression;
-        public Block WhileBlock;
+    #endregion
 
-        public WhileCommand()
+    #region Expression AST
+
+    abstract class ExpressionAST : AST
+    { }
+
+    class Expression : ExpressionAST
+    {
+        public Math_Expression math_expression;
+        public Bool_Expression bool_expression;
+
+        public Expression(Math_Expression math_expression)
         {
+            this.math_expression = math_expression;
         }
 
-        public override object visit(Visitor v, object arg)
+        public Expression(Bool_Expression bool_expression)
         {
-            return v.visitWhileCommand(this, arg);
+            this.bool_expression = bool_expression;
         }
     }
 
-    // Identifier.(NextMethodIdentifier.Identifier).(etc.) (recursive, continues in each MethodIdentifier object)
-    class MethodIdentifier : Terminal
+    class Math_Expression : ExpressionAST
     {
-        // Identifier of the object or method being held here.
-        public Identifier Identifier;
+        public Primary_Expression primary_expression_1;
+        public Math_Operator math_operator;
+        public Primary_Expression primary_Expression_2;
 
-        // The MethodIdentifier containing the next identifier.
-        public MethodIdentifier NextMethodIdentifier;
-
-        public MethodIdentifier()
+        public Math_Expression(
+            Primary_Expression primary_expression_1,
+            Math_Operator math_operator,
+            Primary_Expression primary_Expression_2)
         {
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMethodIdentifier(this, arg);
+            this.primary_expression_1 = primary_expression_1;
+            this.math_operator = math_operator;
+            this.primary_Expression_2 = primary_Expression_2;
         }
     }
 
-    // MethodPath ( Input )
-    class MethodCall : Command
+    class Primary_Expression : ExpressionAST
     {
-        // Path to the method, including the method name.
-        public MethodIdentifier MethodPath;
+        public MASNumber number;
+        public Identifier ident;
+        public Math_Expression math_expression;
+        public Parent_Math_Expression parent_math_expression;
 
-        // Input to the method.
-        public Input Input;
-
-        public override object visit(Visitor v, object arg)
+        public Primary_Expression(MASNumber number)
         {
-            return v.visitMethodCall(this, arg);
+            this.number = number;
+        }
+
+        public Primary_Expression(Identifier ident)
+        {
+            this.ident = ident;
+        }
+
+        public Primary_Expression(Math_Expression math_expression)
+        {
+            this.math_expression = math_expression;
+        }
+
+        public Primary_Expression(Parent_Math_Expression parent_math_expression)
+        {
+            this.parent_math_expression = parent_math_expression;
         }
     }
 
-    // Can consist of other expressions, or an arbitrary combination of variables and numbers.
-    class Expression : Command
+    class Parent_Math_Expression : ExpressionAST
     {
-        // If the expression contains another expression, it is kept here.
-        public Expression innerExpression;
+        public Math_Expression math_expression;
 
-        // The variable on the left side of the operator.
-        public Identifier firstVariable;
-
-        // The variable on the right side of the operator.
-        public Identifier secondVariable;
-
-        // The number on the left side of the operator.
-        public MASNumber firstNumber;
-
-        // The number on the right side of the operator.
-        public MASNumber secondNumber;
-
-        // The operator
-        public Operator Operator;
-
-        public Expression()
+        public Parent_Math_Expression(Math_Expression math_expression)
         {
+            this.math_expression = math_expression;
         }
-        
-        public override object visit(Visitor v, object arg)
+    }
+
+    class Bool_Expression : ExpressionAST
+    {
+        public MASBool masbool;
+        public Bool_Primary_Expression bool_primary_expression;
+
+        public Bool_Expression(MASBool masbool)
         {
-            return v.visitExpression(this, arg);
+            this.masbool = masbool;
+        }
+
+        public Bool_Expression(Bool_Primary_Expression bool_primary_expression)
+        {
+            this.bool_primary_expression = bool_primary_expression;
+        }
+    }
+
+    class Bool_Primary_Expression : ExpressionAST
+    {
+        public Primary_Expression primary_expression_1;
+        public Bool_Operator bool_operator;
+        public Primary_Expression primary_expression_2;
+
+        public Bool_Primary_Expression(Primary_Expression primary_expression_1, Bool_Operator bool_operator, Primary_Expression primary_expression_2)
+        {
+            this.primary_expression_1 = primary_expression_1;
+            this.bool_operator = bool_operator;
+            this.primary_expression_2 = primary_expression_2;
+        }
+    }
+    #endregion
+
+    #region Declaration AST
+
+    abstract class DeclarationAST : AST
+    { }
+
+    class Declaration : DeclarationAST
+    {
+        public Object_Declaration object_declaration;
+        public Type_Declaration type_declaration;
+
+        public Declaration(Object_Declaration object_declaration)
+        {
+            this.object_declaration = object_declaration;
+        }
+
+        public Declaration(Type_Decleration type_declaration)
+        {
+            this.type_declaration = type_declaration;
+        }
+    }
+
+    //new object identifier ( input )
+    class Object_Declaration : DeclarationAST
+    { 
+        public MASObject _object;
+        public Identifier ident;
+        public Input input;
+
+        public Object_Declaration(MASObject _object, Identifier ident, Input input)
+        {
+            this._object = _object;
+            this.ident = ident;
+            this.input = input;
+        }
+    }
+
+    //type identifier = type
+    class Type_Declaration : DeclarationAST
+    {
+        public MASType type_1;
+        public Identifier ident;
+        public MASType type_2;
+
+        public Type_Declaration(MASType type_1, Identifier ident, MASType type_2)
+        {
+            this.type_1 = type_1;
+            this.ident = ident;
+            this.type_2 = type_2;
+        }
+    }
+
+    #endregion
+
+    #region Method_Call AST
+
+    abstract class Method_CallAST : AST
+    { }
+
+    class Method_Call : Method_CallAST
+    {
+        public Identifier ident;
+        public Input input;
+        //Or
+        public Method_Call method_call;
+
+        public Method_Call(Identifier ident, Input input)
+        {
+            this.ident = ident;
+            this.input = input;
+        }
+
+        public Method_Call(Identifier ident, Method_Call method_call)
+        {
+            this.ident = ident;
+            this.method_call = method_call;
+        }
+    }
+
+    #endregion
+
+    #region Variables
+
+    class MASBool : Terminal
+    {
+        public Token true_or_false;
+
+        public MASBool(Token true_or_false)
+        {
+            this.true_or_false = true_or_false;
+        }
+    }
+
+    class MASNumber : Terminal
+    {
+        public Token number;
+
+        public MASNumber(Token number)
+        {
+            this.number = number;
+        }
+    }
+
+    class MASString : Terminal
+    { 
+        public Token _string;
+
+        public MASString(Token _string)
+        {
+            this._string = _string;
+        }
+    }
+
+    class Math_Operator : Terminal
+    {
+        public Token math_operator;
+
+        public Math_Operator(Token math_operator)
+        {
+            this.math_operator = math_operator;
+        }
+    }
+
+    class Bool_Operator : Terminal
+    {
+        public Token bool_operator;
+
+        public Bool_Operator(Token bool_operator)
+        {
+            this.bool_operator = bool_operator;
         }
     }
 
     class Identifier : Terminal
     {
-        string spelling;
+        public Token identifier;
 
-
-        public Identifier(string s)
+        public Identifier(Token identifier)
         {
-            spelling = s;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitIdentifier(this, arg);
+            this.identifier = identifier;
         }
     }
-
-    class Operator : Terminal
-    {
-        string spelling;
-
-        public Operator(string s)
-        {
-            spelling = s;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitOperator(this, arg);
-        }
-    }
-
-    class Input : AST
-    {
-        // Object declaration that takes place in the input.
-        public ObjectDeclaration ObjectDeclaration;
-
-        // An identifier as input.
-        public Identifier VarName;
-
-        // True or false as input.
-        public MASBool TrueOrFalse;
-
-        // String as input.
-        public MASString Text;
-
-        // Number as input.
-        public MASNumber Number;
-
-        // The next input variable.
-        public Input InputVar;
-
-        public Input()
-        { }
-
-        public Input(Identifier I)
-        {
-            this.VarName = I;
-        }
-
-        public Input(MASBool B)
-        {
-            this.TrueOrFalse = B;
-        }
-
-        public Input(MASString S)
-        {
-            this.Text = S;
-        }
-
-        public Input(MASNumber N)
-        {
-            this.Number = N;
-        }
-
-        public Input(ObjectDeclaration obj)
-        {
-            this.ObjectDeclaration = obj;
-        }
-
-        public Input(Identifier I, Input input) 
-            : this(I)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASBool B, Input input)
-            : this(B)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASString S, Input input)
-            : this(S)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASNumber N, Input input)
-            : this(N)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(ObjectDeclaration O, Input input)
-            : this(O)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(Terminal T)
-        {
-            if (T is Identifier)
-            {
-                VarName = (Identifier)T;
-            }
-            else if (T is MASBool)
-            {
-                TrueOrFalse = (MASBool)T;
-            }
-            else if (T is MASString)
-            {
-                Text = (MASString)T;
-            }
-            else if (T is MASNumber)
-            {
-                Number = (MASNumber)T;
-            }
-        }
-
-        public Input(Terminal T, Input input) : this(T)
-        {
-            this.InputVar = input;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitInput(this, arg);
-        }
-    }
-
-    // Booleans of the system.
-    class MASBool : Terminal
-    {
-        bool Value;
-
-        public MASBool(string s)
-        {
-            if (s.ToLower() == "true")
-            {
-                Value = true;
-            }
-            else if (s.ToLower() == "false")
-            {
-                Value = false;
-            }
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMASBool(this, arg);
-        }
-    }
-
-    // Strings of the system.
-    class MASString : Terminal
-    {
-        string spelling;
-
-        public MASString(string s)
-        {
-            spelling = s;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMASString(this, arg);
-        }
-    }
-
-    // Numbers of the system.
-    class MASNumber : Terminal
-    {
-        double num;
-
-        public MASNumber(string s)
-        {
-            num = Double.Parse(s);
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMASNumber(this, arg);
-        }
-    }
-
-    // Types of the system (either bool, num or string)
-    class MASType : Terminal
-    {
-        string spelling;
-
-        public MASType(string s)
-        {
-            spelling = s;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMASType(this, arg);
-        }
-    }
+    #endregion
 }
