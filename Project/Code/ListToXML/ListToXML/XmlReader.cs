@@ -9,27 +9,49 @@ namespace ListToXML
     public class XmlReader
     {
 
-        public String[] XML;
+        private String[] temp;
+        private List<String> XML = new List<String>();
         public char[] Split = {'@'};
 
-        public String[] getXML()
+        public List<String> getXML()
         {
             return XML;
         }
 
         public XmlReader(String file)
         {
-            StreamReader streamReader = new StreamReader(@"C:\WarGame.txt");
+            StreamReader streamReader = new StreamReader(file);
             string XmlFile = streamReader.ReadToEnd();
 
-            Console.WriteLine("\r\nXml Start\r\n");
+            
             Console.WriteLine(XmlFile);
-            Console.WriteLine("\r\nXml slut\r\n");
 
-            XmlFile.Replace("<", "@<");
-            XmlFile.Replace(">", "@>");
-            XML = XmlFile.Split(Split);
+            XmlFile = XmlFile.Replace("<", "@<");
+            XmlFile = XmlFile.Replace(">", ">@");
+            temp = XmlFile.Split(Split);
             streamReader.Close();
+
+            foreach (String item in temp)
+            {
+                if (item != null)
+                {
+                    XML.Add(item);
+                }
+            }
         }
+        
+        public String[] GetNode(String command)
+        {
+            
+            String[] teemp = {""};
+            return teemp;
+        }
+
+        public void GenerateList()
+        { 
+        
+        }
+
+
     }
 }

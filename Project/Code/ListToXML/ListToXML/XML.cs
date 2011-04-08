@@ -34,7 +34,7 @@ namespace ListToXML
             
 
             String a = "<";
-            String b = ">\r\n";
+            String b = ">";
             String c = "</";
             String XML = a + XmlName + b;
             //Generate the xml string

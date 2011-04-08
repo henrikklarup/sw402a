@@ -52,23 +52,23 @@ namespace ListToXML
 
         static String mAgents(List<Agent> agents)
         {
-            String _agents = "<Agents>\r\n";
+            String _agents = "<Agents>";
             for (int i = 0; i < agents.Count; i++)
             {
-                _agents += "<Agent>\r\n";
-                _agents += "<Id>" + agents[i].ID + "</Id>\r\n";
-                _agents += "<posX>" + agents[i].posX + "</posX>\r\n";
-                _agents += "<posY>" + agents[i].posY + "</posY>\r\n";
-                _agents += "<name>" + agents[i].name + "</name>\r\n";
-                _agents += "<rank>" + agents[i].rank + "</rank>\r\n";
-                _agents += "<Team>\r\n";
-                _agents += "<Id>" + agents[i].team.ID + "</Id>\r\n";
-                _agents += "<Name>" + agents[i].team.name + "</Name>\r\n";
-                _agents += "<Color>" + agents[i].team.color + "</Color>\r\n";
-                _agents += "</Team>\r\n";
-                _agents += "</Agent>\r\n";
+                _agents += "<Agent>";
+                _agents += "<Id>" + agents[i].ID + "</Id>";
+                _agents += "<posX>" + agents[i].posX + "</posX>";
+                _agents += "<posY>" + agents[i].posY + "</posY>";
+                _agents += "<name>" + agents[i].name + "</name>";
+                _agents += "<rank>" + agents[i].rank + "</rank>";
+                _agents += "<Team>";
+                _agents += "<Id>" + agents[i].team.ID + "</Id>";
+                _agents += "<Name>" + agents[i].team.name + "</Name>";
+                _agents += "<Color>" + agents[i].team.color + "</Color>";
+                _agents += "</Team>";
+                _agents += "</Agent>";
             }
-            _agents += "</Agents>\r\n";
+            _agents += "</Agents>";
             return _agents;
         }
 
