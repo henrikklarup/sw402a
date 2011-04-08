@@ -49,9 +49,7 @@ namespace ListToXML
 
         public void GenerateList()
         { 
-        
+            
         }
-
-
     }
 }
