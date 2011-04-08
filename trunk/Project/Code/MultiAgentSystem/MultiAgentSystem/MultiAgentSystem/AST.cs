@@ -38,7 +38,7 @@ namespace MultiAgentSystem
     }
     
     // { commands }
-    class Block : Command
+    class Block : AST
     {
         // All Commands contained in the block.
         public List<Command> commands;
