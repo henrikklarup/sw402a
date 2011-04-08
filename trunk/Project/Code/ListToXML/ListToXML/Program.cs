@@ -33,12 +33,13 @@ namespace ListToXML
         public static void Main(string[] args)
         {
 
-            XmlReader readit = new XmlReader(@"C:\\WarGame.xml");
+            XmlReader readit = new XmlReader(@"C:\WarGame.txt");
 
-            for(int i = 0; i < readit.XML.Length; i++)
+            for(int i = 0; i <readit.getXML().Count; i++)
             {
-                Console.WriteLine(readit.XML[i]);
-                Console.WriteLine("Længden" + readit.XML.Length);
+           
+                Console.WriteLine("whaaaat" + readit.getXML()[i]);
+                
             }
             
             Console.WriteLine("(R)ead or (S)ave lists: ");
