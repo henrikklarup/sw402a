@@ -44,6 +44,7 @@ namespace ListToXML
             {
                 try
                 {
+                    //If i is the last element or _depth equals 0 and i is not 0 pop stack
                     if (i + 1 == XMLhelp.XmlList.Count || (XMLhelp.XmlList[i]._depth == 0 && i != 0))
                     {
                         for (int j = stack.Count - 1; j >= 0; j--)
@@ -60,6 +61,7 @@ namespace ListToXML
                             stack.Add(XMLhelp.XmlList[i]);
                         }
                     } 
+                        //If the depth is 0 we print first tag and insert second tag into our stack
                     else
                         if (XMLhelp.XmlList[i]._depth == 0)
                         {
@@ -67,7 +69,7 @@ namespace ListToXML
 
                             stack.Add(XMLhelp.XmlList[i]);
                         }
-
+                            //If i is standalone it will print first tag, value and second tag
                         else
                             if (XMLhelp.XmlList[i]._standalone == true)
                             {
@@ -88,7 +90,7 @@ namespace ListToXML
             XML += c + XmlName + b;
             Console.WriteLine(XML);
 
-            using (StreamWriter outfile = new StreamWriter(@"\AllTxtFiles.xml"))
+            using (StreamWriter outfile = new StreamWriter(@"\WarGame.xml"))
             {
                 outfile.Write(XML);
             }
@@ -107,7 +109,7 @@ namespace ListToXML
                 XMLhelp.Node("Rank",value.rank.ToString());
                 //Mangler at add team
                 //public Team team;
-                XMLhelp.Child("Team", null);
+                XMLhelp.Child("Teams", null);
               
                 XMLhelp.Child("Team",null);
                 XMLhelp.Node("Id",value.team.ID.ToString());
