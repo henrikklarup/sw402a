@@ -23,7 +23,7 @@ namespace MultiAgentSystem
         //The block part of the mainblock
         public Block block;
 
-        public Mainblock(Command C)
+        public Mainblock(AST C)
         {
             this.block = (Block)C;
         }
