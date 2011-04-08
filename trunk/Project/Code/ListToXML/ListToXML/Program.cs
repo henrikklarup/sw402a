@@ -32,7 +32,14 @@ namespace ListToXML
 
         public static void Main(string[] args)
         {
-            
+
+            XmlReader readit = new XmlReader(@"C:\\WarGame.xml");
+
+            for(int i = 0; i < readit.XML.Length; i++)
+            {
+                Console.WriteLine(readit.XML[i]);
+                Console.WriteLine("Længden" + readit.XML.Length);
+            }
             
             Console.WriteLine("(R)ead or (S)ave lists: ");
 
