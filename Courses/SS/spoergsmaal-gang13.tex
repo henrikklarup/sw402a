@@ -1,0 +1,43 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 12. kursusgang}
+\author{Simon Blaabjerg Frandsen}
+\date{}
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Hvad betyder det, at parallelle komponenter i sproget i afsnit 8.1 skal være \emph{variabel-uafhængige}? Og hvorfor er det en god idé at have denne antagelse?
+\begin{svar}
+Dvs. at parallelle komponenter ikke har nogen fælles variabler.
+\end{svar}
+\item Hvad skal kommandoerne $c?x$ og $c!a$ bruges til?
+\begin{svar}
+$c!a$ sender værdien $a$ på kanalen $c$, og $c?x$ modtager, og binder $x$ til værdien $a$.
+\end{svar}
+\item Hvorfor indfører vi mærkede transitionssystemer? Hvordan er de defineret? Og hvad er forskellen fra de transitionssystemer, vi tidligere har set?
+\begin{svar}
+--
+\end{svar}
+\item Hvad er forskellen på asynkron og synkron kommunikation?
+\begin{svar}
+I asynkron kommunikation bliver en sendt besked gemt i et medium, hvor en eventuel modtager senere kan hente den. Synkron kommunikation går selvfølgelig ud på det modsatte, nemlig at der modtages i det øjeblik der sendes.
+\end{svar}
+\item Hvorfor er det nødvendigt at skrive $\textsf{remove}(c,\mathsf{m})$ i konfigurationen på højre side af reglen $\textsc{Input}_{\textsc{L-Sss}}$?
+\begin{svar}
+Den fjerner værdien fra mediet, efter den er blevet hentet af modtageren. Det er nødvendigt for at sikre at modtageren ikke henter den samme værdi to gange.
+\end{svar}
+\item Hvor er begrebet en \emph{ækvivalensrelation} defineret i bogen? (Det er ikke i dagens tekst!) Hvordan ser definitionen ud?
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+\end{document}
+ 
