@@ -45,6 +45,8 @@ namespace MultiAgentSystem
             int kind = (int)typeDeclaration.Type.visit(this, arg);
             string ident = (string)typeDeclaration.VarName.visit(this, arg);
 
+            idTable.enter(kind, ident);
+
             switch (kind)
             { 
                 case (int)Token.keywords.IDENTIFIER:
@@ -70,13 +72,9 @@ namespace MultiAgentSystem
         // if ( bool-expression ) block else block
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
-            Expression expression;
-            Block block;
-            Block else_block;
-
-            expression = (Expression)ifCommand.Expression.visit(this, arg);
-            block = (Block)ifCommand.IfBlock.visit(this, arg);
-            else_block = (Block)ifCommand.ElseBlock.visit(this, arg);
+            ifCommand.Expression.visit(this, arg);
+            ifCommand.IfBlock.visit(this, arg);
+            ifCommand.ElseBlock.visit(this, arg);
 
             return null;
         }
@@ -84,22 +82,19 @@ namespace MultiAgentSystem
         // for ( type-declaration ; bool-expression ; math-expression ) block
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
-            TypeDeclaration type_declaration;
-            Expression bool_expression;
-            Expression math_expression;
-            Block block;
-
-            type_declaration = (TypeDeclaration)forCommand.CounterDeclaration.visit(this, arg);
-            bool_expression = (Expression)forCommand.LoopExpression.visit(this, arg);
-            math_expression = (Expression)forCommand.CounterExpression.visit(this, arg);
-            block = (Block)forCommand.ForBlock.visit(this, arg);
+            forCommand.CounterDeclaration.visit(this, arg);
+            forCommand.LoopExpression.visit(this, arg);
+            forCommand.CounterExpression.visit(this, arg);
+            forCommand.ForBlock.visit(this, arg);
 
             return null;
         }
 
+        // while ( bool-expression ) block
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
-
+            whileCommand.LoopExpression.visit(this, arg);
+            whileCommand.WhileBlock.visit(this, arg);
             return null;
         }
 
@@ -108,6 +103,7 @@ namespace MultiAgentSystem
             throw new NotImplementedException();
         }
 
+        // identifier ( input ) | identifier . method-call
         internal object visitMethodCall(MethodCall methodCall, object arg)
         {
             throw new NotImplementedException();
