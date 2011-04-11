@@ -56,8 +56,19 @@ namespace ListToXML
 
             for (int i = 0; i < readit.getXML().Count; i++)
             {
-                Console.WriteLine(readit.getXML()[i].Tag);
+                Console.WriteLine("tag: " + readit.getXML()[i].Tag);
+                Console.WriteLine("order: " + readit.getXML()[i].Order);
             }
+            readit.TreeLists();
+            Console.WriteLine("OrderStack");
+            for (int i = 0; i < readit.ReturnOrderStack().Count; i++)
+            {
+                Console.WriteLine(readit.ReturnOrderStack()[i].Tag + readit.ReturnOrderStack()[i].Value + readit.ReturnOrderStack()[i].Type + readit.ReturnOrderStack()[i].Order);
+            }
+            Console.WriteLine("XML SEARCH");
+            readit.finalList();
+            //XmlList something = readit.GetToDoStack()[0].First(x => x.TagName == "MAS");
+            Console.WriteLine(readit.GetToDoStack()[0]);
 
             //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();
