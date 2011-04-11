@@ -10,20 +10,17 @@ namespace MultiAgentSystem
         // Holds the current token being checked.
         private Token currentToken;
 
-        // Holds all the tokens produced by the scanner.
-        private List<Token> tokenList;
-
-        // Checks what token is being worked on currently.
-        private int listCount = 0;
+        // Create the scanner.
+        private Scanzor scanner;
 
         /// <summary>
         /// Creates a new parser.
         /// </summary>
         /// <param name="list">A list of tokens produced by the scanner.</param>
-        public Parser(List<Token> list)
+        public Parser()
         {
-            tokenList = list;
-            currentToken = tokenList.ElementAt(listCount);
+            scanner = new Scanzor();
+            currentToken = scanner.scan();
         }
 
         /// <summary>
@@ -117,9 +114,12 @@ namespace MultiAgentSystem
                     return T;
                     // or expression or method call.
                 case (int)Token.keywords.IDENTIFIER:
+                    ///
+                    /// TODO: This has to be updated!
+                    ///
                     /* If the next token is an operator, this is an expression. 
                      * Else it's a method call. */
-                    if (tokenList.ElementAt(listCount + 1).kind ==
+                   /* if (tokenList.ElementAt(listCount + 1).kind ==
                         (int)Token.keywords.OPERATOR)
                     {
                         Expression E = (Expression)parseExpression();
@@ -131,7 +131,7 @@ namespace MultiAgentSystem
                         MethodCall M = (MethodCall)parseMethodCall();
                         accept(Token.keywords.SEMICOLON);
                         return M;
-                    }
+                    }*/
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
@@ -505,8 +505,7 @@ namespace MultiAgentSystem
         /// </summary>
         private void acceptIt() 
         {
-            listCount++;
-            currentToken = tokenList.ElementAt(listCount);
+            currentToken = scanner.scan();
         }
     }
 }
