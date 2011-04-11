@@ -45,7 +45,7 @@ namespace MultiAgentSystem
 
             Console.ReadKey();
 
-            Parser parzor = new Parser(Tokens);
+            Parser parzor = new Parser();
             newAst = parzor.parse();
 
             Console.ReadKey();
