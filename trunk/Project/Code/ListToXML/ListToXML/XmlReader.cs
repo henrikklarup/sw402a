@@ -9,11 +9,12 @@ namespace ListToXML
     public class XmlReader
     {
 
+        private List<List<Object>> List = new List<List<Object>>();
         private String[] temp;
-        private List<String> XML = new List<String>();
+        private List<XmlOrder> XML = new List<XmlOrder>();
         public char[] Split = {'@'};
 
-        public List<String> getXML()
+        public List<XmlOrder> getXML()
         {
             return XML;
         }
@@ -28,15 +29,15 @@ namespace ListToXML
 
             XmlFile = XmlFile.Replace("<", "@<");
             XmlFile = XmlFile.Replace(">", ">@");
+            XmlFile = XmlFile.Replace(">@@<", "@");
             temp = XmlFile.Split(Split);
             streamReader.Close();
+            int order = 0;
 
-            foreach (String item in temp)
-            {
-                if (item != null)
-                {
-                    XML.Add(item);
-                }
+            for(int i = 1; i < temp.Length-1; i++)
+            {       //Check for </> <> sæt order
+                    XmlOrder XmlO = new XmlOrder(temp[i],order);
+                    XML.Add(XmlO);
             }
         }
         

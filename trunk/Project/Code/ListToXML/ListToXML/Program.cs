@@ -32,15 +32,6 @@ namespace ListToXML
 
         public static void Main(string[] args)
         {
-
-            XmlReader readit = new XmlReader(@"C:\WarGame.txt");
-
-            for(int i = 0; i <readit.getXML().Count; i++)
-            {
-           
-                Console.WriteLine("whaaaat" + readit.getXML()[i]);
-                
-            }
             
             Console.WriteLine("(R)ead or (S)ave lists: ");
 
@@ -60,6 +51,13 @@ namespace ListToXML
 
             //XMLhelp.Generate(agents, teams, squads, actionPatterns);
             XML.GenerateThisShizzle(agents, teams, squads, actionPatterns, "MAS");
+
+            XmlReader readit = new XmlReader(@"C:\WarGame.xml");
+
+            for (int i = 0; i < readit.getXML().Count; i++)
+            {
+                Console.WriteLine(readit.getXML()[i].Tag);
+            }
 
             //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();

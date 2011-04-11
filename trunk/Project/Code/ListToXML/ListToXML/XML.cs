@@ -109,8 +109,7 @@ namespace ListToXML
                 XMLhelp.Node("Rank",value.rank.ToString());
                 //Mangler at add team
                 //public Team team;
-                XMLhelp.Child("Teams", null);
-              
+                XMLhelp.Child("Teams", null);      
                 XMLhelp.Child("Team",null);
                 XMLhelp.Node("Id",value.team.ID.ToString());
                 XMLhelp.Node("Name", value.team.name);
