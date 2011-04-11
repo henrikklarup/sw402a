@@ -66,19 +66,41 @@ namespace MultiAgentSystem
             return null;
         }
 
+        // if ( bool-expression ) block
+        // if ( bool-expression ) block else block
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
-            throw new NotImplementedException();
+            Expression expression;
+            Block block;
+            Block else_block;
+
+            expression = (Expression)ifCommand.Expression.visit(this, arg);
+            block = (Block)ifCommand.IfBlock.visit(this, arg);
+            else_block = (Block)ifCommand.ElseBlock.visit(this, arg);
+
+            return null;
         }
 
+        // for ( type-declaration ; bool-expression ; math-expression ) block
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
-            throw new NotImplementedException();
+            TypeDeclaration type_declaration;
+            Expression bool_expression;
+            Expression math_expression;
+            Block block;
+
+            type_declaration = (TypeDeclaration)forCommand.CounterDeclaration.visit(this, arg);
+            bool_expression = (Expression)forCommand.LoopExpression.visit(this, arg);
+            math_expression = (Expression)forCommand.CounterExpression.visit(this, arg);
+            block = (Block)forCommand.ForBlock.visit(this, arg);
+
+            return null;
         }
 
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
-            throw new NotImplementedException();
+
+            return null;
         }
 
         internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
