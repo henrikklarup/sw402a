@@ -50,7 +50,7 @@ namespace MultiAgentSystem
                     return att.scope <= scope;
                 });
             if (attr != null) return attr.kind;
-            else Console.WriteLine("{0} has not been declared.", token.spelling);
+            else Console.WriteLine("{0} has not been declared.", attr.ident);
 
             return (int)Token.keywords.ERROR;
         }
