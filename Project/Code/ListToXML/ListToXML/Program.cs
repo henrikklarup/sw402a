@@ -33,9 +33,9 @@ namespace ListToXML
         public static void Main(string[] args)
         {
             
-            Console.WriteLine("(R)ead or (S)ave lists: ");
+            //Console.WriteLine("(R)ead or (S)ave lists: ");
 
-            DefaultXMLFileNames();
+            //DefaultXMLFileNames();
 
 
             //Initializing the lists
@@ -50,25 +50,20 @@ namespace ListToXML
             actionPatterns.Add(aP);
 
             //XMLhelp.Generate(agents, teams, squads, actionPatterns);
-            XML.GenerateThisShizzle(agents, teams, squads, actionPatterns, "MAS");
+            mAgents(agents);
+            mTeams(teams);
+            mSquads(squads);
+            mActionPatterns(actionPatterns);
+            XML.GenerateThisShizzle("MAS");
 
-            XmlReader readit = new XmlReader(@"C:\WarGame.xml");
-
-            for (int i = 0; i < readit.getXML().Count; i++)
+            XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
+            Reader.Mount();
+            foreach (XmlType item in Reader.XmlSearch("MAS>Agents>Agent>Teams>Team"))
             {
-                Console.WriteLine("tag: " + readit.getXML()[i].Tag);
-                Console.WriteLine("order: " + readit.getXML()[i].Order);
+                Console.WriteLine(item.Value);
             }
-            readit.TreeLists();
-            Console.WriteLine("OrderStack");
-            for (int i = 0; i < readit.ReturnOrderStack().Count; i++)
-            {
-                Console.WriteLine(readit.ReturnOrderStack()[i].Tag + readit.ReturnOrderStack()[i].Value + readit.ReturnOrderStack()[i].Type + readit.ReturnOrderStack()[i].Order);
-            }
-            Console.WriteLine("XML SEARCH");
-            readit.finalList();
             //XmlList something = readit.GetToDoStack()[0].First(x => x.TagName == "MAS");
-            Console.WriteLine(readit.GetToDoStack()[0]);
+            //Console.WriteLine(readit.GetToDoStack()[0].ListofXml[0].TagName);
 
             //Interface to test saving and loading the xml files
             ConsoleKeyInfo cki = Console.ReadKey();
@@ -90,6 +85,75 @@ namespace ListToXML
             }
 
             
+        }
+
+        //Generate XML for hver list
+
+        public static void mAgents(List<Agent> Agents)
+        {
+            XMLhelp.Root("Agents", null);
+            foreach (var value in Agents)
+            {
+                XMLhelp.Child("Agent", null);
+                XMLhelp.Node("Id", value.ID.ToString());
+                XMLhelp.Node("posX", value.posX.ToString());
+                XMLhelp.Node("posY", value.posY.ToString());
+                XMLhelp.Node("Name", value.name);
+                XMLhelp.Node("Rank", value.rank.ToString());
+                //Mangler at add team
+                //public Team team;
+                XMLhelp.Child("Teams", null);
+                XMLhelp.Child("Team", null);
+                XMLhelp.Node("Id", value.team.ID.ToString());
+                XMLhelp.Node("Name", value.team.name);
+                XMLhelp.Node("Color", value.team.color);
+
+
+            }
+        }
+
+        public static void mTeams(List<Team> Teams)
+        {
+            XMLhelp.Root("Teams", null);
+            foreach (var value in Teams)
+            {
+                XMLhelp.Child("Team", null);
+                XMLhelp.Node("Id", value.ID.ToString());
+                XMLhelp.Node("Name", value.name);
+                XMLhelp.Node("Color", value.color);
+            }
+        }
+
+        public static void mSquads(List<Squad> Squads)
+        {
+            XMLhelp.Root("Squards", null);
+            foreach (var value in Squads)
+            {
+                XMLhelp.Child("Squad", null);
+                XMLhelp.Node("Name", value.name);
+                XMLhelp.Node("Id", value.ID.ToString());
+                XMLhelp.Child("Agents", null);
+                foreach (int agent in value.agents)
+                {
+                    XMLhelp.Node("Agent", null);
+                    XMLhelp.Node("Id", agent.ToString());
+                }
+            }
+        }
+
+        public static void mActionPatterns(List<ActionPattern> ActionPatterns)
+        {
+            XMLhelp.Root("ActionPatterns", null);
+            foreach (var value in ActionPatterns)
+            {
+                XMLhelp.Child("ActionPattern", null);
+                XMLhelp.Node("Id", value.ID.ToString());
+                XMLhelp.Child("Actions", null);
+                foreach (String action in value.actions)
+                {
+                    XMLhelp.Node("Action", action);
+                }
+            }
         }
 
         /// <summary>

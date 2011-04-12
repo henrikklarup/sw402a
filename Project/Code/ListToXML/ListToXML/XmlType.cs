@@ -15,7 +15,8 @@ namespace ListToXML
 
         public XmlType(String Tag, String Value, String Type, int Order)
         {
-            this.Tag = Tag;
+            this.Tag = Tag.Replace("<","");
+            this.Tag = this.Tag.Replace(">", "");
             this.Value = Value;
             this.Type = Type;
             this.Order = Order;

@@ -20,16 +20,8 @@ namespace ListToXML
             this._standalone = standalone;
         }
 
-        public static void GenerateThisShizzle(List<Agent> Agents, List<Team> Teams, List<Squad> Squads, List<ActionPattern> ActionPatterns, String XmlName)
+        public static void GenerateThisShizzle(String XmlName)
         {
-            //agents
-            mAgents(Agents);
-            //teams
-            mTeams(Teams);
-            //squads
-            mSquads(Squads);
-            //actionPatterns
-            mActionPatterns(ActionPatterns);
             XMLhelp.End();
             
 
@@ -88,7 +80,6 @@ namespace ListToXML
                 catch{}
             }
             XML += c + XmlName + b;
-            Console.WriteLine(XML);
 
             using (StreamWriter outfile = new StreamWriter(@"\WarGame.xml"))
             {
@@ -96,71 +87,5 @@ namespace ListToXML
             }
         }
 
-        public static void mAgents(List<Agent> Agents)
-        {
-            XMLhelp.Root("Agents", null);
-            foreach (var value in Agents)
-            {
-                XMLhelp.Child("Agent", null);
-                XMLhelp.Node("Id",value.ID.ToString());
-                XMLhelp.Node("posX", value.posX.ToString());
-                XMLhelp.Node("posY", value.posY.ToString());
-                XMLhelp.Node("Name",value.name);
-                XMLhelp.Node("Rank",value.rank.ToString());
-                //Mangler at add team
-                //public Team team;
-                XMLhelp.Child("Teams", null);      
-                XMLhelp.Child("Team",null);
-                XMLhelp.Node("Id",value.team.ID.ToString());
-                XMLhelp.Node("Name", value.team.name);
-                XMLhelp.Node("Color", value.team.color);
-               
-                
-            }
-        }
-
-        public static void mTeams(List<Team> Teams)
-        {
-            XMLhelp.Root("Teams", null);
-            foreach (var value in Teams)
-            {
-                XMLhelp.Child("Team", null);
-                XMLhelp.Node("Id",value.ID.ToString());
-                XMLhelp.Node("Name",value.name);
-                XMLhelp.Node("Color",value.color);
-            }
-        }
-
-        public static void mSquads(List<Squad> Squads)
-        {
-            XMLhelp.Root("Squards", null);
-            foreach (var value in Squads)
-            {
-                XMLhelp.Child("Squad", null);
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Child("Agents",null);
-                foreach (int agent in value.agents)
-                {
-                    XMLhelp.Node("Agent", null);
-                    XMLhelp.Node("Id",agent.ToString());
-                }
-            }
-        }
-
-        public static void mActionPatterns(List<ActionPattern> ActionPatterns)
-        {
-            XMLhelp.Root("ActionPatterns", null);
-            foreach (var value in ActionPatterns)
-            {
-                XMLhelp.Child("ActionPattern", null);
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Child("Actions", null);
-                foreach (String action in value.actions)
-                {
-                    XMLhelp.Node("Action",action);
-                }
-            }
-        }
     }
 }
