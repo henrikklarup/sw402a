@@ -42,29 +42,39 @@ namespace MultiAgentSystem
         // Type VarName = becomes...SomethingSomething...
         internal object visitTypeDecleration(TypeDeclaration typeDeclaration, object arg)
         {
+            // Stores the type and the identifier of the declaration
             int kind = (int)typeDeclaration.Type.visit(this, arg);
             string ident = (string)typeDeclaration.VarName.visit(this, arg);
+            
+            // If the declaration becomes an expression, visit the expression.
+            // Else check if it becomes the right type.
+            if((Expression)typeDeclaration.Becomes != null)
+            {
+                Expression expression = (Expression)typeDeclaration.Becomes;
+                expression.visit(this, arg);
+            }
+            else
+            {
+                MASVariable masVariable = (MASVariable)typeDeclaration.Becomes;
+
+                switch (kind)
+                { 
+                    case (int)Token.keywords.STRING:
+                    case (int)Token.keywords.FALSE:
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.NUM:
+                        if (masVariable.token.kind != kind)
+                        { 
+                            Console.WriteLine("Type declaration has not been declared to a variable of type {0}", masVariable.token.kind.ToString());
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Type declaration has not been declared as a type");
+                        return null;
+                }
+            }
 
             idTable.enter(kind, ident);
-
-            switch (kind)
-            { 
-                case (int)Token.keywords.IDENTIFIER:
-                    typeDeclaration.becomesIdentifier.visit(this, arg);
-                    return null;
-                case (int)Token.keywords.NUM:
-                    typeDeclaration.becomesNumber.visit(this, arg);
-                    return null;
-                case (int)Token.keywords.STRING:
-                    typeDeclaration.becomesString.visit(this, arg);
-                    return null;
-                case (int)Token.keywords.FALSE:
-                case (int)Token.keywords.TRUE:
-                    typeDeclaration.becomesBool.visit(this, arg);
-                    return null;
-                default:
-                    break;
-            }
             return null;
         }
 
@@ -100,13 +110,20 @@ namespace MultiAgentSystem
 
         internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
         {
+            string ident;
+
+            ident = (string)methodIdentifier.Identifier.visit(this, arg);
+            methodIdentifier.NextMethodIdentifier.visit(this, arg);
             throw new NotImplementedException();
         }
 
         // identifier ( input ) | identifier . method-call
         internal object visitMethodCall(MethodCall methodCall, object arg)
         {
-            throw new NotImplementedException();
+            methodCall.methodIdentifier.visit(this, arg);
+            methodCall.input.visit(this, arg);
+
+            return null;
         }
 
         internal object visitExpression(Expression expression, object arg)
@@ -152,6 +169,16 @@ namespace MultiAgentSystem
         internal object visitObject(Object p, object arg)
         {
             return p.token.kind;
+        }
+
+        internal object visitMASVariable(MASVariable mASVariable, object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

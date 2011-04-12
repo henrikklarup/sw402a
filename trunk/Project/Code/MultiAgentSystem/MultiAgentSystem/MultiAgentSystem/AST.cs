@@ -86,23 +86,15 @@ namespace MultiAgentSystem
         // Name of the variable being declared.
         public Identifier VarName;
 
-        // If the variable is instantiated to an expression (1 + 2 for example), this is the expression.
-        public Expression becomesExpression;
-
-        // If the variable is instantiated to another variable, it is held here.
-        public Identifier becomesIdentifier;
-
-        // If the variable is instantiated to a number, string or boolean value, it is held here.
-        public MASNumber becomesNumber;
-        public MASString becomesString;
-        public MASBool becomesBool;
+        // The type or variable 
+        public AST Becomes;
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitTypeDecleration(this, arg);
         }
     }
-
+    
     class Object : Terminal
     {
         // Name of the object (Agent, Team, etc.)
@@ -184,8 +176,10 @@ namespace MultiAgentSystem
         public Expression LoopExpression;
         public Block WhileBlock;
 
-        public WhileCommand()
+        public WhileCommand(Expression loopExpression, Block whileBlock)
         {
+            this.LoopExpression = loopExpression;
+            this.WhileBlock = whileBlock;
         }
 
         public override object visit(Visitor v, object arg)
@@ -213,14 +207,20 @@ namespace MultiAgentSystem
         }
     }
 
-    // MethodPath ( Input )
+    // MethodIdentifier ( Input )
     class MethodCall : Command
     {
         // Path to the method, including the method name.
-        public MethodIdentifier MethodPath;
+        public MethodIdentifier methodIdentifier;
 
         // Input to the method.
-        public Input Input;
+        public Input input;
+
+        public MethodCall(MethodIdentifier methodIdentifier, Input input)
+        {
+            this.methodIdentifier = methodIdentifier;
+            this.input = input;
+        }
 
         public override object visit(Visitor v, object arg)
         {
@@ -228,34 +228,43 @@ namespace MultiAgentSystem
         }
     }
 
-    // Can consist of other expressions, or an arbitrary combination of variables and numbers.
-    class Expression : Command
+    abstract class ExpressionAST : Command
+    { }
+
+    /// <summary>
+    /// Can consist of other expressions, or an arbitrary combination of variables and numbers.
+    /// Syntax: primary-expression operator primary-expression
+    /// </summary>
+    class Expression : ExpressionAST
     {
-        // If the expression contains another expression, it is kept here.
-        public Expression innerExpression;
+        public AST primaryExpression_1;
+        public Operator _operator;
+        public AST primaryExpression_2;
 
-        // The variable on the left side of the operator.
-        public Identifier firstVariable;
-
-        // The variable on the right side of the operator.
-        public Identifier secondVariable;
-
-        // The number on the left side of the operator.
-        public MASNumber firstNumber;
-
-        // The number on the right side of the operator.
-        public MASNumber secondNumber;
-
-        // The operator
-        public Operator Operator;
-
-        public Expression()
+        public Expression(AST primaryExpression_1, 
+            Operator _operator, AST primaryExpression_2)
         {
+            this.primaryExpression_1 = primaryExpression_1;
+            this._operator = _operator;
+            this.primaryExpression_2 = primaryExpression_2;
         }
-        
+
         public override object visit(Visitor v, object arg)
         {
             return v.visitExpression(this, arg);
+        }
+    }
+
+    /// <summary>
+    /// Syntax: number | identifier | expression | ( expression ) | boolean
+    /// </summary>
+    class PrimaryExpression : ExpressionAST
+    {
+        AST primExp;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitPrimaryExpression(this, arg);
         }
     }
 
@@ -289,112 +298,38 @@ namespace MultiAgentSystem
         }
     }
 
+    /// <summary>
+    /// Syntax: (variable | identifier (, variable | , identifier)* )+
+    /// </summary>
     class Input : AST
     {
-        // Object declaration that takes place in the input.
-        public ObjectDeclaration ObjectDeclaration;
-
-        // An identifier as input.
-        public Identifier VarName;
-
-        // True or false as input.
-        public MASBool TrueOrFalse;
-
-        // String as input.
-        public MASString Text;
-
-        // Number as input.
-        public MASNumber Number;
+        // The first input variable.
+        public AST firstVar;
 
         // The next input variable.
-        public Input InputVar;
+        public Input nextVar;
 
         public Input()
         { }
 
-        public Input(Identifier I)
+        public override object visit(Visitor v, object arg)
         {
-            this.VarName = I;
+            return v.visitInput(this, arg);
         }
+    }
 
-        public Input(MASBool B)
-        {
-            this.TrueOrFalse = B;
-        }
+    class MASVariable : Terminal
+    {
+        public Token token;
 
-        public Input(MASString S)
+        public MASVariable(Token token)
         {
-            this.Text = S;
-        }
-
-        public Input(MASNumber N)
-        {
-            this.Number = N;
-        }
-
-        public Input(ObjectDeclaration obj)
-        {
-            this.ObjectDeclaration = obj;
-        }
-
-        public Input(Identifier I, Input input) 
-            : this(I)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASBool B, Input input)
-            : this(B)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASString S, Input input)
-            : this(S)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(MASNumber N, Input input)
-            : this(N)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(ObjectDeclaration O, Input input)
-            : this(O)
-        {
-            this.InputVar = input;
-        }
-
-        public Input(Terminal T)
-        {
-            if (T is Identifier)
-            {
-                VarName = (Identifier)T;
-            }
-            else if (T is MASBool)
-            {
-                TrueOrFalse = (MASBool)T;
-            }
-            else if (T is MASString)
-            {
-                Text = (MASString)T;
-            }
-            else if (T is MASNumber)
-            {
-                Number = (MASNumber)T;
-            }
-        }
-
-        public Input(Terminal T, Input input) : this(T)
-        {
-            this.InputVar = input;
+            this.token = token;
         }
 
         public override object visit(Visitor v, object arg)
         {
-            return v.visitInput(this, arg);
+            return v.visitMASVariable(this, arg);
         }
     }
 
