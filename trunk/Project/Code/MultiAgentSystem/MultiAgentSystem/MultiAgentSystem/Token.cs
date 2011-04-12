@@ -80,35 +80,4 @@ namespace MultiAgentSystem
             }
         }
     }
-
-    public class Type
-    {
-        private int kind;
-        public enum types
-        { 
-            ERROR = -1,
-            BOOL,
-            NUM,
-            STRING,
-        }
-
-        public Type (int kind)
-        {
-            this.kind = kind;
-        }
-
-        public bool equals(object other)
-        {
-            Type otherType = (Type)other;
-            return (
-                this.kind == otherType.kind
-                || this.kind == (int)types.ERROR
-                || otherType.kind == (int)types.ERROR);
-        }
-
-        public static Type _error = new Type((int)types.ERROR);
-        public static Type _bool = new Type((int)types.BOOL);
-        public static Type _num = new Type((int)types.NUM);
-        public static Type _string = new Type((int)types.STRING);
-    }
 }
