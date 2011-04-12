@@ -20,11 +20,18 @@ namespace ListToXML
             this._standalone = standalone;
         }
 
-        public static void GenerateThisShizzle(String XmlName)
+        public static void GenerateThisShizzle(String XmlName, String Encoding)
         {
             XMLhelp.End();
-            
-
+            if (Encoding == null)
+            {
+                Encoding = "ISO-8859-1";
+                Encoding = "<?xml version=\"1.0\" encoding=\"" + Encoding + "\"?>";
+            }
+            else
+            {
+                Encoding = "<?xml version=\"1.0\" encoding=\"" + Encoding + "\"?>";
+            }
             String a = "<";
             String b = ">";
             String c = "</";
@@ -83,7 +90,7 @@ namespace ListToXML
 
             using (StreamWriter outfile = new StreamWriter(@"\WarGame.xml"))
             {
-                outfile.Write(XML);
+                outfile.Write(Encoding+XML);
             }
         }
 

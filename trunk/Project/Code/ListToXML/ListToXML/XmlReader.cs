@@ -23,7 +23,15 @@ namespace ListToXML
         {
             StreamReader streamReader = new StreamReader(file);
             string XmlFile = streamReader.ReadToEnd();
-
+            if (XmlFile.Contains("<?"))
+            {
+                XmlFile = XmlFile.Replace("?>", "?>@");
+                String[] tempArray = XmlFile.Split(Split);
+                String encoding = tempArray[0];
+                XmlFile = tempArray[1];
+                Console.WriteLine("Encoding" + encoding);
+                //Set encoding
+            }
             XmlFile = XmlFile.Replace("<", "@<");
             XmlFile = XmlFile.Replace(">", ">@");
             XmlFile = XmlFile.Replace(">@@<", ">@<");
