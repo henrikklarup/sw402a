@@ -54,7 +54,7 @@ namespace ListToXML
             mTeams(teams);
             mSquads(squads);
             mActionPatterns(actionPatterns);
-            XML.GenerateThisShizzle("MAS");
+            XML.GenerateThisShizzle("MAS",null);
 
             XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
             Reader.Mount();
