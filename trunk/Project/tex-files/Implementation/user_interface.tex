@@ -1,6 +1,6 @@
 \section{The Graphical User Interface}
 The user interface is made as a windows form application. With Visual Studios designer tools it is simple to make a nice design with buttons, panels, and windows just the way you want.\\
-   The main idea of the design of the user interface is that there should be only a few buttons, så that the user should not spend a lot of time figuring out what all the buttons do. Furthermore we have designed the interface so that the main structure looks like other popular strategy computer games (see \ref{pic:red_alert} and \ref{pic:coc} in appendix). We have done this to make the application easy to learn how to use.
+   The main idea of the design of the user interface is that there should be only a few buttons, the user should not spend a lot of time figuring out what all the buttons do. Furthermore we have designed the interface so the main structure looks like other popular strategy computer games (see \ref{pic:red_alert} and \ref{pic:coc} in appendix). We have done this to make the application easy to learn how to use.
 	
 \subsection*{Game Start Settings}
 When the game is started, a dialog box is shown where one can choose the size of the \text{war zone}. We have chosen to have three fixed grid sizes, because of the way we draw the grid \ref{sec:drawing}.\\
@@ -47,3 +47,6 @@ The functions of the game interface is:
 
 \section*{Drawing the Grid and Agents}
 \label{sec:drawing}
+The drawing of the grid and agents, is done using GDI+ (http://msdn.microsoft.com/en-us/library/ms533798(v=vs.85).aspx) which makes it possible to draw graphic on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, this is done with the help of double buffering.
+We only use GDI+ graphics inside the usercontrol DBpanel, and make sure we draw things in the correct order, as we draw the pixels untop of each other. The first thing drawn is the background, which in our case is green, with the black gridlines on top of it, to create the game grid. Next the agents are drawn, one after the another.
+The agents start posistions are calculated by the following algorithem:
