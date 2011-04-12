@@ -45,15 +45,19 @@ namespace MultiAgentSystem
 
             Console.ReadKey();
 
+            Console.WriteLine();
             Console.WriteLine("Parse");
             Parser parser = new Parser(Tokens);
             newAst = parser.parse();
 
             Console.ReadKey();
 
+            Console.WriteLine();
             Console.WriteLine("Decorate AST");
             Visitor visitor = new Visitor();
             visitor.visitAST(newAst, null);
+
+            Console.ReadKey();
         }
     }
 }

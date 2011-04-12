@@ -34,10 +34,12 @@ namespace MultiAgentSystem
             identificationTable.Add(attr);
         }
 
-        public int retrieve(string ident)
+        public int retrieve(Token token)
         {
             List<Attributes> attributes;
             Attributes attr;
+
+            string ident = token.spelling;
 
             attributes = identificationTable.FindAll(
                 delegate(Attributes att)
@@ -50,7 +52,7 @@ namespace MultiAgentSystem
                     return att.scope <= scope;
                 });
             if (attr != null) return attr.kind;
-            else Console.WriteLine("{0} has not been declared.", attr.ident);
+            else Console.WriteLine("Identifier {0} at {1}, {2} has not been declared.", token.spelling, token.row, token.col);
 
             return (int)Token.keywords.ERROR;
         }

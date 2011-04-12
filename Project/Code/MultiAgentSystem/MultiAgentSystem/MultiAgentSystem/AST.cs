@@ -241,7 +241,7 @@ namespace MultiAgentSystem
         public Operator _operator;
         public AST primaryExpression_2;
 
-        public Type type;
+        public int kind;
 
         public Expression(AST primaryExpression_1, 
             Operator _operator, AST primaryExpression_2)
