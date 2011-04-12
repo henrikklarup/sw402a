@@ -24,9 +24,6 @@ namespace ListToXML
             StreamReader streamReader = new StreamReader(file);
             string XmlFile = streamReader.ReadToEnd();
 
-
-            Console.WriteLine(XmlFile);
-
             XmlFile = XmlFile.Replace("<", "@<");
             XmlFile = XmlFile.Replace(">", ">@");
             XmlFile = XmlFile.Replace(">@@<", ">@<");
@@ -72,46 +69,101 @@ namespace ListToXML
         public void TreeLists()
         {
             int number = 0;
-            for (int i = 0; i < XML.Count; i++)
+            for (int i = 1; i < XML.Count; i++)
             {
                 try
                 {
-                XmlOrder atm = XML[i];
-                
+                    XmlOrder atm = XML[i];
                     XmlOrder prev = XML[i - 1];
                     XmlOrder next = XML[i + 1];
-                
 
-                if (i == 1)
-                {
-                    XmlType XmlOrderType = new XmlType(atm.Tag, null, "root", number);
-                    OrderStack.Add(XmlOrderType);
-                }
-                else if (atm.Order > prev.Order)
-                {
-                    number++;
-                    XmlType XmlOrderType = new XmlType(atm.Tag, null, "nest", number);
-                    OrderStack.Add(XmlOrderType);
-                }
-                else if (atm.Order < prev.Order)
-                {
-                    number--;
-                }
-                else if (atm.Order == prev.Order)
-                {
-                    if (atm.Order > next.Order)
+
+                    if (i == 1)
                     {
-                        XmlType XmlOrderType = new XmlType(prev.Tag, atm.Tag, "Standalone", number);
+                        XmlType XmlOrderType = new XmlType(atm.Tag, null, "root", number);
                         OrderStack.Add(XmlOrderType);
+                        number++;
                     }
-                }
+                    else if (atm.Order > prev.Order)
+                    {
+                        if (atm.Order == next.Order)
+                        {
+                            XmlType XmlOrderType = new XmlType(atm.Tag, next.Tag, "Standalone", number);
+                            OrderStack.Add(XmlOrderType);
+                            i = i + 2;
+                        }
+                        else
+                        {
+                            XmlType XmlOrderType = new XmlType(atm.Tag, null, "nest", number);
+                            OrderStack.Add(XmlOrderType);
+                            number++;
+                        }
+                    }
+                    else if (atm.Order < prev.Order)
+                    {
+                        number--;
+                    }
+                    else if (atm.Order == prev.Order)
+                    {
+                        if (atm.Order > next.Order)
+                        {
+                            XmlType XmlOrderType = new XmlType(atm.Tag, atm.Tag, "Standalone", number);
+                            OrderStack.Add(XmlOrderType);
+                        }
+                    }
                 }
                 catch { };
 
             }
         }
-        List<XmlList> ToDoStack = new List<XmlList>();
+        List<XmlList> RootStack = new List<XmlList>();
         List<XmlList> ListStack = new List<XmlList>();
+        List<XmlType> ReturnList = new List<XmlType>();
+        public List<XmlType> XmlSearch(String searchterm)
+        {
+            int limit;
+            int search;
+            String[] KeySearch = {};
+
+            if(searchterm.Contains(">"))
+            {
+                KeySearch = searchterm.Split('>');
+                limit = KeySearch.Length;
+                search = 0;
+            }
+            else
+            {
+                KeySearch[0] = searchterm;
+                limit = 1;
+                search = 0;
+            }
+            for (int i = 0; i < limit; i++)
+            {
+                List<XmlType> temp = OrderStack.FindAll(x => x.Tag == KeySearch[i]);
+                foreach (XmlType item in temp)
+                {
+                    if (item.Order == search)
+                    {
+                        search++;
+                    }
+                }
+            }
+
+            if (search == limit)
+            {
+                int index = OrderStack.FindIndex(x => x.Order == limit);
+
+                for (int u = index; u < OrderStack.Count; u++)
+                {
+                    if (search == OrderStack[u].Order || search < OrderStack[u].Order)
+                    {
+                        ReturnList.Add(OrderStack[u]);
+                    }
+                }
+            }
+
+                return ReturnList;
+        }
 
         public void finalList()
         {
@@ -120,45 +172,37 @@ namespace ListToXML
                 //public XmlList(String TagName, String Value, List<XmlList> ListofXml, List<Attributes> Attributes)
                 for (int i = 0; i < OrderStack.Count; i++)
                 {
-                    if (i == 1)
+                    if (OrderStack[i].Type == "root")
                     {
-                        List<XmlList> Empty = new List<XmlList>();
-                        XmlList DoList = new XmlList(OrderStack[i].Tag, null, Empty, null);
-                        ToDoStack.Add(DoList);
-
+                        List<XmlList> empty = new List<XmlList>();
+                        XmlList root = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, empty, null);
+                        RootStack.Add(root);
                     }
-                    else if (OrderStack[i].Order < OrderStack[i + 1].Order)
+                    else if (OrderStack[i].Type == "nest")
                     {
-                        List<XmlList> Empty = new List<XmlList>();
-                        XmlList DoList = new XmlList(OrderStack[i].Tag, null, Empty, null);
-                        ToDoStack.Add(DoList);
+                        List<XmlList> empty = new List<XmlList>();
+                        XmlList root = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, empty, null);
+                        RootStack.Add(root);
                     }
                     else if (OrderStack[i].Type == "Standalone")
                     {
-                        bool IsNextStandalone = true;
-                        int k = 1;
-                        XmlList Stand = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, null, null);
-                        ToDoStack[ToDoStack.Count - 1].ListofXml.Add(Stand);
-                        while (IsNextStandalone == true)
+                        bool Check = true;
+                        int k = 0;
+                        while (Check == true)
                         {
+
                             if (OrderStack[i + k].Type == "Standalone")
                             {
-                                XmlList XStand = new XmlList(OrderStack[i + k].Tag, OrderStack[i + k].Value, null, null);
-                                ToDoStack[ToDoStack.Count - 1].ListofXml.Add(XStand);
+                                List<XmlList> empty = new List<XmlList>();
+                                XmlList stand = new XmlList(OrderStack[i + k].Tag, OrderStack[i + k].Value, empty, null);
+                                RootStack[RootStack.Count - 1].ListofXml.Add(stand);
                                 k++;
-                            }
-                            else
-                            {
-                                IsNextStandalone = false;
                             }
                             i = i + k;
                         }
                     }
-                    else if (OrderStack[i].Order < OrderStack[i - 1].Order)
-                    {
-                        XmlList XStand = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, null, null);
-                        ToDoStack[ToDoStack.Count - 1].ListofXml.Add(XStand);
-                    }
+
+                    
                 }
             }
             catch { }
@@ -166,11 +210,15 @@ namespace ListToXML
 
         public List<XmlList> GetToDoStack()
         {
-            return ToDoStack;
+            return RootStack;
         }
 
 
-
+        public void Mount()
+        {
+            TreeLists();
+            finalList();
+        }
 
 
 
