@@ -32,6 +32,7 @@ namespace MultiAgentSystem
         /// </summary>
         public AST parse()
         {
+            Console.WriteLine("Parse");
             return parseMainblock();
         }
 
@@ -64,12 +65,12 @@ namespace MultiAgentSystem
         /// </summary>
         private AST parseBlock()
         {
+            Console.WriteLine("Block");
             Block block = new Block();
             // parseCommand is run until the end of the block is reached.
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.LBRACKET:
-                    Console.WriteLine("Block");
                     acceptIt();
                     while (currentToken.kind != (int)Token.keywords.RBRACKET)
                     {
@@ -91,6 +92,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseCommand()
         {
+            Console.WriteLine("Command");
             switch (currentToken.kind)
             {
                     // or an object declaration...
@@ -144,7 +146,6 @@ namespace MultiAgentSystem
         private Command parseObjectDeclaration()
         {
             Console.WriteLine("Object declaration");
-
             /* As the current token already have been checked,
              * we can just accept it. */
             accept(Token.keywords.NEW);
@@ -183,12 +184,12 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseType()
         {
+            Console.WriteLine("Type");
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.BOOL:
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
-                    Console.WriteLine("Type");
                     MASType M = new MASType(currentToken);
                     acceptIt();
                     return M;
@@ -232,7 +233,6 @@ namespace MultiAgentSystem
         private Command parseForCommand()
         {
             Console.WriteLine("For");
-
             accept(Token.keywords.FOR_LOOP);
             accept(Token.keywords.LPAREN);
             TypeDeclaration typeDeclaration = (TypeDeclaration)parseTypeDeclaration();
@@ -301,6 +301,7 @@ namespace MultiAgentSystem
         /// <returns></returns>
         private Terminal parseVariable()
         {
+            Console.WriteLine("Variable");
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.TRUE:
@@ -330,6 +331,7 @@ namespace MultiAgentSystem
 
         private Terminal parseMethodIdentifier()
         {
+            Console.WriteLine("Method Identifier");
             MethodIdentifier MI = new MethodIdentifier();
             MI.Identifier = parseIdentifier();
             if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
@@ -350,13 +352,22 @@ namespace MultiAgentSystem
         /// </summary>
         private Expression parseExpression()
         {
+            Console.WriteLine("Expression");
             AST primaryExpression_1;
             Operator _operator;
             AST primaryExpression_2;
 
             primaryExpression_1 = parsePrimaryExpression();
             _operator = (Operator)parseOperator();
-            primaryExpression_2 = parsePrimaryExpression();
+            // If the next token is an operator, parse an expression.
+            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
+            {
+                primaryExpression_2 = parseExpression();
+            }
+            else
+            {
+                primaryExpression_2 = parsePrimaryExpression();
+            }
 
             return new Expression(primaryExpression_1, _operator, primaryExpression_2);
 
@@ -435,20 +446,18 @@ namespace MultiAgentSystem
         private AST parsePrimaryExpression()
         {
             Console.WriteLine("Primary Expression");
-            // If the next token is an operator, parse an expression.
-            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
-            {
-                return parseExpression();
-            }
-
             // If the if-loop didnt return, try a switch case on number, boolean, parent expression or identifier.
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.NUMBER:
-                    return new MASNumber(currentToken);
+                    MASNumber num = new MASNumber(currentToken);
+                    acceptIt();
+                    return num;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
-                    return new MASBool(currentToken);
+                    MASBool masbool = new MASBool(currentToken);
+                    acceptIt();
+                    return masbool;
                 case (int)Token.keywords.LPAREN:
                     // Accept the LPARENT.
                     acceptIt();
@@ -480,10 +489,10 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseOperator()
         {
+            Console.WriteLine("Operator");
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.OPERATOR:
-                    Console.WriteLine("Operator");
                     Operator O = new Operator(currentToken);
                     acceptIt();
                     return O;
@@ -499,7 +508,10 @@ namespace MultiAgentSystem
         /// </summary>
         private AST parseInput()
         {
+            Console.WriteLine("Input");
             Input input = new Input();
+            input.firstVar = null;
+            input.nextVar = null;
 
             switch (currentToken.kind)
             { 
@@ -508,16 +520,22 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
                     input.firstVar = (MASVariable)parseVariable();
-                    input.nextVar = (Input)parseInput();
-                    return input;
+                    break;
+                case (int)Token.keywords.IDENTIFIER:
+                    input.firstVar = (Identifier)parseIdentifier();
+                    break;
                 case (int)Token.keywords.RPAREN:
-                    input.firstVar = null;
-                    input.nextVar = null;
                     return input;
                 default:
                     accept(Token.keywords.ERROR);
                     return null;
             }
+            if (currentToken.kind == (int)Token.keywords.COMMA)
+            {
+                acceptIt();
+                input.nextVar = (Input)parseInput();
+            }
+            return input;
         }
 
         /// <summary>
