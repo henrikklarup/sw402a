@@ -241,6 +241,8 @@ namespace MultiAgentSystem
         public Operator _operator;
         public AST primaryExpression_2;
 
+        public Type type;
+
         public Expression(AST primaryExpression_1, 
             Operator _operator, AST primaryExpression_2)
         {
@@ -252,19 +254,6 @@ namespace MultiAgentSystem
         public override object visit(Visitor v, object arg)
         {
             return v.visitExpression(this, arg);
-        }
-    }
-
-    /// <summary>
-    /// Syntax: number | identifier | expression | ( expression ) | boolean
-    /// </summary>
-    class PrimaryExpression : ExpressionAST
-    {
-        AST primExp;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitPrimaryExpression(this, arg);
         }
     }
 

@@ -9,13 +9,20 @@ namespace MultiAgentSystem
     {
         public IdentificationTable idTable = new IdentificationTable();
 
-        public object visitMainBlock(Mainblock block, object arg)
+        public object visitAST(AST ast, object arg)
         {
-            visitBlock(block.block, null);
+            Console.WriteLine("AST");
+            ast.visit(this, arg);
             return null;
         }
 
-        public object visitBlock(Block block, object arg)
+        internal object visitMainBlock(Mainblock block, object arg)
+        {
+            block.block.visit(this, arg);
+            return null;
+        }
+
+        internal object visitBlock(Block block, object arg)
         {
             foreach (Command c in block.commands)
             { 
@@ -60,12 +67,24 @@ namespace MultiAgentSystem
                 switch (kind)
                 { 
                     case (int)Token.keywords.STRING:
-                    case (int)Token.keywords.FALSE:
-                    case (int)Token.keywords.TRUE:
-                    case (int)Token.keywords.NUM:
-                        if (masVariable.token.kind != kind)
-                        { 
+                        if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
+                        {
                             Console.WriteLine("Type declaration has not been declared to a variable of type {0}", masVariable.token.kind.ToString());
+                            return null;
+                        }
+                        break;
+                    case (int)Token.keywords.BOOL:
+                        if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
+                        {
+                            Console.WriteLine("Type declaration has not been declared to a variable of type {0}", masVariable.token.kind.ToString());
+                            return null;
+                        }
+                        break;
+                    case (int)Token.keywords.NUM:
+                        if (masVariable.token.kind != (int)Token.keywords.NUMBER)
+                        {
+                            Console.WriteLine("Type declaration has not been declared to a variable of type {0}", masVariable.token.kind.ToString());
+                            return null;
                         }
                         break;
                     default:
@@ -126,9 +145,49 @@ namespace MultiAgentSystem
             return null;
         }
 
+        // Syntax: number | identifier | expression | ( expression ) | boolean
         internal object visitExpression(Expression expression, object arg)
         {
-            throw new NotImplementedException();
+            Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
+            Token _operator = (Token)expression._operator.visit(this, arg);
+            Token primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
+
+            switch (_operator.spelling)
+            { 
+                case "<":
+                case ">":
+                case "<=":
+                case ">=":
+                case "==":
+                    expression.type = Type._bool;
+                    break;
+                case "+":
+                case "-":
+                case "/":
+                case "*":
+                    expression.type = Type._num;
+                    break;
+                default:
+                    Console.WriteLine("Operator {0} at {1}, {2} is not an operator.", _operator.spelling, _operator.col, _operator.row);
+                    return null;
+            }
+
+            if(expression.type == Type._bool)
+            {
+                switch (primExpr1.kind)
+                { 
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.FALSE:
+                        break;
+                    case (int)Token.keywords.IDENTIFIER:
+                        if (idTable.retrieve(primExpr1.spelling) == (int)Type.types.BOOL)
+                            break;
+                        else
+                            return null;
+                }
+            }
+
+            return null;
         }
 
         internal object visitIdentifier(Identifier identifier, object arg)
@@ -138,7 +197,7 @@ namespace MultiAgentSystem
 
         internal object visitOperator(Operator p, object arg)
         {
-            throw new NotImplementedException();
+            return p.token;
         }
 
         internal object visitInput(Input input, object arg)
@@ -172,11 +231,6 @@ namespace MultiAgentSystem
         }
 
         internal object visitMASVariable(MASVariable mASVariable, object arg)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
         {
             throw new NotImplementedException();
         }
