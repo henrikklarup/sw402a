@@ -102,8 +102,13 @@ namespace MultiAgentSystem
                         return null;
                 }
             }
-        
-            idTable.enter(kind, ident);
+            if (idTable.retrieve(VarName) == (int)Token.keywords.ERROR)
+                idTable.enter(kind, ident);
+            else
+            {
+                Console.WriteLine("Identifier {0} at {1}, {2} has already been declared."
+                    , VarName.spelling, VarName.col, VarName.row);
+            }
             return null;
         }
 

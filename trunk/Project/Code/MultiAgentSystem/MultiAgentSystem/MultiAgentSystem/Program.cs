@@ -16,6 +16,12 @@ namespace MultiAgentSystem
         {
             
             ImBusy imBusyThreads = new ImBusy();
+            Thread thread;
+
+            printLogo();
+            Console.WriteLine("Compile");
+
+            Console.ReadKey();
 
             Scanzor scanzor = new Scanzor();
             Token newToken;
@@ -37,7 +43,6 @@ namespace MultiAgentSystem
                 {
                     break;
                 }
-
             }
 
             Console.WriteLine("@Scanning");
@@ -53,27 +58,17 @@ namespace MultiAgentSystem
                 Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}", Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
             }
 
-            imBusyThreads.task = "Scanning";
-            Thread thread = new Thread(new ThreadStart(imBusyThreads.waitForUser));
-            thread.Start();
-
             Console.ReadKey();
-            thread.Abort();
             printLogo();
 
             Console.WriteLine("@Parsing");
-            Console.WriteLine();
             Console.Title = Console.Title + "Parsing";
-
+            Console.WriteLine();
+            
             Parser parser = new Parser(Tokens);
             newAst = parser.parse();
 
-            imBusyThreads.task = "Parsing";
-            thread = new Thread(new ThreadStart(imBusyThreads.waitForUser));
-            thread.Start();
-
             Console.ReadKey();
-            thread.Abort();
             printLogo();
 
             Console.WriteLine("@Decorating");
@@ -83,12 +78,7 @@ namespace MultiAgentSystem
             Visitor visitor = new Visitor();
             visitor.visitAST(newAst, null);
 
-            imBusyThreads.task = "Decorating";
-            thread = new Thread(new ThreadStart(imBusyThreads.waitForUser));
-            thread.Start();
-
             Console.ReadKey();
-            thread.Abort();
         }
 
         private static void printLogo()
@@ -102,6 +92,7 @@ namespace MultiAgentSystem
             Console.SetCursorPosition(col, row++);
             Console.WriteLine("Multi Agent System");
             Console.SetCursorPosition(col, row++);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(" _______ _______ _______ _______");
             Console.SetCursorPosition(col, row++);
             Console.WriteLine("|   |   |   _   |     __|     __|");
@@ -111,6 +102,7 @@ namespace MultiAgentSystem
             Console.WriteLine("|__|_|__|___|___|_______|_______|");
             Console.SetCursorPosition(col + 25, row++);
             Console.WriteLine("Compiler");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 
@@ -123,24 +115,26 @@ namespace MultiAgentSystem
 
             Console.WriteLine();
             Console.WriteLine("Press any key to continue.");
+            int lenght = task.Length+1;
+
             while (true)
             {
-                Console.SetCursorPosition(0, 6);
+                Console.SetCursorPosition(lenght, 6);
 
                 Console.CursorVisible = false;
                 Thread.Sleep(500);
                 switch (change)
                 {
                     case 0:
-                        Console.WriteLine("@" + task + ".  ");
+                        Console.WriteLine(".  ");
                         change++;
                         break;
                     case 1:
-                        Console.WriteLine("@" + task + ".. ");
+                        Console.WriteLine(".. ");
                         change++;
                         break;
                     case 2:
-                        Console.WriteLine("@" + task + "...");
+                        Console.WriteLine("...");
                         change = 0;
                         break;
                 }
