@@ -15,46 +15,54 @@ namespace WindowsFormsApplication6
     public partial class WarGame : Form
     {
         #region Props
-        Point Point1;
-        Point mousePointGrid;
-        Size GridSize;
-        Color figureColor;
-        Color LineColor;
-        Color backGroundColor;
-        int LineWidth;
-        int Grids;
-        Agent movedAgent;
-
-        //Random Blocks
-        Point[] shit = new Point[10];
+        Point mousePointGrid;               //Point for mouse grid point
+        Size GridSize;                      //GridSize height, width
+        Color LineColor;                    //Grid line color
+        Color backGroundColor;              //Background color
+        int LineWidth;                      //Grid line width
+        int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
+        Agent movedAgent;                   //Last moved agent
+        List<Agent> agents;                 //List of agents
+        List<ActionPattern> actionPatterns; //List of actionPatterns
+        List<Squad> squads;                 //List of squads
+        List<Team> teams;                   //List of teams
         #endregion
 
         #region Constructor
         public WarGame()
         {
 
-            InitializeComponent();
+            InitializeComponent();      //Initialize Components
 
             #region Initi props
 
+            #region GameSettings Dialog
             GameSettings gms = new GameSettings();
             gms.ShowDialog();
+            #endregion
 
-
+            #region Grids
             //Small = 13
             //Medium = 26
             //Large = 46
             Grids = gms.gridSize;
-
-            LineWidth = 2;
-            Point1 = new Point(LineWidth, LineWidth);
-            mousePointGrid = new Point(0, 0);
-            GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
-            figureColor = Color.FromArgb(102, 130, 102);
-            LineColor = Color.Black;
-            backGroundColor = Color.FromArgb(102,153,102);
             #endregion
 
+            //Linewidth default 2
+            LineWidth = 2;
+            //Empty mousepoint
+            mousePointGrid = new Point(0, 0);
+            //Line color default black
+            LineColor = Color.Black;
+            //Background color default army green
+            backGroundColor = Color.FromArgb(102,153,102);
+
+            //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
+            GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
+
+            #endregion
+
+            #region Folder Browser Dialog
             //Xml-path choosen
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -63,17 +71,9 @@ namespace WindowsFormsApplication6
                 getXmlData(fbd.SelectedPath);
                 placeTeams();
             }
-
-            //GamerTimer.Enabled = true;
-            DrawTimer.Enabled = true;
-
-            #region Init random
-            Random rnd = new Random();
-            for (int i = 0; i < 10; i++)
-            {
-                shit[i] = getGridPixelFromGrid(new Point(rnd.Next(Grids), rnd.Next(Grids)));
-            }
             #endregion
+
+            DrawTimer.Enabled = true;       //Enable the timer
         }
         #endregion
 
@@ -101,14 +101,6 @@ namespace WindowsFormsApplication6
             for (int i = GridSize.Height + LineWidth; i < dbPanel1.Height; i += GridSize.Height + LineWidth)
             {
                 e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth, i + (LineWidth / 2)), new Point(dbPanel1.Width, i + (LineWidth / 2)));
-            }
-            #endregion
-
-            //Draw Shit
-            #region DrawShit
-            foreach (Point p in shit)
-            {
-                //e.Graphics.FillEllipse(Brushes.Pink, new Rectangle(p,GridSize));
             }
             #endregion
 
@@ -176,13 +168,13 @@ namespace WindowsFormsApplication6
                     agentsOnTeam4++;
             }
 
+            //Generate gameStats
             string gameStats = "Team 1: " + agentsOnTeam1 + Environment.NewLine + "Team 2: " + agentsOnTeam2 + Environment.NewLine + "Team 3: " + agentsOnTeam3 + Environment.NewLine + "Team 4: " + agentsOnTeam4;
 
+            //If Text changed, update textbox
             if (textBox3.Text != gameStats)
                 textBox3.Text = gameStats;
             #endregion
-
-            //this.Invalidate(true);
 
             //Update GameArea
             dbPanel1.Invalidate();
@@ -197,14 +189,15 @@ namespace WindowsFormsApplication6
         private void dbPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             //Get Mouse ClickPoint
-            Point1 = getGridPixelFromPixel(e.Location);
+            mousePointGrid = getGridPixelFromPixel(e.Location);
 
             //GetAgent on mouseClick
             foreach(Agent a in agents)
             {
                 Point agentPoint = getGridPixelFromPixel(new Point(a.posX, a.posY));
-                if (agentPoint == Point1)
+                if (agentPoint == mousePointGrid)
                 {
+                    //Write Agent stats
                     textBox2.Text = "Name: " + a.name + Environment.NewLine + "Id: " + a.ID + Environment.NewLine + "Team: " + a.team.name + Environment.NewLine + "Team Color: " + a.team.color;
                     break;
                 }
@@ -217,6 +210,7 @@ namespace WindowsFormsApplication6
         {
             //Print gameArea chords
             mousePointGrid = getGridFromPixel(e.Location);
+            //Update grid label
             label4.Text = "MousePos Grid: " + mousePointGrid.X + "," + mousePointGrid.Y;
         }
         #endregion
@@ -235,6 +229,7 @@ namespace WindowsFormsApplication6
                     //Set Figure to x,y
                     a.posX = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).X;
                     a.posY = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).Y;
+                    //Set movedAgent to just moved agent
                     movedAgent = a;
                 }
             }
@@ -243,8 +238,14 @@ namespace WindowsFormsApplication6
         #endregion
 
         #region Logic
-        //GridPointLogic
         #region GridPointLogic
+
+        /// <summary>
+        /// Translate x,y to gridstartX,gridstartY
+        /// </summary>
+        /// <param name="inputPoint">X,Y in pixel</param>
+        /// <returns>gridstartX,gridstartY</returns>
+        #region getGridPixelFromPixel
         public Point getGridPixelFromPixel(Point inputPoint)
         {
             //(cut digits) (Point.V / (g+lw)) * (g+lw)   --  DONE!
@@ -253,7 +254,14 @@ namespace WindowsFormsApplication6
 
             return new Point(x, y);
         }
+        #endregion
 
+        /// <summary>
+        /// Translate gridX,gridY to gridstartX,gridstartY
+        /// </summary>
+        /// <param name="inputPoint">gridX,gridY</param>
+        /// <returns>gridstartX,gridstartY</returns>
+        #region getGridPixelFromGrid
         public Point getGridPixelFromGrid(Point inputPoint)
         {
             //Start equals 0,0   -- DONE!
@@ -264,7 +272,14 @@ namespace WindowsFormsApplication6
 
             return new Point(x, y);
         }
+        #endregion
 
+        /// <summary>
+        /// Translate x,y to gridX,gridY
+        /// </summary>
+        /// <param name="inputPoint">x,y</param>
+        /// <returns>gridX,gridY</returns>
+        #region getGridFromPixel
         public Point getGridFromPixel(Point inputPoint)
         {
             //Start equals 0,0   -- DONE!
@@ -278,13 +293,66 @@ namespace WindowsFormsApplication6
         #endregion
         #endregion
 
+        /// <summary>
+        /// Compares two agents, the one which "rolls" the highest wins
+        /// </summary>
+        /// <param name="a1">Agent 1</param>
+        /// <param name="a2">Agent 2</param>
+        #region CombatCompareAgents
+        private void CombatCompareAgents(Agent a1, Agent a2)
+        {
+            //Stop the tiemr, so we don't manulipulate the data while executing this
+            DrawTimer.Stop();
+
+            //Generate random values, value = rank * (1..100)
+            Random rnd = new Random();
+            int agent1Value = a1.rank * rnd.Next(100);
+            Random rnd1 = new Random(agent1Value);
+            int agent2Value = a2.rank * rnd1.Next(100);
+
+            //If agent 1 wins, remove agent 2
+            if (agent1Value > agent2Value)
+            {
+                MessageBox.Show(a1.name + " beats " + a2.name);
+                foreach (Agent a in agents)
+                {
+                    if (a.ID == a2.ID)
+                    {
+                        agents.Remove(a);
+                        break;
+                    }
+
+                }
+            }
+            //If agent 2 wins, remove agent 1
+            else
+            {
+                MessageBox.Show(a2.name + " beats " + a1.name);
+                foreach (Agent a in agents)
+                {
+                    if (a.ID == a1.ID)
+                    {
+                        agents.Remove(a);
+                        break;
+                    }
+
+                }
+            }
+
+            //No agent has now been moved
+            movedAgent = null;
+
+            //Start the timer, and let the game continue
+            DrawTimer.Start();
+        }
+        #endregion
+        #endregion
+
         #region Lists
-        List<Agent> agents;
-        List<ActionPattern> actionPatterns;
-        List<Squad> squads;
-        List<Team> teams;
-
-
+        /// <summary>
+        /// Get xml data from files in folder, and puts it into the various lists
+        /// </summary>
+        /// <param name="path">Folder containing the xmlfiles</param>
         #region GetXMLData
         public void getXmlData(string path)
         {
@@ -314,6 +382,9 @@ namespace WindowsFormsApplication6
         }
         #endregion
 
+        /// <summary>
+        /// Place teams on the gamearea
+        /// </summary>
         #region PlaceTeams
         public void placeTeams()
         {
@@ -510,53 +581,6 @@ namespace WindowsFormsApplication6
         private void button3_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-        #endregion
-
-        #region GameTimer
-        private void GamerTimer_Tick(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
-        #region CombatCompareAgents
-        private void CombatCompareAgents(Agent a1, Agent a2)
-        {
-            DrawTimer.Stop();
-            Random rnd = new Random();
-            int agent1Value = a1.rank * rnd.Next(100);
-            Random rnd1 = new Random(agent1Value);
-            int agent2Value = a2.rank * rnd1.Next(100);
-
-            if (agent1Value > agent2Value)
-            {
-                MessageBox.Show(a1.name + " beats " + a2.name);
-                foreach (Agent a in agents)
-                {
-                    if (a.ID == a2.ID)
-                    {
-                        agents.Remove(a);
-                        break;
-                    }
-
-                }
-            }
-            else
-            {
-                MessageBox.Show(a2.name + " beats " + a1.name);
-                foreach (Agent a in agents)
-                {
-                    if (a.ID == a1.ID)
-                    {
-                        agents.Remove(a);
-                        break;
-                    }
-
-                }
-            }
-            movedAgent = null;
-            DrawTimer.Start();
         }
         #endregion
     }
