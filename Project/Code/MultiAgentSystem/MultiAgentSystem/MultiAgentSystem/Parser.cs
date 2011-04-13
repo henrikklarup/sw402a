@@ -129,13 +129,31 @@ namespace MultiAgentSystem
                     Printer.Collapse();
                     return whileCommand;
                     // type declaration...
-                case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
                 case (int)Token.keywords.BOOL:
                     TypeDeclaration typeDeclaration = (TypeDeclaration)parseTypeDeclaration();
                     accept(Token.keywords.SEMICOLON);
                     Printer.Collapse();
                     return typeDeclaration;
+                    // or expression or num declaration...
+                case (int)Token.keywords.NUM:
+                    /* If the next token is an operator, this is an expression. 
+                     * Else it's a num declaration. */
+                    if (tokenList.ElementAt(listCount + 1).kind ==
+                        (int)Token.keywords.OPERATOR)
+                    {
+                        Expression expression = (Expression)parseExpression();
+                        accept(Token.keywords.SEMICOLON);
+                        Printer.Collapse();
+                        return expression;
+                    }
+                    else
+                    {
+                        TypeDeclaration numDeclaration = (TypeDeclaration)parseTypeDeclaration();
+                        accept(Token.keywords.SEMICOLON);
+                        Printer.Collapse();
+                        return numDeclaration;
+                    }
                     // or expression or method call.
                 case (int)Token.keywords.IDENTIFIER:
                     /* If the next token is an operator, this is an expression. 
@@ -147,6 +165,14 @@ namespace MultiAgentSystem
                         accept(Token.keywords.SEMICOLON);
                         Printer.Collapse();
                         return expression;
+                    }
+                    else if (tokenList.ElementAt(listCount + 1).kind ==
+                        (int)Token.keywords.BECOMES)
+                    {
+                        AssignCommand assignCommand = (AssignCommand)parseAssignCommand();
+                        accept(Token.keywords.SEMICOLON);
+                        Printer.Collapse();
+                        return assignCommand;
                     }
                     else
                     {
@@ -187,7 +213,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Object parseObject()
         {
-            Printer.WriteLine("Object");
+            Printer.WriteLine("Object: " + currentToken.spelling);
             Printer.Expand();
             switch (currentToken.kind)
             {
@@ -212,7 +238,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseType()
         {
-            Printer.WriteLine("Type");
+            Printer.WriteLine("Type: " + currentToken.spelling);
             Printer.Expand();
             switch (currentToken.kind)
             {
@@ -341,7 +367,7 @@ namespace MultiAgentSystem
         /// <returns></returns>
         private Terminal parseVariable()
         {
-            Printer.WriteLine("Variable");
+            Printer.WriteLine("Variable: " + currentToken.spelling);
             Printer.Expand();
             switch (currentToken.kind)
             { 
@@ -391,6 +417,39 @@ namespace MultiAgentSystem
             }
             Printer.Collapse();
             return MI;
+        }
+
+        /// <summary>
+        /// Method for assigning an identifier.
+        /// Syntax: identifier becomes  variable | identifier becomes expression
+        /// </summary>
+        /// <returns></returns>
+        private Command parseAssignCommand()
+        {
+            Printer.WriteLine("Assign Command");
+            Printer.Expand();
+            Identifier ident;
+            AST becomes;
+
+            if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
+                ident = parseIdentifier();
+            else
+            {
+                Printer.ErrorLine("Identifier " + currentToken.spelling + " at " + currentToken.row + ", " + currentToken.col + " is not an identifier.");
+                ident = null;
+                acceptIt();
+            }
+            accept(Token.keywords.BECOMES);
+
+            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
+                becomes = parseExpression();
+            else
+            {
+                becomes = parseVariable();
+            }
+
+            Printer.Collapse();
+            return new AssignCommand(ident, becomes);
         }
 
         /// <summary>
@@ -500,14 +559,12 @@ namespace MultiAgentSystem
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.NUMBER:
-                    MASNumber num = new MASNumber(currentToken);
-                    acceptIt();
+                    MASNumber num = parseMASNumber();
                     Printer.Collapse();
                     return num;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
-                    MASBool masbool = new MASBool(currentToken);
-                    acceptIt();
+                    MASBool masbool = parseMASBool();
                     Printer.Collapse();
                     return masbool;
                 case (int)Token.keywords.LPAREN:
@@ -534,7 +591,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Identifier parseIdentifier()
         {
-            Printer.WriteLine("Identifier");
+            Printer.WriteLine("Identifier: " + currentToken.spelling);
             Identifier id = new Identifier(currentToken);
             acceptIt();
             return id;
@@ -545,7 +602,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseOperator()
         {
-            Printer.WriteLine("Operator");
+            Printer.WriteLine("Operator: " + currentToken.spelling);
             Printer.Expand();
             switch (currentToken.kind)
             {
@@ -599,6 +656,22 @@ namespace MultiAgentSystem
             }
             Printer.Collapse();
             return input;
+        }
+
+        private MASNumber parseMASNumber()
+        { 
+            Printer.WriteLine("Number: " + currentToken.spelling);
+            MASNumber num = new MASNumber(currentToken);
+            acceptIt();
+            return num;
+        }
+
+        private MASBool parseMASBool()
+        {
+            Printer.WriteLine("Boolean: " + currentToken.spelling);
+            MASBool _bool = new MASBool(currentToken);
+            acceptIt();
+            return _bool;
         }
 
         /// <summary>

@@ -329,5 +329,11 @@ namespace MultiAgentSystem
             Printer.WriteLine("Variable");
             return mASVariable.token;
         }
+
+
+        internal object visitAssignCommand(AssignCommand assignCommand, object arg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
