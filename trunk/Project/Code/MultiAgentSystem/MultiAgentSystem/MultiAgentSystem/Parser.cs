@@ -32,8 +32,12 @@ namespace MultiAgentSystem
         /// </summary>
         public AST parse()
         {
-            Console.WriteLine("Parse");
-            return parseMainblock();
+            Printer.WriteLine("Parse");
+            Printer.Expand();
+            AST mainBlock = parseMainblock();
+
+            Printer.Collapse();
+            return mainBlock;
         }
 
         /// <summary>
@@ -43,7 +47,8 @@ namespace MultiAgentSystem
         {
             Mainblock main;
 
-            Console.WriteLine("Main");
+            Printer.WriteLine("Main");
+            Printer.Expand();
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.MAIN:
@@ -52,12 +57,15 @@ namespace MultiAgentSystem
                     accept(Token.keywords.RPAREN);
                     main = new Mainblock(parseBlock());
                     accept(Token.keywords.EOT);
-                    return main;
+                    break;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
                     return null;
             }
+
+            Printer.Collapse();
+            return main;
         }
 
         /// <summary>
@@ -65,7 +73,8 @@ namespace MultiAgentSystem
         /// </summary>
         private AST parseBlock()
         {
-            Console.WriteLine("Block");
+            Printer.WriteLine("Block");
+            Printer.Expand();
             Block block = new Block();
             // parseCommand is run until the end of the block is reached.
             switch (currentToken.kind)
@@ -79,12 +88,14 @@ namespace MultiAgentSystem
                             block.commands.Add(c);
                     }
                     acceptIt();
-                    return block;
+                    break;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
                     return null;
             }
+            Printer.Collapse();
+            return block;
         }
 
         /// <summary>
@@ -92,29 +103,38 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseCommand()
         {
-            Console.WriteLine("Command");
+            Printer.WriteLine("Command");
+            Printer.Expand();
             switch (currentToken.kind)
             {
                     // or an object declaration...
                 case (int)Token.keywords.NEW:
                     Command objectDeclaration = parseObjectDeclaration();
                     accept(Token.keywords.SEMICOLON);
+                    Printer.Collapse();
                     return objectDeclaration;
                     // or an if-sentence...
                 case (int)Token.keywords.IF_LOOP:
-                    return parseIfCommand();
+                    Command ifCommand = parseIfCommand();
+                    Printer.Collapse();
+                    return ifCommand;
                     // for loop...
                 case (int)Token.keywords.FOR_LOOP:
-                    return parseForCommand();
+                    Command forCommand = parseForCommand();
+                    Printer.Collapse();
+                    return forCommand;
                     // while loop...
                 case (int)Token.keywords.WHILE_LOOP:
-                    return parseWhileCommand();
+                    Command whileCommand = parseWhileCommand();
+                    Printer.Collapse();
+                    return whileCommand;
                     // type declaration...
                 case (int)Token.keywords.NUM:
                 case (int)Token.keywords.STRING:
                 case (int)Token.keywords.BOOL:
                     TypeDeclaration typeDeclaration = (TypeDeclaration)parseTypeDeclaration();
                     accept(Token.keywords.SEMICOLON);
+                    Printer.Collapse();
                     return typeDeclaration;
                     // or expression or method call.
                 case (int)Token.keywords.IDENTIFIER:
@@ -125,17 +145,20 @@ namespace MultiAgentSystem
                     {
                         Expression expression = (Expression)parseExpression();
                         accept(Token.keywords.SEMICOLON);
+                        Printer.Collapse();
                         return expression;
                     }
                     else
                     {
                         MethodCall methodCall = (MethodCall)parseMethodCall();
                         accept(Token.keywords.SEMICOLON);
+                        Printer.Collapse();
                         return methodCall;
                     }
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
+                    Printer.Collapse();
                     return null;
             }
         }
@@ -145,7 +168,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseObjectDeclaration()
         {
-            Console.WriteLine("Object declaration");
+            Printer.WriteLine("Object declaration");
+            Printer.Expand();
             /* As the current token already have been checked,
              * we can just accept it. */
             accept(Token.keywords.NEW);
@@ -154,6 +178,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.LPAREN);
             Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
+            Printer.Collapse();
             return new ObjectDeclaration(obj, id, input);
         }
 
@@ -162,7 +187,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Object parseObject()
         {
-            Console.WriteLine("Object");
+            Printer.WriteLine("Object");
+            Printer.Expand();
             switch (currentToken.kind)
             {
                     // If the token represents an object, accept.
@@ -171,10 +197,12 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.SQUAD:
                     Object tmpObject = new Object(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return tmpObject;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
+                    Printer.Collapse();
                     return null;
             }
         }
@@ -184,7 +212,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseType()
         {
-            Console.WriteLine("Type");
+            Printer.WriteLine("Type");
+            Printer.Expand();
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.BOOL:
@@ -192,10 +221,12 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.STRING:
                     MASType M = new MASType(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return M;
                 default:
                     // Error message
                     accept(Token.keywords.ERROR);
+                    Printer.Collapse();
                     return null;
             }
         }
@@ -206,7 +237,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseIfCommand()
         {
-            Console.Write("If");
+            Printer.Write("If");
+            Printer.Expand();
             accept(Token.keywords.IF_LOOP);
             accept(Token.keywords.LPAREN);
             Expression expression = (Expression)parseExpression();
@@ -216,12 +248,14 @@ namespace MultiAgentSystem
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.ELSE_LOOP:
-                    Console.WriteLine(" else");
+                    Printer.WriteLine(" else");
                     acceptIt();
                     Block elseBlock = (Block)parseBlock();
+                    Printer.Collapse();
                     return new IfCommand(expression, block, elseBlock);
                 default:
                     Console.WriteLine();
+                    Printer.Collapse();
                     return new IfCommand(expression, block);
             }
         }
@@ -232,7 +266,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseForCommand()
         {
-            Console.WriteLine("For");
+            Printer.WriteLine("For Command");
+            Printer.Expand();
             accept(Token.keywords.FOR_LOOP);
             accept(Token.keywords.LPAREN);
             TypeDeclaration typeDeclaration = (TypeDeclaration)parseTypeDeclaration();
@@ -243,7 +278,8 @@ namespace MultiAgentSystem
             accept(Token.keywords.RPAREN);
             
             Block block = (Block)parseBlock();
-            
+
+            Printer.Collapse();
             return new ForCommand(typeDeclaration, expression_1, expression_2, block);
         }
 
@@ -253,7 +289,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseWhileCommand()
         {
-            Console.WriteLine("While");
+            Printer.WriteLine("While Command");
+            Printer.Expand();
             accept(Token.keywords.WHILE_LOOP);
             accept(Token.keywords.LPAREN);
             Expression LoopExpression = (Expression)parseExpression();
@@ -261,6 +298,7 @@ namespace MultiAgentSystem
 
             Block WhileBlock = (Block)parseBlock();
 
+            Printer.Collapse();
             return new WhileCommand(LoopExpression, WhileBlock);
         }
 
@@ -270,7 +308,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseTypeDeclaration()
         {
-            Console.WriteLine("Type declaration");
+            Printer.WriteLine("Type declaration");
+            Printer.Expand();
             TypeDeclaration typeDeclaration = new TypeDeclaration();
             typeDeclaration.Type = (MASType)parseType();
             typeDeclaration.VarName = parseIdentifier();
@@ -292,6 +331,7 @@ namespace MultiAgentSystem
                         break;
                 }
             }
+            Printer.Collapse();
             return typeDeclaration;
         }
 
@@ -301,7 +341,8 @@ namespace MultiAgentSystem
         /// <returns></returns>
         private Terminal parseVariable()
         {
-            Console.WriteLine("Variable");
+            Printer.WriteLine("Variable");
+            Printer.Expand();
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.TRUE:
@@ -310,8 +351,10 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.NUMBER:
                     MASVariable masVariable = new MASVariable(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return masVariable;
                 default:
+                    Printer.Collapse();
                     return null;
             }
         }
@@ -321,17 +364,20 @@ namespace MultiAgentSystem
         /// </summary>
         private Command parseMethodCall()
         {
-            Console.WriteLine("Method call");
+            Printer.WriteLine("Method call");
+            Printer.Expand();
             MethodIdentifier methodIdentifier = (MethodIdentifier)parseMethodIdentifier();
             accept(Token.keywords.LPAREN);
             Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
+            Printer.Collapse();
             return new MethodCall(methodIdentifier, input);
         }
 
         private Terminal parseMethodIdentifier()
         {
-            Console.WriteLine("Method Identifier");
+            Printer.WriteLine("Method Identifier");
+            Printer.Expand();
             MethodIdentifier MI = new MethodIdentifier();
             MI.Identifier = parseIdentifier();
             if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
@@ -343,6 +389,7 @@ namespace MultiAgentSystem
             {
                 MI.NextMethodIdentifier = null;
             }
+            Printer.Collapse();
             return MI;
         }
 
@@ -352,7 +399,8 @@ namespace MultiAgentSystem
         /// </summary>
         private Expression parseExpression()
         {
-            Console.WriteLine("Expression");
+            Printer.WriteLine("Expression");
+            Printer.Expand();
             AST primaryExpression_1;
             Operator _operator;
             AST primaryExpression_2;
@@ -369,6 +417,7 @@ namespace MultiAgentSystem
                 primaryExpression_2 = parsePrimaryExpression();
             }
 
+            Printer.Collapse();
             return new Expression(primaryExpression_1, _operator, primaryExpression_2);
 
             #region OLD expression
@@ -445,31 +494,38 @@ namespace MultiAgentSystem
         /// <returns></returns>
         private AST parsePrimaryExpression()
         {
-            Console.WriteLine("Primary Expression");
+            Printer.WriteLine("Primary Expression");
+            Printer.Expand();
             // If the if-loop didnt return, try a switch case on number, boolean, parent expression or identifier.
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.NUMBER:
                     MASNumber num = new MASNumber(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return num;
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
                     MASBool masbool = new MASBool(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return masbool;
                 case (int)Token.keywords.LPAREN:
                     // Accept the LPARENT.
                     acceptIt();
                     Expression expression = parseExpression();
                     accept(Token.keywords.RPAREN);
+                    Printer.Collapse();
                     return expression;
                 case (int)Token.keywords.IDENTIFIER:
-                    return parseIdentifier();
+                    Identifier ident = parseIdentifier();
+                    Printer.Collapse();
+                    return ident;
                 default:
                     accept(Token.keywords.ERROR);
                     break;
             }
+            Printer.Collapse();
             return null;
         }
 
@@ -478,7 +534,7 @@ namespace MultiAgentSystem
         /// </summary>
         private Identifier parseIdentifier()
         {
-            Console.WriteLine("Identifier");
+            Printer.WriteLine("Identifier");
             Identifier id = new Identifier(currentToken);
             acceptIt();
             return id;
@@ -489,15 +545,18 @@ namespace MultiAgentSystem
         /// </summary>
         private Terminal parseOperator()
         {
-            Console.WriteLine("Operator");
+            Printer.WriteLine("Operator");
+            Printer.Expand();
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.OPERATOR:
                     Operator O = new Operator(currentToken);
                     acceptIt();
+                    Printer.Collapse();
                     return O;
                 default:
                     accept(Token.keywords.ERROR);
+                    Printer.Collapse();
                     return null;
             }
         }
@@ -508,7 +567,8 @@ namespace MultiAgentSystem
         /// </summary>
         private AST parseInput()
         {
-            Console.WriteLine("Input");
+            Printer.WriteLine("Input");
+            Printer.Expand();
             Input input = new Input();
             input.firstVar = null;
             input.nextVar = null;
@@ -525,9 +585,11 @@ namespace MultiAgentSystem
                     input.firstVar = (Identifier)parseIdentifier();
                     break;
                 case (int)Token.keywords.RPAREN:
+                    Printer.Collapse();
                     return input;
                 default:
                     accept(Token.keywords.ERROR);
+                    Printer.Collapse();
                     return null;
             }
             if (currentToken.kind == (int)Token.keywords.COMMA)
@@ -535,6 +597,7 @@ namespace MultiAgentSystem
                 acceptIt();
                 input.nextVar = (Input)parseInput();
             }
+            Printer.Collapse();
             return input;
         }
 
@@ -547,7 +610,7 @@ namespace MultiAgentSystem
         {
             if (kind == Token.keywords.ERROR || (int)kind != currentToken.kind)
             {
-                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col + 
+                Printer.ErrorLine("ERROR at line " + currentToken.row + " col " + currentToken.col + 
                     ". The recieved token of kind " + (Token.keywords)currentToken.kind + " was not legal.");
                 Console.ReadKey();
             }
