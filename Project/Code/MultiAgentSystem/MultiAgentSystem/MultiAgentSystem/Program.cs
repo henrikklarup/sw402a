@@ -14,11 +14,9 @@ namespace MultiAgentSystem
 
         static void Main(string[] args)
         {
-            
-            ImBusy imBusyThreads = new ImBusy();
-            Thread thread;
+            Console.ForegroundColor = ConsoleColor.White;
 
-            printLogo();
+            Printer.printLogo();
             Console.WriteLine("Compile");
 
             Console.ReadKey();
@@ -26,7 +24,7 @@ namespace MultiAgentSystem
             Scanzor scanzor = new Scanzor();
             Token newToken;
 
-            printLogo();
+            Printer.printLogo();
 
             while (true)
             {
@@ -59,7 +57,7 @@ namespace MultiAgentSystem
             }
 
             Console.ReadKey();
-            printLogo();
+            Printer.printLogo();
 
             Console.WriteLine("@Parsing");
             Console.Title = Console.Title + "Parsing";
@@ -69,7 +67,7 @@ namespace MultiAgentSystem
             newAst = parser.parse();
 
             Console.ReadKey();
-            printLogo();
+            Printer.printLogo();
 
             Console.WriteLine("@Decorating");
             Console.Title = Console.Title + "Decorating";
@@ -79,30 +77,6 @@ namespace MultiAgentSystem
             visitor.visitAST(newAst, null);
 
             Console.ReadKey();
-        }
-
-        private static void printLogo()
-        {
-            // Used to place the cursor in the Console.
-            int col = 10;
-            int row = 0;
-
-            Console.Clear();
-            Console.Title = "MASS Compiler: ";
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("Multi Agent System");
-            Console.SetCursorPosition(col, row++);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(" _______ _______ _______ _______");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|   |   |   _   |     __|     __|");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|       |       |__     |__     |");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|__|_|__|___|___|_______|_______|");
-            Console.SetCursorPosition(col + 25, row++);
-            Console.WriteLine("Compiler");
-            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 
@@ -139,6 +113,78 @@ namespace MultiAgentSystem
                         break;
                 }
             }
+        }
+    }
+
+    public static class Printer
+    {
+        private static int indent;
+
+        public static void printLogo()
+        {
+            // Used to place the cursor in the Console.
+            int col = 10;
+            int row = 0;
+            ConsoleColor tmpColor = Console.ForegroundColor;
+
+            Console.Clear();
+            Console.Title = "MASS Compiler: ";
+            Console.SetCursorPosition(col, row++);
+            Console.WriteLine("Multi Agent System");
+            Console.SetCursorPosition(col, row++);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(" _______ _______ _______ _______");
+            Console.SetCursorPosition(col, row++);
+            Console.WriteLine("|   |   |   _   |     __|     __|");
+            Console.SetCursorPosition(col, row++);
+            Console.WriteLine("|       |       |__     |__     |");
+            Console.SetCursorPosition(col, row++);
+            Console.WriteLine("|__|_|__|___|___|_______|_______|");
+            Console.SetCursorPosition(col + 25, row++);
+            Console.WriteLine("Compiler");
+            Console.ForegroundColor = tmpColor;
+        }
+
+        public static void ErrorLine(String error)
+        {
+            Error(error);
+            Console.WriteLine();
+        }
+
+        public static void Error(String error)
+        {
+            ConsoleColor tmpColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
+            Console.Write(error);
+            Console.ForegroundColor = tmpColor;
+        }
+
+        public static void WriteLine(String text)
+        {
+            Write(text);
+            Console.WriteLine();
+        }
+
+        public static void Write(String text)
+        {
+            ConsoleColor tmpColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
+            Console.Write(text);
+            Console.ForegroundColor = tmpColor;
+        }
+
+        public static void Expand()
+        {
+            indent++;
+        }
+
+        public static void Collapse()
+        {
+            indent--;
         }
     }
 }
