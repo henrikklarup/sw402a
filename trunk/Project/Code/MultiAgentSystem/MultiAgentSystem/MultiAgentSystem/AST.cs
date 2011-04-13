@@ -228,6 +228,23 @@ namespace MultiAgentSystem
         }
     }
 
+    class AssignCommand : Command
+    {
+        public Identifier ident;
+        public AST becomes;
+
+        public AssignCommand(Identifier ident, AST becomes)
+        {
+            this.ident = ident;
+            this.becomes = becomes;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitAssignCommand(this, arg);
+        }
+    }
+
     abstract class ExpressionAST : Command
     { }
 
