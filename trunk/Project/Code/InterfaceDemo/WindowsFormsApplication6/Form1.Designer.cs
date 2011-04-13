@@ -41,7 +41,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.DrawTimer = new System.Windows.Forms.Timer(this.components);
-            this.GamerTimer = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -170,11 +169,6 @@
             // 
             this.DrawTimer.Tick += new System.EventHandler(this.DrawTimer_Tick);
             // 
-            // GamerTimer
-            // 
-            this.GamerTimer.Interval = 1;
-            this.GamerTimer.Tick += new System.EventHandler(this.GamerTimer_Tick);
-            // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -247,7 +241,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 750);
+            this.ClientSize = new System.Drawing.Size(844, 750);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox3);
@@ -290,7 +284,6 @@
         private System.Windows.Forms.Button button4;
         private DBPanel dbPanel1;
         private System.Windows.Forms.Timer DrawTimer;
-        private System.Windows.Forms.Timer GamerTimer;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
