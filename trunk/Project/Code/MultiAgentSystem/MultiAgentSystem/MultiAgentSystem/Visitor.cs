@@ -9,19 +9,15 @@ namespace MultiAgentSystem
     {
         public IdentificationTable idTable = new IdentificationTable();
 
-        private static string _ast = "AST", _mainBlock = "Main block", _block = "Block", 
-            _objectDeclaration = "Object Declaration", _typeDeclaration = "Type Declaration",
-            _ifCommand = "If Command", _forCommand = "For Command", _whileCommand = "While Command",
-            _methodIdentifier = "Method Identifier", _methodCall = "Method Call",
-            _expression = "Expression", _identifier = "Identifier", _booleanExpression = "boolean.",
-            _mathExpression = "mathematic.",
-            _notError = " is not of expression type ",
+        private static string _booleanExpression = "boolean.", _mathExpression = "mathematic.",
+            _typeDeclaration = "Type Declaration", 
+            _notError = " is not of expression type ", 
             _typeErrorText = " has not been declared to a variable of type ",
             _undeclaredErrorText = " has not been declared as a type.";
 
         public object visitAST(AST ast, object arg)
         {
-            Printer.WriteLine(_ast);
+            Printer.WriteLine("AST");
             Printer.Expand();
             ast.visit(this, arg);
 
@@ -31,7 +27,7 @@ namespace MultiAgentSystem
 
         internal object visitMainBlock(Mainblock block, object arg)
         {
-            Printer.WriteLine(_mainBlock);
+            Printer.WriteLine("Main Block");
             Printer.Expand();
             block.block.visit(this, arg);
 
@@ -41,7 +37,7 @@ namespace MultiAgentSystem
 
         internal object visitBlock(Block block, object arg)
         {
-            Printer.WriteLine(_block);
+            Printer.WriteLine("Block");
             Printer.Expand();
 
             idTable.openScope();
@@ -58,7 +54,7 @@ namespace MultiAgentSystem
         // new object identifier ( input )
         internal object visitObjectDecleration(ObjectDeclaration objectDeclaration, object arg)
         {
-            Printer.WriteLine(_objectDeclaration);
+            Printer.WriteLine("Object Declaration");
             Printer.Expand();
             // Get the kind of Object and the spelling of the identifier.
             int kind = (int)objectDeclaration._object.visit(this, arg);
@@ -138,7 +134,7 @@ namespace MultiAgentSystem
         // if ( bool-expression ) block else block
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
-            Printer.WriteLine(_ifCommand);
+            Printer.WriteLine("If Command");
             Printer.Expand();
             ifCommand.Expression.visit(this, arg);
             ifCommand.IfBlock.visit(this, arg);
@@ -151,7 +147,7 @@ namespace MultiAgentSystem
         // for ( type-declaration ; bool-expression ; math-expression ) block
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
-            Printer.WriteLine(_forCommand);
+            Printer.WriteLine("For Command");
             Printer.Expand();
             forCommand.CounterDeclaration.visit(this, arg);
             forCommand.LoopExpression.visit(this, arg);
@@ -165,7 +161,7 @@ namespace MultiAgentSystem
         // while ( bool-expression ) block
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
-            Printer.WriteLine(_whileCommand);
+            Printer.WriteLine("While Command");
             Printer.Expand();
             whileCommand.LoopExpression.visit(this, arg);
             whileCommand.WhileBlock.visit(this, arg);
@@ -176,7 +172,7 @@ namespace MultiAgentSystem
 
         internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
         {
-            Printer.WriteLine(_methodIdentifier);
+            Printer.WriteLine("Method Identifier");
             Printer.Expand();
             string ident;
 
@@ -190,7 +186,7 @@ namespace MultiAgentSystem
         // identifier ( input ) | identifier . method-call
         internal object visitMethodCall(MethodCall methodCall, object arg)
         {
-            Printer.WriteLine(_methodCall);
+            Printer.WriteLine("Method Call");
             methodCall.methodIdentifier.visit(this, arg);
             methodCall.input.visit(this, arg);
 
@@ -200,7 +196,7 @@ namespace MultiAgentSystem
         // Syntax: number | identifier | expression | ( expression ) | boolean
         internal object visitExpression(Expression expression, object arg)
         {
-            Printer.WriteLine(_expression);
+            Printer.WriteLine("Expression");
             Printer.Expand();
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
             Token _operator = (Token)expression._operator.visit(this, arg);
@@ -285,10 +281,11 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.IDENTIFIER:
                         if (idTable.retrieve(primExpr2) != (int)Token.keywords.NUM)
                             Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " 
-                                + primExpr2.row + " is not of expression type mathematic.");
+                                + primExpr2.row + _notError + _mathExpression);
                         break;
                     default:
-                        Printer.ErrorLine("Mathematic expression " + primExpr2.spelling + " at " + primExpr2.col + ", " + primExpr2.row + " is not of expression type mathematic.");
+                        Printer.ErrorLine("Mathematic expression " + primExpr2.spelling + " at " + primExpr2.col + ", "
+                            + primExpr2.row + _notError + _mathExpression);
                         break;
                 }
             }
@@ -349,7 +346,6 @@ namespace MultiAgentSystem
             Printer.WriteLine("Variable: " + mASVariable.token.spelling);
             return mASVariable.token;
         }
-
 
         internal object visitAssignCommand(AssignCommand assignCommand, object arg)
         {
