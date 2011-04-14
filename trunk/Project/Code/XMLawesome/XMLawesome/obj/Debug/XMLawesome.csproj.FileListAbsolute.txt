@@ -1,0 +1,5 @@
+c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\bin\Debug\XMLawesome.dll
+c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\bin\Debug\XMLawesome.pdb
+c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\ResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\XMLawesome.dll
+c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\XMLawesome.pdb
