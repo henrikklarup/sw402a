@@ -353,6 +353,7 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.FALSE:
                     case (int)Token.keywords.ACTUAL_STRING:
                     case (int)Token.keywords.NUMBER:
+                    case (int)Token.keywords.IDENTIFIER:
                         typeDeclaration.Becomes = (MASVariable)parseVariable();
                         break;
                 }
@@ -375,6 +376,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.FALSE:
                 case (int)Token.keywords.ACTUAL_STRING:
                 case (int)Token.keywords.NUMBER:
+                case (int)Token.keywords.IDENTIFIER:
                     MASVariable masVariable = new MASVariable(currentToken);
                     acceptIt();
                     Printer.Collapse();
