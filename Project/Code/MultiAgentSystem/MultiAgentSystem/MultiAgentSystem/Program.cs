@@ -14,13 +14,17 @@ namespace MultiAgentSystem
 
         static void Main(string[] args)
         {
+            StartUp startUp = new StartUp();
+            Thread thread = new Thread(new ThreadStart(startUp.first));
+            thread.Start();
+            Console.ReadKey();
+            thread.Abort();
             Console.ForegroundColor = ConsoleColor.White;
 
             Printer.printLogo();
             Console.WriteLine("Compile");
 
             Console.ReadKey();
-
             Scanzor scanzor = new Scanzor();
             Token newToken;
 
@@ -55,6 +59,7 @@ namespace MultiAgentSystem
             {
                 Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}", Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
             }
+
 
             Console.ReadKey();
             Printer.printLogo();
