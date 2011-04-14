@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
+using XMLawesome;
+
 
 namespace ListToXML
 {
@@ -36,6 +38,7 @@ namespace ListToXML
             //Console.WriteLine("(R)ead or (S)ave lists: ");
 
             //DefaultXMLFileNames();
+            
 
 
             //Initializing the lists
@@ -58,9 +61,9 @@ namespace ListToXML
 
             XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
             Reader.Mount();
-            foreach (XmlType item in Reader.XmlSearch("MAS>Agents>Agent>Teams>Team"))
+            foreach (XmlType item in Reader.XmlSearch("MAS"))
             {
-                Console.WriteLine(item.Value);
+                Console.WriteLine(item.Tag);
             }
             //XmlList something = readit.GetToDoStack()[0].First(x => x.TagName == "MAS");
             //Console.WriteLine(readit.GetToDoStack()[0].ListofXml[0].TagName);
@@ -135,7 +138,7 @@ namespace ListToXML
                 XMLhelp.Child("Agents", null);
                 foreach (int agent in value.agents)
                 {
-                    XMLhelp.Node("Agent", null);
+                    XMLhelp.Child("Agent", null);
                     XMLhelp.Node("Id", agent.ToString());
                 }
             }
