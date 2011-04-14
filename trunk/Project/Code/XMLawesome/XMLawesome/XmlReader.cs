@@ -21,8 +21,11 @@ namespace XMLawesome
 
         public XmlReader(String file)
         {
-            StreamReader streamReader = new StreamReader(file);
-            string XmlFile = streamReader.ReadToEnd();
+
+            try
+            {
+                StreamReader streamReader = new StreamReader(file);
+                String XmlFile = streamReader.ReadToEnd();
             if (XmlFile.Contains("<?"))
             {
                 XmlFile = XmlFile.Replace("?>", "?>@");
@@ -35,6 +38,14 @@ namespace XMLawesome
             XmlFile = XmlFile.Replace(">@@<", ">@<");
             temp = XmlFile.Split(Split);
             streamReader.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot read XML file: " + file);
+                Console.WriteLine("Press any key to exit.");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
             int order = 0;
 
             for (int i = 0; i < temp.Length - 1; i++)
@@ -127,46 +138,57 @@ namespace XMLawesome
         List<XmlType> ReturnList = new List<XmlType>();
         public List<XmlType> XmlSearch(String searchterm)
         {
-            int limit;
-            int search;
-            String[] KeySearch = {null};
+            int limit = 0;
+            int search = 0;
+            String[] KeySearch = { null };
 
-            if(searchterm.Contains(">"))
+            if (searchterm.Contains(">"))
             {
                 KeySearch = searchterm.Split('>');
                 limit = KeySearch.Length;
                 search = 0;
+                return Search(limit, search, KeySearch);
+            }
+            else if (searchterm == "")
+            {
+                return OrderStack;
             }
             else
             {
                 KeySearch[0] = searchterm;
                 limit = 1;
                 search = 0;
+                return Search(limit, search, KeySearch);
             }
-            for (int i = 0; i < limit; i++)
+        }
+            private List<XmlType> Search(int limit, int search, String[] KeySearch)
             {
-                List<XmlType> temp = OrderStack.FindAll(x => x.Tag == KeySearch[i]);
-                foreach (XmlType item in temp)
+                for (int i = 0; i < limit; i++)
                 {
-                    if (item.Order == search)
+                    int c = 0;
+                    List<XmlType> temp = OrderStack.FindAll(x => x.Tag == KeySearch[c]);
+                    foreach (XmlType item in temp)
                     {
-                        search++;
+                        if (item.Order == search)
+                        {
+                            search++;
+                        }
                     }
+                    c++;
                 }
-            }
 
-            if (search == limit)
-            {
-                search++;
-                int index = OrderStack.FindIndex(x => x.Order == search);
-                for (int u = index; u < OrderStack.Count; u++)
+                if (search == limit)
                 {
-                    if (search < OrderStack[u].Order)
+                    //search++;
+                    int index = OrderStack.FindIndex(x => x.Order == search);
+                    for (int u = index; u < OrderStack.Count; u++)
                     {
-                        ReturnList.Add(OrderStack[u]);
+                        if (search <= OrderStack[u].Order)
+                        {
+                            ReturnList.Add(OrderStack[u]);
+                        }
                     }
                 }
-            }
 
                 return ReturnList;
         }

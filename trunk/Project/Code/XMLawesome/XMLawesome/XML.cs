@@ -12,12 +12,14 @@ namespace XMLawesome
         public String _input;
         public String _tag;
         public bool _standalone;
-        public XML(int depth, String tag, String input, bool standalone)
+        public String _attr;
+        public XML(int depth, String tag, String input, bool standalone, String Attr)
         {
             this._input = input;
             this._depth = depth;
             this._tag = tag;
             this._standalone = standalone;
+            this._attr = Attr;
         }
 
         public static void GenerateThisShizzle(String XmlName, String Encoding)
@@ -56,7 +58,7 @@ namespace XMLawesome
                         stack.Clear();
                         if (XMLhelp.XmlList[i]._tag != null)
                         {
-                            XML += a + XMLhelp.XmlList[i]._tag + b;
+                            XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
                             stack.Add(XMLhelp.XmlList[i]);
                         }
                     } 
@@ -64,7 +66,7 @@ namespace XMLawesome
                     else
                         if (XMLhelp.XmlList[i]._depth == 0)
                         {
-                            XML += a + XMLhelp.XmlList[i]._tag + b;
+                            XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
 
                             stack.Add(XMLhelp.XmlList[i]);
                         }
@@ -72,13 +74,13 @@ namespace XMLawesome
                         else
                             if (XMLhelp.XmlList[i]._standalone == true)
                             {
-                                XML += a + XMLhelp.XmlList[i]._tag + b;
+                                XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
                                 XML += XMLhelp.XmlList[i]._input;
                                 XML += c + XMLhelp.XmlList[i]._tag + b;
                             }
                             else
                             {
-                                XML += a + XMLhelp.XmlList[i]._tag + b;
+                                XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
                                 stack.Add(XMLhelp.XmlList[i]);
                             }
 
