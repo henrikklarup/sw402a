@@ -138,7 +138,10 @@ namespace MultiAgentSystem
             Printer.Expand();
             ifCommand.Expression.visit(this, arg);
             ifCommand.IfBlock.visit(this, arg);
-            ifCommand.ElseBlock.visit(this, arg);
+            if (ifCommand.ElseBlock != null)
+            { 
+            
+            }
 
             Printer.Collapse();
             return null;
