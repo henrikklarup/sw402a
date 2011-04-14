@@ -281,13 +281,13 @@ namespace MultiAgentSystem
 
         internal object visitIdentifier(Identifier identifier, object arg)
         {
-            Printer.WriteLine("Identifier");
+            Printer.WriteLine("Identifier: " + identifier.token.spelling);
             return identifier.token;
         }
 
         internal object visitOperator(Operator p, object arg)
         {
-            Printer.WriteLine("Operator");
+            Printer.WriteLine("Operator: " + p.token.spelling);
             return p.token;
         }
 
@@ -299,25 +299,25 @@ namespace MultiAgentSystem
 
         internal object visitMASNumber(MASNumber mASNumber, object arg)
         {
-            Printer.WriteLine("Number");
+            Printer.WriteLine("Number: " + mASNumber.token.spelling);
             return mASNumber.token;
         }
 
         internal object visitMASType(MASType mASType, object arg)
         {
-            Printer.WriteLine("Type");
+            Printer.WriteLine("Type: " + mASType.token.spelling);
             return mASType.token;
         }
 
         internal object visitMASString(MASString mASString, object arg)
         {
-            Printer.WriteLine("String");
+            Printer.WriteLine("String: " + mASString.token.spelling);
             return mASString.token;
         }
 
         internal object visitMASBool(MASBool mASBool, object arg)
         {
-            Printer.WriteLine("Bool");
+            Printer.WriteLine("Bool: " + mASBool.token.spelling);
             return mASBool.token;
         }
 
@@ -329,7 +329,7 @@ namespace MultiAgentSystem
 
         internal object visitMASVariable(MASVariable mASVariable, object arg)
         {
-            Printer.WriteLine("Variable");
+            Printer.WriteLine("Variable: " + mASVariable.token.spelling);
             return mASVariable.token;
         }
 
