@@ -15,15 +15,31 @@ namespace XMLawesome
         {
             //Return to root
             Depth = 0;
-            XML temp = new XML(Depth, Tag, Value, false);
+            XML temp = new XML(Depth, Tag, Value, false,null);
             XmlList.Add(temp);
+        }
+        
+        public static void Attribute(String tag, String value)
+        {
+            String atr = " " + tag.ToLower() + "=\"" + value + "\"";
+            XmlList.Last()._attr += atr;
+        }
+
+        public static void Attribute(List<Attributes> input)
+        {
+            String atr = "";
+            foreach (Attributes attri in input)
+            {
+                atr += " " + attri.Atr.ToLower() + "=\"" + attri.Value + "\"";
+            }
+            XmlList.Last()._attr += atr;
         }
 
         public static void End()
         {
             //Return to root
             Depth = 0;
-            XML temp = new XML(-1, null, null, false);
+            XML temp = new XML(-1, null, null, false, null);
             XmlList.Add(temp);
         }
 
@@ -31,7 +47,7 @@ namespace XMLawesome
         {
             //Make child
             Depth++;
-            XML temp = new XML(Depth, Tag, Value, false);
+            XML temp = new XML(Depth, Tag, Value, false, null);
             XmlList.Add(temp);
             Depth++;
         }
@@ -42,13 +58,13 @@ namespace XMLawesome
             Depth--;
             Depth--;
             Depth--;
-            XML temp = new XML(Depth, null, null, false);
+            XML temp = new XML(Depth, null, null, false, null);
             XmlList.Add(temp);
         }
 
         public static void Node(String Tag, String Value)
         {
-            XML temp = new XML(Depth, Tag, Value, true);
+            XML temp = new XML(Depth, Tag, Value, true, null);
             XmlList.Add(temp);
         }
     }
