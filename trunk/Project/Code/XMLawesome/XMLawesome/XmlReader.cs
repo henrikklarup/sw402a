@@ -64,17 +64,7 @@ namespace XMLawesome
             }
         }
 
-        public void XmlListGenerate()
-        {
 
-        }
-
-        public String[] GetNode(String command)
-        {
-
-            String[] teemp = { "" };
-            return teemp;
-        }
 
         List<XmlType> OrderStack = new List<XmlType>();
 
