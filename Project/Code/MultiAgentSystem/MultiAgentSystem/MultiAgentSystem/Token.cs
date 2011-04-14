@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MultiAgentSystem
 {
-    class Token
+    public class Token
     {
         public int kind;
         public string spelling;

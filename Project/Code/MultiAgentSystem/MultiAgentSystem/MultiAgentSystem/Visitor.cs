@@ -9,9 +9,19 @@ namespace MultiAgentSystem
     {
         public IdentificationTable idTable = new IdentificationTable();
 
+        private static string _ast = "AST", _mainBlock = "Main block", _block = "Block", 
+            _objectDeclaration = "Object Declaration", _typeDeclaration = "Type Declaration",
+            _ifCommand = "If Command", _forCommand = "For Command", _whileCommand = "While Command",
+            _methodIdentifier = "Method Identifier", _methodCall = "Method Call",
+            _expression = "Expression", _identifier = "Identifier", _booleanExpression = "boolean.",
+            _mathExpression = "mathematic.",
+            _notError = " is not of expression type ",
+            _typeErrorText = " has not been declared to a variable of type ",
+            _undeclaredErrorText = " has not been declared as a type.";
+
         public object visitAST(AST ast, object arg)
         {
-            Printer.WriteLine("AST");
+            Printer.WriteLine(_ast);
             Printer.Expand();
             ast.visit(this, arg);
 
@@ -21,7 +31,7 @@ namespace MultiAgentSystem
 
         internal object visitMainBlock(Mainblock block, object arg)
         {
-            Printer.WriteLine("Main Block");
+            Printer.WriteLine(_mainBlock);
             Printer.Expand();
             block.block.visit(this, arg);
 
@@ -31,7 +41,7 @@ namespace MultiAgentSystem
 
         internal object visitBlock(Block block, object arg)
         {
-            Printer.WriteLine("Block");
+            Printer.WriteLine(_block);
             Printer.Expand();
 
             idTable.openScope();
@@ -48,7 +58,7 @@ namespace MultiAgentSystem
         // new object identifier ( input )
         internal object visitObjectDecleration(ObjectDeclaration objectDeclaration, object arg)
         {
-            Printer.WriteLine("Object Declaration");
+            Printer.WriteLine(_objectDeclaration);
             Printer.Expand();
             // Get the kind of Object and the spelling of the identifier.
             int kind = (int)objectDeclaration._object.visit(this, arg);
@@ -66,7 +76,7 @@ namespace MultiAgentSystem
         // Type VarName = becomes...SomethingSomething...
         internal object visitTypeDecleration(TypeDeclaration typeDeclaration, object arg)
         {
-            Printer.WriteLine("Type Declaration");
+            Printer.WriteLine(_typeDeclaration);
             Printer.Expand();
             // Stores the type and the identifier of the declaration
             Token Type = (Token)typeDeclaration.Type.visit(this, arg);
@@ -92,25 +102,25 @@ namespace MultiAgentSystem
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
                             if (idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
                             if (idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     default:
-                        Printer.ErrorLine("Type declaration has not been declared as a type");
+                        Printer.ErrorLine(_typeDeclaration + _undeclaredErrorText);
                         break;
                 }
             }
@@ -128,7 +138,7 @@ namespace MultiAgentSystem
         // if ( bool-expression ) block else block
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
-            Printer.WriteLine("If Command");
+            Printer.WriteLine(_ifCommand);
             Printer.Expand();
             ifCommand.Expression.visit(this, arg);
             ifCommand.IfBlock.visit(this, arg);
@@ -141,7 +151,7 @@ namespace MultiAgentSystem
         // for ( type-declaration ; bool-expression ; math-expression ) block
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
-            Printer.WriteLine("For Command");
+            Printer.WriteLine(_forCommand);
             Printer.Expand();
             forCommand.CounterDeclaration.visit(this, arg);
             forCommand.LoopExpression.visit(this, arg);
@@ -155,7 +165,7 @@ namespace MultiAgentSystem
         // while ( bool-expression ) block
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
-            Printer.WriteLine("While Command");
+            Printer.WriteLine(_whileCommand);
             Printer.Expand();
             whileCommand.LoopExpression.visit(this, arg);
             whileCommand.WhileBlock.visit(this, arg);
@@ -166,7 +176,7 @@ namespace MultiAgentSystem
 
         internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
         {
-            Printer.WriteLine("Method Identifier");
+            Printer.WriteLine(_methodIdentifier);
             Printer.Expand();
             string ident;
 
@@ -180,7 +190,7 @@ namespace MultiAgentSystem
         // identifier ( input ) | identifier . method-call
         internal object visitMethodCall(MethodCall methodCall, object arg)
         {
-            Printer.WriteLine("Method Call");
+            Printer.WriteLine(_methodCall);
             methodCall.methodIdentifier.visit(this, arg);
             methodCall.input.visit(this, arg);
 
@@ -190,7 +200,7 @@ namespace MultiAgentSystem
         // Syntax: number | identifier | expression | ( expression ) | boolean
         internal object visitExpression(Expression expression, object arg)
         {
-            Printer.WriteLine("Expression");
+            Printer.WriteLine(_expression);
             Printer.Expand();
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
             Token _operator = (Token)expression._operator.visit(this, arg);
@@ -226,10 +236,12 @@ namespace MultiAgentSystem
                         break;
                     case (int)Token.keywords.IDENTIFIER:
                         if (idTable.retrieve(primExpr1) != (int)Token.keywords.BOOL)
-                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", " + primExpr1.row + " is not of expression type boolean.");
+                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", "
+                                + primExpr1.row + _notError + _booleanExpression);
                         break;
                     default:
-                        Printer.ErrorLine("Boolean expression " + primExpr1.spelling + " at " + primExpr1.col + ", " + primExpr1.row + " is not of expression type boolean.");
+                        Printer.ErrorLine("Boolean expression " + primExpr1.spelling + " at " + primExpr1.col + ", " 
+                            + primExpr1.row + _notError + _booleanExpression);
                         break;
                 }
 
@@ -240,10 +252,12 @@ namespace MultiAgentSystem
                         break;
                     case (int)Token.keywords.IDENTIFIER:
                         if (idTable.retrieve(primExpr2) != (int)Token.keywords.BOOL)
-                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " + primExpr2.row + " is not of expression type boolean.");
+                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " 
+                                + primExpr2.row + _notError + _booleanExpression);
                         break;
                     default:
-                        Printer.ErrorLine("Boolean expression " + primExpr2.spelling + " at " + primExpr2.col + ", " + primExpr2.row + " is not of expression type boolean.");
+                        Printer.ErrorLine("Boolean expression " + primExpr2.spelling + " at " + primExpr2.col + ", "
+                            + primExpr2.row + _notError + _booleanExpression);
                         break;
                 }
             }
@@ -255,10 +269,12 @@ namespace MultiAgentSystem
                         break;
                     case (int)Token.keywords.IDENTIFIER:
                         if (idTable.retrieve(primExpr1) != (int)Token.keywords.NUM)
-                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", " + primExpr1.row + " is not of expression type mathematic.");
+                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", "
+                                + primExpr1.row + _notError + _mathExpression);
                         break;
                     default:
-                        Printer.ErrorLine("Mathematic expression " + primExpr1.spelling + " at " + primExpr1.col + ", " + primExpr1.row + " is not of expression type mathematic.");
+                        Printer.ErrorLine("Mathematic expression " + primExpr1.spelling + " at " + primExpr1.col + ", "
+                            + primExpr1.row + _notError + _mathExpression);
                         break;
                 }
 
@@ -268,7 +284,8 @@ namespace MultiAgentSystem
                         break;
                     case (int)Token.keywords.IDENTIFIER:
                         if (idTable.retrieve(primExpr2) != (int)Token.keywords.NUM)
-                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " + primExpr2.row + " is not of expression type mathematic.");
+                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " 
+                                + primExpr2.row + " is not of expression type mathematic.");
                         break;
                     default:
                         Printer.ErrorLine("Mathematic expression " + primExpr2.spelling + " at " + primExpr2.col + ", " + primExpr2.row + " is not of expression type mathematic.");
