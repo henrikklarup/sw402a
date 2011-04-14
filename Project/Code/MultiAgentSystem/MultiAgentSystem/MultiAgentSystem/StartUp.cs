@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace MultiAgentSystem
 {
     class StartUp
     {
         static Random rand = new Random();
-        static int width, height, i;
+        static int width, height;
 
         public void first()
         {
@@ -21,6 +22,7 @@ namespace MultiAgentSystem
             while (true)
             {
                 printColumns(kind, position);
+                Thread.Sleep(50);
 
                 for (int x = 0; x < width; x++)
                 {
@@ -28,8 +30,6 @@ namespace MultiAgentSystem
                         position[x] = 0;
                     else
                         position[x]++;
-
-                    kind[x] = getKind(kind[x], position[x]);
                 }
             }
         }
@@ -62,39 +62,17 @@ namespace MultiAgentSystem
             {
                 Console.SetCursorPosition(x, position[x]);
 
-                switch (kind[x])
+                c = AsciiCharacter;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write(c);
+
+                c = AsciiCharacter;
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                if (position[x] < height - 2)
                 {
-                    case 0:
-                        Console.Write(' ');
-                        break;
-                    case 2:
-                        c = AsciiCharacter;
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.Write(c);
-
-                        c = AsciiCharacter;
-                        Console.ForegroundColor = ConsoleColor.Green;
-
-                        if (position[x] < height - 2)
-                        {
-                            Console.SetCursorPosition(x, position[x] + 2);
-                            Console.Write(c);
-                        }
-                        break;
-                    default:
-                        c = AsciiCharacter;
-                        Console.ForegroundColor = ConsoleColor.DarkGreen;
-                        Console.Write(c);
-
-                        c = AsciiCharacter;
-                        Console.ForegroundColor = ConsoleColor.Green;
-
-                        if (position[x] < height - 2)
-                        {
-                            Console.SetCursorPosition(x, position[x] + 2);
-                            Console.Write(c);
-                        }
-                        break;
+                    Console.SetCursorPosition(x, position[x] + 2);
+                    Console.Write(c);
                 }
 
                 if (position[x] >= height / 2)
@@ -104,38 +82,10 @@ namespace MultiAgentSystem
                 }
                 else if (position[x] <= height / 2)
                 {
-                    Console.SetCursorPosition(x, position[x] + (height / 2));
+                    Console.SetCursorPosition(x, position[x] + (height / 2)+1);
                     Console.Write(' ');
                 }
                 Console.ForegroundColor = tmpColor;
-            }
-        }
-
-        static int getKind(int kind, int position)
-        {
-            // 
-            switch (kind)
-            {
-                case 0:
-                    if (rand.Next(height) < 50)
-                        return 5;
-                    else
-                        return 0;
-                case 1:
-                    return 2;
-                case 2:
-                    return 5;
-                case 3:
-                    return 4;
-                case 4:
-                    return 1;
-                default:
-                    if (height == position)
-                        return 0;
-                    if (kind > height / 2)
-                        return 0;
-                    else
-                        return kind++;
             }
         }
 
