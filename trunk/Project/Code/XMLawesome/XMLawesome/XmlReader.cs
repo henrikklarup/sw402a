@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace XMLawesome
 {
@@ -187,7 +188,6 @@ namespace XMLawesome
         {
             try
             {
-                //public XmlList(String TagName, String Value, List<XmlList> ListofXml, List<Attributes> Attributes)
                 for (int i = 0; i < OrderStack.Count; i++)
                 {
                     if (OrderStack[i].Type == "root")
