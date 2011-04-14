@@ -35,26 +35,26 @@ namespace ListToXML
         public static void Main(string[] args)
         {
             
-            //Console.WriteLine("(R)ead or (S)ave lists: ");
-
+            //Console.WriteLine("(R)ead or (S)ave lists: 
             //DefaultXMLFileNames();
-            
-
-
             //Initializing the lists
             Team team = new Team(1, "Team one", "Red");
+            Team team1 = new Team(2, "Team two", "Blue");
+            Team team2 = new Team(3, "Team three", "Green");
             Agent agent = new Agent(1, "Olsen", 2, team);
             Squad squad = new Squad(1, "first squad", agent);
             ActionPattern aP = new ActionPattern(1, "first action pattern");
 
             teams.Add(team);
+            teams.Add(team1);
+            teams.Add(team2);
             agents.Add(agent);
             squads.Add(squad);
             actionPatterns.Add(aP);
 
             //XMLhelp.Generate(agents, teams, squads, actionPatterns);
-            mAgents(agents);
             mTeams(teams);
+            mAgents(agents);
             mSquads(squads);
             mActionPatterns(actionPatterns);
             XML.GenerateThisShizzle("MAS",null);
@@ -63,7 +63,7 @@ namespace ListToXML
             Reader.Mount();
             foreach (XmlType item in Reader.XmlSearch("MAS"))
             {
-                Console.WriteLine(item.Tag);
+                Console.WriteLine(item.Tag + item.Value);
             }
             //XmlList something = readit.GetToDoStack()[0].First(x => x.TagName == "MAS");
             //Console.WriteLine(readit.GetToDoStack()[0].ListofXml[0].TagName);
@@ -98,6 +98,7 @@ namespace ListToXML
             foreach (var value in Agents)
             {
                 XMLhelp.Child("Agent", null);
+                XMLhelp.Attribute("Attr","AttrValue");
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("posX", value.posX.ToString());
                 XMLhelp.Node("posY", value.posY.ToString());
