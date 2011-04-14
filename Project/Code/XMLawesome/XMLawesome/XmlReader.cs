@@ -50,7 +50,7 @@ namespace XMLawesome
             int order = 0;
 
             for (int i = 0; i < temp.Length - 1; i++)
-            {       //Check for </> <> sæt order
+            {       //Check for </> <> set order
 
                 if (temp[i].Contains("</"))
                 {
