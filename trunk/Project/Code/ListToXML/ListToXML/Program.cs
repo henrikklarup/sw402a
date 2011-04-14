@@ -34,17 +34,14 @@ namespace ListToXML
 
         public static void Main(string[] args)
         {
-            
-            //Console.WriteLine("(R)ead or (S)ave lists: 
-            //DefaultXMLFileNames();
-            //Initializing the lists
+            //Initializing the Teams, agents, squards and actionpattern
             Team team = new Team(1, "Team one", "Red");
             Team team1 = new Team(2, "Team two", "Blue");
             Team team2 = new Team(3, "Team three", "Green");
             Agent agent = new Agent(1, "Olsen", 2, team);
             Squad squad = new Squad(1, "first squad", agent);
             ActionPattern aP = new ActionPattern(1, "first action pattern");
-
+            //Initializing the lists
             teams.Add(team);
             teams.Add(team1);
             teams.Add(team2);
@@ -57,40 +54,20 @@ namespace ListToXML
             mAgents(agents);
             mSquads(squads);
             mActionPatterns(actionPatterns);
+
+            //Generate the xml file with <MAS> as root and default encoding
             XML.GenerateThisShizzle("MAS",null);
 
+            //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
             Reader.Mount();
-            foreach (XmlType item in Reader.XmlSearch("MAS"))
+            foreach (XmlType item in Reader.XmlSearch(""))
             {
                 Console.WriteLine(item.Tag + item.Value);
             }
-            //XmlList something = readit.GetToDoStack()[0].First(x => x.TagName == "MAS");
-            //Console.WriteLine(readit.GetToDoStack()[0].ListofXml[0].TagName);
-
-            //Interface to test saving and loading the xml files
-            ConsoleKeyInfo cki = Console.ReadKey();
-
-            while (cki.Key != ConsoleKey.Escape)
-            {
-                if (cki.Key == ConsoleKey.S)
-                {
-                    Console.WriteLine("");
-                    generateXML();
-                }
-                if (cki.Key == ConsoleKey.R)
-                {
-                    Console.WriteLine("");
-                    returnLists();
-                }
-                cki = Console.ReadKey();
-
-            }
-
-            
         }
 
-        //Generate XML for hver list
+        //Generate XML for each list
 
         public static void mAgents(List<Agent> Agents)
         {
@@ -160,170 +137,7 @@ namespace ListToXML
             }
         }
 
-        /// <summary>
-        /// Resets the XML file names to their default names.
-        /// </summary>
-        public static void DefaultXMLFileNames()
-        {
-            _agentXML = "agents";
-            _teamXML = "teams";
-            _squadXML = "squads";
-            _actionPatternXML = "actionPatterns";
-        }
-
-        /// <summary>
-        /// Generates the XML documents from the lists
-        /// </summary>
-        public static void generateXML()
-        {
-
-            CheckExistingFilesWrite();
-
-            //Tests if there is anything in the lists before saving them
-            if (!agents.Any() && !teams.Any())
-            {
-                agents.Add(new Agent());
-                Console.WriteLine("Missing Agents or Teams.");
-                return;
-            }
-            using (var sw = new StreamWriter(AgentXML))
-            {
-                var serializer = new XmlSerializer(typeof(List<Agent>));
-                serializer.Serialize(sw, agents);
-            }
-
-            if (!teams.Any())
-            {
-                teams.Add(new Team());
-                Console.WriteLine("Missing Teams.");
-            }
-            using (var sw = new StreamWriter(TeamXML))
-            {
-                var serializer = new XmlSerializer(typeof(List<Team>));
-                serializer.Serialize(sw, teams);
-            }
-
-            if (!squads.Any())
-            {
-                squads.Add(new Squad());
-                Console.WriteLine("No Squads added.");
-            }
-            using (var sw = new StreamWriter(SquadXML))
-            {
-                var serializer = new XmlSerializer(typeof(List<Squad>));
-                serializer.Serialize(sw, squads);
-            }
-
-            if (!actionPatterns.Any())
-            {
-                actionPatterns.Add(new ActionPattern());
-                Console.WriteLine("No Action Patterns added.");
-            }
-            using (var sw = new StreamWriter(ActionPatternXML))
-            {
-                var serializer = new XmlSerializer(typeof(List<ActionPattern>));
-                serializer.Serialize(sw, actionPatterns);
-            }
-
-            DefaultXMLFileNames();
-
-            Console.WriteLine("XML generated.");
-        }
-
-        public static void returnLists()
-        {
-            CheckExistingFilesRead();
-
-            using (var sr = new StreamReader(AgentXML))
-            {
-                var deserializer = new XmlSerializer(typeof(List<Agent>));
-                agents = (List<Agent>)deserializer.Deserialize(sr);
-            }
-
-            using (var sr = new StreamReader(TeamXML))
-            {
-                var deserializer = new XmlSerializer(typeof(List<Team>));
-                teams = (List<Team>)deserializer.Deserialize(sr);
-            }
-
-            if (File.Exists(SquadXML))
-            {
-                using (var sr = new StreamReader(SquadXML))
-                {
-                    var deserializer = new XmlSerializer(typeof(List<Squad>));
-                    squads = (List<Squad>)deserializer.Deserialize(sr);
-                }
-            }
-
-            if (File.Exists(ActionPatternXML))
-            {
-                using (var sr = new StreamReader(ActionPatternXML))
-                {
-                    var deserializer = new XmlSerializer(typeof(List<ActionPattern>));
-                    actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
-                }
-            }
-
-            Console.WriteLine("XML read.");
-
-            DefaultXMLFileNames();
-        }
-
-        /// <summary>
-        /// Adds a suffix to the XML file names.
-        /// </summary>
-        /// <param name="suffix">The suffix to add.</param>
-        public static void AddSuffix(string suffix)
-        {
-            _agentXML += suffix;
-            _teamXML += suffix;
-            _squadXML += suffix;
-            _actionPatternXML += suffix;
-        }
-
-        /// <summary>
-        /// Checks if a series of files with the current name exists, 
-        /// and allows you change the name or overwrite the old ones.
-        /// </summary>
-        public static void CheckExistingFilesWrite()
-        {
-            if (File.Exists(AgentXML) || File.Exists(TeamXML) 
-                || File.Exists(SquadXML) || File.Exists(ActionPatternXML))
-            {
-                Console.WriteLine("An older series of files already exist with this name. \n " +
-                "Would you like to (C)hange the suffix of your series or (O)verwrite the default one?");
-
-                ConsoleKeyInfo cki = Console.ReadKey();
-
-                while (true)
-                {
-                    if (cki.Key == ConsoleKey.C)
-                    {
-                        Console.WriteLine("\n Please write the suffix you wish to use:");
-                        DefaultXMLFileNames();
-                        AddSuffix(Console.ReadLine());
-                        CheckExistingFilesWrite();
-                        break;
-                    }
-                    if (cki.Key == ConsoleKey.O)
-                    {
-                        Console.WriteLine("");
-                        break;
-                    }
-                    cki = Console.ReadKey();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Asks you what suffix the files you want have.
-        /// </summary>
-        public static void CheckExistingFilesRead()
-        {
-            Console.WriteLine("Type the suffix of file series you would like to read from: \n " +
-                "(leave blank for default file names)");
-            AddSuffix(Console.ReadLine());
-        }
+       }
     }
 
     public class Agent
