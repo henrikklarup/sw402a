@@ -91,19 +91,22 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     default:
@@ -333,7 +336,55 @@ namespace MultiAgentSystem
 
         internal object visitAssignCommand(AssignCommand assignCommand, object arg)
         {
-            throw new NotImplementedException();
+            Printer.WriteLine("Assign Command");
+            Printer.Expand();
+
+            int kind;
+            Token ident = (Token)assignCommand.ident.visit(this, arg);
+
+            kind = idTable.retrieve(ident);
+            
+            // If the declaration becomes an expression, visit the expression.
+            // Else check if it becomes the right type.½
+            if (assignCommand.becomes.visit(this, arg) == null)
+            {
+                Expression expression = (Expression)assignCommand.becomes;
+                kind = expression.kind;
+            }
+            else
+            {
+                MASVariable masVariable = (MASVariable)assignCommand.becomes;
+
+                switch (kind)
+                {
+                    case (int)Token.keywords.STRING:
+                        if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
+                        {
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                        }
+                        break;
+                    case (int)Token.keywords.BOOL:
+                        if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
+                        {
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                        }
+                        break;
+                    case (int)Token.keywords.NUM:
+                        if (masVariable.token.kind != (int)Token.keywords.NUMBER)
+                        {
+                            if (idTable.retrieve(masVariable.token) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                        }
+                        break;
+                    default:
+                        Printer.ErrorLine("Type declaration has not been declared as a type");
+                        break;
+                }
+            }
+            Printer.Collapse();
+            return null;
         }
     }
 }
