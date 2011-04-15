@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="XMLawesome, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\XMLawesome\XMLawesome\bin\Debug\XMLawesome.dll</HintPath>
+      <HintPath>..\..\..\..\..\XMLawesome(1)\Project\Code\XMLawesome\XMLawesome\bin\Debug\XMLawesome.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
