@@ -65,8 +65,9 @@ namespace ListToXML
             foreach (XmlType item in Reader.XmlSearch(""))
             {
                 try
-                {
+                {//Make Attributes finish
                     Console.WriteLine(item.Atr[0].Atr + " " + item.Atr[0].Value);
+
                 }
                 catch { }
             }
@@ -81,7 +82,10 @@ namespace ListToXML
             foreach (var value in Agents)
             {
                 XMLhelp.Child("Agent", null);
-                XMLhelp.Attribute("Attr","AttrValue");
+                XMLhelp.Attribute("Attr", "AttrValue");
+                XMLhelp.Attribute("Attr2", "AttrValue2");
+                XMLhelp.Attribute("Attr3", "AttrValue3");
+                XMLhelp.Attribute("Attr4", "AttrValue4");
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("posX", value.posX.ToString());
                 XMLhelp.Node("posY", value.posY.ToString());
