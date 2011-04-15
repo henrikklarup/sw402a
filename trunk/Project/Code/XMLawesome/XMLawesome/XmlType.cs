@@ -21,6 +21,7 @@ namespace XMLawesome
             this.Value = Value;
             this.Type = Type;
             this.Order = Order;
+            this.Atr = null;
         }
 
         public XmlType(String Tag, String Value, String Type, int Order, List<Attributes> Atr)
