@@ -56,18 +56,40 @@ namespace MultiAgentSystem
 
         static void printColumns(int[] kind, int[] position)
         {
-            char c;
+            char c = 'l';
+            int halfHeight = height / 2;
             ConsoleColor tmpColor = Console.ForegroundColor;
             for (int x = 0; x < width; x++)
             {
                 Console.SetCursorPosition(x, position[x]);
 
-                c = AsciiCharacter;
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.Write(c);
+                if (Console.CursorTop == 0 || kind[x] == 1)
+                {
+                    if (rand.Next(150) == 1 || kind[x] == 1)
+                    {
+                        c = AsciiCharacter;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(c);
 
-                c = AsciiCharacter;
-                Console.ForegroundColor = ConsoleColor.Green;
+                        c = AsciiCharacter;
+
+                        kind[x] = 1;
+                    }
+                    else
+                        kind[x] = 0;
+
+                    if (Console.CursorTop == height)
+                        kind[x] = 0;
+                }
+                else
+                {
+                    c = AsciiCharacter;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write(c);
+
+                    c = AsciiCharacter;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
 
                 if (position[x] < height - 2)
                 {
@@ -75,14 +97,14 @@ namespace MultiAgentSystem
                     Console.Write(c);
                 }
 
-                if (position[x] >= height / 2)
+                if (position[x] >= halfHeight)
                 {
-                    Console.SetCursorPosition(x, position[x] - (height / 2));
+                    Console.SetCursorPosition(x, position[x] - halfHeight);
                     Console.Write(' ');
                 }
-                else if (position[x] <= height / 2)
+                else if (position[x] <= halfHeight)
                 {
-                    Console.SetCursorPosition(x, position[x] + (height / 2)+1);
+                    Console.SetCursorPosition(x, position[x] + halfHeight+1);
                     Console.Write(' ');
                 }
                 Console.ForegroundColor = tmpColor;
