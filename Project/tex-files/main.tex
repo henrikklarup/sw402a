@@ -16,7 +16,18 @@
 \usepackage{listings}
 \usepackage{float}
 
-%Code examples preamble
+%%%%%%%%%%%
+%code-test%
+%%%%%%%%%%%
+%\usepackage{listings}
+%\lstlistoflistings
+%\definecolor{darkgray}{rgb}{0.95,0.95,0.95}
+%\lstset{language=C++}
+%\lstset{backgroundcolor=\color{darkgray}}
+%\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt}
+%\lstset{keywordstyle=\color{red}\bfseries\emph}
+
+%Code examples preamble input
 \InputIfFileExists{Templates/code_examples}{}{}
 
 
@@ -46,8 +57,8 @@
 \pagenumbering{arabic}
 \InputIfFileExists{Introduction/introduction}{}{}
 \InputIfFileExists{Wargame/wargame}{}{}
-\InputIfFileExists{Compiler_Components/compiler_components}{}{}
-\InputIfFileExists{Implementation/implementation}{}{}
+%\InputIfFileExists{Compiler_Components/compiler_components}{}{}
+%\InputIfFileExists{Implementation/implementation}{}{}
 \InputIfFileExists{Discussion/discussion}{}{}
 \InputIfFileExists{Epilogue/epilogue}{}{}
 
