@@ -15,9 +15,8 @@ When the game is started, a dialog box is shown where one can choose the size of
 \includegraphics[scale=0.9]{Images/dialog.png}
 \end{center}
 \caption{Screen shot of the game settings dialog box.}
-\label{pic:dialog
+\label{dialog}
 \end{figure}
-
 
 \subsection*{Game Interface Functions}
 The functions of the game interface is:
@@ -41,11 +40,10 @@ The functions of the game interface is:
 \includegraphics[scale=0.6]{Images/game_interface.png}
 \end{center}
 \caption{Screen shot of the game interface.}
-\label{pic:game_interface
+\label{game_interface
 \end{figure}
 
-
-\section*{Drawing the Grid and Agents}
+\subsection*{Drawing the Grid and Agents}
 \label{sec:drawing}
 The drawing of the grid and agents, is done using GDI+ (http://msdn.microsoft.com/en-us/library/ms533798(v=vs.85).aspx) which makes it possible to draw graphic on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, this is done with the help of double buffering.
 We only use GDI+ graphics inside the usercontrol DBpanel, and make sure we draw things in the correct order, as we draw the pixels untop of each other. The first thing drawn is the background, which in our case is green, with the black gridlines on top of it, to create the game grid. Next the agents are drawn, one after the another.
