@@ -97,21 +97,21 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
@@ -205,6 +205,11 @@ namespace MultiAgentSystem
             Token _operator = (Token)expression._operator.visit(this, arg);
             Token primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
 
+            // If any of the previous expressions has a boolean operator,
+            // the expression being visited must be boolean.
+            if (primExpr2.kind == (int)Token.keywords.BOOL)
+                expression.kind = (int)Token.keywords.BOOL;
+
             switch (_operator.spelling)
             { 
                 case "<":
@@ -226,37 +231,21 @@ namespace MultiAgentSystem
                     return null;
             }
 
+            Printer.ErrorLine(expression.kind + ", " + (int)Token.keywords.BOOL + ", " + (int)Token.keywords.NUM);
+
             if(expression.kind == (int)Token.keywords.BOOL)
             {
+                //Check if both sides are either BOOL (TRUE, FALSE) or NUMBER
                 switch (primExpr1.kind)
-                { 
-                    case (int)Token.keywords.TRUE:
-                    case (int)Token.keywords.FALSE:
-                        break;
-                    case (int)Token.keywords.IDENTIFIER:
-                        if (idTable.retrieve(primExpr1) != (int)Token.keywords.BOOL)
-                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", "
-                                + primExpr1.row + _notError + _booleanExpression);
-                        break;
-                    default:
-                        Printer.ErrorLine("Boolean expression " + primExpr1.spelling + " at " + primExpr1.col + ", " 
-                            + primExpr1.row + _notError + _booleanExpression);
-                        break;
-                }
-
-                switch (primExpr2.kind)
                 {
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
+                        if (!primExpr2.kind.Equals((int)Token.keywords.TRUE) && !primExpr2.kind.Equals((int)Token.keywords.FALSE))
+                            Printer.ErrorLine("Expression at " + primExpr1.col + ", " + primExpr1.row + " is not valid.");
                         break;
-                    case (int)Token.keywords.IDENTIFIER:
-                        if (idTable.retrieve(primExpr2) != (int)Token.keywords.BOOL)
-                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " 
-                                + primExpr2.row + _notError + _booleanExpression);
-                        break;
-                    default:
-                        Printer.ErrorLine("Boolean expression " + primExpr2.spelling + " at " + primExpr2.col + ", "
-                            + primExpr2.row + _notError + _booleanExpression);
+                    case (int)Token.keywords.NUMBER:
+                        if (primExpr2.kind != primExpr1.kind)
+                            Printer.ErrorLine("Expression at " + primExpr1.col + ", " + primExpr1.row + " is not valid.");
                         break;
                 }
             }
@@ -376,21 +365,21 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
