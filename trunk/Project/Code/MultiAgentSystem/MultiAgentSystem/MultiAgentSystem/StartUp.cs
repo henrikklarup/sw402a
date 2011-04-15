@@ -65,7 +65,7 @@ namespace MultiAgentSystem
 
                 if (Console.CursorTop == 0 || kind[x] == 1)
                 {
-                    if (rand.Next(150) == 1 || kind[x] == 1)
+                    if (rand.Next(width) == 1 || kind[x] == 1)
                     {
                         c = AsciiCharacter;
                         Console.ForegroundColor = ConsoleColor.White;
@@ -80,6 +80,12 @@ namespace MultiAgentSystem
 
                     if (Console.CursorTop == height)
                         kind[x] = 0;
+                        c = AsciiCharacter;
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(c);
+
+                    c = AsciiCharacter;
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
                 else
                 {
