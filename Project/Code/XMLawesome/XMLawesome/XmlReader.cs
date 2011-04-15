@@ -226,6 +226,32 @@ namespace XMLawesome
             catch { }
         }
 
+        public void Attributes()
+        {
+            for (int i = 0; i < OrderStack.Count; i++)
+            {
+                if (OrderStack[i].Tag.Contains("=\""))
+                {
+                    //Parse tag
+                    String tempTag = OrderStack[i].Tag;
+                    int index = tempTag.IndexOf(" ");
+                    String tempSub = tempTag.Substring(0, index);
+                    OrderStack[i].Tag = tempSub;
+                    tempTag = tempTag.Replace(tempSub, "");
+                    Console.WriteLine("CHECK THIS OUT" + tempSub);
+                    String[] temp = tempTag.Split('"');
+                    List<Attributes> ListAttr = new List<Attributes>();
+                    int u = temp.Length;
+                    for(int j = 0; j < u-1; j=+2)
+                    {
+                        Attributes Attri = new Attributes(temp[j].Replace("=",""),temp[j+1]);
+                        ListAttr.Add(Attri);
+                    }
+                    OrderStack[i].Atr = ListAttr;
+                }
+            }
+        }
+
         public List<XmlList> GetToDoStack()
         {
             return RootStack;
@@ -235,7 +261,9 @@ namespace XMLawesome
         public void Mount()
         {
             TreeLists();
-            finalList();
+            //finalList();
+            Attributes();
+            Console.WriteLine("HEHAHAHA");
         }
 
 
