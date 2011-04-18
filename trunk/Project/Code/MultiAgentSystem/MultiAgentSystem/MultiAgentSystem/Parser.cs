@@ -568,6 +568,7 @@ namespace MultiAgentSystem
 
             switch (currentToken.kind)
             { 
+                    // If the first part is a variable parse it as a variable.
                 case (int)Token.keywords.NUMBER:
                 case (int)Token.keywords.ACTUAL_STRING:
                 case (int)Token.keywords.TRUE:
@@ -577,9 +578,10 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.IDENTIFIER:
                     input.firstVar = (Identifier)parseIdentifier();
                     break;
+                    // If the current token is a right parenthesis return.
                 case (int)Token.keywords.RPAREN:
                     Printer.Collapse();
-                    return input;
+                    return null;
                 default:
                     accept(Token.keywords.ERROR);
                     Printer.Collapse();
