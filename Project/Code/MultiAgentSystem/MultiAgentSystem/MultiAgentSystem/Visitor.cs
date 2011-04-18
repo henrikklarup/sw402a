@@ -50,9 +50,13 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Object Declaration");
             Printer.Expand();
+
             // Get the kind of Object and the spelling of the identifier.
-            int kind = (int)objectDeclaration._object.visit(this, arg);
-            string ident = (string)objectDeclaration.identifier.visit(this, arg);
+            Token _object = (Token)objectDeclaration._object.visit(this, arg);
+            Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
+
+            int kind = _object.kind;
+            string ident = identifier.spelling;
 
             // Puts the kind and spelling into the Identification Table.
             idTable.enter(kind, ident);
@@ -167,18 +171,6 @@ namespace MultiAgentSystem
             return null;
         }
 
-        internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
-        {
-            Printer.WriteLine("Method Identifier");
-            Printer.Expand();
-            string ident;
-
-            ident = (string)methodIdentifier.Identifier.visit(this, arg);
-            methodIdentifier.NextMethodIdentifier.visit(this, arg);
-
-            Printer.Collapse();
-            throw new NotImplementedException();
-        }
 
         // identifier ( input ) | identifier . method-call
         internal object visitMethodCall(MethodCall methodCall, object arg)
@@ -306,6 +298,19 @@ namespace MultiAgentSystem
         internal object visitInput(Input input, object arg)
         {
             Printer.WriteLine("Input");
+            throw new NotImplementedException();
+        }
+
+        internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
+        {
+            Printer.WriteLine("Method Identifier");
+            Printer.Expand();
+            string ident;
+
+            ident = (string)methodIdentifier.Identifier.visit(this, arg);
+            methodIdentifier.NextMethodIdentifier.visit(this, arg);
+
+            Printer.Collapse();
             throw new NotImplementedException();
         }
 
