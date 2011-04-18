@@ -5,25 +5,19 @@ using System.Text;
 
 namespace MultiAgentSystem
 {
-    class Attributes
+    public class Attributes
     {
         public int scope;
         public string ident;
         public int kind;
     }
 
-    class IdentificationTable
+    public static class IdentificationTable
     {
-        public List<Attributes> identificationTable;
-        private int scope;
+        private static List<Attributes> identificationTable = new List<Attributes>();
+        private static int scope = 0;
 
-        public IdentificationTable()
-        {
-            identificationTable = new List<Attributes>();
-            scope = 0;
-        }
-
-        public void enter(int kind, string ident)
+        public static void enter(int kind, string ident)
         {
             Attributes attr = new Attributes();
 
@@ -34,7 +28,7 @@ namespace MultiAgentSystem
             identificationTable.Add(attr);
         }
 
-        public int retrieve(Token token)
+        public static int retrieve(Token token)
         {
             List<Attributes> attributes;
             Attributes attr;
@@ -55,12 +49,12 @@ namespace MultiAgentSystem
             return (int)Token.keywords.ERROR;
         }
 
-        public void openScope()
+        public static void openScope()
         {
             scope++;
         }
 
-        public void closeScope()
+        public static void closeScope()
         {
             scope--;
         }

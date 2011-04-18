@@ -7,8 +7,6 @@ namespace MultiAgentSystem
 {
     class Visitor
     {
-        public IdentificationTable idTable = new IdentificationTable();
-
         public object visitAST(AST ast, object arg)
         {
             Printer.WriteLine("AST");
@@ -34,12 +32,12 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
-            idTable.openScope();
+            IdentificationTable.openScope();
             foreach (Command c in block.commands)
             {
                 c.visit(this, null);
             }
-            idTable.closeScope();
+            IdentificationTable.closeScope();
 
             Printer.Collapse();
             return null;
@@ -59,7 +57,7 @@ namespace MultiAgentSystem
             string ident = identifier.spelling;
 
             // Puts the kind and spelling into the Identification Table.
-            idTable.enter(kind, ident);
+            IdentificationTable.enter(kind, ident);
 
             // Visit the input and check the spelling.
             objectDeclaration.input.visit(this, arg);
@@ -95,21 +93,21 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
@@ -118,8 +116,8 @@ namespace MultiAgentSystem
                         break;
                 }
             }
-            if (idTable.retrieve(VarName) == (int)Token.keywords.ERROR)
-                idTable.enter(kind, ident);
+            if (IdentificationTable.retrieve(VarName) == (int)Token.keywords.ERROR)
+                IdentificationTable.enter(kind, ident);
             else
             {
                 Printer.ErrorLine("Identifier " + VarName.spelling + " at " + VarName.col + ", " + VarName.row + " has already been declared.");
@@ -229,7 +227,7 @@ namespace MultiAgentSystem
                 int identifierKind;
                 // If primary expression 1 is an identifier, check which type it is.
                 if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
-                    identifierKind = idTable.retrieve(primExpr1);
+                    identifierKind = IdentificationTable.retrieve(primExpr1);
                 else
                     identifierKind = primExpr1.kind;
 
@@ -257,7 +255,7 @@ namespace MultiAgentSystem
                 int identifierKind;
                 // If primary expression 1 is an identifier, check which type it is.
                 if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
-                    identifierKind = idTable.retrieve(primExpr1);
+                    identifierKind = IdentificationTable.retrieve(primExpr1);
                 else
                     identifierKind = primExpr1.kind;
 
@@ -298,20 +296,47 @@ namespace MultiAgentSystem
         internal object visitInput(Input input, object arg)
         {
             Printer.WriteLine("Input");
-            throw new NotImplementedException();
+            Printer.Expand();
+
+            Token firstVar;
+            object nextVar;
+
+            if (input.firstVar != null)
+            {
+                firstVar = (Token)input.firstVar.visit(this, arg);
+
+                if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
+                {
+                    if (IdentificationTable.retrieve(firstVar) == (int)Token.keywords.ERROR)
+                    {
+                        Printer.ErrorLine("Variable " + firstVar.spelling + " at " + firstVar.col + ", " + firstVar.row + " has not been declared.");
+                    }
+                }
+                if (input.nextVar != null)
+                {
+                    Printer.Collapse();
+                    nextVar = (Input)input.nextVar.visit(this, arg);
+                    Printer.Expand();
+                }
+            }
+
+            Printer.Collapse();
+            return null;
         }
 
         internal object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
         {
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
+            Token identifier;
             string ident;
 
-            ident = (string)methodIdentifier.Identifier.visit(this, arg);
+            identifier = (Token)methodIdentifier.Identifier.visit(this, arg);
+            ident = identifier.spelling;
             methodIdentifier.NextMethodIdentifier.visit(this, arg);
 
             Printer.Collapse();
-            throw new NotImplementedException();
+            return null;
         }
 
         internal object visitMASNumber(MASNumber mASNumber, object arg)
@@ -340,7 +365,7 @@ namespace MultiAgentSystem
 
         internal object visitObject(Object p, object arg)
         {
-            Printer.WriteLine("Object");
+            Printer.WriteLine("Object:; " + p.token.spelling);
             return p.token;
         }
 
@@ -358,7 +383,7 @@ namespace MultiAgentSystem
             int kind;
             Token ident = (Token)assignCommand.ident.visit(this, arg);
 
-            kind = idTable.retrieve(ident);
+            kind = IdentificationTable.retrieve(ident);
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.½
@@ -376,21 +401,21 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
                         }
                         break;
