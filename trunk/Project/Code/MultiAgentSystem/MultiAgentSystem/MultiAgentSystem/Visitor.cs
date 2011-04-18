@@ -9,12 +9,6 @@ namespace MultiAgentSystem
     {
         public IdentificationTable idTable = new IdentificationTable();
 
-        private static string _booleanExpression = "boolean.", _mathExpression = "mathematic.",
-            _typeDeclaration = "Type Declaration", 
-            _notError = " is not of expression type ", 
-            _typeErrorText = " has not been declared to a variable of type ",
-            _undeclaredErrorText = " has not been declared as a type.";
-
         public object visitAST(AST ast, object arg)
         {
             Printer.WriteLine("AST");
@@ -42,7 +36,7 @@ namespace MultiAgentSystem
 
             idTable.openScope();
             foreach (Command c in block.commands)
-            { 
+            {
                 c.visit(this, null);
             }
             idTable.closeScope();
@@ -80,16 +74,19 @@ namespace MultiAgentSystem
 
             int kind = Type.kind;
             string ident = VarName.spelling;
-            
+
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
             if (typeDeclaration.Becomes.visit(this, arg) == null)
             {
                 Expression expression = (Expression)typeDeclaration.Becomes;
-                kind = expression.kind;
+                kind = expression.type;
             }
             else
             {
+                ///HAS TO BE UPDATED TO MATCH EXPRESSIONS
+
+                /*
                 MASVariable masVariable = (MASVariable)typeDeclaration.Becomes;
 
                 switch (kind)
@@ -118,13 +115,13 @@ namespace MultiAgentSystem
                     default:
                         Printer.ErrorLine(_typeDeclaration + _undeclaredErrorText);
                         break;
-                }
+                }*/
             }
             if (idTable.retrieve(VarName) == (int)Token.keywords.ERROR)
                 idTable.enter(kind, ident);
             else
             {
-                Printer.ErrorLine("Identifier " + VarName.spelling + " at " + VarName.col+ ", " + VarName.row + " has already been declared.");
+                Printer.ErrorLine("Identifier " + VarName.spelling + " at " + VarName.col + ", " + VarName.row + " has already been declared.");
             }
             Printer.Collapse();
             return null;
@@ -139,8 +136,8 @@ namespace MultiAgentSystem
             ifCommand.Expression.visit(this, arg);
             ifCommand.IfBlock.visit(this, arg);
             if (ifCommand.ElseBlock != null)
-            { 
-            
+            {
+
             }
 
             Printer.Collapse();
@@ -201,88 +198,88 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Expression");
             Printer.Expand();
+
+            // Always a Token of kind, number, boolen or identifier.
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
+
+            // Always a Token of kind, operator, if this doesn't exists, visit the primaryExpression and return null.
             Token _operator = (Token)expression._operator.visit(this, arg);
-            Token primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
 
-            // If any of the previous expressions has a boolean operator,
-            // the expression being visited must be boolean.
-            if (primExpr2.kind == (int)Token.keywords.BOOL)
-                expression.kind = (int)Token.keywords.BOOL;
+            // 2nd Primary expression can be both, an expression or a token.
+            object primExpr2 = expression.primaryExpression_2.visit(this, arg);
 
+            // Check which kind of expression this is, according to the operator.
             switch (_operator.spelling)
-            { 
-                case "<":
-                case ">":
-                case "<=":
-                case ">=":
-                case "==":
-                    expression.kind = (int)Token.keywords.BOOL;
-                    break;
+            {
                 case "+":
                 case "-":
-                case "/":
                 case "*":
-                    expression.kind = (int)Token.keywords.NUM;
+                case "/":
+                    // If the operator is a mathematic operator,
+                    // Save the type as a NUM, since numbers are of type NUMBER.
+                    expression.type = (int)Token.keywords.NUM;
+                    break;
+                case "<=":
+                case ">=":
+                case "=>":
+                case "=<":
+                case "==":
+                    // If the operator is a boolean operator,
+                    // Save the type as BOOL, since boolean types are of type TRUE or FALSE.
+                    expression.type = (int)Token.keywords.BOOL;
                     break;
                 default:
-                    Printer.ErrorLine("Operator " + _operator.spelling + " at " + _operator.col + ", " + _operator.row + " is not an operator.");
-                    Printer.Collapse();
-                    return null;
+                    Printer.ErrorLine("Failed to identify operator at " + primExpr1.col + ", " + primExpr1.row + ".");
+                    break;
             }
 
-            Printer.ErrorLine(expression.kind + ", " + (int)Token.keywords.BOOL + ", " + (int)Token.keywords.NUM);
-
-            if(expression.kind == (int)Token.keywords.BOOL)
+            // If this evaluates to true, the primExpr2 is a token and therefor a number, boolean or identifier.
+            // primExpr1 is of type Token.
+            if (object.ReferenceEquals(primExpr2.GetType(), primExpr1.GetType()))
             {
-                //Check if both sides are either BOOL (TRUE, FALSE) or NUMBER
-                switch (primExpr1.kind)
+                int identifierKind;
+                // If primary expression 1 is an identifier, check which type it is.
+                if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
+                    identifierKind = idTable.retrieve(primExpr1);
+                else
+                    identifierKind = primExpr1.kind;
+
+                Token _primExpr2 = (Token)primExpr2;
+
+                // Ensure primExpr2 matches primExpr1.
+                switch (_primExpr2.kind)
                 {
+                    case (int)Token.keywords.NUMBER:
+                        if (identifierKind != (int)Token.keywords.NUMBER)
+                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match the type of " + _primExpr2.spelling + ".");
+                        break;
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
-                        if (!primExpr2.kind.Equals((int)Token.keywords.TRUE) && !primExpr2.kind.Equals((int)Token.keywords.FALSE))
-                            Printer.ErrorLine("Expression at " + primExpr1.col + ", " + primExpr1.row + " is not valid.");
-                        break;
-                    case (int)Token.keywords.NUMBER:
-                        if (primExpr2.kind != primExpr1.kind)
-                            Printer.ErrorLine("Expression at " + primExpr1.col + ", " + primExpr1.row + " is not valid.");
+                        if (identifierKind != (int)Token.keywords.FALSE && identifierKind != (int)Token.keywords.TRUE)
+                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match the type of " + _primExpr2.spelling + ".");
                         break;
                 }
             }
-            if (expression.kind == (int)Token.keywords.NUM)
+            // If primExpr2 is not a token, it must be an expression and will be checked when visited
+            else
             {
-                switch (primExpr1.kind)
-                { 
-                    case (int)Token.keywords.NUMBER:
-                        break;
-                    case (int)Token.keywords.IDENTIFIER:
-                        if (idTable.retrieve(primExpr1) != (int)Token.keywords.NUM)
-                            Printer.ErrorLine("Identifier " + primExpr1.spelling + " at " + primExpr1.col + ", "
-                                + primExpr1.row + _notError + _mathExpression);
-                        break;
-                    default:
-                        Printer.ErrorLine("Mathematic expression " + primExpr1.spelling + " at " + primExpr1.col + ", "
-                            + primExpr1.row + _notError + _mathExpression);
-                        break;
-                }
+                Expression _primExpr2 = (Expression)primExpr2;
 
-                switch (primExpr2.kind)
+                // If any sub-expression is bool, the entire expression is bool
+                // and should only have one boolean operator.
+                if (_primExpr2.type == (int)Token.keywords.BOOL)
                 {
-                    case (int)Token.keywords.NUMBER:
-                        break;
-                    case (int)Token.keywords.IDENTIFIER:
-                        if (idTable.retrieve(primExpr2) != (int)Token.keywords.NUM)
-                            Printer.ErrorLine("Identifier " + primExpr2.spelling + " at " + primExpr2.col + ", " 
-                                + primExpr2.row + _notError + _mathExpression);
-                        break;
-                    default:
-                        Printer.ErrorLine("Mathematic expression " + primExpr2.spelling + " at " + primExpr2.col + ", "
-                            + primExpr2.row + _notError + _mathExpression);
-                        break;
+                    if (expression.type == (int)Token.keywords.BOOL)
+                        Printer.ErrorLine("The expression at " + primExpr1.col + ", " + primExpr1.row + " is invalid.");
+
+                    // If any of the expressions are of type boolean
+                    // the entire expression is boolean and is set as boolean.
+                    expression.type = (int)Token.keywords.BOOL;
                 }
             }
+
             Printer.Collapse();
-            return null;
+            return expression;
         }
 
         internal object visitIdentifier(Identifier identifier, object arg)
@@ -348,13 +345,13 @@ namespace MultiAgentSystem
             Token ident = (Token)assignCommand.ident.visit(this, arg);
 
             kind = idTable.retrieve(ident);
-            
+
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.½
             if (assignCommand.becomes.visit(this, arg) == null)
             {
                 Expression expression = (Expression)assignCommand.becomes;
-                kind = expression.kind;
+                kind = expression.type;
             }
             else
             {
