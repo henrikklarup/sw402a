@@ -57,9 +57,8 @@ namespace XMLawesome
             //Make parent
             Depth--;
             Depth--;
-            Depth--;
-            XML temp = new XML(Depth, null, null, false, null);
-            XmlList.Add(temp);
+            //XML temp = new XML(Depth, null, null, false, null);
+           // XmlList.Add(temp);
         }
 
         public static void Node(String Tag, String Value)

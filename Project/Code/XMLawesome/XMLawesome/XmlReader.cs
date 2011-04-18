@@ -138,7 +138,7 @@ namespace XMLawesome
                 KeySearch = searchterm.Split('>');
                 limit = KeySearch.Length;
                 search = 0;
-                return Search(limit, search, KeySearch);
+                return TSearch(limit, search, KeySearch);
             }
             else if (searchterm == "")
             {
@@ -149,20 +149,80 @@ namespace XMLawesome
                 KeySearch[0] = searchterm;
                 limit = 1;
                 search = 0;
-                return Search(limit, search, KeySearch);
+                return TSearch(limit, search, KeySearch);
             }
+        }
+        private List<XmlType> TempSearch(int limit, int search, String[] KeySearch)
+        {   
+            bool SearchTerm = true;
+            for(int i = 0; i < KeySearch.Length; i++)
+            {
+                List<XmlType> status = OrderStack.FindAll(x => x.Tag == KeySearch[i] && x.Order == i);
+                
+                if(status.Count == 0)
+                {
+                    SearchTerm = false;
+                }
+            }
+
+            if (SearchTerm == true)
+            {
+                Console.WriteLine("SUCCESS");
+            }
+
+
+            //Find search
+            
+
+            return ReturnList;
+        }
+
+        private List<XmlType> TSearch(int limit, int search, String[] KeySearch)
+        {
+            List<XmlType> SearchTempList = new List<XmlType>();
+            SearchTempList = OrderStack;
+
+            for (int f = 0; f < KeySearch.Length; f++)
+            {
+                for (int b = 0; b < SearchTempList.Count; b++)
+                {
+                    int addB = 0;
+                    if (SearchTempList[b].Tag != KeySearch[f] && SearchTempList[b].Order == f)
+                    {
+                        for (int a = b; a < SearchTempList.Count; a++)
+                        {
+                            try
+                            {
+                                if(SearchTempList[b].Order < SearchTempList[a].Order)
+                                {
+                                    
+                                    //SearchTempList[a].Tag = "Already been here";
+                                    
+                                    addB++;
+                                }
+                            }
+                            catch { }
+                        }
+                        b = b + addB;
+                    }
+                }
+            }
+           //return ReturnList = SearchTempList.FindAll(x => x.Order == KeySearch.Length);
+            return SearchTempList;
         }
             private List<XmlType> Search(int limit, int search, String[] KeySearch)
             {
+                int c = 0;
+                int index = 0;
                 for (int i = 0; i < limit; i++)
                 {
-                    int c = 0;
                     List<XmlType> temp = OrderStack.FindAll(x => x.Tag == KeySearch[c]);
-                    foreach (XmlType item in temp)
+                    for(int g = 0; g < temp.Count; g++)
                     {
-                        if (item.Order == search)
+                        if (temp[g].Order == search && temp[g].Order <= limit)
                         {
                             search++;
+                            index = g;
                         }
                     }
                     c++;
@@ -171,7 +231,6 @@ namespace XMLawesome
                 if (search == limit)
                 {
                     //search++;
-                    int index = OrderStack.FindIndex(x => x.Order == search);
                     for (int u = index; u < OrderStack.Count; u++)
                     {
                         if (search <= OrderStack[u].Order)
@@ -238,15 +297,21 @@ namespace XMLawesome
                     String tempSub = tempTag.Substring(0, index);
                     OrderStack[i].Tag = tempSub;
                     tempTag = tempTag.Replace(tempSub, "");
-                    Console.WriteLine("CHECK THIS OUT" + tempSub);
                     String[] temp = tempTag.Split('"');
                     List<Attributes> ListAttr = new List<Attributes>();
                     int u = temp.Length;
-                    for(int j = 0; j < u-1; j=+2)
+                    for (int j = 0; j < u - 1; j += 2)
                     {
-                        Attributes Attri = new Attributes(temp[j].Replace("=",""),temp[j+1]);
+                        Attributes Attri = new Attributes(temp[j].Replace("=", ""), temp[j + 1]);
                         ListAttr.Add(Attri);
                     }
+                    OrderStack[i].Atr = ListAttr;
+                }
+                else
+                {
+                    List<Attributes> ListAttr = new List<Attributes>();
+                    Attributes Attri = new Attributes(null, null);
+                    ListAttr.Add(Attri);
                     OrderStack[i].Atr = ListAttr;
                 }
             }
@@ -261,9 +326,8 @@ namespace XMLawesome
         public void Mount()
         {
             TreeLists();
-            //finalList();
+            finalList();
             Attributes();
-            Console.WriteLine("HEHAHAHA");
         }
 
 
