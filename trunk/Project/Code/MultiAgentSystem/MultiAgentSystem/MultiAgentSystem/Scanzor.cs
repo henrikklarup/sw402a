@@ -343,7 +343,9 @@ namespace MultiAgentSystem
 
         public Scanzor()
         {
-            fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt"); //The name of the files input
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            path = path + @"\mass.txt";
+            fileLines = File.ReadAllLines(path); //The name of the files input
 
             //Initializes the string being read by the scanner, and its counters
             charLine = fileLines[fileCounter++].ToCharArray();

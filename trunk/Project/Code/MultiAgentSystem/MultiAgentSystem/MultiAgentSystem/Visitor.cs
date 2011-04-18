@@ -110,7 +110,7 @@ namespace MultiAgentSystem
                         }
                         break;
                     default:
-                        Printer.ErrorLine("lol");
+                        Printer.ErrorLine("Dont know what used to be here, but I've accidently deleted all the strings in the top :P");
                         break;
                 }
             }
