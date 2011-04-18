@@ -77,9 +77,9 @@ namespace MultiAgentSystem
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
-            if (typeDeclaration.Becomes.visit(this, arg) == null)
+            if (Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),new Expression(null, null, null).GetType()))
             {
-                Expression expression = (Expression)typeDeclaration.Becomes;
+                Expression expression = (Expression)typeDeclaration.Becomes.visit(this, arg);
                 kind = expression.type;
             }
             else
@@ -247,7 +247,7 @@ namespace MultiAgentSystem
                 switch (_primExpr2.kind)
                 {
                     case (int)Token.keywords.NUMBER:
-                        if (identifierKind != (int)Token.keywords.NUMBER)
+                        if (identifierKind != (int)Token.keywords.NUM && identifierKind != (int)Token.keywords.NUMBER)
                             Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match.");
                         break;
                     case (int)Token.keywords.TRUE:
