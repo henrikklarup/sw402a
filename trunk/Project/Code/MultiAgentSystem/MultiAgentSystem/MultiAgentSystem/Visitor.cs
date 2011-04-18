@@ -66,7 +66,7 @@ namespace MultiAgentSystem
         // Type VarName = becomes...SomethingSomething...
         internal object visitTypeDecleration(TypeDeclaration typeDeclaration, object arg)
         {
-            Printer.WriteLine(_typeDeclaration);
+            Printer.WriteLine("Type declaration");
             Printer.Expand();
             // Stores the type and the identifier of the declaration
             Token Type = (Token)typeDeclaration.Type.visit(this, arg);
@@ -84,9 +84,6 @@ namespace MultiAgentSystem
             }
             else
             {
-                ///HAS TO BE UPDATED TO MATCH EXPRESSIONS
-
-                /*
                 MASVariable masVariable = (MASVariable)typeDeclaration.Becomes;
 
                 switch (kind)
@@ -95,27 +92,27 @@ namespace MultiAgentSystem
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
+                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
+                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && idTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(_typeDeclaration + _typeErrorText + ((Token.keywords)masVariable.token.kind).ToString());
+                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     default:
-                        Printer.ErrorLine(_typeDeclaration + _undeclaredErrorText);
+                        Printer.ErrorLine("lol");
                         break;
-                }*/
+                }
             }
             if (idTable.retrieve(VarName) == (int)Token.keywords.ERROR)
                 idTable.enter(kind, ident);
@@ -251,12 +248,12 @@ namespace MultiAgentSystem
                 {
                     case (int)Token.keywords.NUMBER:
                         if (identifierKind != (int)Token.keywords.NUMBER)
-                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match the type of " + _primExpr2.spelling + ".");
+                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match.");
                         break;
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
                         if (identifierKind != (int)Token.keywords.FALSE && identifierKind != (int)Token.keywords.TRUE)
-                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match the type of " + _primExpr2.spelling + ".");
+                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match.");
                         break;
                 }
             }
@@ -264,6 +261,18 @@ namespace MultiAgentSystem
             else
             {
                 Expression _primExpr2 = (Expression)primExpr2;
+
+                int identifierKind;
+                // If primary expression 1 is an identifier, check which type it is.
+                if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
+                    identifierKind = idTable.retrieve(primExpr1);
+                else
+                    identifierKind = primExpr1.kind;
+
+                // If the expression is a mathematic expression, there should be no true/false expressions.
+                if (expression.type == (int)Token.keywords.NUM)
+                    if (identifierKind == (int)Token.keywords.TRUE || identifierKind == (int)Token.keywords.FALSE)
+                        Printer.ErrorLine("The expression at " + primExpr1.col + ", " + primExpr1.row + " is invalid.");
 
                 // If any sub-expression is bool, the entire expression is bool
                 // and should only have one boolean operator.
