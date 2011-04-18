@@ -62,14 +62,12 @@ namespace ListToXML
             XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
             Console.WriteLine("U N D E R U N D E R U N D E R U N D E R U N D E R U N D E R U N D E R ");
             Reader.Mount();
-            foreach (XmlType item in Reader.XmlSearch(""))
-            {
-                try
-                {//Make Attributes finish
-                    Console.WriteLine(item.Atr[0].Atr + " " + item.Atr[0].Value);
 
-                }
-                catch { }
+            //Add null filter
+            //Search virker ikke mere, aner ikke hvorfor :(
+            foreach (XmlType item in Reader.XmlSearch("MAS>Teams>Team"))
+            {
+                Console.WriteLine(item.Tag + item.Order);
             }
             Console.ReadKey();
         }
@@ -91,6 +89,10 @@ namespace ListToXML
                 XMLhelp.Node("posY", value.posY.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.Node("Rank", value.rank.ToString());
+                XMLhelp.Attribute("Attr", "AttrValue");
+                XMLhelp.Attribute("Attr2", "AttrValue2");
+                XMLhelp.Attribute("Attr3", "AttrValue3");
+                XMLhelp.Attribute("Attr4", "AttrValue4");
                 //Mangler at add team
                 //public Team team;
                 XMLhelp.Child("Teams", null);
@@ -106,12 +108,18 @@ namespace ListToXML
         public static void mTeams(List<Team> Teams)
         {
             XMLhelp.Root("Teams", null);
+
+            //Sæt dette til en liste i stedet med methode
+            //brug delegates til at sende en liste af funtioner med'
+
+            //lav root med fixed størrelse
             foreach (var value in Teams)
             {
                 XMLhelp.Child("Team", null);
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.Node("Color", value.color);
+                XMLhelp.Parent();
             }
         }
 
