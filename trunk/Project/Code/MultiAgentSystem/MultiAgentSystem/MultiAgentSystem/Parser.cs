@@ -51,6 +51,7 @@ namespace MultiAgentSystem
             Printer.Expand();
             switch(currentToken.kind)
             {
+                // Check if the current token is a main token, and check for tokens in the correct order.
                 case (int)Token.keywords.MAIN:
                     acceptIt();
                     accept(Token.keywords.LPAREN);
@@ -76,11 +77,11 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
             Block block = new Block();
-            // parseCommand is run until the end of the block is reached.
             switch (currentToken.kind)
             {
                 case (int)Token.keywords.LBRACKET:
                     acceptIt();
+                    // parseCommand is run until the end of the block is reached.
                     while (currentToken.kind != (int)Token.keywords.RBRACKET)
                     {
                         Command c = (Command)parseCommand();
@@ -107,7 +108,7 @@ namespace MultiAgentSystem
             Printer.Expand();
             switch (currentToken.kind)
             {
-                    // or an object declaration...
+                    // A command can be an object declaration...
                 case (int)Token.keywords.NEW:
                     Command objectDeclaration = parseObjectDeclaration();
                     accept(Token.keywords.SEMICOLON);
@@ -402,6 +403,11 @@ namespace MultiAgentSystem
             return new MethodCall(methodIdentifier, input);
         }
 
+        /// <summary>
+        /// Method for parsing a method identifier, which contains the identifiers used to "dot"
+        /// forward to the method.
+        /// </summary>
+        /// <returns></returns>
         private Terminal parseMethodIdentifier()
         {
             Printer.WriteLine("Method Identifier");
@@ -423,7 +429,7 @@ namespace MultiAgentSystem
 
         /// <summary>
         /// Method for assigning an identifier.
-        /// Syntax: identifier becomes  variable | identifier becomes expression
+        /// Syntax: identifier becomes variable | identifier becomes expression
         /// </summary>
         /// <returns></returns>
         private Command parseAssignCommand()
@@ -433,8 +439,10 @@ namespace MultiAgentSystem
             Identifier ident;
             AST becomes;
 
+            // Parse identifier...
             if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
                 ident = parseIdentifier();
+            // or return an error.
             else
             {
                 Printer.ErrorLine("Identifier " + currentToken.spelling + " at " + currentToken.row + ", " + currentToken.col + " is not an identifier.");
@@ -491,7 +499,7 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Primary Expression");
             Printer.Expand();
-            // If the if-loop didnt return, try a switch case on number, boolean, parent expression or identifier.
+            // Check if it's a number, boolean, parent expression or identifier.
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.NUMBER:
@@ -578,7 +586,7 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.IDENTIFIER:
                     input.firstVar = (Identifier)parseIdentifier();
                     break;
-                    // If the current token is a right parenthesis return.
+                    // If the current token is a right parenthesis then return.
                 case (int)Token.keywords.RPAREN:
                     Printer.Collapse();
                     return null;
