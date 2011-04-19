@@ -32,13 +32,14 @@ namespace MultiAgentSystem
             identificationTable.Add(attr);
         }
 
-        // 
+        // Method to search for an identifier in the identification table, returns an error if it doesn't exists.
         public static int retrieve(Token token)
         {
             Attributes attr;
-
             string ident = token.spelling;
 
+            // Find the first identifier in the identification table,
+            // which matches the identifier.
             attr = identificationTable.Find(
                 delegate(Attributes att)
                 {
@@ -48,11 +49,14 @@ namespace MultiAgentSystem
             return (int)Token.keywords.ERROR;
         }
 
+        // When a new scope is identified, count the scopecounter 1 up.
         public static void openScope()
         {
             scope++;
         }
 
+        // When a scope has ended, count the scope counter 1 down, 
+        // and delete all items in the identification table which were in that scope.
         public static void closeScope()
         {
             scope--;
