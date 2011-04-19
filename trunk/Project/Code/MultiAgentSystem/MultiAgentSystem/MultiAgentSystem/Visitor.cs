@@ -125,34 +125,34 @@ namespace MultiAgentSystem
             }
             else
             {
-                MASVariable masVariable = (MASVariable)becomes;
+                Token masVariable = (Token)becomes;
 
-                // Checks that the type matches the variable, the identifier becomes.
+                // Checks that the type matches the variable, that the identifier becomes.
                 switch (kind)
                 {
                     case (int)Token.keywords.STRING:
-                        if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
+                        if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
-                                && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
-                        if (masVariable.token.kind != (int)Token.keywords.TRUE 
-                            && masVariable.token.kind != (int)Token.keywords.FALSE)
+                        if (masVariable.kind != (int)Token.keywords.TRUE 
+                            && masVariable.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
-                                && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
-                        if (masVariable.token.kind != (int)Token.keywords.NUMBER)
+                        if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
-                                && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
                         }
                         break;
                     default:
@@ -190,9 +190,10 @@ namespace MultiAgentSystem
             if (expr.type != (int)Token.keywords.BOOL)
                 Printer.ErrorLine("If expression is not of type boolean.");
 
-            // Visit 
+            // Visit the first block.
             ifCommand.IfBlock.visit(this, arg);
 
+            // If the second block exists, visit it.
             if (ifCommand.ElseBlock != null)
             {
                 ifCommand.ElseBlock.visit(this, arg);
@@ -202,11 +203,21 @@ namespace MultiAgentSystem
             return null;
         }
 
-        // for ( type-declaration ; bool-expression ; math-expression ) block
+        
+        /// <summary>
+        /// Visit for loop, consitst of a declaration, a boolean expression, an expression, and a block.
+        /// Syntax: for ( type-declaration ; bool-expression ; math-expression ) block
+        /// Visits the declaration, the two expressions and the block.
+        /// </summary>
+        /// <param name="forCommand"></param>
+        /// <param name="arg"></param>
+        /// <returns>null</returns>
         internal object visitForCommand(ForCommand forCommand, object arg)
         {
             Printer.WriteLine("For Command");
             Printer.Expand();
+
+            // Visit the declaration, the two expressions and the block.
             forCommand.CounterDeclaration.visit(this, arg);
             forCommand.LoopExpression.visit(this, arg);
             forCommand.CounterExpression.visit(this, arg);
@@ -216,7 +227,13 @@ namespace MultiAgentSystem
             return null;
         }
 
-        // while ( bool-expression ) block
+        /// <summary>
+        /// Visit while loop
+        /// Syntax: while ( bool-expression ) block
+        /// </summary>
+        /// <param name="whileCommand"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal object visitWhileCommand(WhileCommand whileCommand, object arg)
         {
             Printer.WriteLine("While Command");
