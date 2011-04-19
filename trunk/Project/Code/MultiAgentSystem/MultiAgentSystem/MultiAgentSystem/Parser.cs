@@ -300,13 +300,13 @@ namespace MultiAgentSystem
             accept(Token.keywords.SEMICOLON);
             Expression expression_1 = (Expression)parseExpression();
             accept(Token.keywords.SEMICOLON);
-            Expression expression_2 = (Expression)parseExpression();
+           AssignCommand assignCommand = (AssignCommand)parseAssignCommand();
             accept(Token.keywords.RPAREN);
             
             Block block = (Block)parseBlock();
 
             Printer.Collapse();
-            return new ForCommand(typeDeclaration, expression_1, expression_2, block);
+            return new ForCommand(typeDeclaration, expression_1, assignCommand, block);
         }
 
         /// <summary>

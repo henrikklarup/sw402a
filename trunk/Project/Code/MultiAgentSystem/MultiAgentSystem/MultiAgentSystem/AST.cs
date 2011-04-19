@@ -151,16 +151,16 @@ namespace MultiAgentSystem
         public Expression LoopExpression;
 
         // The expression that determines what happens to the counter after each run of the loop.
-        public Expression CounterExpression;
+        public AssignCommand CounterExpression;
 
         // The block with the code that is to be executed in the loop.
         public Block ForBlock;
 
-        public ForCommand(TypeDeclaration T, Expression E1, Expression E2, Block B)
+        public ForCommand(TypeDeclaration T, Expression E, AssignCommand A, Block B)
         {
             this.CounterDeclaration = T;
-            this.LoopExpression = E1;
-            this.CounterExpression = E2;
+            this.LoopExpression = E;
+            this.CounterExpression = A;
             this.ForBlock = B;
         }
 

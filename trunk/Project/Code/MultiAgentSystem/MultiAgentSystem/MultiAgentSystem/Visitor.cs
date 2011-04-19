@@ -365,7 +365,7 @@ namespace MultiAgentSystem
 
         internal object visitObject(Object p, object arg)
         {
-            Printer.WriteLine("Object:; " + p.token.spelling);
+            Printer.WriteLine("Object: " + p.token.spelling);
             return p.token;
         }
 
@@ -382,41 +382,42 @@ namespace MultiAgentSystem
 
             int kind;
             Token ident = (Token)assignCommand.ident.visit(this, arg);
+            object becomes = assignCommand.becomes.visit(this, arg);
 
             kind = IdentificationTable.retrieve(ident);
 
             // If the declaration becomes an expression, visit the expression.
-            // Else check if it becomes the right type.½
-            if (assignCommand.becomes.visit(this, arg) == null)
+            // Else check if it becomes the right type.
+            if (Expression.Equals(becomes.GetType(), new Expression(null, null, null).GetType()))
             {
-                Expression expression = (Expression)assignCommand.becomes;
+                Expression expression = (Expression)becomes;
                 kind = expression.type;
             }
             else
             {
-                MASVariable masVariable = (MASVariable)assignCommand.becomes;
+                Token masVariable = (Token)becomes;
 
                 switch (kind)
                 {
                     case (int)Token.keywords.STRING:
-                        if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
+                        if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
-                        if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
+                        if (masVariable.kind != (int)Token.keywords.TRUE || masVariable.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
-                        if (masVariable.token.kind != (int)Token.keywords.NUMBER)
+                        if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.token.kind.ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
+                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
                         }
                         break;
                     default:
