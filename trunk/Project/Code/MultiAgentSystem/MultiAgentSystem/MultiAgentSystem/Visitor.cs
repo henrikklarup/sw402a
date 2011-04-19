@@ -7,16 +7,26 @@ namespace MultiAgentSystem
 {
     class Visitor
     {
+        /// <summary>
+        /// Visit the AST, the first method called when visiting the AST.
+        /// Visits the Main Block.
+        /// </summary>
+        /// <param name="ast"></param>
+        /// <param name="arg"></param>
+        /// <returns>null</returns>
         public object visitAST(AST ast, object arg)
         {
-            Printer.WriteLine("AST");
-            Printer.Expand();
             ast.visit(this, arg);
-
-            Printer.Collapse();
             return null;
         }
 
+        /// <summary>
+        /// Visit the Main Block.
+        /// Visits the first Block.
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal object visitMainBlock(Mainblock block, object arg)
         {
             Printer.WriteLine("Main Block");
@@ -26,24 +36,44 @@ namespace MultiAgentSystem
             Printer.Collapse();
             return null;
         }
-
+        
+        /// <summary>
+        /// Visit a Block, holds a list of commands.
+        /// Visits all commands in the block.
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="arg"></param>
+        /// <returns>null</returns>
         internal object visitBlock(Block block, object arg)
         {
             Printer.WriteLine("Block");
             Printer.Expand();
 
+            // Everytime a block is visited the block opens 
+            // a new scope in the identification table.
             IdentificationTable.openScope();
             foreach (Command c in block.commands)
             {
                 c.visit(this, null);
             }
+            // When all commands in the block have been visited
+            // the scope is closed in the identification table.
             IdentificationTable.closeScope();
 
             Printer.Collapse();
             return null;
         }
 
-        // new object identifier ( input )
+         
+        /// <summary>
+        /// Visit an object declaration, consists of an object, an identifier, and an input.
+        /// Checks if the identifier already exists, if not, creates a new identifier.
+        /// Syntax: new object identifier ( input )
+        /// Visits the object, the identifer, and the input.
+        /// </summary>
+        /// <param name="objectDeclaration"></param>
+        /// <param name="arg"></param>
+        /// <returns>null</returns>
         internal object visitObjectDecleration(ObjectDeclaration objectDeclaration, object arg)
         {
             Printer.WriteLine("Object Declaration");
@@ -65,7 +95,15 @@ namespace MultiAgentSystem
             return null;
         }
 
-        // Type VarName = becomes...SomethingSomething...
+        /// <summary>
+        /// Visit a type declaration, consists of a type, an identifier, 
+        /// and whatever its declared as (expression or variable).
+        /// Syntax: Type VarName = becomes
+        /// Visits the type, the identifier, and the expression or variable.
+        /// </summary>
+        /// <param name="typeDeclaration"></param>
+        /// <param name="arg"></param>
+        /// <returns>null</returns>
         internal object visitTypeDecleration(TypeDeclaration typeDeclaration, object arg)
         {
             Printer.WriteLine("Type declaration");
@@ -73,6 +111,7 @@ namespace MultiAgentSystem
             // Stores the type and the identifier of the declaration
             Token Type = (Token)typeDeclaration.Type.visit(this, arg);
             Token VarName = (Token)typeDeclaration.VarName.visit(this, arg);
+            object becomes = typeDeclaration.Becomes.visit(this, arg);
 
             int kind = Type.kind;
             string ident = VarName.spelling;
@@ -81,38 +120,43 @@ namespace MultiAgentSystem
             // Else check if it becomes the right type.
             if (Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),new Expression(null, null, null).GetType()))
             {
-                Expression expression = (Expression)typeDeclaration.Becomes.visit(this, arg);
+                Expression expression = (Expression)becomes;
                 kind = expression.type;
             }
             else
             {
-                MASVariable masVariable = (MASVariable)typeDeclaration.Becomes;
+                MASVariable masVariable = (MASVariable)becomes;
 
+                // Checks that the type matches the variable, the identifier becomes.
                 switch (kind)
                 {
                     case (int)Token.keywords.STRING:
                         if (masVariable.token.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
-                        if (masVariable.token.kind != (int)Token.keywords.TRUE || masVariable.token.kind != (int)Token.keywords.FALSE)
+                        if (masVariable.token.kind != (int)Token.keywords.TRUE 
+                            && masVariable.token.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.token.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable.token) != kind)
+                            if (masVariable.token.kind == (int)Token.keywords.IDENTIFIER 
+                                && IdentificationTable.retrieve(masVariable.token) != kind)
                                 Printer.ErrorLine(((Token.keywords)masVariable.token.kind).ToString());
                         }
                         break;
                     default:
-                        Printer.ErrorLine("Dont know what used to be here, but I've accidently deleted all the strings in the top :P");
+                        Printer.ErrorLine("Type declaration did not match.");
                         break;
                 }
             }
@@ -126,17 +170,32 @@ namespace MultiAgentSystem
             return null;
         }
 
-        // if ( bool-expression ) block
-        // if ( bool-expression ) block else block
+        /// <summary>
+        /// Visit an if expression, consists of a boolean expression and two blocks.
+        /// If the last block (the else block) exists, then visit it.
+        /// Syntax: if ( bool-expression ) block
+        /// Syntax: if ( bool-expression ) block else block
+        /// Visits the expression and both blocks if they exists.
+        /// </summary>
+        /// <param name="ifCommand"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal object visitIfCommand(IfCommand ifCommand, object arg)
         {
             Printer.WriteLine("If Command");
             Printer.Expand();
-            ifCommand.Expression.visit(this, arg);
+
+            // Visit the expression, if the expression isn't boolean, report and error.
+            Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
+            if (expr.type != (int)Token.keywords.BOOL)
+                Printer.ErrorLine("If expression is not of type boolean.");
+
+            // Visit 
             ifCommand.IfBlock.visit(this, arg);
+
             if (ifCommand.ElseBlock != null)
             {
-
+                ifCommand.ElseBlock.visit(this, arg);
             }
 
             Printer.Collapse();
