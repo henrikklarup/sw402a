@@ -7,6 +7,7 @@ namespace MultiAgentSystem
 {
     public static class Printer
     {
+        // Used to indent the messages sent by the compiler to the user.
         private static int indent;
 
         public static void printLogo()
@@ -16,6 +17,7 @@ namespace MultiAgentSystem
             int row = 0;
             ConsoleColor tmpColor = Console.ForegroundColor;
 
+            // Draw the MASS icon in the console.
             Console.Clear();
             Console.Title = "MASS Compiler: ";
             Console.SetCursorPosition(col, row++);
@@ -33,47 +35,81 @@ namespace MultiAgentSystem
             Console.WriteLine("Compiler");
             Console.ForegroundColor = tmpColor;
         }
+        
+        // Changes the cursor position, to match the indent, and changes the text color to red,
+        // to display the error message.
+        public static void Error(String error)
+        {
+            // Save the current text color.
+            ConsoleColor tmpColor = Console.ForegroundColor;
 
+            // Changes the text color to red.
+            Console.ForegroundColor = ConsoleColor.Red;
+            // Changes the cursor position, to match the indent.
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
+            Console.Write(error);
+            // Changes the text color to the original.
+            Console.ForegroundColor = tmpColor;
+        }
+
+        // Extention of the Error method, changes the cursor to the next line. 
         public static void ErrorLine(string text)
         {
             Error(text);
             Console.WriteLine();
         }
 
-        public static void Error(String error)
+        // Changes the cursor position, to match the indent,
+        // Changes the text color to green
+        // to display that the function went well.
+        public static void Write(String text)
         {
+            // Saves the current text color.
             ConsoleColor tmpColor = Console.ForegroundColor;
 
-            Console.ForegroundColor = ConsoleColor.Red;
+            // Changes the text color to green.
+            Console.ForegroundColor = ConsoleColor.Green;
+            // Changes the cursor position, to match the indent.
             Console.SetCursorPosition(indent * 2, Console.CursorTop);
-            Console.Write(error);
+            Console.Write(text);
+            // Changes the text color to the original.
             Console.ForegroundColor = tmpColor;
         }
 
+        // Extention of the Write method.
         public static void WriteLine(string text)
         {
             Write(text);
             Console.WriteLine();
         }
 
-        public static void Write(String text)
-        {
-            ConsoleColor tmpColor = Console.ForegroundColor;
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(indent * 2, Console.CursorTop);
-            Console.Write(text);
-            Console.ForegroundColor = tmpColor;
-        }
-
+        // Expand the indention of the messages.
         public static void Expand()
         {
             indent++;
         }
 
+        // Collaps the indention of the messages.
         public static void Collapse()
         {
             indent--;
         }
+
+        /* INDENT EXAMPLE:
+         * The source code:
+         * main()
+         * 
+         * {
+         *      num i = 0;
+         * }
+         * 
+         * Will be shown as:
+         * 
+         *  main
+         *    block
+         *      Type Declaration
+         *        number: i
+         *        becomes: 0
+         * */
     }
 }
