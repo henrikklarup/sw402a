@@ -433,15 +433,15 @@ namespace WindowsFormsApplication6
                 {
                     p = getGridPixelFromGrid(new Point(it1, 0));
                 }
-                if (a.team.ID == 2)
+                else if (a.team.ID == 2)
                 {
                     p = getGridPixelFromGrid(new Point(Grids - 1, it2));
                 }
-                if (a.team.ID == 3)
+                else if (a.team.ID == 3)
                 {
                     p = getGridPixelFromGrid(new Point(it3, Grids - 1));
                 }
-                if (a.team.ID == 4)
+                else if (a.team.ID == 4)
                 {
                     p = getGridPixelFromGrid(new Point(0, it4));
                 }
@@ -453,15 +453,15 @@ namespace WindowsFormsApplication6
                 {
                     it1++;
                 }
-                if (a.team.ID == 2)
+                else if (a.team.ID == 2)
                 {
                     it2++;
                 }
-                if (a.team.ID == 3)
+                else if (a.team.ID == 3)
                 {
                     it3++;
                 }
-                if (a.team.ID == 4)
+                else if (a.team.ID == 4)
                 {
                     it4++;
                 }
