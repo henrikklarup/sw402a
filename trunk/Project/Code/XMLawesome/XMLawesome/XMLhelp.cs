@@ -8,6 +8,8 @@ namespace XMLawesome
 {
     public static class XMLhelp
     {
+        public static int Cdepth = -1;
+        public static int Cint = 0;
         public static List<XML> XmlList = new List<XML>();
         public static int Depth = 0;
 
@@ -50,6 +52,26 @@ namespace XMLawesome
             XML temp = new XML(Depth, Tag, Value, false, null);
             XmlList.Add(temp);
             Depth++;
+        }
+
+        public static void Childs(String Tag, int count)
+        {
+            if (Cint == 0)
+            {
+                Cint = count;
+                Depth++;
+                Cdepth = 2;
+                
+            }
+            if (Cint > 0)
+            {
+                XML Up = new XML(Cdepth, null, null, false, null);
+
+                XML temp = new XML(Cdepth, Tag, null, false, null);
+                XmlList.Add(Up);
+                XmlList.Add(temp);
+                Cint--;
+            }
         }
 
         public static void Parent()
