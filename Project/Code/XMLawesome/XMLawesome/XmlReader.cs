@@ -49,7 +49,7 @@ namespace XMLawesome
             }
             int order = 0;
 
-            for (int i = 0; i < temp.Length - 1; i++)
+            for (int i = 0; i < temp.Length; i++)
             {       //Check for </> <> set order
 
                 if (temp[i].Contains("</"))
@@ -62,6 +62,12 @@ namespace XMLawesome
                 }
                 XmlOrder XmlO = new XmlOrder(temp[i], order);
                 XML.Add(XmlO);
+            }
+            Console.WriteLine("XML");
+            Console.WriteLine("");
+            foreach (XmlOrder item in XML)
+            {
+                Console.WriteLine(item.Tag + item.Order);
             }
         }
 
