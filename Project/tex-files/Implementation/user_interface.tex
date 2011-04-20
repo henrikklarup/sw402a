@@ -45,6 +45,53 @@ The functions of the game interface is:
 
 \subsection*{Drawing the Grid and Agents}
 \label{sec:drawing}
-The drawing of the grid and agents, is done using GDI+ (http://msdn.microsoft.com/en-us/library/ms533798(v=vs.85).aspx) which makes it possible to draw graphic on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, this is done with the help of double buffering.
+The drawing of the grid and agents, is done using GDI+ \cite{gdiplus} which makes it possible to draw graphic on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, this is done with the help of double buffering.
 We only use GDI+ graphics inside the usercontrol DBpanel, and make sure we draw things in the correct order, as we draw the pixels untop of each other. The first thing drawn is the background, which in our case is green, with the black gridlines on top of it, to create the game grid. Next the agents are drawn, one after the another.
 The agents start posistions are calculated by the following algorithem:
+\begin{source}[]{}                    
+            int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
+            int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
+            int it3 = (Grids / 2) - (agentsOnTeam3 / 2);
+            int it4 = (Grids / 2) - (agentsOnTeam4 / 2);
+            foreach (Agent a in agents)
+            {
+                Point p = new Point();
+                if (a.team.ID == 1)
+                {
+                    p = getGridPixelFromGrid(new Point(it1, 0));
+                }
+                else if (a.team.ID == 2)
+                {
+                    p = getGridPixelFromGrid(new Point(Grids - 1, it2));
+                }
+                else if (a.team.ID == 3)
+                {
+                    p = getGridPixelFromGrid(new Point(it3, Grids - 1));
+                }
+                else if (a.team.ID == 4)
+                {
+                    p = getGridPixelFromGrid(new Point(0, it4));
+                }
+
+                a.posX += p.X;
+                a.posY += p.Y;
+
+                if (a.team.ID == 1)
+                {
+                    it1++;
+                }
+                else if (a.team.ID == 2)
+                {
+                    it2++;
+                }
+                else if (a.team.ID == 3)
+                {
+                    it3++;
+                }
+                else if (a.team.ID == 4)
+                {
+                    it4++;
+                }
+            }
+\end{source}
+It is the start location for each team. If the grid is 13 "grids" wide and team one consists of three agents, the starting position for team one will be (13/2) - (3 / 2) = 6,5 - 1,5 = 5.
