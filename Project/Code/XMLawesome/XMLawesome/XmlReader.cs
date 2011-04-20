@@ -124,7 +124,6 @@ namespace XMLawesome
 
             }
         }
-        List<XmlList> RootStack = new List<XmlList>();
         List<XmlList> ListStack = new List<XmlList>();
         List<XmlType> ReturnList = new List<XmlType>();
         public List<XmlType> XmlSearch(String searchterm)
@@ -246,48 +245,6 @@ namespace XMLawesome
                 return ReturnList;
         }
 
-        public void finalList()
-        {
-            try
-            {
-                for (int i = 0; i < OrderStack.Count; i++)
-                {
-                    if (OrderStack[i].Type == "root")
-                    {
-                        List<XmlList> empty = new List<XmlList>();
-                        XmlList root = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, empty, null);
-                        RootStack.Add(root);
-                    }
-                    else if (OrderStack[i].Type == "nest")
-                    {
-                        List<XmlList> empty = new List<XmlList>();
-                        XmlList root = new XmlList(OrderStack[i].Tag, OrderStack[i].Value, empty, null);
-                        RootStack.Add(root);
-                    }
-                    else if (OrderStack[i].Type == "Standalone")
-                    {
-                        bool Check = true;
-                        int k = 0;
-                        while (Check == true)
-                        {
-
-                            if (OrderStack[i + k].Type == "Standalone")
-                            {
-                                List<XmlList> empty = new List<XmlList>();
-                                XmlList stand = new XmlList(OrderStack[i + k].Tag, OrderStack[i + k].Value, empty, null);
-                                RootStack[RootStack.Count - 1].ListofXml.Add(stand);
-                                k++;
-                            }
-                            i = i + k;
-                        }
-                    }
-
-                    
-                }
-            }
-            catch { }
-        }
-
         public void Attributes()
         {
             for (int i = 0; i < OrderStack.Count; i++)
@@ -320,16 +277,10 @@ namespace XMLawesome
             }
         }
 
-        public List<XmlList> GetToDoStack()
-        {
-            return RootStack;
-        }
-
 
         public void Mount()
         {
             TreeLists();
-            finalList();
             Attributes();
         }
 
