@@ -1,0 +1,20 @@
+Se Jorges noter til rapporten, for at se hvad der mangler i rapporten.
+
+Under afsnittet om scanneren vil Jorgen gerne have in figur af en automat der genkender vores sprog.
+
+
+Til diskussionen:
+Diskutér hvorfor vi har implementeret tingene som vi har gjort.
+I bogen er scanneren og parseren lidt mere sammenkoblede, hvad er fordele og ulemper ved at have gjort det som vi har gjort det i stedet.
+
+Hvorfor have multi parse frem for singe parse?
+
+
+
+Til næste gang:
+
+Jorge vil gerne have et eksempel, altså vil gerne have sendt noget source code, så
+han kan se hvordan det ser ud. Vi skal gerne sende 2 eksempler, et med fejl i, så han kan se hvordan vi håndterer det, og et uden fejl, så han kan se når det virker.
+
+SKriv et konkret eksempel i appendix om hvordan source code bliver kompileret
+og genererer et XML-dokument, og hvordan vi inputter det til GUI'en og læser den.
