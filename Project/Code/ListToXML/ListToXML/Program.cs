@@ -16,22 +16,6 @@ namespace ListToXML
         public static List<Squad> squads = new List<Squad>();
         public static List<ActionPattern> actionPatterns = new List<ActionPattern>();
 
-        private static string _agentXML, _teamXML, _squadXML, _actionPatternXML;
-        public const string xmlTag = ".xml";
-        public const string filePath = @"C:\";
-
-        public static string AgentXML
-        { get { return filePath + _agentXML + xmlTag; } }
-
-        public static string TeamXML
-        { get { return filePath + _teamXML + xmlTag; } }
-
-        public static string SquadXML
-        { get { return filePath + _squadXML + xmlTag; } }
-
-        public static string ActionPatternXML
-        { get { return filePath + _actionPatternXML + xmlTag; } }
-
         public static void Main(string[] args)
         {
             //Initializing the Teams, agents, squards and actionpattern
