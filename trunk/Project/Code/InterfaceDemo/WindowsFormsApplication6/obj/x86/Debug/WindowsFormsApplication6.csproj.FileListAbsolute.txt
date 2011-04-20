@@ -30,3 +30,5 @@ C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsF
 C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\WindowsFormsApplication6.Properties.Resources.resources
 C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Simon\Documents\AAU arbejde\SVN\SW4\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\XMLawesome.dll
+C:\Users\Henrik Klarup\Desktop\P4\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\XMLawesome.pdb
