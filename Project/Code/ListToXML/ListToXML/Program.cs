@@ -36,15 +36,11 @@ namespace ListToXML
         {
             //Initializing the Teams, agents, squards and actionpattern
             Team team = new Team(1, "Team one", "Red");
-            Team team1 = new Team(2, "Team two", "Blue");
-            Team team2 = new Team(3, "Team three", "Green");
             Agent agent = new Agent(1, "Olsen", 2, team);
             Squad squad = new Squad(1, "first squad", agent);
             ActionPattern aP = new ActionPattern(1, "first action pattern");
             //Initializing the lists
             teams.Add(team);
-            teams.Add(team1);
-            teams.Add(team2);
             agents.Add(agent);
             squads.Add(squad);
             actionPatterns.Add(aP);
@@ -60,14 +56,16 @@ namespace ListToXML
 
             //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
-            Console.WriteLine("U N D E R U N D E R U N D E R U N D E R U N D E R U N D E R U N D E R ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("@AWESOME XML !@");
+            Console.WriteLine("------------------------------");
             Reader.Mount();
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
             foreach (XmlType item in Reader.XmlSearch("MAS>Teams>Team"))
             {
-                Console.WriteLine(item.Tag + item.Order);
+                Console.WriteLine(item.Tag + " @ " + item.Order);
             }
             Console.ReadKey();
         }
@@ -113,19 +111,21 @@ namespace ListToXML
             //brug delegates til at sende en liste af funtioner med'
 
             //lav root med fixed størrelse
+
+            List<ChildNotes> Children = new List<ChildNotes>();
+
             foreach (var value in Teams)
             {
-                XMLhelp.Child("Team", null);
+                XMLhelp.Child("Team", Teams.ToString());
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.Node("Color", value.color);
-                XMLhelp.Parent();
             }
         }
 
         public static void mSquads(List<Squad> Squads)
         {
-            XMLhelp.Root("Squards", null);
+            XMLhelp.Root("Squads", null);
             foreach (var value in Squads)
             {
                 XMLhelp.Child("Squad", null);
