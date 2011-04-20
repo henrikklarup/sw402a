@@ -8,33 +8,33 @@ namespace MultiAgentSystem
 {
     class Scanzor
     {
-        //The input file being read
+        // The input file being read
         public string[] fileLines;
 
-        //Counts which line currently being looked at
+        // Counts which line currently being looked at
         public int fileCounter = 0;
 
-        //Holds the current line as an array of chars
+        // Holds the current line as an array of chars
         public char[] charLine;
 
-        //Counts the current char
+        // Counts the current char
         public int charCounter = 0;
 
-        //The current Char being processed by the scanner.
+        // The current Char being processed by the scanner.
         public char currentChar;
 
-        //The kind of Token expecting the current char/string to have.
+        // The kind of Token expecting the current char/string to have.
         private int currentKind;
 
-        //Builds the string
+        // Builds the string
         private StringBuilder currentSpelling;
 
-        //Coordinates used by the parser to tell where a syntax error has been found
+        // Coordinates used by the parser to tell where a syntax error has been found
         private int row;
         private int col;
 
-        //Used to accept characters that match the exact char.
-        //Not used atm
+        // Used to accept characters that match the exact char.
+        // Not used atm
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -49,7 +49,7 @@ namespace MultiAgentSystem
             }
         }
 
-        //Used to take the current Character no matter which one it is and put it in the string
+        // Used to take the current Character no matter which one it is and put it in the string
         private void takeIt()
         {
             coords();
@@ -57,7 +57,7 @@ namespace MultiAgentSystem
             currentChar = nextSourceChar();
         }
 
-        //Used to ignore the current Character and get the next char from the source file
+        // Used to ignore the current Character and get the next char from the source file
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
@@ -72,7 +72,7 @@ namespace MultiAgentSystem
             }
         }
 
-        //Used to check if the char is a digit (0-9) and returns true if it is
+        // Used to check if the char is a digit (0-9) and returns true if it is
         private bool isDigit(char c)
         {
             switch (c)
@@ -92,7 +92,7 @@ namespace MultiAgentSystem
             return false;
         }
 
-        //Checks if the char is a letter (a-z) and returns true if it is
+        // Checks if the char is a letter (a-z) and returns true if it is
         private bool isLetter(char c)
         {
             switch (char.ToLower(c))
@@ -259,7 +259,7 @@ namespace MultiAgentSystem
 
             if (isDigit(currentChar))
             {
-                //Builds a digit, adds "." if its added in the code
+                // Builds a digit, adds "." if its added in the code
                 takeIt();
                 scanDigit();
                 return (int)Token.keywords.NUMBER;
@@ -273,14 +273,14 @@ namespace MultiAgentSystem
                     // returns any of the four usual operators
                     takeIt();
                     return (int)Token.keywords.OPERATOR;
-                //Checking if the operator is an "expanded" version
+                // Checking if the operator is an "expanded" version
                 case '<':
                 case '>':
                     takeIt();
                     if (currentChar == '=')
                         takeIt();
                     return (int)Token.keywords.OPERATOR;
-                //Checking if the "=" means become or its an operator e.g. "=="
+                // Checking if the "=" means become or its an operator e.g. "=="
                 case '=':
                     takeIt();
                     switch (currentChar)
@@ -321,7 +321,7 @@ namespace MultiAgentSystem
                     takeIt();
                     return (int)Token.keywords.PUNCTUATION;
                 default:
-                    //Someone has screwed up
+                    // Someone has screwed up
                     currentChar = '\n';
                     currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
                     Console.WriteLine(currentSpelling.ToString());
@@ -331,7 +331,7 @@ namespace MultiAgentSystem
             }
         }
 
-        //if the next character exists return it, if not return next line char
+        // if the next character exists return it, if not return next line char
         private char nextSourceChar()
         {
             if (charCounter < charLine.Length)
@@ -347,14 +347,14 @@ namespace MultiAgentSystem
             path = path + @"\mass.txt";
             fileLines = File.ReadAllLines(path); //The name of the files input
 
-            //Initializes the string being read by the scanner, and its counters
+            // Initializes the string being read by the scanner, and its counters
             charLine = fileLines[fileCounter++].ToCharArray();
             currentChar = charLine[charCounter++];
         }
 
         public Token scan()
         {
-            //If looking at a seperator, take the next character and start building a new string
+            // If looking at a seperator, take the next character and start building a new string
             while (currentChar == ' ' || currentChar == '/' || currentChar == '\n' || currentChar == '\t')
             {                
                 scanSeperator();
@@ -363,10 +363,10 @@ namespace MultiAgentSystem
             }
             currentSpelling = new StringBuilder("");
 
-            //Scan for the next token, e.g. an identifier
+            // Scan for the next token, e.g. an identifier
             currentKind = scanToken();
 
-            //Returns the token found and the string build while searching for the token
+            // Returns the token found and the string build while searching for the token
             return new Token(currentKind, currentSpelling.ToString(), row, col);
         }
     }
