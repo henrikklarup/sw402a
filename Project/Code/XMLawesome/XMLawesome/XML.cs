@@ -45,7 +45,7 @@ namespace XMLawesome
             {
                 try
                 {
-                    //If i is the last element or _depth equals 0 and i is not 0 pop stack
+                    ////If i is the last element or _depth equals 0 and i is not 0 pop stack
                     if (i + 1 == XMLhelp.XmlList.Count || (XMLhelp.XmlList[i]._depth == 0 && i != 0))
                     {
                         for (int j = stack.Count - 1; j >= 0; j--)
@@ -66,22 +66,29 @@ namespace XMLawesome
                     else
                         if (XMLhelp.XmlList[i]._depth == 0)
                         {
-                            XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
+                            if (XMLhelp.XmlList[i]._tag != null)
+                            {
+                                XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
 
-                            stack.Add(XMLhelp.XmlList[i]);
+                                stack.Add(XMLhelp.XmlList[i]);
+                            }
                         }
                             //If i is standalone it will print first tag, value and second tag
                         else
                             if (XMLhelp.XmlList[i]._standalone == true)
                             {
+
                                 XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
                                 XML += XMLhelp.XmlList[i]._input;
                                 XML += c + XMLhelp.XmlList[i]._tag + b;
                             }
                             else
                             {
-                                XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
-                                stack.Add(XMLhelp.XmlList[i]);
+                                if (XMLhelp.XmlList[i]._tag != null)
+                                {
+                                    XML += a + XMLhelp.XmlList[i]._tag + XMLhelp.XmlList[i]._attr + b;
+                                    stack.Add(XMLhelp.XmlList[i]);
+                                }
                             }
 
 

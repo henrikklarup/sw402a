@@ -176,7 +176,7 @@ namespace XMLawesome
 
             return ReturnList;
         }
-
+        //Select how much you want
         private List<XmlType> TSearch(int limit, int search, String[] KeySearch)
         {
             List<XmlType> SearchTempList = new List<XmlType>();
@@ -189,26 +189,29 @@ namespace XMLawesome
                     int addB = 0;
                     if (SearchTempList[b].Tag != KeySearch[f] && SearchTempList[b].Order == f)
                     {
-                        for (int a = b; a < SearchTempList.Count; a++)
+                        for (int a = b + 1; a < SearchTempList.Count; a++)
                         {
-                            try
+                            if (SearchTempList[b].Order < SearchTempList[a].Order)
                             {
-                                if(SearchTempList[b].Order < SearchTempList[a].Order)
-                                {
-                                    
-                                    //SearchTempList[a].Tag = "Already been here";
-                                    
-                                    addB++;
-                                }
+                                SearchTempList[a].Order = -1;
+
+                                addB++;
                             }
-                            catch { }
+                            else
+                            {
+                                a = SearchTempList.Count;
+                            }
+
+
                         }
                         b = b + addB;
                     }
                 }
             }
-           //return ReturnList = SearchTempList.FindAll(x => x.Order == KeySearch.Length);
-            return SearchTempList;
+           
+            ReturnList = SearchTempList.FindAll(x => x.Order >= KeySearch.Length);
+            //return OrderStack;
+            return ReturnList;
         }
             private List<XmlType> Search(int limit, int search, String[] KeySearch)
             {
