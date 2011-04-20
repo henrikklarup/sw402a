@@ -5,19 +5,4 @@
     <name>Team one</name>
     <color>Red</color>
   </Team>
-  <Team>
-    <ID>2</ID>
-    <name>Team two</name>
-    <color>Blue</color>
-  </Team>
-  <Team>
-    <ID>3</ID>
-    <name>Team three</name>
-    <color>Yellow</color>
-  </Team>
-  <Team>
-    <ID>4</ID>
-    <name>Team four</name>
-    <color>Pink</color>
-  </Team>
 </ArrayOfTeam>

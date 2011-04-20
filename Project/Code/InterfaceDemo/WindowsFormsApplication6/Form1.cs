@@ -406,185 +406,65 @@ namespace WindowsFormsApplication6
         #region PlaceTeams
         public void placeTeams()
         {
-            switch (teams.Count)
+            int agentsOnTeam1 = 0;
+            int agentsOnTeam2 = 0;
+            int agentsOnTeam3 = 0;
+            int agentsOnTeam4 = 0;
+            foreach (Agent a in agents)
             {
-                #region 1Teams
-                case 1:
-                    int agentsOnTeam = 0;
-                    foreach(Agent a in agents)
-                    {
-                        if (a.team.ID == 1)
-                            agentsOnTeam++;
-                    }
+                if (a.team.ID == 1)
+                    agentsOnTeam1++;
+                if (a.team.ID == 2)
+                    agentsOnTeam2++;
+                if (a.team.ID == 3)
+                    agentsOnTeam3++;
+                if (a.team.ID == 4)
+                    agentsOnTeam4++;
+            }
 
-                    int i = (Grids / 2) - (agentsOnTeam/2);
-                    foreach (Agent a in agents)
-                    {
-                        Point p = getGridPixelFromGrid(new Point(i, Grids-1));
+            int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
+            int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
+            int it3 = (Grids / 2) - (agentsOnTeam3 / 2);
+            int it4 = (Grids / 2) - (agentsOnTeam4 / 2);
+            foreach (Agent a in agents)
+            {
+                Point p = new Point();
+                if (a.team.ID == 1)
+                {
+                    p = getGridPixelFromGrid(new Point(it1, 0));
+                }
+                if (a.team.ID == 2)
+                {
+                    p = getGridPixelFromGrid(new Point(Grids - 1, it2));
+                }
+                if (a.team.ID == 3)
+                {
+                    p = getGridPixelFromGrid(new Point(it3, Grids - 1));
+                }
+                if (a.team.ID == 4)
+                {
+                    p = getGridPixelFromGrid(new Point(0, it4));
+                }
 
-                        a.posX += p.X;
-                        a.posY += p.Y;
-                        i++;
-                    }
-                    break;
-                #endregion
-                #region 2Teams
-                case 2:
-                    int agentsOnTeam1 = 0;
-                    int agentsOnTeam2 = 0;
-                    foreach (Agent a in agents)
-                    {
-                        if (a.team.ID == 1)
-                            agentsOnTeam1++;
-                        if (a.team.ID == 2)
-                            agentsOnTeam2++;
-                    }
+                a.posX += p.X;
+                a.posY += p.Y;
 
-                    int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
-                    int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
-                    foreach (Agent a in agents)
-                    {
-                        Point p = new Point();
-                        if (a.team.ID == 1)
-                        {
-                            p = getGridPixelFromGrid(new Point(it1, Grids - 1));
-                        }
-                        if (a.team.ID == 2)
-                        {
-                           p = getGridPixelFromGrid(new Point(it2, 0));
-                        }
-
-                        a.posX += p.X;
-                        a.posY += p.Y;
-                        if (a.team.ID == 1)
-                        {
-                            it1++;
-                        }
-                        if (a.team.ID == 2)
-                        {
-                            it2++;
-                        }
-                    }
-                    break;
-                #endregion
-                #region 3Teams
-                case 3:
-                    int agentsOnTeam21 = 0;
-                    int agentsOnTeam22 = 0;
-                    int agentsOnTeam23 = 0;
-                    foreach (Agent a in agents)
-                    {
-                        if (a.team.ID == 1)
-                            agentsOnTeam21++;
-                        if (a.team.ID == 2)
-                            agentsOnTeam22++;
-                        if (a.team.ID == 3)
-                            agentsOnTeam23++;
-                    }
-
-                    int it21 = (Grids) - (agentsOnTeam21);
-                    int it22 = (Grids) - (agentsOnTeam22);
-                    int it23 = (Grids / 2) - (agentsOnTeam23 / 2);
-                    foreach (Agent a in agents)
-                    {
-                        Point p = new Point();
-                        if (a.team.ID == 1)
-                        {
-                            p = getGridPixelFromGrid(new Point(it21, Grids - 1));
-                        }
-                        if (a.team.ID == 2)
-                        {
-                            p = getGridPixelFromGrid(new Point(it22, 0));
-                        }
-                        if (a.team.ID == 3)
-                        {
-                            p = getGridPixelFromGrid(new Point(0, it23));
-                        }
-
-                        a.posX += p.X;
-                        a.posY += p.Y;
-
-                        if (a.team.ID == 1)
-                        {
-                            it21++;
-                        }
-                        if (a.team.ID == 2)
-                        {
-                            it22++;
-                        }
-                        if (a.team.ID == 3)
-                        {
-                            it23++;
-                        }
-                    }
-                    break;
-                #endregion
-                #region 4Teams
-                case 4:
-                    int agentsOnTeam31 = 0;
-                    int agentsOnTeam32 = 0;
-                    int agentsOnTeam33 = 0;
-                    int agentsOnTeam34 = 0;
-                    foreach (Agent a in agents)
-                    {
-                        if (a.team.ID == 1)
-                            agentsOnTeam31++;
-                        if (a.team.ID == 2)
-                            agentsOnTeam32++;
-                        if (a.team.ID == 3)
-                            agentsOnTeam33++;
-                        if (a.team.ID == 4)
-                            agentsOnTeam34++;
-                    }
-
-                    int it31 = (Grids / 2) - (agentsOnTeam31 / 2);
-                    int it32 = (Grids / 2) - (agentsOnTeam32 / 2);
-                    int it33 = (Grids / 2) - (agentsOnTeam33 / 2);
-                    int it34 = (Grids / 2) - (agentsOnTeam34 / 2);
-                    foreach (Agent a in agents)
-                    {
-                        Point p = new Point();
-                        if (a.team.ID == 1)
-                        {
-                            p = getGridPixelFromGrid(new Point(it31, 0));
-                        }
-                        if (a.team.ID == 2)
-                        {
-                            p = getGridPixelFromGrid(new Point(Grids-1, it32));
-                        }
-                        if (a.team.ID == 3)
-                        {
-                            p = getGridPixelFromGrid(new Point(it33,Grids-1));
-                        }
-                        if (a.team.ID == 4)
-                        {
-                            p = getGridPixelFromGrid(new Point(0,it34));
-                        }
-
-                        a.posX += p.X;
-                        a.posY += p.Y;
-
-                        if (a.team.ID == 1)
-                        {
-                            it31++;
-                        }
-                        if (a.team.ID == 2)
-                        {
-                            it32++;
-                        }
-                        if (a.team.ID == 3)
-                        {
-                            it33++;
-                        }
-                        if (a.team.ID == 4)
-                        {
-                            it34++;
-                        }
-                    }
-                    break;
-                #endregion
-                default:
-                    break;
+                if (a.team.ID == 1)
+                {
+                    it1++;
+                }
+                if (a.team.ID == 2)
+                {
+                    it2++;
+                }
+                if (a.team.ID == 3)
+                {
+                    it3++;
+                }
+                if (a.team.ID == 4)
+                {
+                    it4++;
+                }
             }
         }
         #endregion
