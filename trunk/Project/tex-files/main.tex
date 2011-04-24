@@ -16,16 +16,6 @@
 \usepackage{float}
 \usepackage{verbatim}
 
-%%%%%%%%%%%
-%code-test%
-%%%%%%%%%%%
-%\usepackage{listings}
-%\lstlistoflistings
-%\definecolor{darkgray}{rgb}{0.95,0.95,0.95}
-%\lstset{language=C++}
-%\lstset{backgroundcolor=\color{darkgray}}
-%\lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt}
-%\lstset{keywordstyle=\color{red}\bfseries\emph}
 
 %Code examples preamble input
 \InputIfFileExists{Templates/code_examples}{}{}
@@ -55,19 +45,19 @@
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
-\part{hej}
+
+\part{Introduction to MAS}
 \InputIfFileExists{Introduction/introduction}{}{}
+
 \part{Tools}
-
-%De følgende chapters skal nok lige ind i en \input senere. Dette var bare for at illustrerer konceptet med parts.
-%\\Lasse
-
-\chapter{Language Gramma}
-\chapter{Semantics}
+\inputIfFileExists{Language_Components/language_components}{}{}
 \InputIfFileExists{Compiler_Components/compiler_components}{}{}
+
 \part{Implementation}
 \InputIfFileExists{Wargame/wargame}{}{}
 \InputIfFileExists{Implementation/implementation}{}{}
+
+\part{Epilogue}
 \InputIfFileExists{Discussion/discussion}{}{}
 \InputIfFileExists{Epilogue/epilogue}{}{}
 
