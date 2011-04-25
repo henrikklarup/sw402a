@@ -74,7 +74,7 @@ namespace MultiAgentSystem
 
             if (scanningError)
             {
-                throw scanException;
+                scanException.PrintExceptions();
             }
 
             Console.ReadKey();
@@ -85,7 +85,15 @@ namespace MultiAgentSystem
             Console.WriteLine();
             
             Parser parser = new Parser(Tokens);
-            newAst = parser.parse();
+
+            try
+            {
+                newAst = parser.parse();
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+            }
 
             Console.ReadKey();
             Printer.printLogo();
