@@ -310,10 +310,10 @@ namespace MultiAgentSystem
     class Input : AST
     {
         // The first input variable.
-        public AST firstVar;
+        public AST firstVar = null;
 
         // The next input variable.
-        public Input nextVar;
+        public Input nextVar = null;
 
         public Input()
         { }
