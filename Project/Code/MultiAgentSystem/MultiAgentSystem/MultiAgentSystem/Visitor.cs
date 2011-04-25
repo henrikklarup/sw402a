@@ -7,6 +7,11 @@ namespace MultiAgentSystem
 {
     class Visitor
     {
+        // Exception for catching errors.
+        private GrammarException gException = 
+            new GrammarException("These errors were found during decoration:");
+        private bool throwException = false;
+
         /// <summary>
         /// Visit the AST, the first method called when visiting the AST.
         /// Visits the Main Block.
@@ -17,6 +22,12 @@ namespace MultiAgentSystem
         public object visitAST(AST ast, object arg)
         {
             ast.visit(this, arg);
+
+            if (throwException)
+            {
+                throw gException;
+            }
+
             return null;
         }
 
@@ -133,9 +144,12 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER
                                 && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
+                            {
+                                gException.containedExceptions.Add(new GrammarException(""));
+                            }
+                                //Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
