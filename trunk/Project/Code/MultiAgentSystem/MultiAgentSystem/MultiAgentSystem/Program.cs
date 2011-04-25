@@ -12,6 +12,11 @@ namespace MultiAgentSystem
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
 
+        // Exception for errors found in the scanner.
+        private static GrammarException scanException = 
+            new GrammarException("These errors were found by the scanner:");
+        private static bool scanningError = false;
+
         static void Main(string[] args)
         {
             
@@ -29,18 +34,26 @@ namespace MultiAgentSystem
 
             Console.ReadKey();
             Scanzor scanzor = new Scanzor();
-            Token newToken;
+            Token newToken = null;
 
             Printer.printLogo();
 
+            Console.WriteLine("@Scanning");
+            Console.Title = Console.Title + "Scanning";
+            Console.WriteLine();
+
             while (true)
             {
-                newToken = scanzor.scan();
-
-                if (newToken.kind == (int)Token.keywords.ERROR)
+                try
                 {
-                    Console.ReadKey();
+                    newToken = scanzor.scan();
                 }
+                catch (GrammarException g)
+                {
+                    scanningError = true;
+                    scanException.containedExceptions.Add(g);
+                }
+
                 Tokens.Add(newToken);
 
                 //If the token just found is the End Of Transmission token then break
@@ -50,19 +63,24 @@ namespace MultiAgentSystem
                 }
             }
 
-            Console.WriteLine("@Scanning");
-            Console.Title = Console.Title + "Scanning";
-            Console.WriteLine();
-
             //Printing the token list
             Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4}", "Kind", "Spelling", "Coords"));
             Console.WriteLine();
 
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}", Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
+                Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}", 
+                    Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
             }
 
+            if (scanningError)
+            {
+                Console.WriteLine("\n" + scanException.Message);
+                foreach (GrammarException inner in scanException.containedExceptions)
+                {
+                    Printer.ErrorLine(inner.Message);
+                }
+            }
 
             Console.ReadKey();
             Printer.printLogo();
@@ -72,7 +90,20 @@ namespace MultiAgentSystem
             Console.WriteLine();
             
             Parser parser = new Parser(Tokens);
-            newAst = parser.parse();
+
+            // Try to parse, if any errors are found an exception will be thrown containing the errors.
+            try
+            {
+                newAst = parser.parse();
+            }
+            catch (GrammarException g)
+            {
+                Console.WriteLine("\n" + g.Message);
+                foreach (GrammarException exc in g.containedExceptions)
+                {
+                    Printer.ErrorLine(exc.Message);
+                }
+            }
 
             Console.ReadKey();
             Printer.printLogo();
