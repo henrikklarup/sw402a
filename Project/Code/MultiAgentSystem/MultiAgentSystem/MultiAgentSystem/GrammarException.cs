@@ -71,5 +71,14 @@ namespace MultiAgentSystem
             get { return this._failedToken; }
             set { this._failedToken = value; }
         }
+
+        public void PrintExceptions()
+        {
+            Console.WriteLine("\n" + this.Message);
+            foreach (GrammarException exc in this.containedExceptions)
+            {
+                Printer.ErrorLine(exc.Message);
+            }
+        }
     }
 }
