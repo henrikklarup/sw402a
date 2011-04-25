@@ -26,7 +26,6 @@ namespace MultiAgentSystem
             Console.ReadKey();
             thread.Abort();
              
-            
             Console.ForegroundColor = ConsoleColor.White;
 
             Printer.printLogo();
@@ -75,11 +74,7 @@ namespace MultiAgentSystem
 
             if (scanningError)
             {
-                Console.WriteLine("\n" + scanException.Message);
-                foreach (GrammarException inner in scanException.containedExceptions)
-                {
-                    Printer.ErrorLine(inner.Message);
-                }
+                throw scanException;
             }
 
             Console.ReadKey();
@@ -90,20 +85,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             
             Parser parser = new Parser(Tokens);
-
-            // Try to parse, if any errors are found an exception will be thrown containing the errors.
-            try
-            {
-                newAst = parser.parse();
-            }
-            catch (GrammarException g)
-            {
-                Console.WriteLine("\n" + g.Message);
-                foreach (GrammarException exc in g.containedExceptions)
-                {
-                    Printer.ErrorLine(exc.Message);
-                }
-            }
+            newAst = parser.parse();
 
             Console.ReadKey();
             Printer.printLogo();
