@@ -33,6 +33,10 @@ namespace MultiAgentSystem
         private int row;
         private int col;
 
+        // Exception for catching errors.
+        private GrammarException gException = 
+            new GrammarException("These errors were found by the scanner:");
+
         // Used to accept characters that match the exact char.
         // Not used atm
         private void take(char expectedChar)
@@ -322,12 +326,16 @@ namespace MultiAgentSystem
                     return (int)Token.keywords.PUNCTUATION;
                 default:
                     // Someone has screwed up
-                    currentChar = '\n';
-                    currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
-                    Console.WriteLine(currentSpelling.ToString());
-                    row = fileCounter;
-                    col = charCounter;
-                    return (int)Token.keywords.ERROR;
+                    takeIt();
+                    throw new GrammarException("Char " + 
+                        currentChar.ToString() + " in line " + row + " is not a valid character.");
+
+                    //currentChar = '\n';
+                    //currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
+                    //Console.WriteLine(currentSpelling.ToString());
+                    //row = fileCounter;
+                    //col = charCounter;
+                    //return (int)Token.keywords.ERROR;
             }
         }
 
