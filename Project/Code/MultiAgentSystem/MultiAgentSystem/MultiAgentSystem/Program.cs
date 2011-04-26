@@ -19,7 +19,6 @@ namespace MultiAgentSystem
 
         static void Main(string[] args)
         {
-            
             StartUp startUp = new StartUp();
             Thread thread = new Thread(new ThreadStart(startUp.first));
             thread.Start();
