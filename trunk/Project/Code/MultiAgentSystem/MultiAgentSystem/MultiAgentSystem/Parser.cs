@@ -168,10 +168,11 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // If no valid command is found, this exception is created:
+                    Printer.ErrorLine(" !");
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("Token of kind " + 
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row + 
-                        " is not valid for a command.", currentToken));
+                    gException.containedExceptions.Add(new GrammarException(
+                        "(Line " + currentToken.row + ") Token of kind " + 
+                        (Token.keywords)currentToken.kind + " is not valid for a command.", currentToken));
                     acceptIt();
                     break;
             }
@@ -220,10 +221,11 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
+                    Printer.ErrorLine(" !");
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("Token of kind " +
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row +
-                        " is not a valid object.", currentToken));
+                    gException.containedExceptions.Add(new GrammarException(
+                        "(Line " + currentToken.row + ") Token of kind " +
+                        (Token.keywords)currentToken.kind + " is not a valid object.", currentToken));
                     acceptIt();
                     break;
             }
@@ -252,10 +254,11 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
+                    Printer.ErrorLine(" !");
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("Token of kind " +
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row +
-                        " is not a valid type.", currentToken));
+                    gException.containedExceptions.Add(new GrammarException(
+                        "(Line " + currentToken.row + ") Token of kind " +
+                        (Token.keywords)currentToken.kind + " is not a valid type.", currentToken));
                     acceptIt();
                     break;
             }
@@ -387,10 +390,11 @@ namespace MultiAgentSystem
                     acceptIt();
                     break;
                 default:
+                    Printer.ErrorLine(" !");
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("Token of kind " + 
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row + 
-                        " is not a valid variable.", currentToken));
+                    gException.containedExceptions.Add(new GrammarException(
+                        "(Line " + currentToken.row + ") Token of kind " + 
+                        (Token.keywords)currentToken.kind + " is not a valid variable.", currentToken));
                     acceptIt();
                     break;
             }
@@ -498,7 +502,8 @@ namespace MultiAgentSystem
             }
 
             Printer.Collapse();
-            return new Expression(primaryExpression_1, _operator, primaryExpression_2);
+            return new Expression(primaryExpression_1, _operator, primaryExpression_2, 
+                tokenList.ElementAt(listCount - 3));
         }
 
         /// <summary>
@@ -533,10 +538,12 @@ namespace MultiAgentSystem
                     returnObject = parseIdentifier();
                     break;
                 default:
+                    Printer.ErrorLine(" !");
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("Token of kind " + 
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row + 
-                        " is not a valid token in an expression.", currentToken));
+                    gException.containedExceptions.Add(new GrammarException(
+                        "(Line " + currentToken.row + ") Token of kind " + 
+                        (Token.keywords)currentToken.kind + " is not a valid token in an expression."
+                        , currentToken));
                     acceptIt();
                     break;
             }
@@ -638,10 +645,11 @@ namespace MultiAgentSystem
             if (currentToken.kind != (int)Token.keywords.TRUE &&
                 currentToken.kind != (int)Token.keywords.FALSE)
             {
+                Printer.ErrorLine(" !");
                 throwException = true;
-                gException.containedExceptions.Add(new GrammarException("Token of kind " +
-                        (Token.keywords)currentToken.kind + " at line " + currentToken.row +
-                        " is not a valid boolean value.", currentToken));
+                gException.containedExceptions.Add(new GrammarException(
+                    "(Line " + currentToken.row + ") Token of kind " +
+                        (Token.keywords)currentToken.kind + " is not a valid boolean value.", currentToken));
             }
             acceptIt();
 
@@ -657,10 +665,11 @@ namespace MultiAgentSystem
         {
             if ((int)kind != currentToken.kind)
             {
+                Printer.ErrorLine(" !");
                 throwException = true;
                 gException.containedExceptions.Add(new GrammarException(
-                    "Token of kind " + (Token.keywords)currentToken.kind + " in line " + currentToken.row
-                    + " was not legal. \n  A token of kind " + kind + " was expected.", currentToken));
+                    "(Line " + currentToken.row + ") Token of kind " + (Token.keywords)currentToken.kind + 
+                    " was not legal. \n  A token of kind " + kind + " was expected.", currentToken));
             }
 
             if (currentToken.kind != (int)Token.keywords.EOT)
