@@ -493,7 +493,11 @@ namespace MultiAgentSystem
                 {
                     if (IdentificationTable.retrieve(firstVar) == (int)Token.keywords.ERROR)
                     {
-                        Printer.ErrorLine("Variable " + firstVar.spelling + " at " + firstVar.col + ", " + firstVar.row + " has not been declared.");
+                        Printer.Error(errorMarker);
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException("(Line " + firstVar.row +
+                                ") The variable " + firstVar.spelling + "is undeclared."));
                     }
                 }
                 if (input.nextVar != null)
