@@ -20,6 +20,9 @@ namespace MultiAgentSystem
         private GrammarException gException = new GrammarException("These errors were found by the parser:");
         private bool throwException = false;
 
+        // String for marking errors.
+        private string errorMarker = " Error!";
+
         /// <summary>
         /// Creates a new parser.
         /// </summary>
@@ -168,7 +171,7 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // If no valid command is found, this exception is created:
-                    Printer.ErrorLine(" !");
+                    Printer.Error(errorMarker);
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
                         "(Line " + currentToken.row + ") Token of kind " + 
@@ -221,7 +224,7 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
-                    Printer.ErrorLine(" !");
+                    Printer.Error(errorMarker);
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
                         "(Line " + currentToken.row + ") Token of kind " +
@@ -254,7 +257,7 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
-                    Printer.ErrorLine(" !");
+                    Printer.Error(errorMarker);
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
                         "(Line " + currentToken.row + ") Token of kind " +
@@ -390,7 +393,7 @@ namespace MultiAgentSystem
                     acceptIt();
                     break;
                 default:
-                    Printer.ErrorLine(" !");
+                    Printer.Error(errorMarker);
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
                         "(Line " + currentToken.row + ") Token of kind " + 
@@ -538,7 +541,7 @@ namespace MultiAgentSystem
                     returnObject = parseIdentifier();
                     break;
                 default:
-                    Printer.ErrorLine(" !");
+                    Printer.Error(errorMarker);
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
                         "(Line " + currentToken.row + ") Token of kind " + 
@@ -645,7 +648,7 @@ namespace MultiAgentSystem
             if (currentToken.kind != (int)Token.keywords.TRUE &&
                 currentToken.kind != (int)Token.keywords.FALSE)
             {
-                Printer.ErrorLine(" !");
+                Printer.Error(errorMarker);
                 throwException = true;
                 gException.containedExceptions.Add(new GrammarException(
                     "(Line " + currentToken.row + ") Token of kind " +
@@ -665,7 +668,7 @@ namespace MultiAgentSystem
         {
             if ((int)kind != currentToken.kind)
             {
-                Printer.ErrorLine(" !");
+                Printer.Error(errorMarker);
                 throwException = true;
                 gException.containedExceptions.Add(new GrammarException(
                     "(Line " + currentToken.row + ") Token of kind " + (Token.keywords)currentToken.kind + 
