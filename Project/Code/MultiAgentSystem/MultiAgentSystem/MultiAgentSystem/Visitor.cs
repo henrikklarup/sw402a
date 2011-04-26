@@ -12,6 +12,9 @@ namespace MultiAgentSystem
             new GrammarException("These errors were found during decoration:");
         private bool throwException = false;
 
+        // String for marking errors.
+        private string errorMarker = " Error!";
+
         /// <summary>
         /// Visit the AST, the first method called when visiting the AST.
         /// Visits the Main Block.
@@ -119,6 +122,7 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Type declaration");
             Printer.Expand();
+
             // Stores the type and the identifier of the declaration
             Token Type = (Token)typeDeclaration.Type.visit(this, arg);
             Token VarName = (Token)typeDeclaration.VarName.visit(this, arg);
@@ -129,7 +133,8 @@ namespace MultiAgentSystem
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
-            if (Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),new Expression(null, null, null).GetType()))
+            if (Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),
+                new Expression(null, null, null, null).GetType()))
             {
                 Expression expression = (Expression)becomes;
                 kind = expression.type;
@@ -147,18 +152,29 @@ namespace MultiAgentSystem
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
                                 && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                gException.containedExceptions.Add(new GrammarException(""));
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException(
+                                        "(Line " + masVariable.row + ") " + masVariable.spelling +
+                                        " is not valid input for identifier " + ident + ".", masVariable));
                             }
-                                //Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE 
                             && masVariable.kind != (int)Token.keywords.FALSE)
                         {
-                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER
                                 && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
+                            {
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException(
+                                        "(Line " + masVariable.row + ") " + masVariable.spelling +
+                                        " is not valid input for identifier " + ident + ".", masVariable));
+                            }
                         }
                         break;
                     case (int)Token.keywords.NUM:
@@ -166,11 +182,23 @@ namespace MultiAgentSystem
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
                                 && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine(((Token.keywords)masVariable.kind).ToString());
+                            {
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException(
+                                        "(Line " + masVariable.row + ") " + masVariable.spelling +
+                                        " is not valid input for identifier " + ident + ".", masVariable));
+                            }
                         }
                         break;
                     default:
-                        Printer.ErrorLine("Type declaration did not match.");
+                        Printer.Error(errorMarker);
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException(
+                                "(Line " + masVariable.row + ") " + 
+                                "The types in the type declaration do not match.", masVariable));
                         break;
                 }
             }
@@ -178,8 +206,14 @@ namespace MultiAgentSystem
                 IdentificationTable.enter(kind, ident);
             else
             {
-                Printer.ErrorLine("Identifier " + VarName.spelling + " at " + VarName.col + ", " + VarName.row + " has already been declared.");
+                Printer.Error(errorMarker);
+                throwException = true;
+                gException.containedExceptions.Add(
+                    new GrammarException(
+                        "(Line " + Type.row + ") Identifier " + ident +
+                        " has already been declared.", VarName));
             }
+
             Printer.Collapse();
             return null;
         }
@@ -202,7 +236,14 @@ namespace MultiAgentSystem
             // Visit the expression, if the expression isn't boolean, report and error.
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
             if (expr.type != (int)Token.keywords.BOOL)
-                Printer.ErrorLine("If expression is not of type boolean.");
+            {
+                Printer.Error(errorMarker);
+                throwException = true;
+                gException.containedExceptions.Add(
+                    new GrammarException(
+                        "(Line " + expr.basicToken.row + ")" + 
+                        " The conditional expression for this if-statement does not give a boolean value."));
+            }
 
             // Visit the first block.
             ifCommand.IfBlock.visit(this, arg);
@@ -252,6 +293,7 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("While Command");
             Printer.Expand();
+
             whileCommand.LoopExpression.visit(this, arg);
             whileCommand.WhileBlock.visit(this, arg);
 
@@ -279,10 +321,11 @@ namespace MultiAgentSystem
             // Always a Token of kind, number, boolen or identifier.
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
 
-            // Always a Token of kind, operator, if this doesn't exists, visit the primaryExpression and return null.
+            // Always a Token of kind, operator, if this doesn't exists, 
+            // visit the primaryExpression and return null.
             Token _operator = (Token)expression._operator.visit(this, arg);
 
-            // 2nd Primary expression can be both, an expression or a token.
+            // 2nd Primary expression can be both an expression or a token.
             object primExpr2 = expression.primaryExpression_2.visit(this, arg);
 
             // Check which kind of expression this is, according to the operator.
@@ -306,7 +349,12 @@ namespace MultiAgentSystem
                     expression.type = (int)Token.keywords.BOOL;
                     break;
                 default:
-                    Printer.ErrorLine("Failed to identify operator at " + primExpr1.col + ", " + primExpr1.row + ".");
+                    Printer.Error(errorMarker);
+                    throwException = true;
+                    gException.containedExceptions.Add(
+                        new GrammarException(
+                            "(Line " + _operator.row + ") Failed to identify \"" + 
+                            _operator.spelling + "\" as an operator."));
                     break;
             }
 
@@ -314,26 +362,58 @@ namespace MultiAgentSystem
             // primExpr1 is of type Token.
             if (object.ReferenceEquals(primExpr2.GetType(), primExpr1.GetType()))
             {
-                int identifierKind;
+                int identifier1Kind, identifier2Kind;
+
                 // If primary expression 1 is an identifier, check which type it is.
                 if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
-                    identifierKind = IdentificationTable.retrieve(primExpr1);
+                    identifier1Kind = IdentificationTable.retrieve(primExpr1);
                 else
-                    identifierKind = primExpr1.kind;
+                    identifier1Kind = primExpr1.kind;
+
 
                 Token _primExpr2 = (Token)primExpr2;
 
+                // If primary expression 2 is an identifier, check which type it is.
+                if (_primExpr2.kind == (int)Token.keywords.IDENTIFIER)
+                    identifier2Kind = IdentificationTable.retrieve(_primExpr2);
+                else
+                    identifier2Kind = _primExpr2.kind;
+
                 // Ensure primExpr2 matches primExpr1.
-                switch (_primExpr2.kind)
+                switch (identifier2Kind)
                 {
                     case (int)Token.keywords.NUMBER:
-                        if (identifierKind != (int)Token.keywords.NUM && identifierKind != (int)Token.keywords.NUMBER)
-                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match.");
+                        if (identifier1Kind != (int)Token.keywords.NUM &&
+                            identifier1Kind != (int)Token.keywords.NUMBER)
+                        {
+                            Printer.Error(errorMarker);
+                            throwException = true;
+                            gException.containedExceptions.Add(
+                                new GrammarException("(Line " + primExpr1.row +
+                                    ") The types in the expression \"" + primExpr1.spelling + " " +
+                                    _operator.spelling + " " + _primExpr2.spelling + "\" do not match."));
+                        }
                         break;
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
-                        if (identifierKind != (int)Token.keywords.FALSE && identifierKind != (int)Token.keywords.TRUE)
-                            Printer.ErrorLine("The type of " + primExpr1.spelling + " does not match.");
+                        if (identifier1Kind != (int)Token.keywords.FALSE &&
+                            identifier1Kind != (int)Token.keywords.TRUE)
+                        {
+                            Printer.Error(errorMarker);
+                            throwException = true;
+                            gException.containedExceptions.Add(
+                                new GrammarException("(Line " + primExpr1.row +
+                                    ") The types in the expression \"" + primExpr1.spelling + " " +
+                                    _operator.spelling + " " + _primExpr2.spelling + "\" do not match."));
+                        }
+                        break;
+                    default:
+                        Printer.Error(errorMarker);
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException("(Line " + primExpr1.row +
+                                ") The types in the expression \"" + primExpr1.spelling + " " +
+                                _operator.spelling + " " + _primExpr2.spelling + "\" do not match."));
                         break;
                 }
             }
@@ -352,14 +432,28 @@ namespace MultiAgentSystem
                 // If the expression is a mathematic expression, there should be no true/false expressions.
                 if (expression.type == (int)Token.keywords.NUM)
                     if (identifierKind == (int)Token.keywords.TRUE || identifierKind == (int)Token.keywords.FALSE)
-                        Printer.ErrorLine("The expression at " + primExpr1.col + ", " + primExpr1.row + " is invalid.");
+                    {
+                        Printer.Error(errorMarker);
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException("(Line " + primExpr1.row +
+                                ") The types in the expression " + primExpr1.spelling + " " +
+                                _primExpr2._operator.token.spelling + "... do not match."));
+                    }
 
                 // If any sub-expression is bool, the entire expression is bool
                 // and should only have one boolean operator.
                 if (_primExpr2.type == (int)Token.keywords.BOOL)
                 {
                     if (expression.type == (int)Token.keywords.BOOL)
-                        Printer.ErrorLine("The expression at " + primExpr1.col + ", " + primExpr1.row + " is invalid.");
+                    {
+                        Printer.Error(errorMarker);
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException("(Line " + primExpr1.row +
+                                ") The types in the expression " + primExpr1.spelling + " " +
+                                _primExpr2._operator.token.spelling + "... do not match."));
+                    }
 
                     // If any of the expressions are of type boolean
                     // the entire expression is boolean and is set as boolean.
@@ -478,7 +572,7 @@ namespace MultiAgentSystem
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
-            if (Expression.Equals(becomes.GetType(), new Expression(null, null, null).GetType()))
+            if (Expression.Equals(becomes.GetType(), new Expression(null, null, null, null).GetType()))
             {
                 Expression expression = (Expression)becomes;
                 kind = expression.type;
