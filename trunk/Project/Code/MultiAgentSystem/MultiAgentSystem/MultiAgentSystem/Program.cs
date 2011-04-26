@@ -19,23 +19,36 @@ namespace MultiAgentSystem
 
         static void Main(string[] args)
         {
-            StartUp startUp = new StartUp();
+            /*StartUp startUp = new StartUp();
             Thread thread = new Thread(new ThreadStart(startUp.first));
             thread.Start();
             Console.ReadKey();
-            thread.Abort();
+            thread.Abort();*/
              
             Console.ForegroundColor = ConsoleColor.White;
 
+            Compile();
+
+            Scan();
+
+            Parse();
+
+            Decorate();
+        }
+
+        private static void Compile()
+        {
             Printer.printLogo();
             Console.WriteLine("Compile");
-
             Console.ReadKey();
+        }
+
+        private static void Scan()
+        {
             Scanzor scanzor = new Scanzor();
             Token newToken = null;
 
             Printer.printLogo();
-
             Console.WriteLine("@Scanning");
             Console.Title = Console.Title + "Scanning";
             Console.WriteLine();
@@ -67,7 +80,7 @@ namespace MultiAgentSystem
 
             foreach (Token t in Tokens)
             {
-                Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}", 
+                Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}",
                     Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
             }
 
@@ -82,14 +95,26 @@ namespace MultiAgentSystem
             {
                 g.PrintExceptions();
             }
+            finally
+            {
+                if (scanException.containedExceptions != null)
+                {
+                    Console.WriteLine("Errors were found while scanning, would you like to compile again?");
+                    Console.ReadKey();
+                    scanException.containedExceptions.Clear();
+                    Tokens.Clear();
+                    Scan();
+                }
+            }
+        }
 
-            Console.ReadKey();
+        private static void Parse()
+        {
             Printer.printLogo();
-
             Console.WriteLine("@Parsing");
             Console.Title = Console.Title + "Parsing";
             Console.WriteLine();
-            
+
             Parser parser = new Parser(Tokens);
 
             try
@@ -100,10 +125,17 @@ namespace MultiAgentSystem
             {
                 g.PrintExceptions();
             }
+            finally
+            {
+                Console.WriteLine("Errors were found while scanning, would you like to compile again?");
+                Console.ReadKey();
+                Parse();
+            }
+        }
 
-            Console.ReadKey();
+        private static void Decorate()
+        {
             Printer.printLogo();
-
             Console.WriteLine("@Decorating");
             Console.Title = Console.Title + "Decorating";
             Console.WriteLine();
