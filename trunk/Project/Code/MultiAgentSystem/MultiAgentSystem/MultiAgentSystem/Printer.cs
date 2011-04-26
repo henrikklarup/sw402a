@@ -45,8 +45,6 @@ namespace MultiAgentSystem
 
             // Changes the text color to red.
             Console.ForegroundColor = ConsoleColor.Red;
-            // Changes the cursor position, to match the indent.
-            Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Console.Write(error);
             // Changes the text color to the original.
             Console.ForegroundColor = tmpColor;
@@ -55,6 +53,8 @@ namespace MultiAgentSystem
         // Extention of the Error method, changes the cursor to the next line. 
         public static void ErrorLine(string text)
         {
+            // Changes the cursor position, to match the indent.
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Error(text);
             Console.WriteLine();
         }
@@ -69,8 +69,6 @@ namespace MultiAgentSystem
 
             // Changes the text color to green.
             Console.ForegroundColor = ConsoleColor.Green;
-            // Changes the cursor position, to match the indent.
-            Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Console.Write(text);
             // Changes the text color to the original.
             Console.ForegroundColor = tmpColor;
@@ -79,6 +77,8 @@ namespace MultiAgentSystem
         // Extention of the Write method.
         public static void WriteLine(string text)
         {
+            // Changes the cursor position, to match the indent.
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Write(text);
             Console.WriteLine();
         }
