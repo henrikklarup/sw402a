@@ -72,9 +72,16 @@ namespace MultiAgentSystem
                     Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
             }
 
-            if (scanningError)
+            try
             {
-                scanException.PrintExceptions();
+                if (scanningError)
+                {
+                    throw scanException;
+                }
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
             }
 
             Console.ReadKey();
