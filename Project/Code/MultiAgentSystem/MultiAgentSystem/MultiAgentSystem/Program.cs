@@ -31,7 +31,11 @@ namespace MultiAgentSystem
 
             Scan();
 
+            Console.ReadKey();
+
             Parse();
+
+            Console.ReadKey();
 
             Decorate();
         }
@@ -95,17 +99,17 @@ namespace MultiAgentSystem
             {
                 g.PrintExceptions();
             }
-            finally
-            {
-                if (scanException.containedExceptions != null)
-                {
-                    Console.WriteLine("Errors were found while scanning, would you like to compile again?");
-                    Console.ReadKey();
-                    scanException.containedExceptions.Clear();
-                    Tokens.Clear();
-                    Scan();
-                }
-            }
+            //finally
+            //{
+            //    if (scanException.containedExceptions != null)
+            //    {
+            //        Console.WriteLine("Errors were found while scanning, would you like to compile again?");
+            //        Console.ReadKey();
+            //        scanException.containedExceptions.Clear();
+            //        Tokens.Clear();
+            //        Scan();
+            //    }
+            //}
         }
 
         private static void Parse()
@@ -125,12 +129,12 @@ namespace MultiAgentSystem
             {
                 g.PrintExceptions();
             }
-            finally
-            {
-                Console.WriteLine("Errors were found while scanning, would you like to compile again?");
-                Console.ReadKey();
-                Parse();
-            }
+            //finally
+            //{
+            //    Console.WriteLine("Errors were found while scanning, would you like to compile again?");
+            //    Console.ReadKey();
+            //    Parse();
+            //}
         }
 
         private static void Decorate()
@@ -141,7 +145,14 @@ namespace MultiAgentSystem
             Console.WriteLine();
 
             Visitor visitor = new Visitor();
-            visitor.visitAST(newAst, null);
+            try
+            {
+                visitor.visitAST(newAst, null);
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+            }
 
             Console.ReadKey();
         }
