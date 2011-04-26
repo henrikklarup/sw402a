@@ -590,29 +590,57 @@ namespace MultiAgentSystem
                     case (int)Token.keywords.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
-                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
+                                IdentificationTable.retrieve(masVariable) != kind)
+                            {
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException("(Line " + masVariable.row +
+                                        ") The types in the assignment of " +
+                                        ident.spelling + " do not match."));
+                            }
                         }
                         break;
                     case (int)Token.keywords.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE || masVariable.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
+                            {
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException("(Line " + masVariable.row +
+                                        ") The types in the assignment of " +
+                                        ident.spelling + " do not match."));
+                            }
                         }
                         break;
                     case (int)Token.keywords.NUM:
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
-                                Printer.ErrorLine("Type declaration has not been declared to a variable of type " + masVariable.kind.ToString());
+                            {
+                                Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException("(Line " + masVariable.row +
+                                        ") The types in the assignment of " +
+                                        ident.spelling + " do not match."));
+                            }
                         }
                         break;
                     default:
-                        Printer.ErrorLine("Type declaration has not been declared as a type");
+                        Printer.Error(errorMarker);
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                    new GrammarException("(Line " + masVariable.row +
+                                        ") The types in the assignment of " +
+                                        ident.spelling + " do not match."));
                         break;
                 }
             }
+
             Printer.Collapse();
             return null;
         }
