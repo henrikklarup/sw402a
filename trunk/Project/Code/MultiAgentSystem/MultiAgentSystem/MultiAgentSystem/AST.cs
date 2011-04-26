@@ -254,6 +254,7 @@ namespace MultiAgentSystem
     /// </summary>
     class Expression : ExpressionAST
     {
+        public Token basicToken = null;
         public AST primaryExpression_1;
         public Operator _operator;
         public AST primaryExpression_2;
@@ -261,11 +262,12 @@ namespace MultiAgentSystem
         public int type;
 
         public Expression(AST primaryExpression_1, 
-            Operator _operator, AST primaryExpression_2)
+            Operator _operator, AST primaryExpression_2, Token token)
         {
             this.primaryExpression_1 = primaryExpression_1;
             this._operator = _operator;
             this.primaryExpression_2 = primaryExpression_2;
+            this.basicToken = token;
         }
 
         public override object visit(Visitor v, object arg)
