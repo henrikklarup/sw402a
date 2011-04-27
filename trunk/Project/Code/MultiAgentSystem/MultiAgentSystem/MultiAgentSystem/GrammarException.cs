@@ -77,8 +77,9 @@ namespace MultiAgentSystem
             Console.WriteLine("\n" + this.Message);
             foreach (GrammarException exc in this.containedExceptions)
             {
-                Printer.ErrorLine(exc.Message);
+                Printer.Error(exc.Message + "\n");
             }
+            Console.WriteLine();
         }
     }
 }
