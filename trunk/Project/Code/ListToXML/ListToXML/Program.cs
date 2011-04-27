@@ -41,10 +41,16 @@ namespace ListToXML
 
             //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\TestXml.xml");
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.Title = "@AWESOME XML !";
-            Console.WriteLine("\tAWESOME XML !");
-            Console.WriteLine("@-@-@-@-@-@-@-@-@-@-@-@-@-@-@");
+            Console.WriteLine("   ____   __  ____  __ _    " +
+"\n  / __ \\  \\ \\/ /  \\/  | |    " +
+"\n / / _` |  \\  /| |\\/| | |    " +
+"\n| | (_| |  /  \\| |  | | |___ " +
+"\n \\ \\__,_| /_/\\_\\_|  |_|_____|" +
+"\n  \\____/ AWESOME                     ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Reader.Mount();
 
             //Add null filter
