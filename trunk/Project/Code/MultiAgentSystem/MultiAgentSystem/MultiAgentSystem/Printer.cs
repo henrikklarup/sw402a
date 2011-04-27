@@ -53,10 +53,10 @@ namespace MultiAgentSystem
         // Extention of the Error method, changes the cursor to the next line. 
         public static void ErrorLine(string text)
         {
+            Console.WriteLine();
             // Changes the cursor position, to match the indent.
             Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Error(text);
-            Console.WriteLine();
         }
 
         // Changes the cursor position, to match the indent,
@@ -77,10 +77,10 @@ namespace MultiAgentSystem
         // Extention of the Write method.
         public static void WriteLine(string text)
         {
+            Console.WriteLine();
             // Changes the cursor position, to match the indent.
             Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Write(text);
-            Console.WriteLine();
         }
 
         // Expand the indention of the messages.

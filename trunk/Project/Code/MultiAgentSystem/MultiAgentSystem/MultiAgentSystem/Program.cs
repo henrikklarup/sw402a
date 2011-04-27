@@ -72,22 +72,11 @@ namespace MultiAgentSystem
                 Tokens.Add(newToken);
 
                 //If the token just found is the End Of Transmission token then break
-                if (newToken.kind == (int)Token.keywords.EOT)
+                if (newToken == null || newToken.kind == (int)Token.keywords.EOT)
                 {
                     break;
                 }
             }
-
-            //Printing the token list
-            Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4}", "Kind", "Spelling", "Coords"));
-            Console.WriteLine();
-
-            foreach (Token t in Tokens)
-            {
-                Console.WriteLine(string.Format("{0,10} - {1,-30}  {2, 4},{3,-4}",
-                    Enum.GetName(typeof(Token.keywords), t.kind), t.spelling, t.row, t.col));
-            }
-
             try
             {
                 if (scanningError)

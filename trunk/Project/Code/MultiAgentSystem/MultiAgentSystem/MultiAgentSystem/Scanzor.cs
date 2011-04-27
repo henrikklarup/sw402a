@@ -49,7 +49,8 @@ namespace MultiAgentSystem
             }
             else
             {
-                Console.WriteLine("Expected Char didnt match");
+                Printer.Error(" Error!");
+                throw new GrammarException("Expected Char '" + expectedChar + "' didnt match '" + currentChar + "' in line " + row + ".");
             }
         }
 
@@ -226,6 +227,11 @@ namespace MultiAgentSystem
                 while (isDigit(currentChar))
                     takeIt();
             }
+            if (currentChar != ' ' && currentChar != ';')
+            {
+                Printer.Error(" Error!");
+                throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a number.");
+            }
         }
 
         /* Reads currentChar untill the current character is " and checks if the previous character " was \ (\")
@@ -251,6 +257,7 @@ namespace MultiAgentSystem
         {
             if (isLetter(currentChar))
             {
+                Printer.WriteLine("Identifier");
                 /* If the first character read is a letter, spell the word and 
                  * let the Token class decided if its an identifier or a keyword */
                 takeIt();
@@ -263,6 +270,7 @@ namespace MultiAgentSystem
 
             if (isDigit(currentChar))
             {
+                Printer.WriteLine("Digit");
                 // Builds a digit, adds "." if its added in the code
                 takeIt();
                 scanDigit();
@@ -274,12 +282,14 @@ namespace MultiAgentSystem
                 case '-':
                 case '*':
                 case '/':
+                    Printer.WriteLine("Operator");
                     // returns any of the four usual operators
                     takeIt();
                     return (int)Token.keywords.OPERATOR;
                 // Checking if the operator is an "expanded" version
                 case '<':
                 case '>':
+                    Printer.WriteLine("Operator");
                     takeIt();
                     if (currentChar == '=')
                         takeIt();
@@ -292,43 +302,55 @@ namespace MultiAgentSystem
                         case '<':
                         case '>':
                         case '=':
+                            Printer.WriteLine("Operator");
                             takeIt();
                             return (int)Token.keywords.OPERATOR;
                     }
+                    Printer.WriteLine("Becomes");
                     return (int)Token.keywords.BECOMES;
                 case '"':
+                    Printer.WriteLine("Actual String");
                     takeIt();
                     scanString();
                     return (int)Token.keywords.ACTUAL_STRING;
                 case ';':
+                    Printer.WriteLine("Semicolon");
                     takeIt();
                     return (int)Token.keywords.SEMICOLON;
                 case '(':
+                    Printer.WriteLine("Left Paranthesis");
                     takeIt();
                     return (int)Token.keywords.LPAREN;
                 case ')':
+                    Printer.WriteLine("Right Paranthesis");
                     takeIt();
                     return (int)Token.keywords.RPAREN;
                 case '{':
+                    Printer.WriteLine("Left Bracket");
                     takeIt();
                     return (int)Token.keywords.LBRACKET;
                 case '}':
+                    Printer.WriteLine("Right Bracket");
                     takeIt();
                     return (int)Token.keywords.RBRACKET;
                 case ',':
+                    Printer.WriteLine("Comma");
                     takeIt();
                     return (int)Token.keywords.COMMA;
                 case ':':
+                    Printer.WriteLine("Colon");
                     takeIt();
                     return (int)Token.keywords.COLON;
                 case '.':
+                    Printer.WriteLine("Period");
                     takeIt();
                     return (int)Token.keywords.PUNCTUATION;
                 default:
                     // Someone has screwed up
                     takeIt();
-                    throw new GrammarException("Char " + 
-                        currentChar.ToString() + " in line " + row + " is not a valid character.");
+                    Printer.Error(" Error!");
+                    throw new GrammarException("Char '" + 
+                        currentChar + "' in line " + row + " is not a valid character.");
 
                     //currentChar = '\n';
                     //currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
@@ -373,6 +395,8 @@ namespace MultiAgentSystem
 
             // Scan for the next token, e.g. an identifier
             currentKind = scanToken();
+
+            Printer.Write(": " + currentSpelling);
 
             // Returns the token found and the string build while searching for the token
             return new Token(currentKind, currentSpelling.ToString(), row, col);
