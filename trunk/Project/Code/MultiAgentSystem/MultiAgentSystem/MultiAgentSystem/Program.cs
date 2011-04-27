@@ -86,10 +86,8 @@ namespace MultiAgentSystem
             }
             if (scanningError)
             {
-                Console.WriteLine("Errors were found while SCANNING, would you like to compile again?");
-                Console.ReadKey();
-                
-                Compile();
+                Console.Write("Errors were found while SCANNING.");
+                Recompile();
             }
 
             Parse();
@@ -113,9 +111,8 @@ namespace MultiAgentSystem
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.WriteLine("Errors were found while PARSING, would you like to compile again?");
-                Console.ReadKey();
-                Compile();
+                Console.Write("Errors were found while PARSING.");
+                Recompile();
                 return;
             }
 
@@ -138,9 +135,8 @@ namespace MultiAgentSystem
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.WriteLine("Errors were found while DECORATING, would you like to compile again?");
-                Console.ReadKey();
-                Compile();
+                Console.Write("Errors were found while DECORATING.");
+                Recompile();
                 return;
             }
             CodeGen();
@@ -161,9 +157,8 @@ namespace MultiAgentSystem
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.WriteLine("Errors were found while GENERATING CODE, would you like to compile again?");
-                Console.ReadKey();
-                Compile();
+                Console.Write("Errors were found while GENERATING CODE.");
+                Recompile();
                 return;
             }
             Completed();
@@ -171,17 +166,22 @@ namespace MultiAgentSystem
 
         private static void Completed()
         {
-            ConsoleKeyInfo cki;
-
             Console.CursorLeft = 0;
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Compilation has completed");
             Console.WriteLine("--------------------------------------------------");
             Console.Title = "MASS Compiler: Compilation has completed";
 
+            Recompile();
+        }
+
+        private static void Recompile()
+        {
+            ConsoleKeyInfo cki;
+
             while (true)
             {
-                Console.WriteLine("Would you like to compile again? y/n");
+                Console.WriteLine(" Would you like to compile again? y/n");
                 cki = Console.ReadKey();
 
                 if (cki.Key == ConsoleKey.Y)
