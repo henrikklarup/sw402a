@@ -22,6 +22,10 @@ namespace MultiAgentSystem
              
             Console.ForegroundColor = ConsoleColor.White;
 
+            Printer.printLogo();
+            Printer.CompilationMarker("Compile");
+            Console.ReadKey();
+
             Compile();
         }
 
@@ -30,10 +34,8 @@ namespace MultiAgentSystem
             Tokens.Clear();
 
             Printer.printLogo();
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("Compile");
-            Console.WriteLine("--------------------------------------------------");
-            Console.ReadKey();
+            Printer.CompilationMarker("Compile");
+
             Scan();
         }
 
@@ -48,9 +50,7 @@ namespace MultiAgentSystem
             Token newToken = null;
 
             Console.CursorLeft = 0;
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Scanning");
-            Console.WriteLine("--------------------------------------------------");
+            Printer.CompilationMarker("@Scanning");
             Console.Title = "MASS Compiler: Scanning";
 
             while (true)
@@ -95,11 +95,9 @@ namespace MultiAgentSystem
 
         private static void Parse()
         {
-            
+
             Console.CursorLeft = 0; 
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Parsing");
-            Console.WriteLine("--------------------------------------------------");
+            Printer.CompilationMarker("@Parsing");
             Console.Title = "MASS Compiler: Parsing";
 
             Parser parser = new Parser(Tokens);
@@ -122,9 +120,7 @@ namespace MultiAgentSystem
         private static void Decorate()
         {
             Console.CursorLeft = 0;
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Decorating");
-            Console.WriteLine("--------------------------------------------------");
+            Printer.CompilationMarker("@Decorating");
             Console.Title = "MASS Compiler: Decorating";
 
             Visitor visitor = new Visitor();
@@ -144,10 +140,8 @@ namespace MultiAgentSystem
 
         private static void CodeGen()
         {
-            Console.CursorLeft = 0; 
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Code Generation");
-            Console.WriteLine("--------------------------------------------------");
+            Console.CursorLeft = 0;
+            Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
             try
@@ -167,9 +161,7 @@ namespace MultiAgentSystem
         private static void Completed()
         {
             Console.CursorLeft = 0;
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Compilation has completed");
-            Console.WriteLine("--------------------------------------------------");
+            Printer.CompilationMarker("@Compilation has completed");
             Console.Title = "MASS Compiler: Compilation has completed";
 
             Recompile();
