@@ -191,7 +191,7 @@ namespace MultiAgentSystem
                 }
                 if (cki.Key == ConsoleKey.N)
                 {
-                    Console.WriteLine("Goodbye");
+                    Console.WriteLine("Goodbye.");
                     break;
                 }
 
