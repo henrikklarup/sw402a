@@ -227,10 +227,22 @@ namespace MultiAgentSystem
                 while (isDigit(currentChar))
                     takeIt();
             }
-            if (currentChar != ' ' && currentChar != ';')
+            switch(currentChar)
             {
-                Printer.Error(" Error!");
-                throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a number.");
+                case ' ':
+                case ';':
+                case '=':
+                case '<':
+                case '>':
+                case '+':
+                case '-':
+                case '/':
+                case '*':
+                case ')':
+                    break;
+                default:
+                    Printer.Error(" Error!");
+                    throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a number.");
             }
         }
 
@@ -249,6 +261,16 @@ namespace MultiAgentSystem
                     break;
                 }
             }
+            switch (currentChar)
+            { 
+                case ' ':
+                case ';':
+                case ')':
+                    break;
+                default:
+                    Printer.Error(" Error!");
+                    throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a string.");
+            }
         }
 
         /* Scans the current Character and returns the corresponding byte value 
@@ -264,6 +286,18 @@ namespace MultiAgentSystem
                 while (isLetter(currentChar) || isDigit(currentChar))
                 {
                     takeIt();
+                }
+                switch (currentChar)
+                { 
+                    case ' ':
+                    case ';':
+                    case '.':
+                    case '(':
+                    case ')':
+                        break;
+                    default:
+                        Printer.Error(" Error!");
+                        throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of an identifier.");
                 }
                 return (int)Token.keywords.IDENTIFIER;
             }
