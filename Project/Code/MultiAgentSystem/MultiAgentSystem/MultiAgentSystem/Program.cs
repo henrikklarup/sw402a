@@ -12,11 +12,6 @@ namespace MultiAgentSystem
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
 
-        // Exception for errors found in the scanner.
-        private static GrammarException scanException = 
-            new GrammarException("These errors were found by the scanner:");
-        private static bool scanningError = false;
-
         static void Main(string[] args)
         {
             /*StartUp startUp = new StartUp();
@@ -28,34 +23,36 @@ namespace MultiAgentSystem
             Console.ForegroundColor = ConsoleColor.White;
 
             Compile();
-
-            Scan();
-
-            Console.ReadKey();
-
-            Parse();
-
-            Console.ReadKey();
-
-            Decorate();
         }
 
         private static void Compile()
         {
+            Tokens.Clear();
+
             Printer.printLogo();
+            Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("Compile");
+            Console.WriteLine("--------------------------------------------------");
             Console.ReadKey();
+            Scan();
         }
 
         private static void Scan()
         {
+            // Exception for errors found in the scanner.
+            GrammarException scanException = new GrammarException(
+                "These errors were found by the scanner:");
+            bool scanningError = false;
+
             Scanzor scanzor = new Scanzor();
             Token newToken = null;
 
-            Printer.printLogo();
+            Console.CursorTop = Console.CursorTop + 2;
+            Console.CursorLeft = 0;
+            Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Scanning");
-            Console.Title = Console.Title + "Scanning";
-            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------");
+            Console.Title = "MASS Compiler: Scanning";
 
             while (true)
             {
@@ -88,25 +85,24 @@ namespace MultiAgentSystem
             {
                 g.PrintExceptions();
             }
-            //finally
-            //{
-            //    if (scanException.containedExceptions != null)
-            //    {
-            //        Console.WriteLine("Errors were found while scanning, would you like to compile again?");
-            //        Console.ReadKey();
-            //        scanException.containedExceptions.Clear();
-            //        Tokens.Clear();
-            //        Scan();
-            //    }
-            //}
+            if (scanningError)
+            {
+                Console.WriteLine("Errors were found while SCANNING, would you like to compile again?");
+                Console.ReadKey();
+                
+                Compile();
+            }
+
+            Parse();
         }
 
         private static void Parse()
         {
-            Printer.printLogo();
+            Console.CursorTop = Console.CursorTop + 2;
+            Console.CursorLeft = 0; Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Parsing");
-            Console.Title = Console.Title + "Parsing";
-            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------");
+            Console.Title = "MASS Compiler: Parsing";
 
             Parser parser = new Parser(Tokens);
 
@@ -117,21 +113,22 @@ namespace MultiAgentSystem
             catch (GrammarException g)
             {
                 g.PrintExceptions();
+                Console.WriteLine("Errors were found while PARSING, would you like to compile again?");
+                Console.ReadKey();
+                Compile();
             }
-            //finally
-            //{
-            //    Console.WriteLine("Errors were found while scanning, would you like to compile again?");
-            //    Console.ReadKey();
-            //    Parse();
-            //}
+
+            Decorate();
         }
 
         private static void Decorate()
         {
-            Printer.printLogo();
+            Console.CursorTop = Console.CursorTop + 2;
+            Console.CursorLeft = 0;
+            Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Decorating");
-            Console.Title = Console.Title + "Decorating";
-            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------------");
+            Console.Title = "MASS Compiler: Decorating";
 
             Visitor visitor = new Visitor();
             try
@@ -141,9 +138,65 @@ namespace MultiAgentSystem
             catch (GrammarException g)
             {
                 g.PrintExceptions();
+                Console.WriteLine("Errors were found while DECORATING, would you like to compile again?");
+                Console.ReadKey();
+                Compile();
             }
+            CodeGen();
+        }
 
-            Console.ReadKey();
+        private static void CodeGen()
+        {
+            Console.CursorTop = Console.CursorTop + 2;
+            Console.CursorLeft = 0; 
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("@Code Generation");
+            Console.WriteLine("--------------------------------------------------");
+            Console.Title = "MASS Compiler: Code Generation";
+
+            try
+            {
+                Console.WriteLine("Not yet implemented!");
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                Console.WriteLine("Errors were found while GENERATING CODE, would you like to compile again?");
+                Console.ReadKey();
+                Compile();
+            }
+            Completed();
+        }
+
+        private static void Completed()
+        {
+            ConsoleKeyInfo cki;
+
+            Console.CursorTop = Console.CursorTop + 2;
+            Console.CursorLeft = 0;
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("@Compilation has completed");
+            Console.WriteLine("--------------------------------------------------");
+            Console.Title = "MASS Compiler: Compilation has completed";
+
+            while (true)
+            {
+                Console.WriteLine("Would you like to compile again? y/n");
+                cki = Console.ReadKey();
+
+                if (cki.Key == ConsoleKey.Y)
+                {
+                    Compile();
+                    break;
+                }
+                if (cki.Key == ConsoleKey.N)
+                {
+                    Console.WriteLine("Goodbye");
+                    break;
+                }
+
+                Console.WriteLine(" is not an option.");
+            }
         }
     }
 }

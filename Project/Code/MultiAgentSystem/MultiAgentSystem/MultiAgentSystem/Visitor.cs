@@ -383,6 +383,7 @@ namespace MultiAgentSystem
                 switch (identifier2Kind)
                 {
                     case (int)Token.keywords.NUM:
+                    case (int)Token.keywords.NUMBER:
                         if (identifier1Kind != (int)Token.keywords.NUM &&
                             identifier1Kind != (int)Token.keywords.NUMBER)
                         {
