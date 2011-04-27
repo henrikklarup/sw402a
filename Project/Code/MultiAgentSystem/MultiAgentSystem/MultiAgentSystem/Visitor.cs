@@ -322,8 +322,23 @@ namespace MultiAgentSystem
             Printer.WriteLine("Expression");
             Printer.Expand();
 
-            // Always a Token of kind, number, boolen or identifier.
+            // Always a Token of kind number, boolean or identifier.
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
+
+            if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
+            {
+                int tempKind = IdentificationTable.retrieve(primExpr1);
+
+                if (tempKind != (int)Token.keywords.NUMBER || tempKind != (int)Token.keywords.BOOL)
+                {
+                    Printer.ErrorMarker();
+                    throwException = true;
+                    gException.containedExceptions.Add(
+                        new GrammarException(
+                            "(Line " + primExpr1.row + ") Identifier " + primExpr1.spelling + 
+                            " is of type " + (Token.keywords)tempKind + " which is invalid for an expression."));
+                }
+            }
 
             // Always a Token of kind, operator, if this doesn't exists, 
             // visit the primaryExpression and return null.
