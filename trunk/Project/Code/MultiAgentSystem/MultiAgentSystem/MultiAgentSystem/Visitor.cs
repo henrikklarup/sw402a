@@ -12,9 +12,6 @@ namespace MultiAgentSystem
             new GrammarException("These errors were found during decoration:");
         private bool throwException = false;
 
-        // String for marking errors.
-        private string errorMarker = "!";
-
         /// <summary>
         /// Visit the AST, the first method called when visiting the AST.
         /// Visits the Main Block.
@@ -153,7 +150,7 @@ namespace MultiAgentSystem
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
                                 && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException(
@@ -169,7 +166,7 @@ namespace MultiAgentSystem
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
                                 && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException(
@@ -184,7 +181,7 @@ namespace MultiAgentSystem
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
                                 && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException(
@@ -194,7 +191,7 @@ namespace MultiAgentSystem
                         }
                         break;
                     default:
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException(
@@ -207,7 +204,7 @@ namespace MultiAgentSystem
                 IdentificationTable.enter(kind, ident);
             else
             {
-                Printer.Error(errorMarker);
+                Printer.ErrorMarker();
                 throwException = true;
                 gException.containedExceptions.Add(
                     new GrammarException(
@@ -238,7 +235,7 @@ namespace MultiAgentSystem
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
             if (expr.type != (int)Token.keywords.BOOL)
             {
-                Printer.Error(errorMarker);
+                Printer.ErrorMarker();
                 throwException = true;
                 gException.containedExceptions.Add(
                     new GrammarException(
@@ -352,7 +349,7 @@ namespace MultiAgentSystem
                     expression.type = (int)Token.keywords.BOOL;
                     break;
                 default:
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(
                         new GrammarException(
@@ -389,7 +386,7 @@ namespace MultiAgentSystem
                         if (identifier1Kind != (int)Token.keywords.NUM &&
                             identifier1Kind != (int)Token.keywords.NUMBER)
                         {
-                            Printer.Error(errorMarker);
+                            Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
                                 new GrammarException("(Line " + primExpr1.row +
@@ -402,7 +399,7 @@ namespace MultiAgentSystem
                         if (identifier1Kind != (int)Token.keywords.FALSE &&
                             identifier1Kind != (int)Token.keywords.TRUE)
                         {
-                            Printer.Error(errorMarker);
+                            Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
                                 new GrammarException("(Line " + primExpr1.row +
@@ -411,7 +408,7 @@ namespace MultiAgentSystem
                         }
                         break;
                     default:
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + primExpr1.row +
@@ -436,7 +433,7 @@ namespace MultiAgentSystem
                 if (expression.type == (int)Token.keywords.NUM)
                     if (identifierKind == (int)Token.keywords.TRUE || identifierKind == (int)Token.keywords.FALSE)
                     {
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + primExpr1.row +
@@ -450,7 +447,7 @@ namespace MultiAgentSystem
                 {
                     if (expression.type == (int)Token.keywords.BOOL)
                     {
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + primExpr1.row +
@@ -496,7 +493,7 @@ namespace MultiAgentSystem
                 {
                     if (IdentificationTable.retrieve(firstVar) == (int)Token.keywords.ERROR)
                     {
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + firstVar.row +
@@ -596,7 +593,7 @@ namespace MultiAgentSystem
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
                                 IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
@@ -610,7 +607,7 @@ namespace MultiAgentSystem
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
@@ -624,7 +621,7 @@ namespace MultiAgentSystem
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && IdentificationTable.retrieve(masVariable) != kind)
                             {
-                                Printer.Error(errorMarker);
+                                Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
@@ -634,7 +631,7 @@ namespace MultiAgentSystem
                         }
                         break;
                     default:
-                        Printer.Error(errorMarker);
+                        Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +

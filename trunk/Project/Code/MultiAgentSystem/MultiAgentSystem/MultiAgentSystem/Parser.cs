@@ -20,9 +20,6 @@ namespace MultiAgentSystem
         private GrammarException gException = new GrammarException("These errors were found by the parser:");
         private bool throwException = false;
 
-        // String for marking errors.
-        private string errorMarker = "!";
-
         /// <summary>
         /// Creates a new parser.
         /// </summary>
@@ -171,10 +168,10 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // If no valid command is found, this exception is created:
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
-                        "(Line " + currentToken.row + ") Token of kind " + 
+                        "(Line " + currentToken.row + ") Token " + 
                         (Token.keywords)currentToken.kind + " is not valid for a command.", currentToken));
                     acceptIt();
                     break;
@@ -224,10 +221,10 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
-                        "(Line " + currentToken.row + ") Token of kind " +
+                        "(Line " + currentToken.row + ") Token " +
                         (Token.keywords)currentToken.kind + " is not a valid object.", currentToken));
                     acceptIt();
                     break;
@@ -257,10 +254,10 @@ namespace MultiAgentSystem
                     break;
                 default:
                     // Error message
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
-                        "(Line " + currentToken.row + ") Token of kind " +
+                        "(Line " + currentToken.row + ") Token " +
                         (Token.keywords)currentToken.kind + " is not a valid type.", currentToken));
                     acceptIt();
                     break;
@@ -393,10 +390,10 @@ namespace MultiAgentSystem
                     acceptIt();
                     break;
                 default:
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
-                        "(Line " + currentToken.row + ") Token of kind " + 
+                        "(Line " + currentToken.row + ") Token " + 
                         (Token.keywords)currentToken.kind + " is not a valid variable.", currentToken));
                     acceptIt();
                     break;
@@ -541,11 +538,11 @@ namespace MultiAgentSystem
                     returnObject = parseIdentifier();
                     break;
                 default:
-                    Printer.Error(errorMarker);
+                    Printer.ErrorMarker();
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
-                        "(Line " + currentToken.row + ") Token of kind " + 
-                        (Token.keywords)currentToken.kind + " is not a valid token in an expression."
+                        "(Line " + currentToken.row + ") Token " + 
+                        (Token.keywords)currentToken.kind + " is not valid in an expression."
                         , currentToken));
                     acceptIt();
                     break;
@@ -648,11 +645,11 @@ namespace MultiAgentSystem
             if (currentToken.kind != (int)Token.keywords.TRUE &&
                 currentToken.kind != (int)Token.keywords.FALSE)
             {
-                Printer.Error(errorMarker);
+                Printer.ErrorMarker();
                 throwException = true;
                 gException.containedExceptions.Add(new GrammarException(
-                    "(Line " + currentToken.row + ") Token of kind " +
-                        (Token.keywords)currentToken.kind + " is not a valid boolean value.", currentToken));
+                    "(Line " + currentToken.row + ") Token " +
+                        (Token.keywords)currentToken.kind + " is not a boolean value.", currentToken));
             }
             acceptIt();
 
@@ -668,10 +665,10 @@ namespace MultiAgentSystem
         {
             if ((int)kind != currentToken.kind)
             {
-                Printer.Error(errorMarker);
+                Printer.ErrorMarker();
                 throwException = true;
                 gException.containedExceptions.Add(new GrammarException(
-                    "(Line " + currentToken.row + ") Token of kind " + (Token.keywords)currentToken.kind + 
+                    "(Line " + currentToken.row + ") Token " + (Token.keywords)currentToken.kind + 
                     " was not legal. \n  A token of kind " + kind + " was expected.", currentToken));
             }
 

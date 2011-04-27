@@ -59,6 +59,14 @@ namespace MultiAgentSystem
             Error(text);
         }
 
+        /// <summary>
+        /// Prints a mark in the console where an error has occurred.
+        /// </summary>
+        public static void ErrorMarker()
+        {
+            Error("!");
+        }
+
         // Changes the cursor position, to match the indent,
         // Changes the text color to green
         // to display that the function went well.
