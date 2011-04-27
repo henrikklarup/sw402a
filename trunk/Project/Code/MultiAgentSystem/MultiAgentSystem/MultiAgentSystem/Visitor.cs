@@ -13,7 +13,7 @@ namespace MultiAgentSystem
         private bool throwException = false;
 
         // String for marking errors.
-        private string errorMarker = " Error!";
+        private string errorMarker = "!";
 
         /// <summary>
         /// Visit the AST, the first method called when visiting the AST.
@@ -45,6 +45,7 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Main Block");
             Printer.Expand();
+
             block.block.visit(this, arg);
 
             Printer.Collapse();
@@ -242,7 +243,7 @@ namespace MultiAgentSystem
                 gException.containedExceptions.Add(
                     new GrammarException(
                         "(Line " + expr.basicToken.row + ")" + 
-                        " The conditional expression for this if-statement does not give a boolean value."));
+                        " This expression does not give a boolean value."));
             }
 
             // Visit the first block.
