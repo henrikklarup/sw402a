@@ -66,7 +66,7 @@ namespace MultiAgentSystem
         /// </summary>
         public static void ErrorMarker()
         {
-            Error("!");
+            Error(" <!>");
         }
 
         // Changes the cursor position, to match the indent,
