@@ -39,7 +39,7 @@ namespace ListToXML
             XML.GenerateThisShizzle("MAS", null);
 
             //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\note.xml");
+            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\TestXml.xml");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Title = "@AWESOME XML !";
             Console.WriteLine("\tAWESOME XML !");
@@ -48,7 +48,7 @@ namespace ListToXML
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch(""))
+            foreach (XmlType item in Reader.XmlSearch("note>item"))
             {
                 Console.WriteLine(item.Tag + " @ " + item.Order);
             }

@@ -65,9 +65,10 @@ namespace XMLawesome
             }
             Console.WriteLine("XML");
             Console.WriteLine("");
+            Console.WriteLine("Hello XML!");
             foreach (XmlOrder item in XML)
             {
-                Console.WriteLine(item.Tag + item.Order);
+                    Console.WriteLine(item.Tag + item.Order);
             }
         }
 
