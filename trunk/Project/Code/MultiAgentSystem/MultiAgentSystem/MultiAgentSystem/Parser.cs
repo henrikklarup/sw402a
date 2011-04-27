@@ -604,6 +604,11 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.IDENTIFIER:
                     input.firstVar = (Identifier)parseIdentifier();
                     break;
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.STRING:
+                case (int)Token.keywords.BOOL:
+                    input.firstVar = (TypeDeclaration)parseTypeDeclaration();
+                    break;
                     // If the current token is a right parenthesis then return.
                 default:
                     Printer.Collapse();
