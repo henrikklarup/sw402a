@@ -63,13 +63,6 @@ namespace XMLawesome
                 XmlOrder XmlO = new XmlOrder(temp[i], order);
                 XML.Add(XmlO);
             }
-            Console.WriteLine("XML");
-            Console.WriteLine("");
-            Console.WriteLine("Hello XML!");
-            foreach (XmlOrder item in XML)
-            {
-                    Console.WriteLine(item.Tag + item.Order);
-            }
         }
 
 

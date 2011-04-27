@@ -19,6 +19,15 @@ namespace ListToXML
 
         public static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Title = "@AWESOME XML !";
+            Console.WriteLine("\t   ____   __  ____  __ _    " +
+"\n\t  / __ \\  \\ \\/ /  \\/  | |    " +
+"\n\t / / _` |  \\  /| |\\/| | |    " +
+"\n\t| | (_| |  /  \\| |  | | |___ " +
+"\n\t \\ \\__,_| /_/\\_\\_|  |_|_____|" +
+"\n\t  \\____/ AWESOME                     \n");
+            Console.ForegroundColor = ConsoleColor.White;
             //Initializing the Teams, agents, squards and actionpattern
             Team team = new Team(1, "Team one", "Red");
             Agent agent = new Agent(1, "Olsen", 2, team);
@@ -41,16 +50,8 @@ namespace ListToXML
 
             //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\TestXml.xml");
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.Title = "@AWESOME XML !";
-            Console.WriteLine("   ____   __  ____  __ _    " +
-"\n  / __ \\  \\ \\/ /  \\/  | |    " +
-"\n / / _` |  \\  /| |\\/| | |    " +
-"\n| | (_| |  /  \\| |  | | |___ " +
-"\n \\ \\__,_| /_/\\_\\_|  |_|_____|" +
-"\n  \\____/ AWESOME                     ");
 
-            Console.ForegroundColor = ConsoleColor.Green;
+
             Reader.Mount();
 
             //Add null filter
