@@ -329,14 +329,13 @@ namespace MultiAgentSystem
             {
                 int tempKind = IdentificationTable.retrieve(primExpr1);
 
-                if (tempKind != (int)Token.keywords.NUMBER || tempKind != (int)Token.keywords.BOOL)
+                if (tempKind != (int)Token.keywords.NUMBER && tempKind != (int)Token.keywords.BOOL)
                 {
                     Printer.ErrorMarker();
                     throwException = true;
-                    gException.containedExceptions.Add(
-                        new GrammarException(
-                            "(Line " + primExpr1.row + ") Identifier " + primExpr1.spelling + 
-                            " is of type " + (Token.keywords)tempKind + " which is invalid for an expression."));
+                    gException.containedExceptions.Add(new GrammarException(
+                            "(Line " + primExpr1.row + ") Identifier " + primExpr1.spelling + " is of type "
+                            + (Token.keywords)tempKind + " which is illegal in expressions."));
                 }
             }
 
@@ -432,10 +431,17 @@ namespace MultiAgentSystem
                     default:
                         Printer.ErrorMarker();
                         throwException = true;
-                        gException.containedExceptions.Add(
-                            new GrammarException("(Line " + primExpr1.row +
-                                ") The types in the expression \"" + primExpr1.spelling + " " +
-                                _operator.spelling + " " + _primExpr2.spelling + "\" do not match."));
+                            gException.containedExceptions.Add(new GrammarException(
+                                "(Line " + primExpr1.row + ") Identifier " + _primExpr2.spelling + " is of type "
+                                + (Token.keywords)identifier2Kind + " which is illegal in expressions."));
+                        if (identifier1Kind != identifier2Kind)
+                        {
+                            Printer.ErrorMarker();
+                            gException.containedExceptions.Add(
+                                new GrammarException("(Line " + primExpr1.row +
+                                    ") The types in the expression \"" + primExpr1.spelling + " " +
+                                    _operator.spelling + " " + _primExpr2.spelling + "\" do not match."));
+                        }
                         break;
                 }
             }
