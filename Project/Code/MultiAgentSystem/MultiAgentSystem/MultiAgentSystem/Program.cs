@@ -47,7 +47,6 @@ namespace MultiAgentSystem
             Scanzor scanzor = new Scanzor();
             Token newToken = null;
 
-            Console.CursorTop = Console.CursorTop + 2;
             Console.CursorLeft = 0;
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Scanning");
@@ -98,8 +97,9 @@ namespace MultiAgentSystem
 
         private static void Parse()
         {
-            Console.CursorTop = Console.CursorTop + 2;
-            Console.CursorLeft = 0; Console.WriteLine("--------------------------------------------------");
+            
+            Console.CursorLeft = 0; 
+            Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Parsing");
             Console.WriteLine("--------------------------------------------------");
             Console.Title = "MASS Compiler: Parsing";
@@ -116,6 +116,7 @@ namespace MultiAgentSystem
                 Console.WriteLine("Errors were found while PARSING, would you like to compile again?");
                 Console.ReadKey();
                 Compile();
+                return;
             }
 
             Decorate();
@@ -123,7 +124,6 @@ namespace MultiAgentSystem
 
         private static void Decorate()
         {
-            Console.CursorTop = Console.CursorTop + 2;
             Console.CursorLeft = 0;
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Decorating");
@@ -141,13 +141,13 @@ namespace MultiAgentSystem
                 Console.WriteLine("Errors were found while DECORATING, would you like to compile again?");
                 Console.ReadKey();
                 Compile();
+                return;
             }
             CodeGen();
         }
 
         private static void CodeGen()
         {
-            Console.CursorTop = Console.CursorTop + 2;
             Console.CursorLeft = 0; 
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Code Generation");
@@ -164,6 +164,7 @@ namespace MultiAgentSystem
                 Console.WriteLine("Errors were found while GENERATING CODE, would you like to compile again?");
                 Console.ReadKey();
                 Compile();
+                return;
             }
             Completed();
         }
@@ -172,7 +173,6 @@ namespace MultiAgentSystem
         {
             ConsoleKeyInfo cki;
 
-            Console.CursorTop = Console.CursorTop + 2;
             Console.CursorLeft = 0;
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("@Compilation has completed");

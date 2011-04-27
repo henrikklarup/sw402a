@@ -83,13 +83,14 @@ namespace MultiAgentSystem
 
             accept(Token.keywords.LBRACKET);
             // Accept every command in the block, and then accept the right bracket when it's reached.
-            while (currentToken.kind != (int)Token.keywords.RBRACKET)
+            while (currentToken.kind != (int)Token.keywords.RBRACKET && currentToken.kind != (int)Token.keywords.EOT)
             {
                 Command c = (Command)parseCommand();
                 if (c != null)
                     block.commands.Add(c);
             }
-            acceptIt();
+            if(currentToken.kind != (int)Token.keywords.EOT)
+                acceptIt();
 
             Printer.Collapse();
             return block;
@@ -605,7 +606,6 @@ namespace MultiAgentSystem
                     break;
                     // If the current token is a right parenthesis then return.
                 default:
-                    accept(Token.keywords.RPAREN);
                     Printer.Collapse();
                     return null;
             }
@@ -683,8 +683,11 @@ namespace MultiAgentSystem
         /// </summary>
         private void acceptIt()
         {
-            listCount++;
-            currentToken = tokenList.ElementAt(listCount);
+            if (1==1)
+            {
+                listCount++;
+                currentToken = tokenList.ElementAt(listCount);
+            }
         }
     }
 }
