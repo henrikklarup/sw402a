@@ -21,7 +21,7 @@ namespace MultiAgentSystem
         private bool throwException = false;
 
         // String for marking errors.
-        private string errorMarker = " Error!";
+        private string errorMarker = "!";
 
         /// <summary>
         /// Creates a new parser.
