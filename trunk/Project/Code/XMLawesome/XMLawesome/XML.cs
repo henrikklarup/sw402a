@@ -97,7 +97,7 @@ namespace XMLawesome
             }
             XML += c + XmlName + b;
 
-            using (StreamWriter outfile = new StreamWriter(@"\WarGame.xml"))
+            using (StreamWriter outfile = new StreamWriter(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
             {
                 outfile.Write(Encoding+XML);
             }
