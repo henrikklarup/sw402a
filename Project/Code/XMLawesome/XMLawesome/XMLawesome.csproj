@@ -40,13 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionPattern.cs" />
-    <Compile Include="Agent.cs" />
     <Compile Include="Atributes.cs" />
     <Compile Include="ChildNotes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Squad.cs" />
-    <Compile Include="Team.cs" />
     <Compile Include="XML.cs" />
     <Compile Include="XMLhelp.cs" />
     <Compile Include="XmlList.cs" />
