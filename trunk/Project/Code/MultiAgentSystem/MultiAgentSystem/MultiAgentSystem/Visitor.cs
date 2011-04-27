@@ -102,7 +102,8 @@ namespace MultiAgentSystem
             IdentificationTable.enter(kind, ident);
 
             // Visit the input and check the spelling.
-            objectDeclaration.input.visit(this, arg);
+            if(objectDeclaration.input != null)
+                objectDeclaration.input.visit(this, arg);
             Printer.Collapse();
             return null;
         }
@@ -270,12 +271,17 @@ namespace MultiAgentSystem
             Printer.WriteLine("For Command");
             Printer.Expand();
 
+            // Opens a "virtual" for-scope to be able to remove the counterDeclaration.
+            IdentificationTable.openScope();
+
             // Visit the declaration, the two expressions and the block.
             forCommand.CounterDeclaration.visit(this, arg);
             forCommand.LoopExpression.visit(this, arg);
             forCommand.CounterExpression.visit(this, arg);
             forCommand.ForBlock.visit(this, arg);
 
+            // Closes the "virtual" for-scope.
+            IdentificationTable.closeScope();
             Printer.Collapse();
             return null;
         }
@@ -522,7 +528,8 @@ namespace MultiAgentSystem
 
             identifier = (Token)methodIdentifier.Identifier.visit(this, arg);
             ident = identifier.spelling;
-            methodIdentifier.NextMethodIdentifier.visit(this, arg);
+            if(methodIdentifier.NextMethodIdentifier != null)
+                methodIdentifier.NextMethodIdentifier.visit(this, arg);
 
             Printer.Collapse();
             return null;

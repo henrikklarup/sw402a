@@ -45,6 +45,8 @@ namespace MultiAgentSystem
 
             // Changes the text color to red.
             Console.ForegroundColor = ConsoleColor.Red;
+
+            // Writes the error to the console.
             Console.Write(error);
             // Changes the text color to the original.
             Console.ForegroundColor = tmpColor;
@@ -77,6 +79,8 @@ namespace MultiAgentSystem
 
             // Changes the text color to green.
             Console.ForegroundColor = ConsoleColor.Green;
+
+            // Writes the message to the console.
             Console.Write(text);
             // Changes the text color to the original.
             Console.ForegroundColor = tmpColor;

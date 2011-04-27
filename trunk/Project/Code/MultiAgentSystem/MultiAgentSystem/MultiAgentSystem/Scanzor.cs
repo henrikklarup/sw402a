@@ -231,6 +231,7 @@ namespace MultiAgentSystem
             {
                 case ' ':
                 case ';':
+                case ',':
                 case '=':
                 case '<':
                 case '>':
@@ -410,7 +411,7 @@ namespace MultiAgentSystem
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             path = path + @"\mass.txt";
             fileLines = File.ReadAllLines(path); //The name of the files input
-
+            
             // Initializes the string being read by the scanner, and its counters
             charLine = fileLines[fileCounter++].ToCharArray();
             currentChar = charLine[charCounter++];
@@ -430,7 +431,9 @@ namespace MultiAgentSystem
             // Scan for the next token, e.g. an identifier
             currentKind = scanToken();
 
-            Printer.Write(": " + currentSpelling);
+            Printer.Write(":");
+            Console.CursorLeft = 20;
+            Printer.Write(currentSpelling.ToString());
 
             // Returns the token found and the string build while searching for the token
             return new Token(currentKind, currentSpelling.ToString(), row, col);

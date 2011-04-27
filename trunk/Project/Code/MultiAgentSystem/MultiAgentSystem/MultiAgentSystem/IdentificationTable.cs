@@ -48,7 +48,6 @@ namespace MultiAgentSystem
             if (attr != null) return attr.kind;
             return (int)Token.keywords.ERROR;
         }
-
         // When a new scope is identified, count the scopecounter 1 up.
         public static void openScope()
         {
