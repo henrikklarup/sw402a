@@ -69,6 +69,13 @@ namespace MultiAgentSystem
             Error(" <!>");
         }
 
+        public static void CompilationMarker(string text)
+        {
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine(text);
+            Console.WriteLine("--------------------------------------------------");
+        }
+
         // Changes the cursor position, to match the indent,
         // Changes the text color to green
         // to display that the function went well.
