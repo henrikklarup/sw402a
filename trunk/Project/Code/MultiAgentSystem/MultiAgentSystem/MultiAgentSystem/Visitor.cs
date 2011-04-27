@@ -340,6 +340,8 @@ namespace MultiAgentSystem
                     // Save the type as a NUM, since numbers are of type NUMBER.
                     expression.type = (int)Token.keywords.NUM;
                     break;
+                case "<":
+                case ">":
                 case "<=":
                 case ">=":
                 case "=>":
