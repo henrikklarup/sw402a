@@ -382,7 +382,7 @@ namespace MultiAgentSystem
                 // Ensure primExpr2 matches primExpr1.
                 switch (identifier2Kind)
                 {
-                    case (int)Token.keywords.NUMBER:
+                    case (int)Token.keywords.NUM:
                         if (identifier1Kind != (int)Token.keywords.NUM &&
                             identifier1Kind != (int)Token.keywords.NUMBER)
                         {
