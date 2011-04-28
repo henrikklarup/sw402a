@@ -29,12 +29,14 @@ namespace ListToXML
 "\n\t  \\____/ AWESOME                     \n");
             Console.ForegroundColor = ConsoleColor.White;
             //Initializing the Teams, agents, squards and actionpattern
-            Team team = new Team("Team one", "Red");
-            Agent agent = new Agent("Olsen", 2, team);
+            Team team1 = new Team("Team one", "Red");
+            Team team2 = new Team("Team Two", "Blue");
+            Agent agent = new Agent("Olsen", 2, team1);
             Squad squad = new Squad("first squad", agent);
             ActionPattern aP = new ActionPattern("first action pattern");
             //Initializing the lists
-            teams.Add(team);
+            teams.Add(team1);
+            teams.Add(team2);
             agents.Add(agent);
             squads.Add(squad);
             actionPatterns.Add(aP);
@@ -99,24 +101,12 @@ namespace ListToXML
         public static void mTeams(List<Team> Teams)
         {
             XMLhelp.Root("Teams", null);
-
-            //Sæt dette til en liste i stedet med methode
-            //brug delegates til at sende en liste af funtioner med'
-
-            //lav root med fixed størrelse
-
-            List<ChildNotes> Children = new List<ChildNotes>();
-
             foreach (var value in Teams)
             {
                 XMLhelp.Child("Team", Teams.ToString());
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.LastNode("Color", value.color);
-                XMLhelp.Child("Team", "SomeTeam");
-                XMLhelp.Node("Id", "SomeId");
-                XMLhelp.Node("Name", "SomeId");
-                XMLhelp.LastNode("Color", "SomeColor");
             }
         }
 
