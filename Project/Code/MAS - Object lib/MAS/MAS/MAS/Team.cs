@@ -7,6 +7,7 @@ namespace MAS
 {
     public class Team
     {
+        private static int IDcount;
         public int ID;
         public string name;
         public string color;
@@ -14,9 +15,10 @@ namespace MAS
         public Team()
         { }
 
-        public Team(int ID, string name, string color)
+        public Team(string name, string color)
         {
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.name = name;
             this.color = color;
         }

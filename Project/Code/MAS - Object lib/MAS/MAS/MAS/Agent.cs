@@ -7,6 +7,7 @@ namespace MAS
 {
     public class Agent
     {
+        private static int IDcount = 0;
         public int ID;
         public int posX;
         public int posY;
@@ -17,14 +18,27 @@ namespace MAS
         public Agent()
         { }
 
-        public Agent(int ID, string name, int rank, Team team)
+        public Agent(string name, int rank, Team team, int posX, int posY)
         {
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.name = name;
             this.rank = rank;
-            this.posX = 0;
-            this.posY = 0;
+            this.posX = posX;
+            this.posY = posY;
             this.team = team;
+
+        }
+
+        public Agent(string name, int rank, Team team)
+        {
+            IDcount++;
+            this.ID = IDcount;
+            this.name = name;
+            this.rank = rank;
+            this.team = team;
+            this.posX = -1;
+            this.posY = -1;
 
         }
     }
