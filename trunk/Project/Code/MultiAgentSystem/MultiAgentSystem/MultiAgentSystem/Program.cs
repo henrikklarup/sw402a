@@ -49,6 +49,7 @@ namespace MultiAgentSystem
             Scanzor scanzor = new Scanzor();
             Token newToken = null;
 
+            Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Scanning");
             Console.Title = "MASS Compiler: Scanning";
@@ -95,7 +96,7 @@ namespace MultiAgentSystem
 
         private static void Parse()
         {
-
+            Console.WriteLine();            
             Console.CursorLeft = 0; 
             Printer.CompilationMarker("@Parsing");
             Console.Title = "MASS Compiler: Parsing";
@@ -119,6 +120,7 @@ namespace MultiAgentSystem
 
         private static void Decorate()
         {
+            Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Decorating");
             Console.Title = "MASS Compiler: Decorating";
@@ -140,8 +142,11 @@ namespace MultiAgentSystem
 
         private static void CodeGen()
         {
-            Console.CursorLeft = 0;
-            Printer.CompilationMarker("@Code Generation");
+            Console.WriteLine();
+            Console.CursorLeft = 0; 
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("@Code Generation");
+            Console.WriteLine("--------------------------------------------------");
             Console.Title = "MASS Compiler: Code Generation";
 
             try
@@ -160,6 +165,7 @@ namespace MultiAgentSystem
 
         private static void Completed()
         {
+            Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Compilation has completed");
             Console.Title = "MASS Compiler: Compilation has completed";

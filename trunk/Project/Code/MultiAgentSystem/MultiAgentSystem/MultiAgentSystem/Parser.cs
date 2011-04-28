@@ -167,6 +167,9 @@ namespace MultiAgentSystem
                     }
                     accept(Token.keywords.SEMICOLON);
                     break;
+                case (int)Token.keywords.ACTION_PATTERN:
+                    returnObject = (ActionPattern)parseActionPattern();
+                    break;
                 default:
                     // If no valid command is found, this exception is created:
                     Printer.ErrorMarker();
@@ -180,6 +183,64 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return returnObject;
+        }
+
+        private ActionPattern parseActionPattern()
+        {
+            ActionPattern actionPattern;
+
+            Printer.WriteLine("Action Pattern");
+            Printer.Expand();
+
+            accept(Token.keywords.ACTION_PATTERN);
+            accept(Token.keywords.LPAREN);
+            accept(Token.keywords.RPAREN);
+            actionPattern = new ActionPattern(parseActionBlock());
+
+            Printer.Collapse();
+            return actionPattern;
+        }
+
+        private ActionBlock parseActionBlock()
+        {
+            ActionBlock actionBlock = new ActionBlock();
+
+            Printer.WriteLine("Action Block");
+            Printer.Expand();
+
+            accept(Token.keywords.LBRACKET);
+            // Accept every command in the block, and then accept the right bracket when it's reached.
+            while (currentToken.kind != (int)Token.keywords.RBRACKET && currentToken.kind != (int)Token.keywords.EOT)
+            {
+                string action = (string)parseAction();
+                if (action != null)
+                    actionBlock.commands.Add(action);
+            }
+            if (currentToken.kind != (int)Token.keywords.EOT)
+                acceptIt();
+
+            Printer.Collapse();
+            return actionBlock;
+        }
+
+        private string parseAction()
+        {
+            Printer.WriteLine("Action");
+            Printer.Expand();
+
+            StringBuilder action = new StringBuilder();
+
+            while (currentToken.kind != (int)Token.keywords.SEMICOLON)
+            {
+                action.Append(currentToken.spelling + " ");
+                // Accept any token.
+                acceptIt(); 
+            }
+            // Accept the semicolon
+            acceptIt();
+
+            Printer.Collapse();
+            return action.ToString();
         }
 
         /// <summary>
