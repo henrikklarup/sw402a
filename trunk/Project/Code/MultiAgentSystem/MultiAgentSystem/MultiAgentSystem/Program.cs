@@ -143,10 +143,8 @@ namespace MultiAgentSystem
         private static void CodeGen()
         {
             Console.WriteLine();
-            Console.CursorLeft = 0; 
-            Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine("@Code Generation");
-            Console.WriteLine("--------------------------------------------------");
+            Console.CursorLeft = 0;
+            Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
             try
