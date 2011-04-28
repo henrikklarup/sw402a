@@ -29,10 +29,10 @@ namespace ListToXML
 "\n\t  \\____/ AWESOME                     \n");
             Console.ForegroundColor = ConsoleColor.White;
             //Initializing the Teams, agents, squards and actionpattern
-            Team team = new Team(1, "Team one", "Red");
-            Agent agent = new Agent(1, "Olsen", 2, team);
-            Squad squad = new Squad(1, "first squad", agent);
-            ActionPattern aP = new ActionPattern(1, "first action pattern");
+            Team team = new Team("Team one", "Red");
+            Agent agent = new Agent("Olsen", 2, team);
+            Squad squad = new Squad("first squad", agent);
+            ActionPattern aP = new ActionPattern("first action pattern");
             //Initializing the lists
             teams.Add(team);
             agents.Add(agent);
@@ -49,16 +49,16 @@ namespace ListToXML
             XML.GenerateThisShizzle("MAS", null);
 
             //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\TestXml.xml");
+            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGame.xml");
 
 
             Reader.Mount();
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch("note>item"))
+            foreach (XmlType item in Reader.XmlSearch(""))
             {
-                Console.WriteLine(item.Tag + " @ " + item.Order);
+                Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
             Console.ReadKey();
         }
@@ -112,7 +112,11 @@ namespace ListToXML
                 XMLhelp.Child("Team", Teams.ToString());
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("Name", value.name);
-                XMLhelp.Node("Color", value.color);
+                XMLhelp.LastNode("Color", value.color);
+                XMLhelp.Child("Team", "SomeTeam");
+                XMLhelp.Node("Id", "SomeId");
+                XMLhelp.Node("Name", "SomeId");
+                XMLhelp.LastNode("Color", "SomeColor");
             }
         }
 
