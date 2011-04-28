@@ -173,16 +173,10 @@ namespace MultiAgentSystem
                     break;
                 case '/':
                     ignoreIt();
-                    /* If the next character after the first / 
-                     * the current characters are a part of a single line comment */
-                    if (currentChar == '/')
-                        while (isOneLineComment(currentChar))
-                        {
-                            ignoreIt();
-                        };
                     /* If the next character is * the scanner is reading
                      * a section of commenting */
                     if (currentChar == '*')
+                    {
                         while (isMultiLineComment(currentChar))
                         {
                             if (currentChar == '\n')
@@ -194,7 +188,17 @@ namespace MultiAgentSystem
                                 }
                             }
                             ignoreIt();
-                        };
+                        }
+                    }
+                    /* If the next character after the first / is not *
+                    * the current characters are a part of a single line comment */
+                    else
+                    {
+                        while (isOneLineComment(currentChar))
+                        {
+                            ignoreIt();
+                        }
+                    }
                     break;
                     /* If the current character is \n, change to the next line read
                      * unless the last line of the file has been reached then return
@@ -379,7 +383,15 @@ namespace MultiAgentSystem
         {
             // If looking at a seperator, take the next character and start building a new string
             while (currentChar == ' ' || currentChar == '/' || currentChar == '\n' || currentChar == '\t')
-            {                
+            {
+                if (currentChar == '/')
+                {
+                    char tmpChar = nextSourceChar();
+                    charCounter--;
+                    if (tmpChar != '/')
+                        break;
+                }
+
                 scanSeperator();
                 if (currentKind == (int)Token.keywords.EOT)
                     return new Token(currentKind, "<EOT>", fileCounter, charCounter);
