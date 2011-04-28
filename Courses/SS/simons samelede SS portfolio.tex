@@ -1,0 +1,711 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{\emph{Syntaks og semantik} \\
+Svar på tekstspørgsmål}
+
+
+
+\author{\huge{\textbf{Simon Blaabjerg Frandsen}}}
+\date{Torsdag 28. april 2011, 13:02:57}
+
+\begin{document}
+\maketitle
+\newpage
+
+\section*{Kursusgang 1}
+
+\begin{enumerate}
+\item Lad $A$ og $B$ v\ae{}re m\ae{}ngder. Forklar med egne ord og derefter med en pr\ae{}cis definition hvad $A \times B$ betegner.
+\begin{svar}
+$A \times B$ betegner alle mulige sammens\ae{}tninger mellem elementerne fra m\ae{}ngden A med elementerne fra m\ae{}ngden B.
+Formelt: Hvis A og B er to m\ae{}ngder, s\aa{} er $A \times B$ m\ae{}ngden af alle par, hvoraf det f\o{}rste element tilh\o{}rer A og det andet element tilh\o{}rer B.
+\end{svar}
+\item Forklar med en pr\ae{}cis definition hvad et sprog er.
+\begin{svar}
+Et sprog er en mængde af strenge.
+\end{svar}
+\item Lad $L_{1}$ og $L_{2}$ v\ae{}re sprog over et 
+  alfabet $\Sigma$. Beskriv ved brug af bogens notation
+\begin{enumerate}
+\item Sproget af de strenge som enten er i $L_{1}$ eller $L_{2}$
+\item Sproget af de strenge som b\aa{}de er i $L_{1}$ og $L_{2}$
+\item Sproget af de strenge som best\aa{}r af en streng fra $L_{1}$ efterfulgt
+  af en streng fra $L_{2}$
+\item Sproget af de strenge som best\aa{}r af et antal (evt. $0$) strenge fra
+  $L_{1}$ eller $L_{2}$
+\item $L_{1}$ er et sprog over alfabetet $\Sigma$
+\end{enumerate}
+\begin{svar}
+\begin{enumerate}
+\item L = $L_{1}$ $\cup$ $L_{2}$ 
+\item L = ${L_{1}} \cap {L_{2}}$
+\item L = $L_{1} \times L_{2}$
+\item L = ${L_{1}}^{\ast} \cup {L_{2}}^{\ast}$
+\item $L_{1} \epsilon \Sigma$
+\end{enumerate}
+\end{svar}
+
+\item Forklar med egne ord og derefter med en pr\ae{}cis definition hvordan $\delta: Q \times \Sigma \ra Q$ skal l\ae{}ses.
+\begin{svar}
+Enge ord: $\delta$ er funktionen der beskriver f\o{}lgende: en tilstand Q, kombineret med et element fra alfabetet $\Sigma$, f\o{}rer til en tilstand i Q. Formelt: Overgangsfunktionen $\delta$: M\ae{}ngden af tilstande Q kombineret med m\ae{}ngden $\Sigma$, som er alfabetet, hvilket f\o{}rer til en tilstand i Q.
+\end{svar}
+
+\item Hvad er et regul\ae{}rt sprog? Giv en pr\ae{}cis definition.
+\begin{svar}
+Et sprog er regul\ae{}rt, hvis det genkendes af en endelig automat.
+\end{svar}
+\item Hvad er de regul\ae{}re operationer?
+\begin{svar}
+De regul\ae{}re operationer er: \newline
+Forening: $A \cup B = \{x | x \epsilon A$ eller $x \epsilon B\}$. \newline
+Konkatenation: $A \circ B = \{xy | x \epsilon A$ og $y \epsilon B\}$. \newline
+Kleenestjerne: $A^{\ast} = \{x1,x2...xk | k \geq 0$ og hvert $xi \epsilon A\}$.
+\end{svar}
+\item Er de regul\ae{}re sprog lukket under $\cup$? Hvis ja, forklar hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+Ja. Hvis $A1$ og $A2$ er regul\ae{}re sprog, s\aa{} er  $A1 \circ A2$ ogs\aa{}. Jeg henviser til beviset p\aa{} side 46-47 i bogen.
+\end{svar}
+\end{enumerate}
+
+
+
+\section*{Kursusgang 2}
+
+\begin{enumerate}
+\item En NFA og en DFA er begge defineret som 5-tupler. Hvad er de pr\ae{}cise forskelle p\aa{} en NFA og en DFA?\\
+\begin{svar}
+-- I en NFA kan man have epsilon-transaktioner (tomme transaktioner), og det er muligt at indf\o{}re flere valg af n\ae{}ste-tilstande. I en DFA er der ikke tomme transitioner, og der er netop en valgmulighed, fra en tilstand til en anden, med et givent input.
+\end{svar}
+\item Overf\o{}ringsfunktionen $\delta$ kan beskrives med en tabel. Hvis
+  en NFA ikke har nogen transitioner m\ae{}rket $b$ fra en tilstand $q$,
+  hvordan kommer det da til udtryk i tabellen for $\delta$?\\
+\begin{svar}
+-- Det noteres med $\O{}$.
+\end{svar}
+\item Forklar med egne ord og dern\ae{}st med en pr\ae{}cis definition, hvorn\aa{}r en NFA $M$ accepterer en inputstreng $w$.\\
+\begin{svar}
+-- En NFA accepterer en streng $w$, hvis der findes en f\o{}lge af tilstande, som kan bes\o{}ges ved at l\ae{}se $w$, og som ender i en accepttilstand.
+\end{svar}
+\item Hvad er det vigtige resultat om sammenh\ae{}ngen mellem NFA'er og
+  DFA'er?\\
+\begin{svar}
+-- DFA har tilstande, der er m\ae{}ngder af tilstande, som NFA'en kunne havne i.
+\end{svar}
+\item Hvis $S$ er en m\ae{}ngde af tilstande, hvad betegner $E(S)$ da?
+  Og hvorfor indf\o{}rer bogen i det hele taget denne notation?\\ \ \\\
+	Det passer ikke. $\mathcal{P}(S)$ er potens mængden. $E(S)$ er alle de tilstande der kan nås fra $S$ ved at gå ad et vilkårligt antal $\varepsilon$ kanter/transformation/overføringer også 0.
+\begin{svar}
+-- Da betegner $E(S)$ m\ae{}ngden af alle delm\ae{}ngder af $S$ (potensm\ae{}ngden af $S$).
+\end{svar}
+\item Findes der en systematisk metode til at konvertere en NFA til en
+  DFA, eller er man n\o{}dt til at pr\o{}ve sig frem? Begrund dit svar s\aa{}
+  pr\ae{}cist som muligt og forklar grundideer i metoden, hvis den findes.\\
+\begin{svar}
+-- Ja, der findes en metode. Grundideen i metoden g\aa{}r ud p\aa{}, at man skal lave en DFA som skal simulere NFA'en. (Henviser til side 55-56 i bogen) \\ \ \\
+Nice, evt. uddyb hvis du skal bruge det til eksamen.
+\end{svar}
+\item Er de regul\ae{}re sprog lukket under $\ast$? Hvis ja, forklar pr\ae{}cist
+  hvorfor. Hvis nej, forklar hvorfor ikke.\\
+\begin{svar}
+-- Ja, de regul\ae{}re sprog er lukket under $\ast$. Hvis $L$ er regul\ae{}rt, s\aa{} er $L\ast$ regul\ae{}rt \\ \ \\
+Why, oh why?
+\end{svar}
+\end{enumerate}
+
+
+
+\section*{Kursusgang 3}
+
+Intet bidrag endnu.
+
+\section*{Kursusgang 4}
+
+\begin{enumerate}
+\item Kan man bruge Pumping Lemma for regulære sprog til at vise at et sprog faktisk er regulært? Hvis ja, forklar hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+Ja, et Pumping Lemma for regulære sprog konstaterer at alle regulære sprog har en bestemt egenskab. Hvis denne egenskab ikke er til stede i et givent sprog, så er sproget ikke regulært, dvs. hvis egenskaben er opfyldt, så er det påvist at sproget er regulært.
+\textbf{Nej Pumping Lemma bruges lige netop til at bevise at et sprog ikke er regulært}
+\end{svar}
+\item Hvad er `dueslagsprincippet' \emph{(the pigeonhole principle)}? Forklar præcist og omhyggeligt.
+\begin{svar}
+Dueslagsprincippet går ud på, at hvis man har \textit{n} duer puttet i et dueslag med \textit{m} huller, og \textit{n}$>$\textit{m}, så er der mindst et hul med mere end en due i.\textbf{Enig.}
+\end{svar}
+\item Gælder betingelserne i Pumping Lemma for alle $p$, eller siger Pumping Lemma, at der findes et $p$, så betingelserne gælder? Er der forskel på at sige `Der eksisterer \ldots' og `For alle \ldots' i matematik?
+\begin{svar}
+Pumping Lemma siger, at der findes et $p$ så betingelserne gælder.
+Det er ikke det samme at sige at 'der eksisterer et...' og 'for alle...' i matematik.\textbf{Enig.}
+\end{svar}
+\item I Pumping Lemma optræder tre betingelser. I den første betingelse står der `for alle $i \geq 0$'. Hvorfor er det ikke nok at skrive ´for alle $i > 0$'? Er der tilfælde, hvor man har brug for vide, at betingelsen også gælder for $i = 0$?
+\begin{svar}
+Det antages at sproget som pumpes ikke nødvendigvis er et palindrom, så derfor skal vi også teste $i = 0$ i betingelsen: $(XY^i)Z \epsilon L$.
+\textbf{enig tror jeg. har selv skrevet: Det er ikke nok hvis det var for $i > 0$, da der i visse tilfælde kan være eksempler hvor betingelser gør at det er et regulært sprog hvis $i > 0$, selvom det egentlig ikke er det. Dette kaldes også for en falsk ven.}
+\end{svar}
+\item I Pumping Lemma optræder tre betingelser. Den tredje lyder: $|xy| \leq p$. Hvordan bevises det at denne betingelse gælder? Forklar præcist og omhyggeligt.
+\begin{svar}
+\textbf{har skrevet:Da x og y er forskellige fra hinanden, og at man i en DFA skal læse et symbol for at skifte tilstand, så må $\|XY\| > 0$. Da der er $p$ tilstanden i vores DFA, så kan antallet af besøgte tilstande maksimalt blive $p$ hvis z vælges til at være tom.}
+\end{svar}
+\item I Pumping Lemma optræder tre betingelser. Den anden betingelse virker umiddelbart overflødig. Hvorfor er den vigtig? Hvordan bevises det at den gælder? Forklar præcist og omhyggeligt.
+\begin{svar}
+\textbf{har skrevet: Hvis denne betingelse ikke var med ville man ikke kunne opstille den første betingelse, da det kræver at vi har et $Y$. Hvis y var 0 ville betingelse 1 falde automatisk, eller også ville den automatisk blive accepteret.}
+\end{svar}
+\item Her er et forsøg på at bevise at sproget $L = \{
+  a^{n}b^{n} \mid n \geq 0 \}$ ikke er regul{\ae}rt. Er der noget i
+  vejen med det? Hvis der ikke er problemer, så fortæl hvorfor og hvordan beviset er korrekt. Hvis der er problemer, så angiv fejlene og giv derefter et korrekt bevis.
+\begin{bevis}
+  $L = \{ a^{n}b^{n} \mid n \geq 0 \}$ er ikke regulært. Dette
+  viser vi ved brug af Pumping Lemma. Betragt strengen $aabb \in L$.
+    $y$ skal være de midterste tegn, så  vi vælger delstrengen $y$ til $ab$. Den skal vi kunne
+  gentage. Men ved at gentage $y$ får vi strengen $aababb$, som
+  ikke ligger i $L$.  Modstrid.
+\end{bevis}
+\begin{svar}
+\textbf{Har igen skrevet: Vi starter med tredje betingelse, og denne er ikke opfyldt. Hvis vi kigger på den streng der er opgivet $aabb$, her er der valgt et $n = 2$. Hvis vi så kigger på strengen $XY$ så er delstreng $aab > n$. Derfor har man ikke opdelt strengen korrekt.\\
+\\
+Hvis vi skal lave et korrekt bevis, så vælges delstrengen XY til at være $aa$, hvilket er lig med $p$, som er valgt til 2. Vi kigger nu nærmere på opdelingen af X og Y, hvor $|Y| > 0$, da den er 1. Nu er anden og tredje betingelse opfyldt. Hvis vi kigger på første betingelse, her vælger vi $i = 2$. Når vi gør det, så tilhører strengen ikke længere vores sprog, da der nu er for mange a'er i forhold til b'er.}
+\end{svar}
+\end{enumerate}
+
+
+
+\section*{Kursusgang 5}
+
+\begin{enumerate}
+\item I dagens tekst ser vi to forskellige pile, nemlig $\Ra$ og $\ra$. Hvad er forskellen på dem?
+\begin{svar}
+$\Ra$ betegner derivationer.\\
+$\ra$ betegner regler for derivationer.
+\end{svar}
+\item Hvad er forskellen på et kontekstfrit sprog og en kontekstfri grammatik? Giv en præcis, kort forklaring.
+\begin{svar}
+Ethvert sprog som kan fremkomme ved brug af en kontekstfri grammatik, er et kontekstfrit sprog.
+\end{svar}
+\item I kladden til en lærebog har forfatteren skrevet dette:
+\begin{quote}
+Sproget defineret af en kontekstfri grammatik $G = (V,\Sigma,R,S)$ er givet ved
+\[ L(G) = \setof{w}{S \Ra w} \]
+\end{quote}
+Forklar, hvorfor dette ikke er korrekt og skriv det rigtige svar.
+\begin{svar}
+Reglen $S \ra$ w er skrevet med en forkert pil (jeg har brugt den korrekte).
+\end{svar}
+\item En kontekstfri grammatik kan være tvetydig. Hvordan er dette begreb defineret?
+\begin{svar}
+En streng $w$ er \textit{tvetydigt} deriveret med den kontekstfrie grammatik $G$, hvis den har to eller flere venstre-derivationer. Grammatikken $G$ er tvetydig, hvis det genererer en vilkårlig streng tvetydigt.
+\end{svar}
+\item Hvad siger det vigtige resultat om Chomsky-normalform i dagens tekst? 
+\begin{svar}
+Det siger, at alle kontekstfrie grammatikker kan konverteres til Chomsky-normalform.
+\end{svar}
+\item Gælder det, at en grammatik på Chomsky-normalform ikke er tvetydig? Hvis ja, forklar hvorfor. Hvis nej , find et meget lille modeksempel.
+\begin{svar}
+Nej, en grammatik på Chomsky-normalform kan godt være tvetydig.
+\end{svar}
+\end{enumerate}
+
+\section*{Kursusgang 6}
+
+\begin{enumerate}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at den kan være nondeterministisk?
+\begin{svar}
+Det er kun i nondeterminismen vi kan bruge ${\varepsilon}$.
+\end{svar}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at
+  automaten kan tilføje et element til stakken \emph{(pushe)} ?
+\begin{svar}
+Det ses i overføringsfunktionen.
+\end{svar}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at
+  automaten kan fjerne topelementet af stakken \emph{(poppe)} ?
+\begin{svar}
+Det ses i overføringsfunktion.
+\end{svar}
+\item Præcis hvad har pushdownautomater med kontekstfrie sprog at
+  gøre?
+\begin{svar}
+Et sprog er kontekstsfrit hvis, og kun hvis, en PDA genkender sproget.
+\end{svar}
+\item I dagens tekst indfører vi nogle variabler, vi kalder
+  $A_{pq}$. I hvilken sammenhæng optræder de, og hvad er deres rolle? 
+\begin{svar}
+$A_{pq}$ optræder i forbindelse med beviset for, at hvis en pushdown-automat genkender et sprog, så er det kontekstfrit.
+\end{svar}
+\item Gælder det, at man kan konvertere en nondeterministisk
+  pushdownautomat til en deterministisk? Hvis ja, forklar hvor dette
+  er beskrevet i dagens tekst og opsummer argumentet. Hvis nej,
+  forklar hvor dette er beskrevet i dagens tekst og opsummer argumentet.
+\begin{svar}
+Nej. Argumenteres i bogen med sætningen: nondeterministiske PDA'er genkender visse sprog, hvilke ikke genkendes af deterministiske PDA'er.
+\end{svar}
+\item Findes der regulære sprog, der ikke er kontekstfrie? Hvis ja, så
+  forklar præcis hvorfor. Hvis ikke, så forklar præcis hvorfor.
+\begin{svar}
+Ja, alle regulære sprog er kontekstfrie, da en endelig automat er en PDA uden stack (jvf. side 122 i bogen).
+\end{svar}
+\end{enumerate}
+
+\section*{Kursusgang 7}
+
+\begin{enumerate}
+\item Kan Pumping Lemma bruges til at bevise, at et sprog er kontekstfrit? Hvis ja, så forklar hvordan man bærer sig ad. Hvis nej, så forklar hvorfor dette ikke er muligt.
+\begin{svar}
+Nej, Pumping Lemma kan bruges til at bevise at et sprog IKKE er kontekstfrit.
+\end{svar}
+\item Der dukker et $b$ op i beviset for Pumping Lemma. Hvad betegner $b$, og hvorfor er det vigtigt?
+\begin{svar}
+$b$ betegner det maksimale antal af symboler på højresiden af en regel. $b$ indføres for at kunne finde det maksimale antal børn af en knude i et parsetræ. Vi bruger denne til at bestemme $p=b^{|V|+1}$.
+\end{svar}
+\item I beviset for Pumping Lemma vælges $p$ til $p = b^{|V|} + 1$. Hvad er $|V|$ og hvorfor er det en god idé at vælge $p$ til denne værdi?
+\begin{svar}
+$|V|$ er antallet af variable symboler i $G$. Der er smart fordi en streng af længden $p$ eller derover, vil have et parsetræ som er mindst $|V|+1$ højt.
+\end{svar}
+\item I beviset for Pumping Lemma vælger vi det parsetræ for strengen $s$, som har færrest knuder. Forklar, hvor i beviset dette bliver vigtigt.
+\begin{svar}
+Det bliver vigtigt i beviset af betingelse 2. $v$ og $y$ må ikke være $\epsilon$. Hvis de var $\epsilon$ ville der findes et mindre undertræ som stadig genererede $s$, men det kan ikke eksistere, da vi allerede har valgt parsetræet med færrest knuder.
+\end{svar}
+\item I beviset for Pumping Lemma betragter vi den \emph{nederste} gentagelse af en variabel $R$. Forklar, hvor i beviset dette bliver vigtigt.
+\begin{svar}
+Det bliver vigtigt i beviset af betingelse 3. Undertræet  hvor $R$ genererer $vxy$ er højst $|V|+1$ højt. Et træ af denne højde kan generere en streng med en længde på højst $b^{|V|+1}=p$.
+\end{svar}
+\item Her er et et forsøg på at bevise at sproget $L_1 = \setof{ww}{w \in \set{a,b}^*}$ ikke er kontekstfrit. Hvis beviset er korrekt, så forklar hvorfor. Hvis beviset er forkert, så forklar, præcis hvad der er galt med det.
+%
+  \begin{quote} 
+Hvis $L_1$ er kontekstfrit, er der en $p > 0$ og en $s \in L_1$ så $s$ kan opsplittes, så betingelserne 1-3 i Pumping Lemma er overholdt. Men vi kan vælge $s = a^pb^pa^pb^p$. Det er klart at $s \in L_1$. Opsplitningen $u = \varepsilon$, $v = a$, $x = a^{p-2}$, $y = a$ og $z = b^pa^pb^p$ overholder betingelserne 2 og 3, men $uv^2xy^2z \not\in L_1$. Derfor er $L_1$ ikke kontekstfrit.  
+\end{quote}
+%
+\begin{svar}
+Eftersom man har valgt strengen $s = a^pb^pa^pb^p$ som tilhører $L_1$, så mener jeg ikke at det er tilladt at ændre på potenserne, som der gøres i opsplitningen, så jeg tror at beviset er falsk.
+\end{svar}
+\end{enumerate}
+
+\section*{Kursusgang 8}
+
+\begin{enumerate}
+\item $x R y$ skal læses som `$x$ elsker $y$'. Forklar på almindeligt dansk, hvordan nedenstående logiske udsagn, der bruger kvantorer, skal læses.
+\begin{enumerate}
+\item $\exists x.  x R x$
+\begin{svar}
+Det skal læses: Der eksisterer et $x$, så $x$ elsker $x$. I bogen betyder $R$ at der er en binær relation mellem $x$ og $x$.
+\end{svar}
+\item $\forall x. \exists y. x R y$
+\begin{svar}
+Det skal læses: For alle x, eksisterer der et $y$, så $x$ elsker $y$.
+\end{svar}
+\item $\forall x. \forall y. x R y$
+\begin{svar}
+Det skal læses: For alle $x$ og for alle $y$, eksisterer der et $y$, så $x$ elsker $y$.
+\end{svar}
+\end{enumerate}
+\item Lad $A$ og $B$ være mængder. Hvad betyder notationen $A
+  \ra B$ helt præcist? (`$A$ går over i $B$' er et meget dårligt svar.)
+\begin{svar}
+Denne mængde angiver \textit{funktionsrummet} mellem $A$ og $B$, dvs. mængden af alle funktioner fra $A$ til $B$.
+\end{svar}
+\item Lad $A$ og $B$ være mængder. Hvad betyder notationen $A
+  \rightharpoonup B$ helt præcist?  (`$A$ går over i $B$' er et meget dårligt svar.)
+\begin{svar}
+Denne mængde angiver et \textit{partielt funktionsrum} mellem $A$ og $B$.
+\end{svar}
+\item Herunder er tre sprog-elementer fra {\bf Bims}. Angiv for
+  hvert af dem hvilken {\em syntaktisk kategori} det tilh{\o}rer og
+  hvad dets {\em umiddelbare bestanddele} er:
+\begin{itemize}
+\item $\underline{7} \mbox{\tt +($\underline{3}$*$\underline{5}$)}$
+\begin{svar}
+Dette er et \textit{aritmetisk udtryk}, og jeg ville sige at de umiddelbare bestanddele er $\underline{7}$ og \underline{($3$*$5$)}.
+\end{svar}
+\item $\mbox{\tt while}\; 0=0\; \mbox{\tt do skip}$
+\begin{svar}
+Dette er en kommando, hvor de umiddelbare bestanddele er $0=0$ og $\mbox{\tt skip}$.
+\end{svar}
+\item $\mbox{\tt x}:=4;\mbox{\tt y}:=2$
+\begin{svar}
+Dette er en kommando, hvor de umiddelbare bestanddele er $x:=4$ og $y:=2$.
+\end{svar}
+\end{itemize}
+\item Angiv de forskellige komponenter i et transitionssystem --
+  hvordan de noteres og hvad terminologien for dem er.
+\begin{svar}
+Et transitionssystem er et tripel $(\Gamma \rightarrow T)$, hvor $\Gamma$ er mængden af konfigurationer, $\rightarrow$ er transitionsrelation $\rightarrow \subseteq \Gamma \times \gamma$ og $T$ er slutkonfigurationer.
+\end{svar}
+\item Er transitionsreglen
+\[ \infrule{a_{2} + a_{1} \ra v}{a_{1} + a_{2} \ra v} \]
+kompositionel? Hvis ja, så forklar hvorfor. Hvis nej, så forklar hvorfor ikke.
+\begin{svar}
+Nej, denne regel er ikke kompositionel. Syntakselementer i præmisserne er ikke
+umiddelbare bestanddele af konklusionens syntaksdele.
+\end{svar}
+\item Er transitionsreglen
+\[ \condinfrule{a_{1} \ra v_1 \quad a_{2} \ra v_2}{a_{1} + a_{2} \ra v}{\text{hvor} \quad v = v_1 + v_2} \]
+kompositionel? Hvis ja, så forklar hvorfor. Hvis nej, så forklar hvorfor ikke.
+\begin{svar}
+Ja, fordi præmisserne i reglen kun benytter sig af umiddelbare bestanddele af den sproglige konstruktion.
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 9}
+
+\begin{enumerate}
+\item En studerende blev til en eksamen spurgt, hvad en programtilstand er i bogens kapitel 4. Her er, hvad han svarede:
+\begin{quote}
+\emph{En tilstand er et øjeblikkeligt syn på vores program; der hvor det står. Det er alt hvad vi ved om programmet, skridt, linjenumre osv.}
+\end{quote}
+Hvad er det rigtige, præcise svar ifølge bogen? (Det er en dårlig idé ikke at bruge bogens notation.)
+\begin{svar}
+En tilstand er en partiel funktion $s: Var \rightharpoonup Z$
+\end{svar}
+\item I dagens tekst optræder både $S$ og $s$. Betegner de det samme? Hvad betegner de egentlig?
+\begin{svar}
+$s$ angiver en tilstand og $S$ angiver en kommando.%Store S betegner også statment og dit svar til spørgsmålet vil så være nej går jeg ud fra.
+\end{svar}
+\item Er alle reglerne i big-step-semantikken for \textbf{Bims} kompositionelle? Hvis ja, hvorfor? Hvis nej, hvilke regler er da ikke kompositionelle og hvorfor ikke?
+\begin{svar}
+Nej, ikke alle er kompositionelle.% Hvorfor ikke? uddyb, det har noget at gøre med : $WHILE-TRUE_{BSS}$
+\end{svar}
+\item Hvordan kan vi af big-step-reglerne for $\texttt{while}\;b\; \texttt{do}\;S$ se, at betingelsen $b$ skal evalueres \emph{inden} løkkens krop kan blive udført?
+\begin{svar}
+--% mit svar Fordi man evalurerer ud fra $b$. Det hele afhænger af om $b$ er sand eller falsk og om derefter om $S$ skal udføres. Dvs. at $b$ selfølgelig skal evalueres inden løkken påbegyndes. I sidereglen evalueres b i vores starttilstand s, og herved kan vi se at dette sker inden programtilstanden har ændret sig og S er blevet afviklet.
+\end{svar}
+\item Hvor mange regler er der for $\texttt{while}\;b\; \texttt{do}\;S$ i \emph{small-step-semantikken}?
+\begin{svar}
+-- %1 - evaulering af b
+\end{svar}
+\item Hvordan kan vi af small-step-reglerne for $S_1; S_2$ se, at $S_1$ skal udføres inden $S_2$?
+\begin{svar}
+-- % Som teksten siger skal $S_1$ skal evalueres før $S_2$, det skal den fordi der er et $;$ der adskiller dem og så skal man altid evaluere fra venstre mod højre.
+\end{svar}
+
+\item Hvad er det vigtigste \emph{resultat} i dagens tekst ?
+\begin{svar}
+Ækvivalensresultaterne er vigtige. De viser at vi kan definere to forskellige semantikker som stemmer overens.
+\end{svar}
+\item Hvorfor er induktion i transitionsfølgers længde ikke noget 
+særlig nyttigt bevisprincip for vor big-step-semantik?
+\begin{svar}
+--%Her er det svar som jeg fik fra min reviewer :-/ Fordi i en big-step semantik vil transitionen altid ske i et step, ergo vil det ikke være muligt at lave beviser for big-step semantik, da beviset ikke vil kunne laves til fulde.
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 10}
+
+\begin{enumerate}
+\item Hvordan kan man af big-step-reglerne for repeat-løkker se, at
+  betingelsen skal evalueres \emph{efter} hvert gennemløb af løkkens
+  krop? Vær så præcis som muligt; brug bogens notation.
+\begin{svar}
+Den skal udføre kommandoen $S$ indtil betingelsen $b$ evaluerer til sand. Det ses ud fra reglerne, at udtrykket, uanset om det er $\texttt{[REPEAT-FALSK]}$ eller $\texttt{[REPEAT-SAND]}$, resulterer i $s \rightarrow s'$. (se side 64)
+\end{svar}
+\item Hvad har Sætning 5.2 med semantisk ækvivalens at gøre? Vær så
+  præcis som muligt i dit svar; brug bogens notation.
+\begin{svar}
+Sætningen siger, at $\langle\texttt{repeat}  S  \texttt{until}  b, s\rangle \rightarrow s'$ gælder, hvis $\langle S; \texttt{while}  \neg  b  \texttt{do}  S, s\rangle \rightarrow s'$ gælder. Dvs. de to udtryk er semantisk ækvivalente når de, givet den samme start-tilstand, returnerer den samme slut-tilstand.
+\end{svar}
+\item I beviset for Sætning 5.2 benytter vi, at $s \vdash b \ra t \!
+  t$ hvis og kun hvis $s \vdash b \ra f \! f$. Hvordan kan vi se, at
+  dette gælder? Giv et præcist svar.
+\begin{svar}
+
+--
+
+\end{svar}
+\item En studerende blev til eksamen bedt om at definere big-step semantisk
+  ækvivalens. Her er hvad han sagde:
+\begin{quote}
+  $S_1$ og $S_2$ er big-step semantisk ækvivalente, hvis der findes en
+  $s$ så $\langle S_1,s \rangle \ra s'$ og $\langle S_2,s \rangle \ra
+  s'$
+\end{quote}
+Er dette et korrekt svar? Hvis ja, så forklar hvorfor. Hvis nej, så giv
+det rigtige og præcise svar. Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Ja, det er korrekt. jvf bogen side 67, så er to kommandoer $S1$ og $S2$ semantisk ækvivalente hvis de, givet den samme starttilstand, returnerer den samme sluttilstand.
+\end{svar}
+\item En anden studerende blev til eksamen bedt om at definere big-step semantisk
+  ækvivalens. Her er hvad han sagde:
+\begin{quote}
+  Big-step semantisk ækvivalens er defineret ved at 
+\begin{itemize}
+\item $S_1 \sim_{bss}
+  S_1$, 
+\item hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_1$, og
+\item hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_3$, så også $S_1 \sim_{bss}   S_3$, og
+\end{itemize}
+\end{quote}
+Er dette definitionen af semantisk ækvivalens? Hvis ja, så forklar
+hvorfor. Hvis nej, så forklar hvorfor ikke, og hvad det så er, han har
+prøvet at udtrykke. Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+
+Nej, det ser ikke ud til at være den korrekte definition på semantisk ækvivalens. Man kan ikke starte med at sige at $S_1 \sim_{bss} S_1$, eller det kan man godt, men det giver ingen mening at sige at en kommando er semantisk ækvivalent med sig selv, hvis hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_1$, osv.
+
+\end{svar}
+\item Hvor mange transitionsregler er der for
+  \texttt{abort}-kommandoen i big-step-semantikken? Og i
+  small-step-semantikken? Hvorfor?
+\begin{svar}
+Der er ingen transitionsregler for \texttt{abort} i nogen af dem, da der pr. definition kun er en transition, hvis vi kan finde et derivationstræ for den, ved brug af vores transitionsregler.
+\end{svar}
+\item Hvorfor gælder det at $\texttt{while}\; \texttt{0=0}\; \texttt{do}\; \texttt{skip}
+\sim_{sss} \texttt{abort}$? Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Der er semantisk ækvivalens mellem uendelige løkker og abnorm terminering.
+\end{svar}
+\item Hvad er forskellen på god \emph{(angelic)} og ond
+  \emph{(demonic)} nondeterminisme? Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Big-step-semantik undertrykker uendelige løkker, dvs. uheldige valg giver ikke anledning til nogen transitioner. Dette kan man kalde \textit{god nondeterminisme}.\\
+Modsat er det i small-step-semantik, hvor uendelige løkker ikke undertrykkes, dvs. der dannes en uendelig transitionsfølge hvis man træffer et uheldigt valg (s. 72-73).
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 11}
+
+\begin{enumerate}
+\item Hvad betegner $env_{V}$ i dagens tekst ?
+\begin{svar}
+Et vilkårligt element i $\textbf{EnvV}$.
+\end{svar}
+\item Hvad betegner $\textbf{EnvV}$ i dagens tekst ?
+\begin{svar}
+Dette betegner mængden af variabelenvironments som er mængden af partielle funktioner fra variabler til lokationer.
+\end{svar}
+\item I dagens tekst optræder både $\mathrm{next}$ og $\mathrm{new}$. Hvad er de, og hvordan er de defineret?
+\begin{svar}
+$\mathrm{next}$ giver den næste ledige lokation. Hvis man kalder $\mathrm{new}$ til en lokation, så returneres den næste lokation, fri eller ej.
+\end{svar}
+\item Forklar ved brug af environment-store-modellen indholdet af transitionsreglen
+
+\begin{tabular*}{0.9\textwidth}{lc}
+\hline \\
+$[\mbox{var-bip}_{\mbox{bss}}]$ & $env_{V},sto \vdash x \ra_a v \;\;\;\; \mbox{hvis} \;\;\;\;
+env_{V} \; x = l$ og $sto \; l = v$ \\
+& \\
+\hline
+\end{tabular*}
+\begin{svar}
+--
+\end{svar}
+\item Præcis eet af nedenstående udsagn om big-step-semantikkerne i
+  dagens tekst er korrekt. Hvilket er korrekt og hvorfor? Forklar,
+  hvorfor netop dette udsagn bør være sandt for \textbf{Bip}.
+\begin{itemize}
+\item Udførelse af en kommando $S$ kan ændre både variabel-environment og store
+\item Udførelse af en kommando $S$ kan ændre variabel-environment
+\item Udførelse af en kommando $S$ kan ændre store
+\end{itemize}
+\begin{svar}
+Udførelse af en kommando $S$ kan ændre store (se s. 84).
+\end{svar}
+\item Definer $\textbf{EnvP}$ i tilfældet hvor vi antager dynamiske
+  scoperegler for variable og statiske scoperegler for
+  procedurer. Forklar, hvordan vi af definitionen af $\textbf{EnvP}$ kan se, at der er
+  tale om netop disse scoperegler.
+\begin{svar}
+$\textbf{EnvP} = \textbf{Pnames} \rightharpoonup \textbf{Stm} \times \textbf{EnvP}$.\\
+$\textbf{EnvP}$ er mængden af partielle funktioner der givet en procedure, giver procedurens krop og de procedurebindinger der var på $p$'s erklæringstidspunkt. Det betyder at udførelsen af en procedure $p$ bruger variabelbindingerne på kaldstidspunktet, men med procedurebindingerne på $p$'s erklæringstidspunkt.
+\end{svar}
+\item Her er en big-step-transitionsregel. Forklar
+ hvilken kombination af scoperegler den udtrykker.
+
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{call-1} & \infrule{env_{V},env'_{P} \vdash \lag S,sto 
+                \rag \ra sto'}{env_{V},env_{P} \vdash \lag \mbox{\tt call}\; p,sto 
+                \rag \ra sto'} \\
+                & $\mbox{hvor}\; env_{P}p = (S,env'_{P})$ \\
+& \\
+                \hline
+        \end{tabular}
+\begin{svar}
+Den udtrykker \textit{dynamisk binding af variabler og statisk binding af procedurer}.
+\end{svar}
+\item Betragt tilfældet, hvor vi antager dynamiske scoperegler for
+  variabler og procedurer, og antag at der i en procedure $p$ med krop
+  $S$ ikke også findes en lokal procedure med samme navn. Forklar,
+  hvorfor alle kald af $p$ i kroppen $S$ da vil være rekursive.
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+
+\textbf{Reviewer:} Dav, dine svar er så vidt jeg kan se rigtige, men nogle er lidt korte, så i en eksamens situation kunne de nok godt være til mere hjælp. F.eks. "(se s. 84)" hjælper ikke så meget når man ikke må bruge bogen. På den anden side skal du vist ikke til eksamen, så det er op til dig om du vil udvidde det :P
+
+
+\section*{Kursusgang 12}
+
+\begin{enumerate}
+\item Mange steder i dagens tekst dukker der noget op, der betegnes $l$. Hvad er det?
+\begin{svar}
+$l$ er en lokation, nemlig den næste nye lokation.
+%Jeg har skrevet: l betegner en lokation i enviroment-store-modellen.
+\end{svar}
+\item Hvilke scoperegler antager vi i dagens tekst?
+\begin{svar}
+Vi antager helt statiske scope-regler.
+\end{svar}
+\item Forklar den præcise betydning af ligningen
+\[ \textbf{EnvP} = \textbf{Pnames} \rightharpoonup \textbf{Stm} \times \textbf{Var} \times \textbf{EnvV} \times \textbf{EnvP} \]
+(Et dårligt svar er et svar i stil med: `\textbf{EnvP} går over i en statement, en variabel og \ldots'). Hvad har denne ligning med scoperegler at gøre? Hvad har ligningen med parametermekanismer at gøre? Begrund dine svar så præcist som muligt.
+\begin{svar}
+Kort sagt udtrykker denne definition af \textbf{EnvP} at vi kun skal huske navnet på den formelle parameter.
+\end{svar}
+\item Hvorfor er kald af $p$ inde i kroppen af $p$ ikke automatisk rekursive kald i f.eks. $[\textsc{Call-R}_{\textsc{BSS}}]$? Har det noget med scoperegler at gøre? Har det noget med parametermekanismer at gøre? Begrund dine svar så præcist som muligt.
+\begin{svar}
+Arh, ved jeg ikke. Det kunne være noget med både scoperegler og parametermekanismer at gøre.
+%Det er noget med at der i env'p ikke er erklæret de samme bindinger. Så der skal sættes en sidebetingelse der siger $env''_{p} = env_{p}[p \mapsto (S, x, env'_{v}, env'_{p})]$.
+\end{svar}
+\item Hvordan kan vi se, at call-by-reference ændrer på værdien af den aktuelle parameter, når den formelle parameter ændrer værdi?
+\begin{svar}
+Det kan vi se ud af definitionen: \textit{den formelle parameter er en reference til den aktuelle parameters adresse}. Dvs. når den aktuelle parameter ændres, så må den formelle parameter også ændre værdi, for fortsat at kunne referere til den aktuelle parameter.
+%Det står også i sidebetingelsen til [CALL-R_{BSS}].
+\end{svar}
+\item Er der forskelle på hvordan den aktuelle parameter ser ud i call-by-reference og i call-by-value? Hvor og hvordan kan vi se dette i den abstrakte syntaks?
+\begin{svar}
+%Det kan ses i S og DP i den abstrakte syntaks. CBR er det en variabel og i CBV er det et aritmetisk udtryk.
+\end{svar}
+\item Hvad betyder den underlige notation $S[x \mapsto a]$, som dukker op i afsnit 7.5? Har det noget med environments at gøre? Hvis nej, hvad betegner denne notation så?
+\begin{svar}
+Den har noget med variabelenvironment at gøre. Den siger at i en statement $S$ er der en lokal variabel $x$ som er tilknyttet værdien $a$.
+%Det er syntaktisk substitution og har ikke noget med enviroments at gøre fortæller bogen mig.
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 13}
+
+\begin{enumerate}
+\item Hvad betyder det, at parallelle komponenter i sproget i afsnit 8.1 skal være \emph{variabel-uafhængige}? Og hvorfor er det en god idé at have denne antagelse?
+\begin{svar}
+Dvs. at parallelle komponenter ikke har nogen fælles variabler.
+\end{svar}
+\item Hvad skal kommandoerne $c?x$ og $c!a$ bruges til?
+\begin{svar}
+$c!a$ sender værdien $a$ på kanalen $c$, og $c?x$ modtager, og binder $x$ til værdien $a$.
+\end{svar}
+\item Hvorfor indfører vi mærkede transitionssystemer? Hvordan er de defineret? Og hvad er forskellen fra de transitionssystemer, vi tidligere har set?
+\begin{svar}
+--
+\end{svar}
+\item Hvad er forskellen på asynkron og synkron kommunikation?
+\begin{svar}
+I asynkron kommunikation bliver en sendt besked gemt i et medium, hvor en eventuel modtager senere kan hente den. Synkron kommunikation går selvfølgelig ud på det modsatte, nemlig at der modtages i det øjeblik der sendes.
+\end{svar}
+\item Hvorfor er det nødvendigt at skrive $\textsf{remove}(c,\mathsf{m})$ i konfigurationen på højre side af reglen $\textsc{Input}_{\textsc{L-Sss}}$?
+\begin{svar}
+Den fjerner værdien fra mediet, efter den er blevet hentet af modtageren. Det er nødvendigt for at sikre at modtageren ikke henter den samme værdi to gange.
+\end{svar}
+\item Hvor er begrebet en \emph{ækvivalensrelation} defineret i bogen? (Det er ikke i dagens tekst!) Hvordan ser definitionen ud?
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 14}
+
+\begin{enumerate}
+\item Hvad er basistyperne i dagens tekst?
+\begin{svar}
+--
+\end{svar}
+\item Hvilken type har et procedurenavn $p$? 
+\begin{svar}
+--
+\end{svar}
+\item Hvad er det, et typeenvironment indeholder oplysninger om? Hvordan er det defineret?
+\begin{svar}
+Et typeenvironment fortæller for enhver variabel, hvilken type den har. Et typeenvironment er en partiel funktion $E:$ \textbf{Var} $\cup$ \textbf{Pnavne} $\rightharpoonup$ \textbf{Typer}.
+\end{svar}
+\item Er der typeregler, der direkte gør brug af typeenvironmentet? Hvis ja, hvad hedder de da?
+\begin{svar}
+--
+\end{svar}
+\item I dagens tekst dukker notationen \[ env_V, env_P \vdash_{E} \langle S,sto \rangle \ra \textsf{wrong} \]
+op. Forklar, hvad den betyder.
+\begin{svar}
+--
+\end{svar}
+\item Hvad er det væsentligste resultat i dagens tekst, og hvad siger det helt præcist? (Og vær nu helt præcis, tak.)
+\begin{svar}
+--
+\end{svar}
+\item Hvad betegner funktionen $\mathbf{set}(T)$?
+\begin{svar}
+--
+\end{svar}
+\item Hvad menes der med at et typesystem har \emph{slack}?
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+
+
+\section*{Kursusgang 15}
+
+\begin{enumerate}
+\item Forklar på ikke under 5 linjer og ikke over 10 linjer, hvad fikspunkter og rekursion
+  har med hinanden at gøre.
+\begin{svar}
+--
+\end{svar}
+\item Giv tre forskellige eksempler på partielle ordninger
+  (po'er). Højst ét af dem må have med tal at gøre.
+\begin{svar}
+--
+\end{svar}
+\item En studerende blev ved eksamen bedt om at definere, hvad en cpo
+  er. Her er, hvad han svarede:
+\begin{quote}
+\emph{En cpo er det samme som en voksende følge, og den har en grænseværdi.}
+\end{quote}
+Var det et godt svar? Hvorfor ikke? Hvad burde han havde svaret?
+\begin{svar}
+Til dels. Bedre: En cpo, er en po hvor enhver voksende følge Y
+har en mindste øvre grænse indenfor D. Denne kaldes \textit{lim} Y .
+\end{svar}
+\item Er mængden af naturlige tal $\Nat$ ordnet mht. $\leq$ en cpo?
+  Hvorfor/hvorfor ikke?
+\begin{svar}
+--
+\end{svar}
+\item En anden studerende blev ved eksamen bedt om at definere, hvad
+  en kontinuert funktion er. Her er, hvad han svarede:
+\begin{quote}
+\emph{En kontinuert funktion er en, der ligesom er helt glat. Den har
+  ingen huller i sin graf.}
+\end{quote}
+Var det et godt svar? Hvorfor ikke? Hvad burde han havde svaret?
+\begin{svar}
+Nej, en kontinuert funktion er monoton og for enhver voksende følge Y
+\end{svar}
+
+\item Hvad er et fikspunkt?
+\begin{svar}
+--
+\end{svar}
+\item Giv et simpelt eksempel på en funktion, der har et fikspunkt, og
+  på et fikspunkt for denne funktion.
+\begin{svar}
+cos har fikspunkter.
+\end{svar}
+\item Hvad er det vigtigste resultat i dagens tekst? Hvorfor er det
+  vigtigt?
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+
+
+\end{document}
