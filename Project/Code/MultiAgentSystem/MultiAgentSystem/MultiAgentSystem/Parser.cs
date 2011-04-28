@@ -63,9 +63,12 @@ namespace MultiAgentSystem
 
             accept(Token.keywords.MAIN);
             accept(Token.keywords.LPAREN);
+            Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
             main = new Mainblock(parseBlock());
             accept(Token.keywords.EOT);
+
+            main.input = input;
 
             Printer.Collapse();
             return main;
