@@ -22,6 +22,7 @@ namespace MultiAgentSystem
     {
         //The block part of the mainblock
         public Block block;
+        public Input input;
 
         public Mainblock(AST C)
         {

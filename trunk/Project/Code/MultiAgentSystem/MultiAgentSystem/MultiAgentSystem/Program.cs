@@ -147,9 +147,12 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
+            Visitor visitor = new Visitor();
+
             try
             {
                 Console.WriteLine("Not yet implemented!");
+                //visitor.visitAST(newAst, 1);
             }
             catch (GrammarException g)
             {
