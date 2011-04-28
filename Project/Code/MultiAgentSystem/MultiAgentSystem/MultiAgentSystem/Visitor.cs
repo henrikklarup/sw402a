@@ -682,5 +682,37 @@ namespace MultiAgentSystem
             Printer.Collapse();
             return null;
         }
+
+        internal object visitActionBlock(ActionBlock actionBlock, object arg)
+        {
+
+            Printer.WriteLine("Action Block");
+            Printer.Expand();
+
+            // Everytime a block is visited the block opens 
+            // a new scope in the identification table.
+            IdentificationTable.openScope();
+            foreach (string action in actionBlock.commands)
+            {
+                Printer.WriteLine(action);
+            }
+            // When all commands in the block have been visited
+            // the scope is closed in the identification table.
+            IdentificationTable.closeScope();
+            
+            Printer.Collapse();
+            return null;
+        }
+
+        internal object visitActionPattern(ActionPattern actionPattern, object arg)
+        {
+            Printer.WriteLine("Action Pattern");
+            Printer.Expand();
+
+            actionPattern.actionBlock.visit(this, arg);
+
+            Printer.Collapse();
+            return null;
+        }
     }
 }

@@ -187,6 +187,36 @@ namespace MultiAgentSystem
             return v.visitWhileCommand(this, arg);
         }
     }
+    
+    class ActionBlock : AST
+    {
+
+        // All Commands contained in the block.
+        public List<string> commands;
+
+        public ActionBlock()
+        { commands = new List<string>(); }
+
+        public override object visit(Visitor v, object arg)
+        {
+ 	        return v.visitActionBlock(this, arg);
+        }
+    }
+
+    class ActionPattern : Command
+    {
+        public ActionBlock actionBlock;
+
+        public ActionPattern(ActionBlock actionBlock)
+        {
+            this.actionBlock = actionBlock;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitActionPattern(this, arg);
+        }
+    }
 
     // Identifier.(NextMethodIdentifier.Identifier).(etc.) (recursive, continues in each MethodIdentifier object)
     class MethodIdentifier : Terminal
