@@ -515,15 +515,13 @@ namespace MultiAgentSystem
 
             if (input.firstVar != null)
             {
+                firstVar = (Token)input.firstVar.visit(this, arg);
+
                 if (TypeDeclaration.ReferenceEquals(input.firstVar.GetType(),
                 new TypeDeclaration().GetType()))
                 {
                     TypeDeclaration typeD = (TypeDeclaration)input.firstVar;
                     firstVar = typeD.VarName.token;
-                }
-                else
-                {
-                    firstVar = (Token)input.firstVar.visit(this, arg);
                 }
 
                 if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
