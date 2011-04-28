@@ -38,7 +38,7 @@ namespace ListToXML
             teams.Add(team1);
             teams.Add(team2);
             agents.Add(agent);
-            squads.Add(squad);
+            squads.Add(squad); 
             actionPatterns.Add(aP);
 
             //XMLhelp.Generate(agents, teams, squads, actionPatterns);
