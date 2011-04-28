@@ -1,4 +1,172 @@
 \section{Full Implemented Grammar}
 \label{ap:fullgrammar}
 
-%vi skal have alt der står i "grammatik" på google-docs ind her...
+\subsection{BNF - Initialize}
+
+Imperative:\\
+
+type ::= num | string | bool
+identifier ::= letter | identifier letter | identifier digit
+letter ::= a | A | b | B | c | C | d | D | e | E | f | F | g | G | h | H | i | I | j | J | k | K | l | L | m | M | n | N | o | O | p | P | q | Q | r | R | s | S | t | T | u | U | v | V | w | W | x | X | z | Z
+token ::= = | num | string | bool | ; | new | . | Team | Agent | Squad | actionPattern | Coordinates  | ( | ) | , | { | } | void | if | while | for | true | false | Main | + | - | / | * | < | > | <= | >= | == | else
+
+actual-string ::= “ chars “
+chars ::= char | char chars
+char ::= Any unicode
+boolean ::= true | false
+number ::= digits | digits.digits
+digits ::= digit | digit digits
+digit ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
+object ::= Team | Agent | Coordinates | Squad
+operator ::= + | - | / | * | < | > | <= | >= | ==
+becomes ::= =
+
+variable ::= number | actual-string | boolean
+
+mainblock ::= Main ( ) block
+block ::= { commands }
+
+commands ::= command ; | command ; commands 
+command ::= declaration | method-call | if-command | while-command | for-command | assign-command
+
+assign-command ::= identifier becomes  variable | identifier becomes expression
+
+while-command ::= while ( expression ) block
+if-command ::= if ( expression ) block | if ( expression ) block else block
+for-command ::= for ( type-declaration ; expression ; expression ) block
+
+expression ::= parent-expression | numeric-expression
+parent-expression ::= ( numeric-expression )
+numeric-expression ::= primary-expression operator primary-expression | 
+primary-expression operator-expression | 
+parent-expression operator primary-expression | 
+parent-expression operator expression
+primary-expression ::= number | identifier | boolean
+
+declaration ::= object-declaration | type-declaration
+object-declaration ::= new object identifier ( input ) 
+type-declaration ::= type identifier becomes type
+
+method-call ::= identifier ( input ) | identifier . method-call
+input ::= variable | identifier | input, variable | input, identifier | 
+
+comment ::= // Any unicode eol | /* Any uni-code */
+
+actionPattern-declaration ::= actionPattern identifier action-block
+action-block ::= { action }
+action ::= actual-string eol
+
+
+\subsection{Starters}
+
+starters[[letter]] ::= a | A | b | B | c | C | d | D | e | E | f | F | g | G | h | H | i | I | j | J | k | K | l | L | m | M | n | N | o | O | p | P | q | Q | r | R | s | S | t | T | u | U | v | V | w | W | x | X | z | Z
+starters[[type]] ::= n | N | s | S | b | B
+starters[[identifier]] ::= starters[[letter]]
+starters[[token]] ::= starters[[type]]| ; | . | , | starters[[object]] | ( | ) | { | } | v | V | i | I | f | F | m | M | 		starters[[operator]]
+
+starters[[string]] ::= “
+starters[[chars]] ::= starters[[char]]
+starters[[char]] ::= any unicode
+starters[[bool]] ::= t | T | f | F
+starters[[num]] ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+starters[[digit]] ::= starters[[num]]
+starters[[digits]] ::= starters[[num]]
+
+starters[[object]] ::= t | T | a | A | c | C | s | S
+
+starters[[operator]] ::= + | - | / | * | < | > | =
+
+starters[[object-declaration]] ::= n | N
+starters[[type-declaration]] ::= starters[[type]]
+starters[[actionPattern-declaration]] ::= a | A
+
+starters[[input]] ::= starters[[letter]] | starters[[num]] | 
+
+starters[[method-call]] ::= starters[[letter]]
+
+starters[[while-command]] ::= w | W
+starters[[if-command]] ::= i | I
+starters[[for-command]] ::= f | F
+
+starters[[expression]] ::= starters[[primary-expression]]
+starters[[primary-expression]] ::= starters[[letter]]
+starters[[single-command]] ::= starters[[while-command]] | starters[[if-command]] | 
+starters[[for-command]]
+starters[[command]] ::= starters[[letter]] | starters[[block]] | starters[[num]]
+starters[[commands]] ::= starters[[command]]
+starters[[block]] ::= {
+starters[[mainblock]] ::= m | M
+
+starters[[comment]] ::= /
+
+
+\subsection{EBNF - Initialize}
+\label{ap:ebnf}
+
+type ::= num | string | bool
+identifier ::= letter (letter | digit)*
+letter ::= a | A | b | B | c | C | d | D | e | E | f | F | g | G | h | H | i | I | j | J | k | K | l | L | m | M | n | N | o | O | p | P | q | Q | r | R | s | S | t | T | u | U | v | V | w | W | x | X | z | Z
+token ::= = | num | string | bool | ; | new | . | Team | Agent | Squad | actionPattern | Coordinates  | ( | ) | , | { | } | void | if | while | for | true | false | Main | + | - | / | * | < | > | <= | >= | == | else
+
+actual-string ::= “ chars “
+chars ::= char (char)*
+char ::= Any unicode
+boolean ::= true | false
+number ::= digits | digits.digits
+digits ::= digit (digit)*
+digit ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
+object ::= Team | Agent | Coordinates | Squad
+becomes ::= =
+operator ::= + | - | / | * | < (=)+ | > (=)+ | = (=)+
+variable ::= number | actual-string | boolean
+
+mainblock ::= Main ( ) block
+block ::= { commands }
+
+commands ::= (command ;)*
+command ::= declaration | method-call | if-command | while-command | for-command | assign-command
+
+assign-command ::= identifier becomes  (variable | expression)
+
+while-command ::= while ( expression ) block
+if-command ::= if ( expression ) block (else block)+
+for-command ::= for ( type-declaration ; expression ; expression ) block
+
+expression ::= parent-expression | numeric-expression
+parent-expression ::= ( numeric-expression )
+numeric-expression ::= 
+(primary-expression | parent-expression)+ operator (primary-expression | expression)+
+primary-expression ::= number | identifier | boolean
+
+declaration ::= object-declaration | type-declaration
+object-declaration ::= new object identifier ( input ) 
+type-declaration ::= type identifier becomes (variable | expression)
+
+method-call ::= (identifier .)* identifier ( input )
+input ::= (variable | identifier (, variable | , identifier)* )+
+
+comment ::= // Any unicode eol | /* Any uni-code */
+
+actionPattern-declaration ::= actionPattern identifier action-block
+action-block ::= { action }
+action ::= actual-string eol
+
+
+\subsection{Action Grammar}
+
+Declarative:\\
+
+action ::= single-action EOL
+identifier ::= Agent ID | Agent Name
+Agent ID ::= num
+single-action ::= identifier move-action
+
+move-action ::= MOVE( move-option )
+move-option ::= UP | DOWN | LEFT | RIGHT | HOLD
+coordinate ::= num , num
+
+num ::= digits | digits.digits
+digits ::= digit | digit digits
+digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+token ::= IDENTIFIER | MOVE | HOLD | UP | DOWN | LEFT | RIGHT | ( | ) | EOL
