@@ -58,11 +58,30 @@ namespace ListToXML
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch(""))
+            foreach (XmlType item in Reader.XmlSearch("MAS>Teams>Team"))
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
             Console.ReadKey();
+            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
+            {
+
+            }
+
+            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
+            {
+
+            }
+
+            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
+            {
+
+            }
+
+            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
+            {
+
+            }
         }
 
         //Generate XML for each list
