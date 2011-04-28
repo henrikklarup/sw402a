@@ -7,24 +7,27 @@ namespace MAS
 {
     public class ActionPattern
     {
+        private static int IDcount = 0;
         public int ID;
         public string[] actions;
 
         public ActionPattern()
         { }
 
-        public ActionPattern(int ID, string[] actions)
+        public ActionPattern(string[] actions)
         {
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.actions = actions;
         }
 
-        public ActionPattern(int ID, string action)
+        public ActionPattern(string action)
         {
             string[] actionString = new string[1];
             actionString[0] = action;
 
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.actions = actionString;
         }
     }

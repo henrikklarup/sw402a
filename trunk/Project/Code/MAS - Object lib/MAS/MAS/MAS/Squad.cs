@@ -7,6 +7,7 @@ namespace MAS
 {
     public class Squad
     {
+        private static int IDcount = 0;
         public int ID;
         public string name;
         public int[] agents;
@@ -14,9 +15,10 @@ namespace MAS
         public Squad()
         { }
 
-        public Squad(int ID, string name, List<Agent> agents)
+        public Squad(string name, List<Agent> agents)
         {
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.name = name;
 
             int i = 0;
@@ -27,12 +29,13 @@ namespace MAS
             }
         }
 
-        public Squad(int ID, string name, Agent agent)
+        public Squad(string name, Agent agent)
         {
             int[] agentArray = new int[1];
             agentArray[0] = agent.ID;
 
-            this.ID = ID;
+            IDcount++;
+            this.ID = IDcount;
             this.name = name;
             this.agents = agentArray;
         }
