@@ -5,19 +5,19 @@
 
 Imperative:\\
 \\
-type ::= num | string | bool\\
+type ::= \textit{num} | \textit{string} | \textit{bool}\\
 identifier ::= letter | identifier letter | identifier digit\\
 letter ::= a | A | b | B | c | C | d | D | e | E | f | F | g | G | h | H | i | I | j | J | k | K | l | L | m | M | n | N | o | O | p | P | q | Q | r | R | s | S | t | T | u | U | v | V | w | W | x | X | z | Z\\
-token ::= = | num | string | bool | ; | new | . | Team | Agent | Squad | actionPattern | Coordinates  | ( | ) | , | { | } | void | if | while | for | true | false | Main | + | - | / | * | < | > | <= | >= | == | else\\
+token ::= = | \textit{num} | \textit{string} | \textit{bool} | ; | \textit{new} | . | \textit{Team} | \textit{Agent} | \textit{Squad} | \textit{actionPattern} | \textit{Coordinates}  | ( | ) | , | { | } | \textit{void} | \textit{if} | \textit{while} | \textit{for} | \textit{true} | \textit{false} | \textit{Main} | + | - | / | * | < | > | <= | >= | == | \textit{else}\\
 \\
 actual-string ::= "chars"\\
 chars ::= char | char chars\\
 char ::= Any unicode\\
-boolean ::= true | false\\
+boolean ::= \textit{true} | \textit{false}\\
 number ::= digits | digits.digits\\
 digits ::= digit | digit digits\\
 digit ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0\\
-object ::= Team | Agent | Coordinates | Squad\\
+object ::= \textit{Team} | \textit{Agent} | \textit{Coordinates} | \textit{Squad}\\
 operator ::= + | - | / | * | < | > | <= | >= | ==\\
 becomes ::= =\\
 \\
@@ -31,9 +31,9 @@ command ::= declaration | method-call | if-command | while-command | for-command
 \\
 assign-command ::= identifier becomes  variable | identifier becomes expression\\
 \\
-while-command ::= while ( expression ) block\\
-if-command ::= if ( expression ) block | if ( expression ) block else block\\
-for-command ::= for ( type-declaration ; expression ; expression ) block\\
+while-command ::= \textit{while} ( expression ) block\\
+if-command ::= \textit{if} ( expression ) block | \textit{if} ( expression ) block \textit{else} block\\
+for-command ::= \textit{for} ( type-declaration ; expression ; expression ) block\\
 \\
 expression ::= parent-expression | numeric-expression\\
 parent-expression ::= ( numeric-expression )\\
@@ -41,7 +41,7 @@ numeric-expression ::= primary-expression operator primary-expression | primary-
 primary-expression ::= number | identifier | boolean\\
 \\
 declaration ::= object-declaration | type-declaration\\
-object-declaration ::= new object identifier ( input ) \\
+object-declaration ::= \textit{new} object identifier ( input ) \\
 type-declaration ::= type identifier becomes type\\
 \\
 method-call ::= identifier ( input ) | identifier . method-call\\
@@ -49,7 +49,7 @@ input ::= variable | identifier | input, variable | input, identifier | $\vareps
 \\
 comment ::= // Any unicode eol | /* Any uni-code */\\
 \\
-actionPattern-declaration ::= actionPattern identifier action-block\\
+actionPattern-declaration ::= \textit{actionPattern} identifier action-block\\
 action-block ::= { action }\\
 action ::= actual-string eol
 
@@ -99,19 +99,19 @@ starters[[comment]] ::= /
 \subsection{EBNF - Initialize}
 \label{ap:ebnf}
 
-type ::= num | string | bool \\
+type ::= \textit{num} | \textit{string} | \textit{bool} \\
 identifier ::= letter (letter | digit)* \
 letter ::= a | A | b | B | c | C | d | D | e | E | f | F | g | G | h | H | i | I | j | J | k | K | l | L | m | M | n | N | o | O | p | P | q | Q | r | R | s | S | t | T | u | U | v | V | w | W | x | X | z | Z \\
-token ::= = | num | string | bool | ; | new | . | Team | Agent | Squad | actionPattern | Coordinates  | ( | ) | , | { | } | void | if | while | for | true | false | Main | + | - | / | * | < | > | <= | >= | == | else \\
+token ::= = | \textit{num} | \textit{string} | \textit{bool} | ; | \textit{new} | . | \textit{Team} | \textit{Agent} | \textit{Squad} | \textit{actionPattern} | \textit{Coordinates}  | ( | ) | , | { | } | \textit{void} | \textit{if} | \textit{while} | \textit{for} | \textit{true} | \textit{false} | \textit{Main} | + | - | / | * | < | > | <= | >= | == | \textit{else} \\
 \\
 actual-string ::= "chars" \\
 chars ::= char (char)* \\
 char ::= Any unicode \\
-boolean ::= true | false \\
+boolean ::= \textit{true} | \textit{false} \\
 number ::= digits | digits.digits \\
 digits ::= digit (digit)* \\
 digit ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 \\
-object ::= Team | Agent | Coordinates | Squad \\
+object ::= \textit{Team} | \textit{Agent} | \textit{Coordinates} | \textit{Squad} \\
 becomes ::= = \\
 operator ::= + | - | / | * | < (=)+ | > (=)+ | = (=)+ \\
 variable ::= number | actual-string | boolean \\
@@ -124,9 +124,9 @@ command ::= declaration | method-call | if-command | while-command | for-command
 \\
 assign-command ::= identifier becomes  (variable | expression) \\
 \\
-while-command ::= while ( expression ) block \\
-if-command ::= if ( expression ) block (else block)+ \\
-for-command ::= for ( type-declaration ; expression ; expression ) block \\
+while-command ::= \textit{while} ( expression ) block \\
+if-command ::= \textit{if} ( expression ) block (\textit{else} block)+ \\
+for-command ::= \textit{for} ( type-declaration ; expression ; expression ) block \\
 \\
 expression ::= parent-expression | numeric-expression \\
 parent-expression ::= ( numeric-expression ) \\
@@ -134,7 +134,7 @@ numeric-expression ::= (primary-expression | parent-expression)+ operator (prima
 primary-expression ::= number | identifier | boolean \\
 \\
 declaration ::= object-declaration | type-declaration \\
-object-declaration ::= new object identifier ( input ) \\
+object-declaration ::= \textit{new} object identifier ( input ) \\
 type-declaration ::= type identifier becomes (variable | expression) \\
 \\
 method-call ::= (identifier .)* identifier ( input ) \\
@@ -142,7 +142,7 @@ input ::= (variable | identifier (, variable | , identifier)* )+ \\
 \\
 comment ::= // Any unicode eol | /* Any uni-code */ \\
 \\
-actionPattern-declaration ::= actionPattern identifier action-block \\
+actionPattern-declaration ::= \textit{actionPattern} identifier action-block \\
 action-block ::= { action } \\
 action ::= actual-string eol
 
@@ -156,12 +156,12 @@ identifier ::= Agent ID | Agent Name \\
 Agent ID ::= num \\
 single-action ::= identifier move-action \\
 \\
-move-action ::= MOVE( move-option ) \\
-move-option ::= UP | DOWN | LEFT | RIGHT | HOLD \\
+move-action ::= \textit{MOVE}( move-option ) \\
+move-option ::= \textit{UP} | \textit{DOWN} | \textit{LEFT} | \textit{RIGHT} | \textit{HOLD} \\
 coordinate ::= num , num \\
 \\
 num ::= digits | digits.digits \\
 digits ::= digit | digit digits \\
 digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 \\
 \\
-token ::= IDENTIFIER | MOVE | HOLD | UP | DOWN | LEFT | RIGHT | ( | ) | EOL
+token ::= \textit{IDENTIFIER} | \textit{MOVE} | \textit{HOLD} | \textit{UP} | \textit{DOWN} | \textit{LEFT} | \textit{RIGHT} | ( | ) | \textit{EOL}
