@@ -11,6 +11,7 @@ namespace MultiAgentSystem
     {
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
+        public static string path;
 
         static void Main(string[] args)
         {
@@ -18,15 +19,123 @@ namespace MultiAgentSystem
             Thread thread = new Thread(new ThreadStart(startUp.first));
             thread.Start();
             Console.ReadKey();
-            thread.Abort();*/
-             
+            thread.Abort();*/          
+
             Console.ForegroundColor = ConsoleColor.White;
 
             Printer.printLogo();
-            Printer.CompilationMarker("Compile");
+            Printer.CompilationMarker("File chooser");
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Would you like to use the standard file (desktop/mass.txt)? y/n");
+                ConsoleKeyInfo cki = Console.ReadKey();
+
+                if (cki.Key == ConsoleKey.Y)
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\mass.txt";
+                    break;
+                }
+                if (cki.Key == ConsoleKey.N)
+                {
+                    getFilePath();
+                    break;
+                }
+
+                Console.WriteLine(" is not an option.");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Compiling " + path);
+            Console.WriteLine("Hit any key to continue!");
             Console.ReadKey();
 
             Compile();
+        }
+
+        private static void getFilePath()
+        {
+            path = @"C:\";
+
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Would like to see files or directories (file/dir)?");
+                string input = Console.ReadLine();
+
+                if (input.ToLower() == "dir")
+                {
+                    getDir();
+                }
+
+                if (input.ToLower() == "file")
+                {
+                    if(getFile())
+                        break;
+                }
+            }
+        }
+
+        private static bool getFile()
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+            FileInfo[] files = dir.GetFiles();
+
+            while (true)
+            {
+                foreach (FileInfo fi in files)
+                {
+                    Console.WriteLine(fi.FullName);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("Which file would you like to compile? (name.ext)");
+                string input = Console.ReadLine();
+
+                if (File.Exists(path + input))
+                {
+                    path = path + input;
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("The file " + input + " does not exists.");
+                    return false;
+                }
+            }
+        }
+
+        private static void getDir()
+        {
+            DirectoryInfo dir;
+            DirectoryInfo[] tmpDir;
+
+            while (true)
+            {
+                dir = new DirectoryInfo(path);
+                tmpDir = dir.GetDirectories();
+
+                Console.WriteLine();
+                foreach (DirectoryInfo di in tmpDir)
+                {
+                    Console.WriteLine(di.FullName);
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("Which directory would you like to go to?");
+                string input = Console.ReadLine();
+
+                if (Directory.Exists(path + input))
+                {
+                    path = path + input + @"\";
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("The directory " + path + input + " does not exists.");
+                    break;
+                }
+            }
         }
 
         private static void Compile()

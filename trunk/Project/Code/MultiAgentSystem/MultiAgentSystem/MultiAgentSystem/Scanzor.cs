@@ -227,24 +227,6 @@ namespace MultiAgentSystem
                 while (isDigit(currentChar))
                     takeIt();
             }
-            switch(currentChar)
-            {
-                case ' ':
-                case ';':
-                case ',':
-                case '=':
-                case '<':
-                case '>':
-                case '+':
-                case '-':
-                case '/':
-                case '*':
-                case ')':
-                    break;
-                default:
-                    Printer.Error(" Error!");
-                    throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a number.");
-            }
         }
 
         /* Reads currentChar untill the current character is " and checks if the previous character " was \ (\")
@@ -262,16 +244,6 @@ namespace MultiAgentSystem
                     break;
                 }
             }
-            switch (currentChar)
-            { 
-                case ' ':
-                case ';':
-                case ')':
-                    break;
-                default:
-                    Printer.Error(" Error!");
-                    throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of a string.");
-            }
         }
 
         /* Scans the current Character and returns the corresponding byte value 
@@ -287,18 +259,6 @@ namespace MultiAgentSystem
                 while (isLetter(currentChar) || isDigit(currentChar))
                 {
                     takeIt();
-                }
-                switch (currentChar)
-                { 
-                    case ' ':
-                    case ';':
-                    case '.':
-                    case '(':
-                    case ')':
-                        break;
-                    default:
-                        Printer.Error(" Error!");
-                        throw new GrammarException("The character '" + currentChar + "' in line " + row + " can not be a part of an identifier.");
                 }
                 return (int)Token.keywords.IDENTIFIER;
             }
@@ -408,9 +368,7 @@ namespace MultiAgentSystem
 
         public Scanzor()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            path = path + @"\mass.txt";
-            fileLines = File.ReadAllLines(path); //The name of the files input
+            fileLines = File.ReadAllLines(Program.path); //The name of the files input
             
             // Initializes the string being read by the scanner, and its counters
             charLine = fileLines[fileCounter++].ToCharArray();
