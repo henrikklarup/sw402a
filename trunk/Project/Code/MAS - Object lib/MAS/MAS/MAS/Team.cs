@@ -22,5 +22,12 @@ namespace MAS
             this.name = name;
             this.color = color;
         }
+
+        public Team(int Id, string name, string color)
+        {
+            this.ID = Id;
+            this.name = name;
+            this.color = color;
+        }
     }
 }
