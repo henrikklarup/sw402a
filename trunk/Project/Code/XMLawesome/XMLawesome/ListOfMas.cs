@@ -49,9 +49,13 @@ namespace XMLawesome
 
             set
             {
-                for (int i = 0; i > Reader.XmlSearch("MAS>Squads>Squad").Count; i += 3)
+                List<XmlType> MasList = Reader.XmlSearch("MAS>Squads>Squad");
+                for (int i = 0; i > MasList.Count; i += 3)
                 {
-                    
+                    if (MasList[i].Tag == "Squad")
+                    {
+
+                    }
                 }
             }
         }
