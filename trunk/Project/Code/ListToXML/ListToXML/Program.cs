@@ -58,7 +58,7 @@ namespace ListToXML
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch("MAS>Teams>Team"))
+            foreach (XmlType item in Reader.XmlSearch("MAS>Squads>Squad"))
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
