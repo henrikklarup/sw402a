@@ -49,13 +49,9 @@ namespace XMLawesome
 
             set
             {
-                for (int i = 0; i > Reader.XmlSearch("MAS>Teams>Team").Count; i += 3)
+                for (int i = 0; i > Reader.XmlSearch("MAS>Squads>Squad").Count; i += 3)
                 {
-                    int id = Convert.ToInt32(Reader.XmlSearch("MAS>Teams>Team")[i].Value);
-                    String name = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
-                    String color = Reader.XmlSearch("MAS>Teams>Team")[i + 2].Value;
-                    Team team = new Team(id, name, color);
-                    ListOfTeams.Add(team);
+                    
                 }
             }
         }
