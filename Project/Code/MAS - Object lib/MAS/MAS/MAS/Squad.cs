@@ -39,5 +39,28 @@ namespace MAS
             this.name = name;
             this.agents = agentArray;
         }
+
+        public Squad(int Id, string name, List<Agent> agents)
+        {
+            this.ID = Id;
+            this.name = name;
+
+            int i = 0;
+            foreach (Agent a in agents)
+            {
+                this.agents[i] = a.ID;
+                i++;
+            }
+        }
+
+        public Squad(int Id, string name, Agent agent)
+        {
+            int[] agentArray = new int[1];
+            agentArray[0] = agent.ID;
+
+            this.ID = Id;
+            this.name = name;
+            this.agents = agentArray;
+        }
     }
 }

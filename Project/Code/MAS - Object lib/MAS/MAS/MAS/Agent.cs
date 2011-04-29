@@ -41,5 +41,27 @@ namespace MAS
             this.posY = -1;
 
         }
+
+        public Agent(int Id, string name, int rank, Team team, int posX, int posY)
+        {
+            this.ID = Id;
+            this.name = name;
+            this.rank = rank;
+            this.posX = posX;
+            this.posY = posY;
+            this.team = team;
+
+        }
+
+        public Agent(int Id, string name, int rank, Team team)
+        {
+            this.ID = Id;
+            this.name = name;
+            this.rank = rank;
+            this.team = team;
+            this.posX = -1;
+            this.posY = -1;
+
+        }
     }
 }
