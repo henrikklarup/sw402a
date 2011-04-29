@@ -12,9 +12,12 @@ The development of the scanner can be divided into three steps:
 \item The scanner has the following list of variables and methods: private variable \texttt{currentChar}, private methods \texttt{take} and \texttt{takeIt}, the private method \texttt{scanN} in (2) is improved to record token's spelling and kind, and last, a public method \texttt{scan}, which scans the combination 'Separator* Token', discarding the separator and returning the token.
 \end{enumerate}
 
+
 \subsection{BNF and EBNF}
 \label{sec:ebnf}
-BNF (Backus-Naur Form) is a formal notation technique used to describe the grammar of a context-free language. There are several variations of BNF, for example EBNF (Extended BNF), which are used to describe the grammer of the language developed in this project.
-\\
-\\
-ENBF is...
+BNF (Backus-Naur Form) is a formal notation technique used to describe the grammar of a context-free language. There are several variations of BNF, for example EBNF (Extended BNF), which are used to describe the grammer of the language developed in this project.\\
+The EBNF is a mix of BNF and regular expressions.
+
+
+
+The full BNF and EBNF grammar is found in appendix \ref{ap:fullgrammar}.
