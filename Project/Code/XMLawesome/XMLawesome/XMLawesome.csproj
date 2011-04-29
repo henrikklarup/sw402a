@@ -51,6 +51,12 @@
     <Compile Include="XmlReader.cs" />
     <Compile Include="XmlType.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MAS - Object lib\MAS\MAS\MAS\MAS.csproj">
+      <Project>{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}</Project>
+      <Name>MAS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
