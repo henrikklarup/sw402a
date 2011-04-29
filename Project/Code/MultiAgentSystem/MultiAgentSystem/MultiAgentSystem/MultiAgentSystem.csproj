@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST.cs" />
-    <Compile Include="CodeGenerator.cs" />
     <Compile Include="GrammarException.cs" />
     <Compile Include="IdentificationTable.cs" />
     <Compile Include="Parser.cs" />

@@ -40,12 +40,20 @@ namespace MultiAgentSystem
         /// <returns></returns>
         internal object visitMainBlock(Mainblock block, object arg)
         {
-            Printer.WriteLine("Main Block");
-            Printer.Expand();
+            if (arg != null)
+            {
 
-            block.block.visit(this, arg);
+            }
+            else
+            {
+                Printer.WriteLine("Main Block");
+                Printer.Expand();
 
-            Printer.Collapse();
+                block.input.visit(this, arg);
+                block.block.visit(this, arg);
+
+                Printer.Collapse();
+            }
             return null;
         }
         
