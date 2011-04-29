@@ -24,7 +24,29 @@ namespace MultiAgentSystem
             Console.ForegroundColor = ConsoleColor.White;
 
             Printer.printLogo();
-            Printer.CompilationMarker("File chooser");
+            Printer.CompilationMarker("Options");
+
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Would you like to print completed procedures? y/n");
+                ConsoleKeyInfo cki = Console.ReadKey();
+
+                if (cki.Key == ConsoleKey.Y)
+                {
+                    Printer.printCompleted = true;
+                    break;
+                }
+                if (cki.Key == ConsoleKey.N)
+                {
+                    Printer.printCompleted = false;
+                    break;
+                }
+                else
+                    Console.WriteLine(" is not an option.");
+            }
+
+
             while (true)
             {
                 Console.WriteLine();

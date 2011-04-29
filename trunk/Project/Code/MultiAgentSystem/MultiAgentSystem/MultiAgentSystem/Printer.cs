@@ -9,6 +9,7 @@ namespace MultiAgentSystem
     {
         // Used to indent the messages sent by the compiler to the user.
         private static int indent;
+        public static bool printCompleted;
 
         public static void printLogo()
         {
@@ -81,6 +82,8 @@ namespace MultiAgentSystem
         // to display that the function went well.
         public static void Write(String text)
         {
+            if (!printCompleted)
+                return;
             // Saves the current text color.
             ConsoleColor tmpColor = Console.ForegroundColor;
 
@@ -96,6 +99,8 @@ namespace MultiAgentSystem
         // Extention of the Write method.
         public static void WriteLine(string text)
         {
+            if (!printCompleted)
+                return;
             Console.WriteLine();
             // Changes the cursor position, to match the indent.
             Console.SetCursorPosition(indent * 2, Console.CursorTop);
