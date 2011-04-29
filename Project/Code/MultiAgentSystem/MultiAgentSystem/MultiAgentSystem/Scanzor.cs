@@ -388,7 +388,7 @@ namespace MultiAgentSystem
                 {
                     char tmpChar = nextSourceChar();
                     charCounter--;
-                    if (tmpChar != '/')
+                    if (tmpChar != '/' && tmpChar != '*')
                         break;
                 }
 
