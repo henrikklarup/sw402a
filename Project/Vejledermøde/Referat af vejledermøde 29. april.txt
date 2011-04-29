@@ -1,0 +1,35 @@
+Når vi skriver rapporten, så skal vi prøve at skrive det som om det ar den sidste version, så vi ikke skal skrive det om flere gange. Lav synopsen først.
+
+
+
+Vi skal have lavet en masse den næste uge, og presse os selv, så vi ikke bliver for pressede til sidst.
+
+
+
+Til kapitel 1:
+Skriv en masse. Jorge sender nogle links til nogle bøger om MAs, og så skal vi generelt kigge meget på de første par kapitler, og på referencerne og related work.
+
+Når vi kigger i de bøger, så skal vi også overveje hvorfor vores sprog er godt til netop vores MAS.
+
+
+
+Kapitel 2, om language components:
+Et overblik over programmerings paradigmer.
+
+
+
+Wargame Scenario:
+Til næste gang skal vi gerne lægge noget mere arbejde i at komme med et scenario, gerne med billeder osv. Beskriv meget klart hvad man kan og hvad man ikke kan.
+
+
+
+Til discussion:
+Vi kan diskutere hvorfor vi har valgt kun at have "num" som er en double. Hvad er fordele og ulemper? Bruger det måske unødvendigt meget hukommelse?
+
+Vi kan snakke om hvorfor vi har brugt EBNF, og ikke en anden variation.
+Generelt kan vi diskutere meget omkring de regler vi har lavet i grammatikken.
+
+
+
+Til semantikken:
+Jorge vil lige undersøge hvor meget semantik vi skal beskrive i rapporten. Han synes at vi skal bruge HH's bog, når vi nu har den i kurset.
