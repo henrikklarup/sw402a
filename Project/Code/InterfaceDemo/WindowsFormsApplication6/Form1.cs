@@ -221,19 +221,6 @@ namespace WindowsFormsApplication6
         {
             //Split string to two numbers "x,y" = x y
             string[] text = textBox1.Text.Split(',');
-
-
-            foreach (Agent a in agents)
-            {
-                if (a.ID == int.Parse(text[0]))
-                {
-                    //Set Figure to x,y
-                    a.posX = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).X;
-                    a.posY = getGridPixelFromGrid(new Point(int.Parse(text[1]) - 1, int.Parse(text[2]) - 1)).Y;
-                    //Set movedAgent to just moved agent
-                    movedAgent = a;
-                }
-            }
         }
         #endregion
         #endregion
@@ -345,6 +332,30 @@ namespace WindowsFormsApplication6
 
             //Start the timer, and let the game continue
             DrawTimer.Start();
+        }
+        #endregion
+
+        /// <summary>
+        /// Moves the selected agent to the x and y choords selected
+        /// </summary>
+        /// <param name="agent">Agent to move</param>
+        /// <param name="xchord">X chord</param>
+        /// <param name="ychord">Y chord</param>
+        #region MoveAgent
+        private void moveAgent(Agent agent, int xchord, int ychord)
+        {
+            foreach (Agent a in agents)
+            {
+                if (a.ID == agent.ID)
+                {
+                    //Set Figure to x,y
+                    Point newPoint = getGridPixelFromGrid(new Point(xchord - 1, ychord - 1));
+                    a.posX = newPoint.X;
+                    a.posY = newPoint.Y;
+                    //Set movedAgent to just moved agent
+                    movedAgent = a;
+                }
+            }
         }
         #endregion
         #endregion
