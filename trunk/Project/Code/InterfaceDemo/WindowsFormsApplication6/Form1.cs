@@ -221,6 +221,11 @@ namespace WindowsFormsApplication6
         {
             //Split string to two numbers "x,y" = x y
             string[] text = textBox1.Text.Split(',');
+
+            foreach(string s in text)
+            {
+                textBox4.AppendText(s);
+            }
         }
         #endregion
         #endregion
@@ -492,5 +497,19 @@ namespace WindowsFormsApplication6
             Application.Exit();
         }
         #endregion
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // char 13 = the enter key.
+            if (e.KeyChar == (char)13)
+            {
+                // Takes the text from the textbox and stores it as a string.
+                string text = textBox1.Text;
+
+                textBox4.AppendText(text + '\n');
+
+                textBox1.Clear();
+            }
+        }
     }
 }
