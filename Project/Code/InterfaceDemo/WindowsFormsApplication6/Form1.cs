@@ -220,14 +220,31 @@ namespace WindowsFormsApplication6
         #region Execute
         private void button4_Click(object sender, EventArgs e)
         {
-            //Split string to two numbers "x,y" = x y
-            string[] text = textBox1.Text.Split(',');
+            Execute();
+        }
 
-            foreach(string s in text)
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // char 13 = the enter key.
+            if (e.KeyChar == (char)13)
             {
-                textBox4.AppendText(s);
+                Execute();
             }
         }
+
+        private void Execute()
+        {
+            // Takes the text from the textbox and stores it as a string.
+            string text = textBox1.Text;
+
+            ActionInterpet.input = text;
+            string output = ActionInterpet.Compile();
+
+            textBox4.AppendText(output);
+
+            textBox1.Clear();
+        }
+
         #endregion
         #endregion
 
@@ -498,24 +515,5 @@ namespace WindowsFormsApplication6
             Application.Exit();
         }
         #endregion
-
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            
-
-            // char 13 = the enter key.
-            if (e.KeyChar == (char)13)
-            {
-                // Takes the text from the textbox and stores it as a string.
-                string text = textBox1.Text;
-
-                ActionInterpet.input = text;
-                string output = ActionInterpet.Compile();
-
-                textBox4.AppendText(output);
-
-                textBox1.Clear();
-            }
-        }
     }
 }
