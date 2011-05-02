@@ -1,0 +1,13 @@
+using System; 
+using System.Drawing; 
+
+namespace MultiAgentSystem 
+{ 
+	class Program 
+	{ 
+		static void Main(string[] args)
+		{ 
+			/* Here the program starts. */ 
+			int numberOfTeams = 0; 
+			int numberOfSquads = 0;
+			int points = 
