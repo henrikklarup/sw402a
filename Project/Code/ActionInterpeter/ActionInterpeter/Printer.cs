@@ -19,7 +19,7 @@ namespace ActionInterpeter
         // Extention of the Error method, changes the cursor to the next line. 
         public static void ErrorLine(string text)
         {
-            ActionInterpet.output.Append("\n");
+            ActionInterpet.output.AppendLine();
             Error(text);
         }
 
@@ -43,7 +43,7 @@ namespace ActionInterpeter
         // Extention of the Write method.
         public static void WriteLine(string text)
         {
-            ActionInterpet.output.Append("\n");
+            ActionInterpet.output.AppendLine();
             Write(text);
         }
 

@@ -10,7 +10,6 @@ namespace ActionInterpeter
         // Exception for catching errors.
         private GrammarException gException =
             new GrammarException("These errors were found during decoration:");
-        private bool throwException = false;
 
         public object visitAST(AST ast, object arg)
         {
@@ -76,7 +75,6 @@ namespace ActionInterpeter
 
             if (firstNum.kind != (int)Token.keywords.NUMBER )
             {
-                throwException = true;
                 gException.containedExceptions.Add(
                     new GrammarException(
                         firstNum.spelling +
@@ -84,7 +82,6 @@ namespace ActionInterpeter
             }
             if(secondNum.kind != (int)Token.keywords.NUMBER)
             {
-                throwException = true;
                 gException.containedExceptions.Add(
                     new GrammarException(
                         secondNum.spelling +
