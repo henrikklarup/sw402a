@@ -45,7 +45,7 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Printer.Write("Errors were found while PARSING.");
+                Printer.WriteLine("Errors were found while PARSING.");
                 return;
             }
             Decorate();
@@ -61,7 +61,7 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Printer.Write("Errors were found while DECORATING.");
+                Printer.WriteLine("Errors were found while DECORATING.");
                 return;
             }
         }
