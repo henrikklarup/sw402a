@@ -19,7 +19,6 @@ namespace ActionInterpeter
 
         internal object visitMainProgram(MainProgram mainProgram, object arg)
         {
-            Console.WriteLine("LOL");
             mainProgram.action.visit(this, null);
             return null;
         }
