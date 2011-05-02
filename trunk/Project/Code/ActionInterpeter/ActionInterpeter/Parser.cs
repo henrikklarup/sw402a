@@ -13,6 +13,10 @@ namespace ActionInterpeter
         // Holds the current token being checked.
         private Token currentToken;
 
+        // Exception for catching errors.
+        private GrammarException gException = new GrammarException("These errors were found by the parser:");
+        private bool throwException = false;
+
         /// <summary>
         /// Checks if the kind of the current token matches the expected value, 
         /// it prints an error message is that is not the case.
@@ -20,11 +24,13 @@ namespace ActionInterpeter
         /// <param name="kind">The token kind to check against</param>
         private void accept(Token.keywords kind)
         {
-            if (kind == Token.keywords.ERROR || (int)kind != currentToken.kind)
+            if ((int)kind != currentToken.kind)
             {
-                Console.WriteLine("ERROR at line " + currentToken.row + " col " + currentToken.col +
-                    ". The recieved token of kind " + (Token.keywords)currentToken.kind + " was not legal.");
-                Console.ReadKey();
+                Printer.ErrorMarker();
+                throwException = true;
+                gException.containedExceptions.Add(new GrammarException(
+                    "Token " + (Token.keywords)currentToken.kind +
+                    " was not legal. \n  A token of kind " + kind + " was expected.", currentToken));
             }
 
             if (currentToken.kind != (int)Token.keywords.EOT)
@@ -47,11 +53,12 @@ namespace ActionInterpeter
         public AST parse()
         {
             currentToken = scanner.scan();
+
             AST ast = parseAction();
-            if (currentToken.kind != (int)Token.keywords.EOT)
-            {
-                Console.WriteLine("There has been an error!");
-            }
+            
+            if (throwException)
+            { throw gException; }
+            
             return ast;
         }
 
@@ -65,18 +72,21 @@ namespace ActionInterpeter
 
         private Identifier parseIdentifier()
         {
-            Identifier identifierAST;
+            Identifier ident;
             if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
             {
-                identifierAST = new Identifier(currentToken);
-                currentToken = scanner.scan();
+                ident = new Identifier(currentToken);
+                acceptIt();
+                return ident;
             }
             else
             {
-                Console.WriteLine("Something went wrong when trying to parse an Identifier");
-                identifierAST = new Identifier(new Token((int)Token.keywords.EOT, "FAIL", 0, 0));
+                throwException = true;
+                gException.containedExceptions.Add(new GrammarException(
+                    "Token " +
+                    (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken));
             }
-            return identifierAST;
+            return null;
         }
 
         private Single_Action parseSingle_Action()
@@ -90,17 +100,18 @@ namespace ActionInterpeter
                     Move_Action move_action = parseMove_Action();
                     return new Single_Action(identifier, move_action);
                 default:
-                    Console.WriteLine("Something went wrong when trying to parse a single action.");
+                    throwException = true;
+                    gException.containedExceptions.Add(new GrammarException(
+                        "Token " + 
+                        currentToken.spelling + " is not valid for a command.", currentToken));
                     return null;
             }
         }
 
         private Move_Action parseMove_Action()
         {
-            Move_Action move_action;
-            accept(Token.keywords.LPAREN);                
+            Move_Action move_action;           
             move_action = new Move_Action(parseMove_Option());
-            accept(Token.keywords.RPAREN);
             return move_action;
         }
 
@@ -115,13 +126,16 @@ namespace ActionInterpeter
                 case (int)Token.keywords.RIGHT:
                 case (int)Token.keywords.HOLD:
                     move_option = new Move_Option(currentToken);
-                    currentToken = scanner.scan();
+                    acceptIt();
                     break;
                 case (int)Token.keywords.NUMBER:
                     move_option = new Move_Option(parseCoordinate());
                     break;
                 default:
-                    Console.WriteLine("Something is wrong with the move option.");
+                    throwException = true;
+                    gException.containedExceptions.Add(new GrammarException(
+                        "Token " + 
+                        (Token.keywords)currentToken.kind + " is not valid for an option.", currentToken));
                     return null;
             }
             return move_option;
@@ -132,13 +146,23 @@ namespace ActionInterpeter
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.NUMBER:
+                    // Accept the first token, since its a number.
                     Token num1 = currentToken;
-                    scanner.scan();
+                    acceptIt();
+
+                    // Accept the token if its a comma.
+                    accept(Token.keywords.COMMA);
+
+                    // Accept the next token, if its a number.
                     Token num2 = currentToken;
-                    scanner.scan();
+                    accept(Token.keywords.NUMBER);
+
                     return new Coordinate(num1, num2);
                 default:
-                    Console.WriteLine("Something went wrong when trying to parse a coordinate.");
+                   throwException = true;
+                    gException.containedExceptions.Add(new GrammarException(
+                        "Token " + 
+                        (Token.keywords)currentToken.kind + " is not a valid coordinate.", currentToken));
                     return null;
             }
 
