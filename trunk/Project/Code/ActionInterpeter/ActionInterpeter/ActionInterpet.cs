@@ -5,14 +5,15 @@ using System.Text;
 
 namespace ActionInterpeter
 {
-    class Program
+    public class ActionInterpet
     {
 
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
         public static string input;
+        public static StringBuilder output;
 
-        static void Main(string[] args)
+        public static void Main()
         {
             while (true)
             {
@@ -26,8 +27,12 @@ namespace ActionInterpeter
             }
         }
 
-        private static void Scan()
-        { }
+        public static string Compile()
+        {
+            output = new StringBuilder("");
+            Parse();
+            return output.ToString();
+        }
 
         private static void Parse()
         {
@@ -40,7 +45,7 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while PARSING.");
+                Printer.Write("Errors were found while PARSING.");
                 return;
             }
             Decorate();
@@ -56,7 +61,7 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while DECORATING.");
+                Printer.Write("Errors were found while DECORATING.");
                 return;
             }
         }
