@@ -181,7 +181,7 @@ namespace ActionInterpeter
         public Scanzor()
         {
             //Initializes the string being read by the scanner, and its counters
-            charLine = Program.input.ToCharArray();
+            charLine = ActionInterpet.input.ToCharArray();
             currentChar = charLine[charCounter++];
         }
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
 using XMLawesome;
+using ActionInterpeter;
 
 namespace WindowsFormsApplication6
 {
@@ -500,13 +501,18 @@ namespace WindowsFormsApplication6
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
+            
+
             // char 13 = the enter key.
             if (e.KeyChar == (char)13)
             {
                 // Takes the text from the textbox and stores it as a string.
                 string text = textBox1.Text;
 
-                textBox4.AppendText(text + '\n');
+                ActionInterpet.input = text;
+                string output = ActionInterpet.Compile();
+
+                textBox4.AppendText(output);
 
                 textBox1.Clear();
             }
