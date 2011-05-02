@@ -33,8 +33,11 @@ namespace ActionInterpeter
         private int row;
         private int col;
 
-        //Used to accept characters that match the exact char.
-        //Not used atm
+        // Exception for catching errors.
+        private GrammarException gException =
+            new GrammarException("These errors were found by the scanner:");
+
+        // Used to accept characters that match the exact char.
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -45,7 +48,8 @@ namespace ActionInterpeter
             }
             else
             {
-                Console.WriteLine("Expected Char didnt match");
+                Printer.Error(" Error!");
+                throw new GrammarException("Expected Char '" + expectedChar + "' didnt match '" + currentChar + "' in line " + row + ".");
             }
         }
 
@@ -241,13 +245,6 @@ namespace ActionInterpeter
 
         public Token scan()
         {
-            //If looking at a seperator, take the next character and start building a new string
-            while (currentChar == ' ' || currentChar == '/' || currentChar == '\n' || currentChar == '\t')
-            {                
-                scanSeperator();
-                if (currentKind == (int)Token.keywords.EOT)
-                    return new Token(currentKind, "<EOT>", fileCounter, charCounter);
-            }
             currentSpelling = new StringBuilder("");
 
             //Scan for the next token, e.g. an identifier
