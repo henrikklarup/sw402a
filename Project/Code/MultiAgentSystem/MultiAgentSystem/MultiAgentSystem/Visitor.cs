@@ -79,6 +79,7 @@ namespace MultiAgentSystem
                 }
             }
 
+            // As arg = 1 normally, making arg = 2 signals that the visit comes from the mainblock.
             block.block.visit(this, 2);
 
             if (arg != null)
@@ -106,6 +107,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
+            // If the visit comes from the mainblock, then arg = 2, and so no left bracket should be written
             if (arg != null && (int)arg < 2)
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
@@ -119,7 +121,7 @@ namespace MultiAgentSystem
             IdentificationTable.openScope();
             foreach (Command c in block.commands)
             {
-                c.visit(this, arg);
+                c.visit(this, 1);
             }
             // When all commands in the block have been visited
             // the scope is closed in the identification table.
