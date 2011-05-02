@@ -79,13 +79,13 @@ namespace MultiAgentSystem
                 }
             }
 
-            block.block.visit(this, arg);
+            block.block.visit(this, 2);
 
             if (arg != null)
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
                 {
-                    file.WriteLine("} }");
+                    file.WriteLine("}");
                 }
             }
 
@@ -106,7 +106,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
-            if (arg != null)
+            if (arg != null && (int)arg < 2)
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
                 {
