@@ -38,7 +38,6 @@ namespace MultiAgentSystem
             new GrammarException("These errors were found by the scanner:");
 
         // Used to accept characters that match the exact char.
-        // Not used atm
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -350,13 +349,6 @@ namespace MultiAgentSystem
                     Printer.Error(" Error!");
                     throw new GrammarException("Char '" + 
                         currentChar + "' in line " + row + " is not a valid character.");
-
-                    //currentChar = '\n';
-                    //currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
-                    //Console.WriteLine(currentSpelling.ToString());
-                    //row = fileCounter;
-                    //col = charCounter;
-                    //return (int)Token.keywords.ERROR;
             }
         }
 
