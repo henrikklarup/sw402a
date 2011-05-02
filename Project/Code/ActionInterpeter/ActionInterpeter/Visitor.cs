@@ -7,8 +7,20 @@ namespace ActionInterpeter
 {
     class Visitor
     {
+        // Exception for catching errors.
+        private GrammarException gException =
+            new GrammarException("These errors were found during decoration:");
+        private bool throwException = false;
+
+        public object visitAST(AST ast, object arg)
+        {
+            ast.visit(this, arg);
+            return null;
+        }
+
         internal object visitMainProgram(MainProgram mainProgram, object arg)
         {
+            Console.WriteLine("LOL");
             mainProgram.action.visit(this, null);
             return null;
         }
@@ -62,9 +74,21 @@ namespace ActionInterpeter
             Token firstNum = coordinate.num1;
             Token secondNum = coordinate.num2;
 
-            if (firstNum.kind != (int)Token.keywords.NUMBER && secondNum.kind != (int)Token.keywords.NUMBER)
+            if (firstNum.kind != (int)Token.keywords.NUMBER )
             {
-                Console.WriteLine("Coordinates aren't two numbers.");
+                throwException = true;
+                gException.containedExceptions.Add(
+                    new GrammarException(
+                        firstNum.spelling +
+                        " is not valid input for coordinates.", firstNum));
+            }
+            if(secondNum.kind != (int)Token.keywords.NUMBER)
+            {
+                throwException = true;
+                gException.containedExceptions.Add(
+                    new GrammarException(
+                        secondNum.spelling +
+                        " is not valid input for coordinates.", secondNum));
             }
             return null;
         }

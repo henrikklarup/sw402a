@@ -10,16 +10,10 @@ namespace ActionInterpeter
         public int kind;
         public string spelling;
 
-        //Stores the row and column the token was found at
-        public int row;
-        public int col;
-
         public enum keywords
         {
             IDENTIFIER,
             NUMBER,
-            LPAREN,
-            RPAREN,
             PUNCTUATION,
             COMMA,
             UP,
@@ -36,16 +30,14 @@ namespace ActionInterpeter
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
-            "<identifier>", "<number>", "(", ")", ".", ",", "up", "down", "left", "right", "hold", "move", "<EOL>", "<EOT>", "<ERROR>"                         
+            "<identifier>", "<number>", ".", ",", "up", "down", "left", "right", "hold", "move", "<EOL>", "<EOT>", "<ERROR>"                         
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
-        public Token(int kind, string spelling, int row, int col)
+        public Token(int kind, string spelling)
         {
             this.kind = kind;
             this.spelling = spelling;
-            this.row = row;
-            this.col = col;
 
             if (kind == (int)keywords.IDENTIFIER)
             {

@@ -8,12 +8,6 @@ namespace ActionInterpeter
 {
     class Scanzor
     {
-        //The input file being read
-        public string[] fileLines;
-
-        //Counts which line currently being looked at
-        public int fileCounter = 0;
-
         //Holds the current line as an array of chars
         public char[] charLine;
 
@@ -29,10 +23,6 @@ namespace ActionInterpeter
         //Builds the string
         private StringBuilder currentSpelling;
 
-        //Coordinates used by the parser to tell where a syntax error has been found
-        private int row;
-        private int col;
-
         // Exception for catching errors.
         private GrammarException gException =
             new GrammarException("These errors were found by the scanner:");
@@ -42,21 +32,19 @@ namespace ActionInterpeter
         {
             if (currentChar == expectedChar)
             {
-                coords();
                 currentSpelling.Append(currentChar);
                 currentChar = nextSourceChar();
             }
             else
             {
                 Printer.Error(" Error!");
-                throw new GrammarException("Expected Char '" + expectedChar + "' didnt match '" + currentChar + "' in line " + row + ".");
+                throw new GrammarException("Expected Char '" + expectedChar + "' didnt match '" + currentChar + "'.");
             }
         }
 
         //Used to take the current Character no matter which one it is and put it in the string
         private void takeIt()
         {
-            coords();
             currentSpelling.Append(currentChar);
             currentChar = nextSourceChar();
         }
@@ -65,15 +53,6 @@ namespace ActionInterpeter
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
-        }
-
-        private void coords()
-        {
-            if (currentSpelling.ToString() == "")
-            {
-                row = fileCounter;
-                col = charCounter;
-            }
         }
 
         //Used to check if the char is a digit (0-9) and returns true if it is
@@ -132,33 +111,6 @@ namespace ActionInterpeter
             return false;
         }
 
-        /* Ignores the current Character if its a blank space or a newline 
-         * Ignores everything between in multiline comments with the loop using the isMultiLineCommen method */
-        private void scanSeperator()
-        {
-            switch (currentChar)
-            {
-                case ' ':
-                case '\t':
-                    ignoreIt();
-                    break;
-
-                    /* If the current character is \n, change to the next line read
-                     * unless the last line of the file has been reached then return
-                     * the End of Transmission token*/
-                case '\n':
-                    if (fileCounter == fileLines.Length)
-                        currentKind = (int)Token.keywords.EOT;
-                    if (fileCounter < fileLines.Length)
-                    {
-                        charLine = fileLines[fileCounter++].ToCharArray();
-                        charCounter = 0;
-                    }
-                    ignoreIt();
-                    break;
-            }
-        }
-
         /* As long as the current character is a digit append it to the string and
          * read the next untill no digit is read
          * if a . is read build the last part of the digit */
@@ -201,12 +153,6 @@ namespace ActionInterpeter
             }
             switch (char.ToLower(currentChar))
             {
-                case '(':
-                    takeIt();
-                    return (int)Token.keywords.LPAREN;
-                case ')':
-                    takeIt();
-                    return (int)Token.keywords.RPAREN;
                 case ',':
                     takeIt();
                     return (int)Token.keywords.COMMA;
@@ -214,13 +160,11 @@ namespace ActionInterpeter
                     takeIt();
                     return (int)Token.keywords.PUNCTUATION;
                 default:
-                    //Someone has screwed up
-                    currentChar = '\n';
-                    currentSpelling.Append("ERROR at line " + fileCounter + " col " + charCounter);
-                    Console.WriteLine(currentSpelling.ToString());
-                    row = fileCounter;
-                    col = charCounter;
-                    return (int)Token.keywords.ERROR;
+                    // Someone has screwed up
+                    takeIt();
+                    Printer.Error(" Error!");
+                    throw new GrammarException("Char '" +
+                        currentChar + "' is not a valid character.");
             }
         }
 
@@ -236,22 +180,42 @@ namespace ActionInterpeter
 
         public Scanzor()
         {
-            fileLines = File.ReadAllLines(@"C:/Users/Rasmus/Desktop/test.txt"); //The name of the files input
-
             //Initializes the string being read by the scanner, and its counters
-            charLine = fileLines[fileCounter++].ToCharArray();
+            charLine = Program.input.ToCharArray();
             currentChar = charLine[charCounter++];
         }
 
         public Token scan()
         {
+            // If looking at a seperator, take the next character and start building a new string
+            while (currentChar == ' ' || currentChar == '\n' || currentChar == '\t')
+            {
+                scanSeperator();
+                if (currentKind == (int)Token.keywords.EOT)
+                    return new Token(currentKind, "<EOT>");
+            }
             currentSpelling = new StringBuilder("");
 
             //Scan for the next token, e.g. an identifier
             currentKind = scanToken();
 
             //Returns the token found and the string build while searching for the token
-            return new Token(currentKind, currentSpelling.ToString(), row, col);
+            return new Token(currentKind, currentSpelling.ToString());
+        }
+
+        private void scanSeperator()
+        {
+            switch (currentChar)
+            {
+                case ' ':
+                case '\t':
+                    ignoreIt();
+                    break;
+                case '\n':
+                    currentKind = (int)Token.keywords.EOT;
+                    ignoreIt();
+                    break;
+            }
         }
     }
 }
