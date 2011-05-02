@@ -1,0 +1,121 @@
+	class Agent
+    {
+        private int _iD;
+        private string _name;
+        private Team _team;
+        private int _posX;
+        private int _posY;
+        private int _rank;
+
+        public int ID
+        {
+            get { return _iD; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public Team Team
+        {
+            get { return _team; }
+            set { _team = value; }
+        }
+
+        public int PosX
+        {
+            get { return _posX; }
+            set { _posX = value; }
+        }
+
+        public int PosY
+        {
+            get { return _posY; }
+            set { _posY = value; }
+        }
+
+        public int Rank
+        {
+            get { return _rank; }
+        }
+
+        public Agent(int rank, string name)
+        {
+            //_iD = ...
+            this._rank = rank;
+            this._name = name;
+        }
+    }
+
+    class Squad
+    {
+        private int _iD;
+        private string _name;
+
+        public int ID
+        {
+            get { return _iD; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public List<Agent> Agents;
+
+        public Squad(string name)
+        {
+            this._name = name;
+            Agents = new List<Agent>();
+            // _iD = ...
+        }
+    }
+
+    class Team
+    {
+        private int _iD;
+        private string _name;
+        private Color _color;
+
+        public int ID
+        {
+            get { return _iD; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public Color TeamColor
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
+        public Team(string name)
+        {
+            // _iD = ...
+            this._name = name;
+        }
+    }
+
+    class ActionPattern
+    {
+        private string _name;
+        public List<string> Actions;
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public ActionPattern(string name)
+        {
+            this._name = name;
+            Actions = new List<string>();
+        }
+    }
+}
