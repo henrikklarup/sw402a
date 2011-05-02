@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace MultiAgentSystem
 {
     class Visitor
     {
+        private StringBuilder generatedCode = new StringBuilder();
+
         // Exception for catching errors.
         private GrammarException gException = 
             new GrammarException("These errors were found during decoration:");
         private bool throwException = false;
+
+        private string CodeGenerationPath = @"C:\Users\Kasper\Desktop\MASSCode.cs";
 
         /// <summary>
         /// Visit the AST, the first method called when visiting the AST.
@@ -22,6 +27,16 @@ namespace MultiAgentSystem
         public object visitAST(AST ast, object arg)
         {
             ast.visit(this, arg);
+
+            if (arg != null)
+            {
+                string text = System.IO.File.ReadAllText(
+                    @"C:\Users\Kasper\Documents\AAU Software\P4\SVN\sw402a\Project\Code\classes.txt");
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(text);
+                }
+            }
 
             if (throwException)
             {
@@ -42,18 +57,40 @@ namespace MultiAgentSystem
         {
             if (arg != null)
             {
-
+                File.Delete(@"C:\Users\Kasper\Desktop\MASSCode.cs");
+                string text = System.IO.File.ReadAllText(
+                    @"C:\Users\Kasper\Documents\AAU Software\P4\SVN\sw402a\Project\Code\mainTextStart.txt");
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(text);
+                }
             }
-            else
+
+            Printer.WriteLine("Main Block");
+            Printer.Expand();
+
+            block.input.visit(this, arg);
+
+            if (arg != null)
             {
-                Printer.WriteLine("Main Block");
-                Printer.Expand();
-
-                block.input.visit(this, arg);
-                block.block.visit(this, arg);
-
-                Printer.Collapse();
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(";");
+                }
             }
+
+            block.block.visit(this, arg);
+
+            if (arg != null)
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine("} }");
+                }
+            }
+
+            Printer.Collapse();
+
             return null;
         }
         
@@ -69,16 +106,32 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
+            if (arg != null)
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine("{");
+                }
+            }
+
             // Everytime a block is visited the block opens 
             // a new scope in the identification table.
             IdentificationTable.openScope();
             foreach (Command c in block.commands)
             {
-                c.visit(this, null);
+                c.visit(this, arg);
             }
             // When all commands in the block have been visited
             // the scope is closed in the identification table.
             IdentificationTable.closeScope();
+
+            if (arg != null)
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine("}");
+                }
+            }
 
             Printer.Collapse();
             return null;
@@ -109,9 +162,26 @@ namespace MultiAgentSystem
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
 
+            if (arg != null)
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(_object.spelling + " " + ident + " =  new " + _object.spelling + "(");
+                }
+            }
+
             // Visit the input and check the spelling.
             if(objectDeclaration.input != null)
                 objectDeclaration.input.visit(this, arg);
+
+            if (arg != null)
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(");");
+                }
+            }
+
             Printer.Collapse();
             return null;
         }
@@ -525,6 +595,14 @@ namespace MultiAgentSystem
             {
                 firstVar = (Token)input.firstVar.visit(this, arg);
 
+                if (arg != null)
+                {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.Write(firstVar.spelling);
+                    }
+                }
+
                 if (TypeDeclaration.ReferenceEquals(input.firstVar.GetType(),
                 new TypeDeclaration().GetType()))
                 {
@@ -545,6 +623,10 @@ namespace MultiAgentSystem
                 }
                 if (input.nextVar != null)
                 {
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.Write(", ");
+                    }
                     Printer.Collapse();
                     nextVar = (Input)input.nextVar.visit(this, arg);
                     Printer.Expand();
