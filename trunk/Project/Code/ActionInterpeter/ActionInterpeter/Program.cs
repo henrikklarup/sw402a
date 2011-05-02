@@ -17,9 +17,11 @@ namespace ActionInterpeter
             while (true)
             {
                 input = Console.ReadLine();
+                if (input.Count() == 0)
+                    continue;
 
                 Parse();
-
+                Console.WriteLine("Success");
                 Console.ReadKey();
             }
         }
