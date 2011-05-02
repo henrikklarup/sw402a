@@ -230,8 +230,7 @@ namespace MultiAgentSystem
 
             try
             {
-                Console.WriteLine("Not yet implemented!");
-                //visitor.visitAST(newAst, 1);
+                visitor.visitAST(newAst, 1);
             }
             catch (GrammarException g)
             {
