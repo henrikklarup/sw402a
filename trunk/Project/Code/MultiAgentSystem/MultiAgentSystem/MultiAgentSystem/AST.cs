@@ -7,7 +7,7 @@ namespace MultiAgentSystem
 {
     abstract class AST
     {
-        public abstract object visit(Visitor v, object arg);
+        public abstract object visit(DecorationVisitor v, object arg);
     }
 
     abstract class Command : AST
@@ -32,7 +32,7 @@ namespace MultiAgentSystem
         public Mainblock()
         { }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMainBlock(this, arg);
         }
@@ -47,7 +47,7 @@ namespace MultiAgentSystem
         public Block()
         { commands = new List<Command>(); }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitBlock(this, arg);
         }
@@ -72,7 +72,7 @@ namespace MultiAgentSystem
             this.input = In;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitObjectDecleration(this, arg);
         }
@@ -90,7 +90,7 @@ namespace MultiAgentSystem
         // The type or variable 
         public AST Becomes;
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitTypeDecleration(this, arg);
         }
@@ -106,7 +106,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitObject(this, arg);
         }
@@ -136,7 +136,7 @@ namespace MultiAgentSystem
             this.ElseBlock = B2;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitIfCommand(this, arg);
         }
@@ -165,7 +165,7 @@ namespace MultiAgentSystem
             this.ForBlock = B;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitForCommand(this, arg);
         }
@@ -183,7 +183,7 @@ namespace MultiAgentSystem
             this.WhileBlock = whileBlock;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitWhileCommand(this, arg);
         }
@@ -202,7 +202,7 @@ namespace MultiAgentSystem
         {
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMethodIdentifier(this, arg);
         }
@@ -223,7 +223,7 @@ namespace MultiAgentSystem
             this.input = input;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMethodCall(this, arg);
         }
@@ -240,7 +240,7 @@ namespace MultiAgentSystem
             this.becomes = becomes;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitAssignCommand(this, arg);
         }
@@ -271,7 +271,7 @@ namespace MultiAgentSystem
             this.basicToken = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitExpression(this, arg);
         }
@@ -286,7 +286,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitIdentifier(this, arg);
         }
@@ -301,7 +301,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitOperator(this, arg);
         }
@@ -321,7 +321,7 @@ namespace MultiAgentSystem
         public Input()
         { }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitInput(this, arg);
         }
@@ -336,7 +336,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMASVariable(this, arg);
         }
@@ -352,7 +352,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMASBool(this, arg);
         }
@@ -368,7 +368,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMASString(this, arg);
         }
@@ -384,7 +384,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMASNumber(this, arg);
         }
@@ -400,7 +400,7 @@ namespace MultiAgentSystem
             this.token = token;
         }
 
-        public override object visit(Visitor v, object arg)
+        public override object visit(DecorationVisitor v, object arg)
         {
             return v.visitMASType(this, arg);
         }
