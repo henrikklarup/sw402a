@@ -37,14 +37,46 @@ namespace ActionInterpeter
 
             // If the identifier is an agent.
             if (Type.ReferenceEquals(ident.GetType(), new Agent().GetType()))
-            { 
-                Token token = new Token();
-                Coordinate coord = new Coordinate()
-                if(Type.ReferenceEquals(moveOption.GetType(), ))
-                 = (Coordinate)moveOption;
+            {
+                Agent agent = (Agent)ident;
 
-                int num1 = Convert.ToInt16(coord.num1.spelling);
-                int num2 = Convert.ToInt16(coord.num2.spelling);
+                int num1;
+                int num2;
+
+                // If the option is a coordinate.
+                Token token = new Token(0,"");
+                Coordinate coord = new Coordinate(token, token);
+                if (Type.ReferenceEquals(moveOption.GetType(), coord.GetType()))
+                {
+                    coord = (Coordinate)moveOption;
+
+                    num1 = Convert.ToInt16(coord.num1.spelling);
+                    num2 = Convert.ToInt16(coord.num2.spelling);
+                }
+                else
+                {
+                    num1 = agent.posX;
+                    num2 = agent.posY;
+
+                    token = (Token)moveOption;
+                    switch (token.spelling.ToLower())
+                    { 
+                        case "up":
+                            num2 = num2--;
+                            break;
+                        case "down":
+                            num2 = num2++;
+                            break;
+                        case "left":
+                            num1 = num1--;
+                            break;
+                        case "right":
+                            num1 = num1++;
+                            break;
+                        case "hold":
+                            break;
+                    }
+                }
 
                 Functions.moveAgent((Agent)ident, num1, num2);
             }
@@ -71,7 +103,15 @@ namespace ActionInterpeter
             Token token = identifier.agent_Name_or_ID;
             if (token.kind == (int)Token.keywords.NUMBER)
             {
-                throw new NotImplementedException();
+                Agent agent = null;
+                try
+                {
+                    agent = Lists.RetrieveAgent(Convert.ToInt16(token.spelling));
+                }
+                catch (Exception e)
+                { }
+                if (agent != null)
+                    return agent;
             }
             else if( token.kind == (int)Token.keywords.IDENTIFIER)
             {

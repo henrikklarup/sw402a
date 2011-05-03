@@ -79,6 +79,12 @@ namespace ActionInterpeter
                 acceptIt();
                 return ident;
             }
+            else if (currentToken.kind == (int)Token.keywords.NUMBER)
+            { 
+                ident = new Identifier(currentToken);
+                acceptIt();
+                return ident;
+            }
             else
             {
                 throwException = true;
