@@ -53,6 +53,12 @@
     <Compile Include="Token.cs" />
     <Compile Include="Visitor.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj">
+      <Project>{B6B9134A-DCB1-47F0-9677-ED65A055E588}</Project>
+      <Name>MASClassLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

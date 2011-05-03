@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication6
+namespace MASClassLibrary
 {
     public class Team
     {
