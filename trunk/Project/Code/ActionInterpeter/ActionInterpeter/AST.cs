@@ -13,48 +13,22 @@ namespace ActionInterpeter
     abstract class Terminal : AST
     { }
 
-    abstract class ActionAST : AST
-    { }
-
-    class Action : ActionAST
+    class Action : AST
     {
         public Single_Action single_action;
-
-        public Action(Single_Action single_action)
-        {
-            this.single_action = single_action;
-        }
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitAction(this, arg);
         }
     }
-
-    class MainProgram : AST 
+    
+    class Single_Action : AST
     {
-        public Action action;
-
-        public MainProgram(Action action)
-        {
-            this.action = action;
-        }
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMainProgram(this, arg);
-        }
-    }
-
-    class Single_Action : ActionAST
-    {
+        public AST selection;
         public Move_Option move_option;
-        public Identifier identifier;
 
-        public Single_Action(Identifier identifier, Move_Option move_option)
-        {
-            this.identifier = identifier;
-            this.move_option = move_option;
-        }
+        public int type;
 
         public override object visit(Visitor v, object arg)
         {
@@ -62,20 +36,11 @@ namespace ActionInterpeter
         }
     }
         
-    class Move_Option : ActionAST
+    class Move_Option : AST
     {
-        public Token direction;
-        public Coordinate coordinate;
+        public AST dir_coord;
 
-        public Move_Option(Token direction)
-        {
-            this.direction = direction;
-        }
-
-        public Move_Option(Coordinate coord)
-        {
-            this.coordinate = coord;
-        }
+        public int type;
 
         public override object visit(Visitor v, object arg)
         {
@@ -85,16 +50,31 @@ namespace ActionInterpeter
 
     class Identifier : Terminal
     {
-        public Token agent_Name_or_ID;
-
-        public Identifier(Token agent_Name_or_ID)
-        {
-            this.agent_Name_or_ID = agent_Name_or_ID;
-        }
+        public Token name;
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitIdentifier(this, arg);
+        }
+    }
+
+    class MASNumber : Terminal
+    {
+        public Token ID;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitMASNumber(this, arg);
+        }
+    }
+
+    class Direction : Terminal
+    {
+        public Token dir;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitDirection(this, arg);
         }
     }
 
@@ -103,16 +83,39 @@ namespace ActionInterpeter
         public Token num1;
         public Token num2;
 
-        public Coordinate(Token num1, Token num2)
-        {
-            this.num1 = num1;
-            this.num2 = num2;
-        }
-
         public override object visit(Visitor v, object arg)
         {
             return v.visitCoordinate(this, arg);
         }
     }
 
+    class AgentID : AST
+    {
+        public Token num;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitAgentID(this, arg);
+        }
+    }
+
+    class TeamID : AST
+    {
+        public Token num;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitTeamID(this, arg);
+        }
+    }
+
+    class SquadID : AST
+    {
+        public Token num;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitSquadID(this, arg);
+        }
+    }
 }

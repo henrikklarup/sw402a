@@ -21,16 +21,26 @@ namespace ActionInterpeter
             LEFT,
             RIGHT,
             HOLD,
+            AGENT,
+            A,
+            TEAM,
+            T,
+            SQUAD,
+            S,
             MOVE,
             EOL,
             EOT,
             ERROR,
+            DIR,
+            COORD,
+            ACTIONPATTERN,
         }
 
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
-            "<identifier>", "<number>", ".", ",", "up", "down", "left", "right", "hold", "move", "<EOL>", "<EOT>", "<ERROR>"                         
+            "<identifier>", "<number>", ".", ",", "up", "down", "left", "right", "hold", 
+            "agent", "a", "team", "t", "squad", "s", "move", "<EOL>", "<EOT>", "<ERROR>"
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
