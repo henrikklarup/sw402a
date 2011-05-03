@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST.cs" />
+    <Compile Include="CodeGenerationVisitor.cs" />
     <Compile Include="GrammarException.cs" />
     <Compile Include="IdentificationTable.cs" />
     <Compile Include="Parser.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Scanzor.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Token.cs" />
+    <Compile Include="DecorationVisitor.cs" />
     <Compile Include="Visitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
