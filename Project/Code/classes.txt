@@ -71,6 +71,11 @@
             Agents = new List<Agent>();
             // _iD = ...
         }
+
+	public void add(Agent agent)
+        {
+            Agents.Add(agent);
+        }
     }
 
     class Team
