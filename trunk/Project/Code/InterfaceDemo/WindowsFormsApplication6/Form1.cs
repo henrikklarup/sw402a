@@ -24,10 +24,6 @@ namespace WindowsFormsApplication6
         int LineWidth;                      //Grid line width
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
         Agent movedAgent;                   //Last moved agent
-        List<Agent> agents;                 //List of agents
-        List<ActionPattern> actionPatterns; //List of actionPatterns
-        List<Squad> squads;                 //List of squads
-        List<Team> teams;                   //List of teams
         #endregion
 
         #region Constructor
@@ -108,7 +104,7 @@ namespace WindowsFormsApplication6
 
             //Draw Figure
             #region Draw Soldiers
-            foreach (Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 Rectangle drawRect = new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1);
 
@@ -135,7 +131,7 @@ namespace WindowsFormsApplication6
             //Die Agents
             if (movedAgent != null)
             {
-                foreach (Agent a in agents)
+                foreach (Agent a in Lists.agents)
                 {
                     if (a.team.ID != movedAgent.team.ID)
                     {
@@ -158,7 +154,7 @@ namespace WindowsFormsApplication6
             int agentsOnTeam2 = 0;
             int agentsOnTeam3 = 0;
             int agentsOnTeam4 = 0;
-            foreach (Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 if (a.team.ID == 1)
                     agentsOnTeam1++;
@@ -194,7 +190,7 @@ namespace WindowsFormsApplication6
             mousePointGrid = getGridPixelFromPixel(e.Location);
 
             //GetAgent on mouseClick
-            foreach(Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 Point agentPoint = getGridPixelFromPixel(new Point(a.posX, a.posY));
                 if (agentPoint == mousePointGrid)
@@ -325,11 +321,11 @@ namespace WindowsFormsApplication6
             if (agent1Value > agent2Value)
             {
                 MessageBox.Show(a1.name + " beats " + a2.name);
-                foreach (Agent a in agents)
+                foreach (Agent a in Lists.agents)
                 {
                     if (a.ID == a2.ID)
                     {
-                        agents.Remove(a);
+                        Lists.agents.Remove(a);
                         break;
                     }
 
@@ -339,11 +335,11 @@ namespace WindowsFormsApplication6
             else
             {
                 MessageBox.Show(a2.name + " beats " + a1.name);
-                foreach (Agent a in agents)
+                foreach (Agent a in Lists.agents)
                 {
                     if (a.ID == a1.ID)
                     {
-                        agents.Remove(a);
+                        Lists.agents.Remove(a);
                         break;
                     }
 
@@ -367,7 +363,7 @@ namespace WindowsFormsApplication6
         #region MoveAgent
         private void moveAgent(Agent agent, int xchord, int ychord)
         {
-            foreach (Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 if (a.ID == agent.ID)
                 {
@@ -411,25 +407,25 @@ namespace WindowsFormsApplication6
             using (var sr = new StreamReader(path + @"\agents.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Agent>));
-                agents = (List<Agent>)deserializer.Deserialize(sr);
+                Lists.agents = (List<Agent>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\teams.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Team>));
-                teams = (List<Team>)deserializer.Deserialize(sr);
+                Lists.teams = (List<Team>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\squads.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<Squad>));
-                squads = (List<Squad>)deserializer.Deserialize(sr);
+                Lists.squads = (List<Squad>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<ActionPattern>));
-                actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
+                Lists.actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
             }
         }
         #endregion
@@ -444,7 +440,7 @@ namespace WindowsFormsApplication6
             int agentsOnTeam2 = 0;
             int agentsOnTeam3 = 0;
             int agentsOnTeam4 = 0;
-            foreach (Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 if (a.team.ID == 1)
                     agentsOnTeam1++;
@@ -460,7 +456,7 @@ namespace WindowsFormsApplication6
             int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
             int it3 = (Grids / 2) - (agentsOnTeam3 / 2);
             int it4 = (Grids / 2) - (agentsOnTeam4 / 2);
-            foreach (Agent a in agents)
+            foreach (Agent a in Lists.agents)
             {
                 Point p = new Point();
                 if (a.team.ID == 1)
