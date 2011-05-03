@@ -47,6 +47,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
+            this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -238,6 +239,11 @@
             this.dbPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseClick);
             this.dbPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseMove);
             // 
+            // gameTimer
+            // 
+            this.gameTimer.Interval = 10;
+            this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            // 
             // WarGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,6 +296,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Timer gameTimer;
     }
 }
 
