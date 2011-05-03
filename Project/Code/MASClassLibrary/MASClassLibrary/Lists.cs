@@ -29,7 +29,7 @@ namespace MASClassLibrary
             }
             else
             {
-                agent = results.FirstOrDefault(); 
+                agent = results.FirstOrDefault();
             }
                 
             return agent;
