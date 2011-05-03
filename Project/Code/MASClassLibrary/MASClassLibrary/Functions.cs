@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace MASClassLibrary
 {
-    public class Functions
+    public static class Functions
     {
         /// <summary>
         /// Moves the selected agent to the x and y choords selected
@@ -15,7 +15,7 @@ namespace MASClassLibrary
         /// <param name="xchord">X chord</param>
         /// <param name="ychord">Y chord</param>
         #region MoveAgent
-        public void moveAgent(Agent agent, int xchord, int ychord)
+        public static void moveAgent(Agent agent, int xchord, int ychord)
         {
             foreach (Agent a in Lists.agents)
             {
