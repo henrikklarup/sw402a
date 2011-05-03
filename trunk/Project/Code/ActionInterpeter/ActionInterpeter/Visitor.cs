@@ -58,7 +58,7 @@ namespace ActionInterpeter
             Token token = identifier.agent_Name_or_ID;
             if (token.kind == (int)Token.keywords.NUMBER)
             {
-                //identifier.type == number
+                
             }
             else
             { 

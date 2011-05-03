@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml.Serialization;
 using XMLawesome;
 using ActionInterpeter;
+using MASClassLibrary;
 
 namespace WindowsFormsApplication6
 {
