@@ -62,16 +62,16 @@ namespace ActionInterpeter
                     switch (token.spelling.ToLower())
                     { 
                         case "up":
-                            num2 = num2--;
+                            num2--;
                             break;
                         case "down":
-                            num2 = num2++;
+                            num2++;
                             break;
                         case "left":
-                            num1 = num1--;
+                            num1--;
                             break;
                         case "right":
-                            num1 = num1++;
+                            num1++;
                             break;
                         case "hold":
                             break;
