@@ -38,7 +38,10 @@ namespace ActionInterpeter
             // If the identifier is an agent.
             if (Type.ReferenceEquals(ident.GetType(), new Agent().GetType()))
             { 
-                Coordinate coord = (Coordinate)moveOption;
+                Token token = new Token();
+                Coordinate coord = new Coordinate()
+                if(Type.ReferenceEquals(moveOption.GetType(), ))
+                 = (Coordinate)moveOption;
 
                 int num1 = Convert.ToInt16(coord.num1.spelling);
                 int num2 = Convert.ToInt16(coord.num2.spelling);
