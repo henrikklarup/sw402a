@@ -226,11 +226,11 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
-            DecorationVisitor visitor = new DecorationVisitor();
+            CodeGenerationVisitor visitor = new CodeGenerationVisitor();
 
             try
             {
-                visitor.visitAST(newAst, 1);
+                visitor.visitAST(newAst, true);
             }
             catch (GrammarException g)
             {
