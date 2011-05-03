@@ -27,13 +27,9 @@ namespace MASClassLibrary
             Agent agent;
 
             results = agents.FindAll(delegate(Agent a) { return a.name == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Agent " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Agent " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -54,13 +50,9 @@ namespace MASClassLibrary
             Agent agent;
 
             results = agents.FindAll(delegate(Agent a) { return a.ID == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Agent " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Agent " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -83,13 +75,9 @@ namespace MASClassLibrary
             Team team;
 
             results = teams.FindAll(delegate(Team t) { return t.name == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Team " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Team " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -110,13 +98,9 @@ namespace MASClassLibrary
             Team team;
 
             results = teams.FindAll(delegate(Team t) { return t.ID == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Team " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Team " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -139,13 +123,9 @@ namespace MASClassLibrary
             Squad squad;
 
             results = squads.FindAll(delegate(Squad s) { return s.name == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Squad " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Squad " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -166,13 +146,9 @@ namespace MASClassLibrary
             Squad squad;
 
             results = squads.FindAll(delegate(Squad s) { return s.ID == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Squad " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Squad " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -195,13 +171,9 @@ namespace MASClassLibrary
             ActionPattern actionPattern;
 
             results = actionPatterns.FindAll(delegate(ActionPattern ap) { return ap.name == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Action Pattern " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Action Pattern " + ident + " has duplicants.");
+                return null;
             }
             else
             {
@@ -222,13 +194,9 @@ namespace MASClassLibrary
             ActionPattern actionPattern;
 
             results = actionPatterns.FindAll(delegate(ActionPattern ap) { return ap.ID == ident; });
-            if (results.Count == 0)
+            if (results.Count != 1)
             {
-                throw new Exception("Action Pattern " + ident + " does not exists.");
-            }
-            else if (results.Count != 1)
-            {
-                throw new Exception("Action Pattern " + ident + " has duplicants.");
+                return null;
             }
             else
             {

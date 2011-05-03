@@ -17,6 +17,7 @@ namespace ActionInterpeter
         private GrammarException gException = new GrammarException("These errors were found by the parser:");
         private bool throwException = false;
 
+        #region Accept
         /// <summary>
         /// Checks if the kind of the current token matches the expected value, 
         /// it prints an error message is that is not the case.
@@ -46,6 +47,7 @@ namespace ActionInterpeter
         {
             currentToken = scanner.scan();
         }
+        #endregion
 
         /// <summary>
         /// Parse the tokens into an abstract syntax tree.
@@ -62,12 +64,12 @@ namespace ActionInterpeter
             return ast;
         }
 
-        private ActionAST parseAction()
+        private Action parseAction()
         {
-            ActionAST actionAST;
-            actionAST = parseSingle_Action();
-
-            return actionAST;
+            Action singleAction = new Action();
+            singleAction.single_action = parseSingle_Action();
+           
+            return singleAction;
         }
 
         private Identifier parseIdentifier()
@@ -75,13 +77,8 @@ namespace ActionInterpeter
             Identifier ident;
             if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
             {
-                ident = new Identifier(currentToken);
-                acceptIt();
-                return ident;
-            }
-            else if (currentToken.kind == (int)Token.keywords.NUMBER)
-            { 
-                ident = new Identifier(currentToken);
+                ident = new Identifier();
+                ident.name = currentToken;
                 acceptIt();
                 return ident;
             }
@@ -95,28 +92,97 @@ namespace ActionInterpeter
             return null;
         }
 
+        private MASNumber parseMASNumber()
+        { 
+            MASNumber num;
+            if (currentToken.kind == (int)Token.keywords.NUMBER)
+            { 
+                num = new MASNumber();
+                num.ID = currentToken;
+                acceptIt();
+                return num;
+            }
+            else
+            {
+                throwException = true;
+                gException.containedExceptions.Add(new GrammarException(
+                    "Token " +
+                    (Token.keywords)currentToken.kind + " is not a valid number.", currentToken));
+            }
+            return null;
+        }
+
         private Single_Action parseSingle_Action()
         {
-            Identifier identifier = parseIdentifier();
-            
+            Single_Action singleAction = new Single_Action();
+            singleAction.selection = parseSelection();
+            singleAction.move_option = parseMove_Option();
+            return singleAction;
+        }
+
+        private AST parseSelection()
+        {
             switch (currentToken.kind)
-            {
-                case (int)Token.keywords.MOVE:
+            { 
+                case (int)Token.keywords.AGENT:
+                case (int)Token.keywords.A:
+                    // Accepts the token, since its either A or Agent.
                     acceptIt();
-                    Move_Option move_option = parseMove_Option();
-                    return new Single_Action(identifier, move_option);
-                default:
-                    throwException = true;
-                    gException.containedExceptions.Add(new GrammarException(
-                        "Token " + 
-                        currentToken.spelling + " is not valid for a command.", currentToken));
-                    return null;
+                    AgentID agent = parseAgentID();
+                    return agent;
+                case (int)Token.keywords.TEAM:
+                case (int)Token.keywords.T:
+                    // Accepts the token, since its either T or Team.
+                    acceptIt();
+                    TeamID team = parseTeamID();
+                    return team;
+                case (int)Token.keywords.SQUAD:
+                case (int)Token.keywords.S:
+                    // Accepts the token, since its either S or Squad.
+                    acceptIt();
+                    SquadID squad = parseSquadID();
+                    return squad;
+                case (int)Token.keywords.NUMBER:
+                    AgentID agentNum = parseAgentID();
+                    return agentNum;
+                case (int)Token.keywords.IDENTIFIER:
+                    Identifier ident = parseIdentifier();
+                    return ident;
+
             }
+
+            return null;
+        }
+
+        private SquadID parseSquadID()
+        {
+            SquadID squad = new SquadID();
+            squad.num = currentToken;
+            acceptIt();
+            return squad;
+        }
+
+        private TeamID parseTeamID()
+        {
+            TeamID team = new TeamID();
+            team.num = currentToken;
+            acceptIt();
+            return team;
+        }
+
+        private AgentID parseAgentID()
+        {
+            AgentID agent = new AgentID();
+            agent.num = currentToken;
+            acceptIt();
+            return agent;
         }
 
         private Move_Option parseMove_Option()
         {
             Move_Option move_option;
+            accept(Token.keywords.MOVE);
+
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.DOWN:
@@ -124,11 +190,16 @@ namespace ActionInterpeter
                 case (int)Token.keywords.LEFT:
                 case (int)Token.keywords.RIGHT:
                 case (int)Token.keywords.HOLD:
-                    move_option = new Move_Option(currentToken);
-                    acceptIt();
+                    move_option = new Move_Option();
+                    move_option.dir_coord = parseDirection();
                     break;
                 case (int)Token.keywords.NUMBER:
-                    move_option = new Move_Option(parseCoordinate());
+                    move_option = new Move_Option();
+                    move_option.dir_coord = parseCoordinate();
+                    break;
+                case (int)Token.keywords.IDENTIFIER:
+                    move_option = new Move_Option();
+                    move_option.dir_coord = parseIdentifier();
                     break;
                 default:
                     throwException = true;
@@ -140,8 +211,21 @@ namespace ActionInterpeter
             return move_option;
         }
 
+        private Direction parseDirection()
+        {
+            Direction dir = new Direction();
+            dir.dir = currentToken;
+            acceptIt();
+            return dir;
+        }
+        
+        /// <summary>
+        /// Accepts the coordinate definition num,num
+        /// </summary>
+        /// <returns>Coordinate</returns>
         private Coordinate parseCoordinate()
         {
+            Coordinate coord;
             switch(currentToken.kind)
             {
                 case (int)Token.keywords.NUMBER:
@@ -156,7 +240,10 @@ namespace ActionInterpeter
                     Token num2 = currentToken;
                     accept(Token.keywords.NUMBER);
 
-                    return new Coordinate(num1, num2);
+                    coord = new Coordinate();
+                    coord.num1 = num1;
+                    coord.num2 = num2;
+                    return coord;
                 default:
                    throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
