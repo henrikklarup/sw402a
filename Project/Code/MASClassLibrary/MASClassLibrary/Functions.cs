@@ -23,7 +23,7 @@ namespace MASClassLibrary
                 {
                     #region ifValid
                     //Set Figure to x,y
-                    Point newPoint = new Point(xchord-1, ychord-1);
+                    Point newPoint = new Point(xchord, ychord);
 
                     Agent moveagent = new Agent(a.ID, a.name, a.rank, a.team);
                     moveagent.posX = newPoint.X;
