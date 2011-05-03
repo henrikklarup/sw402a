@@ -62,7 +62,7 @@ namespace WindowsFormsApplication6
             #region Folder Browser Dialog
             //Xml-path choosen
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.RootFolder = Environment.SpecialFolder.Recent;
+
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //Generate xml data
