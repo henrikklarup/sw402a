@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MASClassLibrary;
 
 namespace ActionInterpeter
 {
@@ -58,11 +59,15 @@ namespace ActionInterpeter
             Token token = identifier.agent_Name_or_ID;
             if (token.kind == (int)Token.keywords.NUMBER)
             {
-                
+                throw new NotImplementedException();
             }
-            else
-            { 
-                //identifier.type
+            else if( token.kind == (int)Token.keywords.IDENTIFIER)
+            {
+                Agent agent;
+                try
+                {
+                    agent = Lists.RetrieveAgent(token.spelling);
+                }
             }
             return null;
         }
