@@ -15,7 +15,7 @@ namespace MASClassLibrary
         /// <param name="xchord">X chord</param>
         /// <param name="ychord">Y chord</param>
         #region MoveAgent
-        private void moveAgent(Agent agent, int xchord, int ychord)
+        public void moveAgent(Agent agent, int xchord, int ychord)
         {
             foreach (Agent a in Lists.agents)
             {
