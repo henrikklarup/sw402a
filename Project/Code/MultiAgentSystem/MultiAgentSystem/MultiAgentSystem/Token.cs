@@ -54,7 +54,7 @@ namespace MultiAgentSystem
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
         public static string[] spellings = 
         {
-            "<identifier>", "<number>", "<operator>", "<string>", ";", ":", "(", ")", "=", "{", "}", 
+            "<identifier>", "<number>", "<operator>", "<string>", "; ", ":", "(", ")", "=", "{", "}", 
             "if", "else", "for", "while", "bool", "new", "main", "team", "agent", "squad", "coord", "void", 
             "actionpattern", "num", "string", "true", "false", ",", ".", "<EOL>", "<EOT>", "<ERROR>"                         
         };
