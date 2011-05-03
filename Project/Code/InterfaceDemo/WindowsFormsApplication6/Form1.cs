@@ -23,7 +23,6 @@ namespace WindowsFormsApplication6
         Color backGroundColor;              //Background color
         int LineWidth;                      //Grid line width
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
-        Agent movedAgent;                   //Last moved agent
         #endregion
 
         #region Constructor
@@ -127,28 +126,6 @@ namespace WindowsFormsApplication6
         #region DrawTimer Tick
         private void DrawTimer_Tick(object sender, EventArgs e)
         {
-            //Game Logic
-            #region GameLogic
-            //Die Agents
-            if (movedAgent != null)
-            {
-                foreach (Agent a in Lists.agents)
-                {
-                    if (a.team.ID != movedAgent.team.ID)
-                    {
-                        if (a.posX == movedAgent.posX && a.posY == movedAgent.posY)
-                        {
-                            //Some Logic
-
-                            CombatCompareAgents(a, movedAgent);
-                            break;
-
-                        }
-                    }
-                }
-            }
-            #endregion
-
             //Update progress
             #region Progress
             int agentsOnTeam1 = 0;
@@ -178,6 +155,56 @@ namespace WindowsFormsApplication6
             //Update GameArea
             dbPanel1.Invalidate();
 
+        }
+        #endregion
+
+        #region GameTimer Tick
+        private void gameTimer_Tick(object sender, EventArgs e)
+        {
+            //Game Logic
+            #region GameLogic
+            //Check agents
+            foreach (Agent aa in Lists.agents)
+            {
+                foreach (Agent a in Lists.agents)
+                {
+                    if (a.team.ID != aa.team.ID)
+                    {
+                        if (a.posX == aa.posX && a.posY == aa.posY)
+                        {
+                            //Some Logic
+
+                            CombatCompareAgents(a, aa);
+                            break;
+
+                        }
+                    }
+                }
+            }
+
+            foreach (Agent aa in Lists.agents)
+            {
+                foreach (Agent a in Lists.moveAgents)
+                {
+                    if (aa.ID == a.ID)
+                    {
+                        if (a.posY > aa.posY)
+                            aa.posY++;
+                        else if (a.posY < aa.posY)
+                            aa.posY--;
+                        else if (a.posX > aa.posX)
+                            aa.posX++;
+                        else if (a.posX < aa.posX)
+                            aa.posX--;
+                        else
+                        {
+                            Lists.moveAgents.Remove(a);
+                            break;
+                        }
+                    }
+                }
+            }
+            #endregion
         }
         #endregion
 
@@ -347,8 +374,6 @@ namespace WindowsFormsApplication6
                 }
             }
 
-            //No agent has now been moved
-            movedAgent = null;
 
             //Start the timer, and let the game continue
             DrawTimer.Start();
@@ -368,12 +393,21 @@ namespace WindowsFormsApplication6
             {
                 if (a.ID == agent.ID)
                 {
+                    #region ifValid
                     //Set Figure to x,y
                     Point newPoint = getGridPixelFromGrid(new Point(xchord - 1, ychord - 1));
-                    a.posX = newPoint.X;
-                    a.posY = newPoint.Y;
-                    //Set movedAgent to just moved agent
-                    movedAgent = a;
+
+                    Agent moveagent = a;
+                    moveagent.posX = newPoint.X;
+                    moveagent.posY = newPoint.Y;
+
+                    Lists.moveAgents.Add(moveagent);
+
+                    //OLD SHIT
+                    //a.posX = newPoint.X;
+                    //a.posY = newPoint.Y;
+
+                    #endregion
                 }
             }
         }
