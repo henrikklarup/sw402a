@@ -1,46 +1,46 @@
-	class Agent
+	class agent
     {
         private int _iD;
         private string _name;
-        private Team _team;
+        private team _team;
         private int _posX;
         private int _posY;
         private int _rank;
 
-        public int ID
+        public int id
         {
             get { return _iD; }
         }
 
-        public string Name
+        public string name
         {
             get { return _name; }
         }
 
-        public Team Team
+        public team team
         {
             get { return _team; }
             set { _team = value; }
         }
 
-        public int PosX
+        public int posx
         {
             get { return _posX; }
             set { _posX = value; }
         }
 
-        public int PosY
+        public int posy
         {
             get { return _posY; }
             set { _posY = value; }
         }
 
-        public int Rank
+        public int rank
         {
             get { return _rank; }
         }
 
-        public Agent(int rank, string name)
+        public agent(int rank, string name)
         {
             //_iD = ...
             this._rank = rank;
@@ -48,76 +48,76 @@
         }
     }
 
-    class Squad
+    class squad
     {
         private int _iD;
         private string _name;
 
-        public int ID
+        public int id
         {
             get { return _iD; }
         }
 
-        public string Name
+        public string name
         {
             get { return _name; }
         }
 
         public List<Agent> Agents;
 
-        public Squad(string name)
+        public squad(string name)
         {
             this._name = name;
             Agents = new List<Agent>();
             // _iD = ...
         }
 
-	public void add(Agent agent)
+		public void add(agent agent)
         {
             Agents.Add(agent);
         }
     }
 
-    class Team
+    class team
     {
         private int _iD;
         private string _name;
         private Color _color;
 
-        public int ID
+        public int id
         {
             get { return _iD; }
         }
 
-        public string Name
+        public string name
         {
             get { return _name; }
         }
 
-        public Color TeamColor
+        public Color teamcolor
         {
             get { return _color; }
             set { _color = value; }
         }
 
-        public Team(string name)
+        public team(string name)
         {
             // _iD = ...
             this._name = name;
         }
     }
 
-    class ActionPattern
+    class actionpattern
     {
         private string _name;
         public List<string> Actions;
 
-        public string Name
+        public string name
         {
             get { return _name; }
         }
 
-        public ActionPattern(string name)
+        public actionpattern(string name)
         {
             this._name = name;
             Actions = new List<string>();
