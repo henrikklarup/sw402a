@@ -58,6 +58,7 @@ namespace WindowsFormsApplication6
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
+            Lists.moveAgents = new List<Agent>();
             #endregion
 
             #region Folder Browser Dialog
@@ -73,6 +74,7 @@ namespace WindowsFormsApplication6
             #endregion
 
             DrawTimer.Enabled = true;       //Enable the timer
+            gameTimer.Enabled = true;
         }
         #endregion
 
@@ -107,7 +109,10 @@ namespace WindowsFormsApplication6
             #region Draw Soldiers
             foreach (Agent a in Lists.agents)
             {
-                Rectangle drawRect = new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1);
+                Point drawPoint = new Point(a.posX, a.posY);
+                drawPoint = getGridPixelFromGrid(drawPoint);
+
+                Rectangle drawRect = new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1);
 
                 FontFamily ff = new FontFamily("Arial");
                 float fontSizePixel = drawRect.Width;
@@ -115,8 +120,8 @@ namespace WindowsFormsApplication6
 
                 //Font rankFont = new System.Drawing.Font(e.Graphics.MeasureString(a.rank.ToString(),new Font(Font,FontStyle.Regular)), FontStyle.Regular);
                 e.Graphics.FillEllipse(new SolidBrush(Color.FromName(a.team.color)), drawRect);
-                e.Graphics.DrawEllipse(Pens.White, new Rectangle(a.posX, a.posY, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
-                e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(a.posX, a.posY));
+                e.Graphics.DrawEllipse(Pens.White, new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(drawPoint.X, drawPoint.Y));
             }
             #endregion
         }
@@ -216,12 +221,12 @@ namespace WindowsFormsApplication6
         private void dbPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             //Get Mouse ClickPoint
-            mousePointGrid = getGridPixelFromPixel(e.Location);
+            mousePointGrid = getGridFromPixel(e.Location);
 
             //GetAgent on mouseClick
             foreach (Agent a in Lists.agents)
             {
-                Point agentPoint = getGridPixelFromPixel(new Point(a.posX, a.posY));
+                Point agentPoint = new Point(a.posX+1, a.posY+1);
                 if (agentPoint == mousePointGrid)
                 {
                     //Write Agent stats
@@ -465,19 +470,19 @@ namespace WindowsFormsApplication6
                 Point p = new Point();
                 if (a.team.ID == 1)
                 {
-                    p = getGridPixelFromGrid(new Point(it1, 0));
+                    p = new Point(it1, 0);
                 }
                 else if (a.team.ID == 2)
                 {
-                    p = getGridPixelFromGrid(new Point(Grids - 1, it2));
+                    p = new Point(Grids - 1, it2);
                 }
                 else if (a.team.ID == 3)
                 {
-                    p = getGridPixelFromGrid(new Point(it3, Grids - 1));
+                    p = new Point(it3, Grids - 1);
                 }
                 else if (a.team.ID == 4)
                 {
-                    p = getGridPixelFromGrid(new Point(0, it4));
+                    p = new Point(0, it4);
                 }
 
                 a.posX += p.X;
