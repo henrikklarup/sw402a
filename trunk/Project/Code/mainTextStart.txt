@@ -9,6 +9,8 @@ namespace MultiAgentSystem
 		static void Main(string[] args)
 		{ 
 			/* Here the program starts. */ 
-			int numberOfTeams = 0; 
-			int numberOfSquads = 0;
+			List<agent> agentList = new List<agent>();
+			List<squad> squadList = new List<squad>();
+			List<team> teamList = new List<team>();
+			List<actionpattern> apList = new List<actionpattern>();
 			int points = 
