@@ -132,7 +132,7 @@ namespace ActionInterpeter
             }
             else
             {
-                throw new GrammarException("An invalid move options was chose.");
+                throw new GrammarException("An invalid move options was chosen.");
             }
             return null;
         }

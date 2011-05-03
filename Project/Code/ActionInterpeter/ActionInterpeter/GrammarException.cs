@@ -74,10 +74,10 @@ namespace ActionInterpeter
 
         public void PrintExceptions()
         {
-            Console.WriteLine("\n" + this.Message);
+            Printer.WriteLine(this.Message);
             foreach (GrammarException exc in this.containedExceptions)
             {
-                Printer.Error(exc.Message + "\n");
+                Printer.ErrorLine(exc.Message);
             }
             Console.WriteLine();
         }
