@@ -226,7 +226,7 @@ namespace WindowsFormsApplication6
             //GetAgent on mouseClick
             foreach (Agent a in Lists.agents)
             {
-                Point agentPoint = new Point(a.posX+1, a.posY+1);
+                Point agentPoint = new Point(a.posX, a.posY);
                 if (agentPoint == mousePointGrid)
                 {
                     //Write Agent stats
@@ -326,8 +326,8 @@ namespace WindowsFormsApplication6
             //Start equals 0,0   -- DONE!
 
             //(cut digits) (Point.V - lw) / (Gx + lw)
-            int x = (int)((inputPoint.X - LineWidth) / (GridSize.Width + LineWidth)) +1;
-            int y = (int)((inputPoint.Y - LineWidth) / (GridSize.Height + LineWidth)) +1;
+            int x = (int)((inputPoint.X - LineWidth) / (GridSize.Width + LineWidth));
+            int y = (int)((inputPoint.Y - LineWidth) / (GridSize.Height + LineWidth));
 
             return new Point(x, y);
         }
