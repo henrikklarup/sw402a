@@ -47,13 +47,13 @@ namespace ActionInterpeter
 
     class Single_Action : ActionAST
     {
-        public Move_Action move_action;
+        public Move_Option move_option;
         public Identifier identifier;
 
-        public Single_Action(Identifier identifier, Move_Action move_action)
+        public Single_Action(Identifier identifier, Move_Option move_option)
         {
             this.identifier = identifier;
-            this.move_action = move_action;
+            this.move_option = move_option;
         }
 
         public override object visit(Visitor v, object arg)
@@ -61,22 +61,7 @@ namespace ActionInterpeter
             return v.visitSingle_Action(this, arg);
         }
     }
-
-    class Move_Action : ActionAST
-    {
-        public Move_Option move_Option;
-
-        public Move_Action(Move_Option move_option)
-        {
-            this.move_Option = move_option;
-        }
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitMove_Action(this, arg);
-        }
-    }
-
+        
     class Move_Option : ActionAST
     {
         public Token direction;

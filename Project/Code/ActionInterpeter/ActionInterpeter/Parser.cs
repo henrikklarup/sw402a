@@ -97,8 +97,8 @@ namespace ActionInterpeter
             {
                 case (int)Token.keywords.MOVE:
                     acceptIt();
-                    Move_Action move_action = parseMove_Action();
-                    return new Single_Action(identifier, move_action);
+                    Move_Option move_option = parseMove_Option();
+                    return new Single_Action(identifier, move_option);
                 default:
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
@@ -106,13 +106,6 @@ namespace ActionInterpeter
                         currentToken.spelling + " is not valid for a command.", currentToken));
                     return null;
             }
-        }
-
-        private Move_Action parseMove_Action()
-        {
-            Move_Action move_action;           
-            move_action = new Move_Action(parseMove_Option());
-            return move_action;
         }
 
         private Move_Option parseMove_Option()
