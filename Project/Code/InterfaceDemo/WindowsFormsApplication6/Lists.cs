@@ -11,5 +11,6 @@ namespace WindowsFormsApplication6
         public static List<ActionPattern> actionPatterns; //List of actionPatterns
         public static List<Squad> squads;                 //List of squads
         public static List<Team> teams;                   //List of teams
+        public static List<Agent> moveAgents;             //List of agents to move
     }
 }
