@@ -24,6 +24,7 @@ namespace WindowsFormsApplication6
         Color backGroundColor;              //Background color
         int LineWidth;                      //Grid line width
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
+        int turn;                           //Turnswitch
         #endregion
 
         #region Constructor
@@ -72,6 +73,11 @@ namespace WindowsFormsApplication6
                 placeTeams();
             }
             #endregion
+
+            //Turnswitch set to random
+            Random rnd = new Random();
+            turn = rnd.Next(1,Lists.teams.Count);
+            label6.Text = "Team " + turn;
 
             DrawTimer.Enabled = true;       //Enable the timer
             gameTimer.Enabled = true;
@@ -170,6 +176,7 @@ namespace WindowsFormsApplication6
             //Game Logic
             #region GameLogic
             //Check agents
+            bool breakValue = false;
             foreach (Agent aa in Lists.agents)
             {
                 foreach (Agent a in Lists.agents)
@@ -181,11 +188,13 @@ namespace WindowsFormsApplication6
                             //Some Logic
 
                             CombatCompareAgents(a, aa);
+                            breakValue = !breakValue;
                             break;
-
                         }
                     }
                 }
+                if (breakValue)
+                    break;
             }
 
             foreach (Agent aa in Lists.agents)
@@ -211,6 +220,7 @@ namespace WindowsFormsApplication6
                 }
             }
             #endregion
+            gameTimer.Start();
         }
         #endregion
 
@@ -264,15 +274,18 @@ namespace WindowsFormsApplication6
 
         private void Execute()
         {
-            // Takes the text from the textbox and stores it as a string.
-            string text = textBox1.Text;
+            if (textBox1.Text != string.Empty)
+            {
+                // Takes the text from the textbox and stores it as a string.
+                string text = textBox1.Text;
 
-            ActionInterpet.input = text;
-            string output = ActionInterpet.Compile();
+                ActionInterpet.input = text;
+                string output = ActionInterpet.Compile();
 
-            textBox4.AppendText(output);
+                textBox4.AppendText(output);
 
-            textBox1.Clear();
+                textBox1.Clear();
+            }
         }
 
         #endregion
@@ -344,6 +357,7 @@ namespace WindowsFormsApplication6
         {
             //Stop the tiemr, so we don't manulipulate the data while executing this
             DrawTimer.Stop();
+            gameTimer.Stop();
 
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
@@ -520,5 +534,16 @@ namespace WindowsFormsApplication6
             Application.Exit();
         }
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (turn < Lists.teams.Count)
+                turn++;
+            if (turn == Lists.teams.Count)
+                turn = 1;
+
+            Lists.currentTeam.ID = turn-1;
+            label6.Text = "Team " + turn;
+        }
     }
 }

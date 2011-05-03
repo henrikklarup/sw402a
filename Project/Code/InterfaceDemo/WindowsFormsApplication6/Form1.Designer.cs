@@ -47,6 +47,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.label6 = new System.Windows.Forms.Label();
             this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +115,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "End Turn";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -226,8 +228,16 @@
             // 
             // gameTimer
             // 
-            this.gameTimer.Interval = 1000;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(532, 719);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Team 1";
             // 
             // dbPanel1
             // 
@@ -249,6 +259,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 750);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox3);
@@ -297,6 +308,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label label6;
     }
 }
 
