@@ -282,6 +282,14 @@ namespace WindowsFormsApplication6
                 ActionInterpet.input = text;
                 string output = ActionInterpet.Compile();
 
+                //If there were no errors, write success!
+                if (output == "")
+                {
+                    StringBuilder newOutput = new StringBuilder("");
+                    newOutput.AppendLine();
+                    newOutput.Append("The command \"" + text + "\" was successfull.");
+                    output = newOutput.ToString();
+                }
                 textBox4.AppendText(output);
 
                 textBox1.Clear();
