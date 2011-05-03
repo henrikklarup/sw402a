@@ -32,14 +32,20 @@ namespace ActionInterpeter
 
         internal object visitSingle_Action(Single_Action single_Action, object arg)
         {
-            single_Action.identifier.visit(this, arg);
-            single_Action.move_action.visit(this, arg);
-            return null;
-        }
+            object ident = single_Action.identifier.visit(this, arg);
+            object moveOption = single_Action.move_option.visit(this, arg);
 
-        internal object visitMove_Action(Move_Action move_Action, object arg)
-        {
-            move_Action.move_Option.visit(this, arg);
+            // If the identifier is an agent.
+            if (Type.ReferenceEquals(ident.GetType(), new Agent().GetType()))
+            { 
+                Coordinate coord = (Coordinate)moveOption;
+
+                int num1 = Convert.ToInt16(coord.num1.spelling);
+                int num2 = Convert.ToInt16(coord.num2.spelling);
+
+                Functions.moveAgent((Agent)ident, num1, num2);
+            }
+
             return null;
         }
 
@@ -48,9 +54,12 @@ namespace ActionInterpeter
             //If no direction is recorded, this must be a coordinate
             if (move_Option.direction == null)
             {
-                move_Option.coordinate.visit(this, arg);
+                return move_Option.coordinate.visit(this, arg);
             }
-            return null;
+            else
+            {
+                return move_Option.direction;
+            }
         }
 
         internal object visitIdentifier(Identifier identifier, object arg)
@@ -63,11 +72,15 @@ namespace ActionInterpeter
             }
             else if( token.kind == (int)Token.keywords.IDENTIFIER)
             {
-                Agent agent;
+                Agent agent = null;
                 try
                 {
                     agent = Lists.RetrieveAgent(token.spelling);
                 }
+                catch (Exception e)
+                { }
+                if(agent != null)
+                    return agent;
             }
             return null;
         }
@@ -91,7 +104,7 @@ namespace ActionInterpeter
                         secondNum.spelling +
                         " is not valid input for coordinates.", secondNum));
             }
-            return null;
+            return coordinate;
         }
     }
 }
