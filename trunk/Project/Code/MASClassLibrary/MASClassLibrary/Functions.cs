@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace MASClassLibrary
 {
-    class Functions
+    public class Functions
     {
         /// <summary>
         /// Moves the selected agent to the x and y choords selected
