@@ -12,9 +12,10 @@ namespace MASClassLibrary
         public static List<Squad> squads;                 //List of squads
         public static List<Team> teams;                   //List of teams
         public static List<Agent> moveAgents;             //List of agents to move
+        public static Team currentTeam;                   //Current team
 
 
-        #region Retrieve Agent
+        #region RetrieveAgent
         /// <summary>
         /// Finds an agent by its name.
         /// </summary>
