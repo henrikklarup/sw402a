@@ -204,7 +204,7 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Decorating");
             Console.Title = "MASS Compiler: Decorating";
 
-            Visitor visitor = new Visitor();
+            DecorationVisitor visitor = new DecorationVisitor();
             try
             {
                 visitor.visitAST(newAst, null);
@@ -226,7 +226,7 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
-            Visitor visitor = new Visitor();
+            DecorationVisitor visitor = new DecorationVisitor();
 
             try
             {
