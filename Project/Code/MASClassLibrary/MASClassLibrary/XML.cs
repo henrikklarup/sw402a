@@ -13,6 +13,7 @@ namespace MASClassLibrary
 
         /// <summary>
         /// Generates the XML documents from the lists.
+        /// XML.path has to be initialized first.
         /// </summary>
         public static void generateXML()
         {
@@ -92,6 +93,7 @@ namespace MASClassLibrary
 
         /// <summary>
         /// Loads the XML documents to the lists.
+        /// XML.path has to be initialized first.
         /// </summary>
         public static void returnLists()
         {
