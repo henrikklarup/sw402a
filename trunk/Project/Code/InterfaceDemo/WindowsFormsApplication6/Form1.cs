@@ -79,6 +79,8 @@ namespace WindowsFormsApplication6
             turn = rnd.Next(1,Lists.teams.Count);
             label6.Text = "Team " + turn;
 
+            textBox4.AppendText("WarGame Console");
+
             DrawTimer.Enabled = true;       //Enable the timer
             gameTimer.Enabled = true;
         }
