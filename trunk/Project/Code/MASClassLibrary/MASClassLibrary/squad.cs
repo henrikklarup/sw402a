@@ -23,6 +23,10 @@ namespace MASClassLibrary
 
         public List<agent> Agents;
 
+        public squad()
+        {
+        }
+
         public squad(string name)
         {
             this._name = name;
