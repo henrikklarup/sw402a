@@ -33,8 +33,14 @@ namespace ActionInterpeter
             if (arg == null)
             {
                 #region Compare selection type
+                
+                // If there is nothing stored in the selection, trow an exception.
+                if (selection == null)
+                {
+                    throw new GrammarException("Couldn't match the selected unit.");
+                }
                 // If the selection is an agent, set the type of the selection.
-                if (object.ReferenceEquals(
+                else if (object.ReferenceEquals(
                     single_Action.selection.GetType(), new AgentID().GetType()))
                 {
                     single_Action.type = (int)Type.Types.AGENTID;
@@ -65,10 +71,6 @@ namespace ActionInterpeter
                     selection.GetType(), new Team().GetType()))
                 {
                     single_Action.type = (int)Type.Types.TEAM;
-                }
-                else
-                {
-                    throw new GrammarException("Couldn't match the selected unit.");
                 }
                 #endregion
             }
@@ -222,7 +224,7 @@ namespace ActionInterpeter
         {
             //Check if this identifier exists
             Token token = identifier.name;
-            if (token.kind == (int)Type.Types.IDENTIFIER)
+            if (token.kind == (int)Token.keywords.IDENTIFIER)
             {
                 object obj = null;
                 obj = Lists.RetrieveAgent(token.spelling);

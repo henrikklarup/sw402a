@@ -21,8 +21,15 @@ namespace ActionInterpeter
                 input = Console.ReadLine();
                 if (input.Count() == 0)
                     continue;
-
-                Parse();
+                try
+                {
+                    Parse();
+                }
+                catch (Exception e)
+                {
+                    Printer.WriteLine(e.Message);
+                    return;
+                }
                 Console.WriteLine("Success");
                 Console.ReadKey();
             }
@@ -46,7 +53,6 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Printer.WriteLine("Errors were found while PARSING.");
                 return;
             }
             Decorate();
@@ -62,7 +68,6 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Printer.WriteLine("Errors were found while DECORATING.");
                 return;
             }
         }
@@ -76,7 +81,6 @@ namespace ActionInterpeter
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Printer.WriteLine("Errors were found while GENERATING CODE.");
                 return;
             }
         }
