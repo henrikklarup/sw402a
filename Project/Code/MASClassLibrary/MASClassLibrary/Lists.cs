@@ -137,12 +137,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">Name of an squad</param>
         /// <returns>Squad</returns>
-        public static oldSquad RetrieveSquad(string ident)
+        public static Squad RetrieveSquad(string ident)
         {
-            List<oldSquad> results;
-            oldSquad squad;
+            List<Squad> results;
+            Squad squad;
 
-            results = squads.FindAll(delegate(oldSquad s)
+            results = squads.FindAll(delegate(Squad s)
             {
                 if (s.name == null)
                     return false;
@@ -165,12 +165,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of an squad</param>
         /// <returns>Squad</returns>
-        public static oldSquad RetrieveSquad(int ident)
+        public static Squad RetrieveSquad(int ident)
         {
-            List<oldSquad> results;
-            oldSquad squad;
+            List<Squad> results;
+            Squad squad;
 
-            results = squads.FindAll(delegate(oldSquad s)
+            results = squads.FindAll(delegate(Squad s)
             {
                 if (s.name == null)
                     return false;
