@@ -88,7 +88,7 @@ namespace ActionInterpeter
                         break;
                     case (int)Type.Types.TEAMID:
                     case (int)Type.Types.TEAM:
-                        visitCodeGen_Moveteam(single_Action, arg);
+                        visitCodeGen_MoveTeam(single_Action, arg);
                         break;
                     case (int)Type.Types.SQUADID:
                     case (int)Type.Types.SQUAD:

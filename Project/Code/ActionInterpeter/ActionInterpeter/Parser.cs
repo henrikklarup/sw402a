@@ -124,13 +124,13 @@ namespace ActionInterpeter
         {
             switch (currentToken.kind)
             { 
-                case (int)Token.keywords.agent:
+                case (int)Token.keywords.AGENT:
                 case (int)Token.keywords.A:
                     // Accepts the token, since its either A or agent.
                     acceptIt();
                     agentID agent = parseagentID();
                     return agent;
-                case (int)Token.keywords.team:
+                case (int)Token.keywords.TEAM:
                 case (int)Token.keywords.T:
                     // Accepts the token, since its either T or team.
                     acceptIt();
