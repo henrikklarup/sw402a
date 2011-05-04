@@ -248,11 +248,29 @@ namespace MASClassLibrary
 
         #region IDs
 
+        /// <summary>
+        /// Finds the next unused agent id.
+        /// </summary>
+        public static int NextAgentID
+        {
+            get { return agents.Count + 1; }
+        }
+
+        /// <summary>
+        /// Finds the next unused squad id.
+        /// </summary>
         public static int NextSquadID
         {
             get { return squads.Count + 1; }
         }
 
+        /// <summary>
+        /// Finds the next unused team id.
+        /// </summary>
+        public static int NextTeamID
+        {
+            get { return teams.Count + 1; }
+        }
         #endregion
     }
 }
