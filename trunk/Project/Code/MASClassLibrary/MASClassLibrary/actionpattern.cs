@@ -37,5 +37,10 @@ namespace MASClassLibrary
             this.actions.Add(action);
             Lists.actionPatterns.Add(this);
         }
+
+        public void add(string action)
+        {
+            actions.Add(action);
+        }
     }
 }
