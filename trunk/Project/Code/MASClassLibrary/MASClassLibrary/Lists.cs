@@ -8,8 +8,8 @@ namespace MASClassLibrary
     public static class Lists
     {
         public static List<Agent> agents;                 //List of agents
-        public static List<ActionPattern> actionPatterns; //List of actionPatterns
-        public static List<Squad> squads;                 //List of squads
+        public static List<oldActionPattern> actionPatterns; //List of actionPatterns
+        public static List<oldSquad> squads;                 //List of squads
         public static List<Team> teams;                   //List of teams
         public static List<Agent> moveAgents;             //List of agents to move
         public static Team currentTeam;                   //Current team
@@ -137,12 +137,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">Name of an squad</param>
         /// <returns>Squad</returns>
-        public static Squad RetrieveSquad(string ident)
+        public static oldSquad RetrieveSquad(string ident)
         {
-            List<Squad> results;
-            Squad squad;
+            List<oldSquad> results;
+            oldSquad squad;
 
-            results = squads.FindAll(delegate(Squad s)
+            results = squads.FindAll(delegate(oldSquad s)
             {
                 if (s.name == null)
                     return false;
@@ -165,12 +165,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of an squad</param>
         /// <returns>Squad</returns>
-        public static Squad RetrieveSquad(int ident)
+        public static oldSquad RetrieveSquad(int ident)
         {
-            List<Squad> results;
-            Squad squad;
+            List<oldSquad> results;
+            oldSquad squad;
 
-            results = squads.FindAll(delegate(Squad s)
+            results = squads.FindAll(delegate(oldSquad s)
             {
                 if (s.name == null)
                     return false;
@@ -195,11 +195,11 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">Name of the ActionPattern</param>
         /// <returns>ActionPattern</returns>
-        public static ActionPattern RetrieveActionPattern(string ident)
+        public static oldActionPattern RetrieveActionPattern(string ident)
         {
-            List<ActionPattern> results;
-            ActionPattern actionPattern;
-            results = actionPatterns.FindAll(delegate(ActionPattern ap)
+            List<oldActionPattern> results;
+            oldActionPattern actionPattern;
+            results = actionPatterns.FindAll(delegate(oldActionPattern ap)
             {
                 if (ap.name == null)
                     return false;
@@ -222,12 +222,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of the ActionPattern</param>
         /// <returns>ActionPattern</returns>
-        public static ActionPattern RetrieveActionPattern(int ident)
+        public static oldActionPattern RetrieveActionPattern(int ident)
         {
-            List<ActionPattern> results;
-            ActionPattern actionPattern;
+            List<oldActionPattern> results;
+            oldActionPattern actionPattern;
 
-            results = actionPatterns.FindAll(delegate(ActionPattern ap)
+            results = actionPatterns.FindAll(delegate(oldActionPattern ap)
             {
                 if (ap.name == null)
                     return false;

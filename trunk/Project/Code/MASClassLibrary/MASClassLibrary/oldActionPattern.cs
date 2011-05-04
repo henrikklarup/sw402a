@@ -5,22 +5,22 @@ using System.Text;
 
 namespace MASClassLibrary
 {
-    public class ActionPattern
+    public class oldActionPattern
     {
         public int ID;
         public string[] actions;
         public string name;
 
-        public ActionPattern()
+        public oldActionPattern()
         { }
 
-        public ActionPattern(int ID, string[] actions)
+        public oldActionPattern(int ID, string[] actions)
         {
             this.ID = ID;
             this.actions = actions;
         }
 
-        public ActionPattern(int ID, string action)
+        public oldActionPattern(int ID, string action)
         {
             string[] actionString = new string[1];
             actionString[0] = action;
