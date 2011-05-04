@@ -17,6 +17,7 @@ namespace MASClassLibrary
         public actionpattern(int ID, string[] actions)
         {
             this.ID = ID;
+            this.actions = new List<string>();
             foreach (string s in actions)
             {
                 this.actions.Add(s);
@@ -26,6 +27,7 @@ namespace MASClassLibrary
         public actionpattern(int ID, string action)
         {
             this.ID = ID;
+            this.actions = new List<string>();
             this.actions.Add(action);
         }
     }
