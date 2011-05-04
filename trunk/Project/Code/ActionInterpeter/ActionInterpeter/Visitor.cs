@@ -76,53 +76,6 @@ namespace ActionInterpeter
                 }
                 #endregion
             }
-            // If the selection is an agent, set the type of the selection.
-            else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new agentID().GetType()))
-            {
-                switch (single_Action.type)
-                {
-                    case (int)Type.Types.AGENTID:
-                    case (int)Type.Types.AGENT:
-                        visitCodeGen_MoveAgent(single_Action, arg);
-                        break;
-                    case (int)Type.Types.TEAMID:
-                    case (int)Type.Types.TEAM:
-                        visitCodeGen_MoveTeam(single_Action, arg);
-                        break;
-                    case (int)Type.Types.SQUADID:
-                    case (int)Type.Types.SQUAD:
-                        visitCodeGen_MoveSquad(single_Action, arg);
-                        break;
-                }
-            }
-            // try with Team.
-            else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new teamID().GetType()))
-            {
-                single_Action.type = (int)Type.Types.TEAMID;
-            }
-            // and squad.
-            else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new squadID().GetType()))
-            {
-                single_Action.type = (int)Type.Types.SQUADID;
-            }
-            else if (object.ReferenceEquals(
-                selection.GetType(), new agent().GetType()))
-            {
-                single_Action.type = (int)Type.Types.AGENT;
-            }
-            else if (object.ReferenceEquals(
-                selection.GetType(), new squad().GetType()))
-            {
-                single_Action.type = (int)Type.Types.SQUAD;
-            }
-            else if (object.ReferenceEquals(
-                selection.GetType(), new team().GetType()))
-            {
-                single_Action.type = (int)Type.Types.TEAM;
-            }
             #endregion
             switch (single_Action.type)
             {
