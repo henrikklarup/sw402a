@@ -25,7 +25,7 @@ namespace WindowsFormsApplication6
         int LineWidth;                      //Grid line width
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
         int turn;                           //Turnswitch
-        Agent selectedAgent;                //Selected Agent
+        agent selectedagent;                //Selected agent
         #endregion
 
         #region Constructor
@@ -60,8 +60,8 @@ namespace WindowsFormsApplication6
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
-            Lists.moveAgents = new List<Agent>();
-            selectedAgent = new Agent();
+            Lists.moveagents = new List<agent>();
+            selectedagent = new agent();
             #endregion
 
             #region Folder Browser Dialog
@@ -72,16 +72,16 @@ namespace WindowsFormsApplication6
             {
                 //Generate xml data
                 getXmlData(fbd.SelectedPath);
-                placeTeams();
+                placeteams();
             }
             #endregion
 
             //Turnswitch set to random
             Random rnd = new Random();
             turn = rnd.Next(1,Lists.teams.Count);
-            Lists.currentTeam = new Team();
-            Lists.currentTeam.ID = turn;
-            label6.Text = "Team " + turn;
+            Lists.currentteam = new team();
+            Lists.currentteam.ID = turn;
+            label6.Text = "team " + turn;
 
             textBox4.AppendText("WarGame Console");
 
@@ -118,7 +118,7 @@ namespace WindowsFormsApplication6
 
             //Draw Figure
             #region Draw Soldiers
-            foreach (Agent a in Lists.agents)
+            foreach (agent a in Lists.agents)
             {
                 //Calculate the pixels of the x,y from the agent
                 Point drawPoint = new Point(a.posX, a.posY);
@@ -140,11 +140,11 @@ namespace WindowsFormsApplication6
 
                 //Destination point of agent
                 #region Despoint
-                foreach (Agent aa in Lists.moveAgents)
+                foreach (agent aa in Lists.moveagents)
                 {
-                    if (aa.team.ID == Lists.currentTeam.ID)
+                    if (aa.team.ID == Lists.currentteam.ID)
                     {
-                        if (aa.ID == selectedAgent.ID)
+                        if (aa.ID == selectedagent.ID)
                         {
                             Point desPoint = new Point(aa.posX, aa.posY);
                             desPoint = getGridPixelFromGrid(desPoint);
@@ -165,24 +165,24 @@ namespace WindowsFormsApplication6
         {
             //Update progress
             #region Progress
-            int agentsOnTeam1 = 0;
-            int agentsOnTeam2 = 0;
-            int agentsOnTeam3 = 0;
-            int agentsOnTeam4 = 0;
-            foreach (Agent a in Lists.agents)
+            int agentsOnteam1 = 0;
+            int agentsOnteam2 = 0;
+            int agentsOnteam3 = 0;
+            int agentsOnteam4 = 0;
+            foreach (agent a in Lists.agents)
             {
                 if (a.team.ID == 1)
-                    agentsOnTeam1++;
+                    agentsOnteam1++;
                 if (a.team.ID == 2)
-                    agentsOnTeam2++;
+                    agentsOnteam2++;
                 if (a.team.ID == 3)
-                    agentsOnTeam3++;
+                    agentsOnteam3++;
                 if (a.team.ID == 4)
-                    agentsOnTeam4++;
+                    agentsOnteam4++;
             }
 
             //Generate gameStats
-            string gameStats = "Team 1: " + agentsOnTeam1 + Environment.NewLine + "Team 2: " + agentsOnTeam2 + Environment.NewLine + "Team 3: " + agentsOnTeam3 + Environment.NewLine + "Team 4: " + agentsOnTeam4;
+            string gameStats = "team 1: " + agentsOnteam1 + Environment.NewLine + "team 2: " + agentsOnteam2 + Environment.NewLine + "team 3: " + agentsOnteam3 + Environment.NewLine + "team 4: " + agentsOnteam4;
 
             //If Text changed, update textbox
             if (textBox3.Text != gameStats)
@@ -204,15 +204,15 @@ namespace WindowsFormsApplication6
             //Get Mouse ClickPoint
             mousePointGrid = getGridFromPixel(e.Location);
 
-            //GetAgent on mouseClick
-            foreach (Agent a in Lists.agents)
+            //Getagent on mouseClick
+            foreach (agent a in Lists.agents)
             {
                 Point agentPoint = new Point(a.posX, a.posY);
                 if (agentPoint == mousePointGrid)
                 {
-                    selectedAgent = a;
-                    //Write Agent stats
-                    textBox2.Text = "Name: " + a.name + Environment.NewLine + "Id: " + a.ID + Environment.NewLine + "Team: " + a.team.name + Environment.NewLine + "Team Color: " + a.team.color;
+                    selectedagent = a;
+                    //Write agent stats
+                    textBox2.Text = "Name: " + a.name + Environment.NewLine + "Id: " + a.ID + Environment.NewLine + "team: " + a.team.name + Environment.NewLine + "team Color: " + a.team.color;
                     break;
                 }
             }
@@ -223,17 +223,18 @@ namespace WindowsFormsApplication6
         private void button1_Click(object sender, EventArgs e)
         {
             //Run the game frame
-            gameFrame();
+            for(int i = 0; i < 3; i++)
+                gameFrame();
 
             //Switch turn
             if (turn < Lists.teams.Count+1)
                 turn++;
             if (turn > Lists.teams.Count)
                 turn = 1;
-            Lists.currentTeam.ID = turn;
+            Lists.currentteam.ID = turn;
 
             //Update label
-            label6.Text = "Team " + turn;
+            label6.Text = "team " + turn;
         }
         #endregion
 
@@ -349,10 +350,10 @@ namespace WindowsFormsApplication6
         /// <summary>
         /// Compares two agents, the one which "rolls" the highest wins
         /// </summary>
-        /// <param name="a1">Agent 1</param>
-        /// <param name="a2">Agent 2</param>
-        #region CombatCompareAgents
-        private void CombatCompareAgents(Agent a1, Agent a2)
+        /// <param name="a1">agent 1</param>
+        /// <param name="a2">agent 2</param>
+        #region CombatCompareagents
+        private void CombatCompareagents(agent a1, agent a2)
         {
             //Stop the tiemr, so we don't manulipulate the data while executing this
             DrawTimer.Stop();
@@ -367,7 +368,7 @@ namespace WindowsFormsApplication6
             if (agent1Value > agent2Value)
             {
                 textBox5.AppendText(a1.name + " beats " + a2.name);
-                foreach (Agent a in Lists.agents)
+                foreach (agent a in Lists.agents)
                 {
                     if (a.ID == a2.ID)
                     {
@@ -381,7 +382,7 @@ namespace WindowsFormsApplication6
             else
             {
                 MessageBox.Show(a2.name + " beats " + a1.name);
-                foreach (Agent a in Lists.agents)
+                foreach (agent a in Lists.agents)
                 {
                     if (a.ID == a1.ID)
                     {
@@ -409,32 +410,32 @@ namespace WindowsFormsApplication6
 
             //Update agent posistions
             #region Update agent posistion
-            foreach (Agent aa in Lists.agents)
+            foreach (agent aa in Lists.agents)
             {
                 //Need to be current team to move
-                if (aa.team.ID == Lists.currentTeam.ID)
+                if (aa.team.ID == Lists.currentteam.ID)
                 {
-                    foreach (Agent a in Lists.moveAgents)
+                    foreach (agent a in Lists.moveagents)
                     {
-                        //Checking for agents to move in moveAgents
+                        //Checking for agents to move in moveagents
                         if (aa.ID == a.ID)
                         {
                             //Move "Down", keep in bounds
-                            if (a.posY > aa.posY && aa.posY+1 < Grids)
+                            if (a.posY > aa.posY && aa.posY + 1 < Grids)
                                 aa.posY++;
                             //Move "Up", keep in bounds
-                            else if (a.posY < aa.posY && aa.posY-1 > -1)
+                            else if (a.posY < aa.posY && aa.posY - 1 > -1)
                                 aa.posY--;
                             //Move "Right", keep in bounds
-                            else if (a.posX > aa.posX && aa.posX+1 < Grids)
+                            else if (a.posX > aa.posX && aa.posX + 1 < Grids)
                                 aa.posX++;
                             //Move "Left", keep in bounds
-                            else if (a.posX < aa.posX && aa.posX-1 > -1)
+                            else if (a.posX < aa.posX && aa.posX - 1 > -1)
                                 aa.posX--;
-                            //At destination, remove agent from moveAgents and break;
+                            //At destination, remove agent from moveagents and break;
                             else
                             {
-                                Lists.moveAgents.Remove(a);
+                                Lists.moveagents.Remove(a);
                                 break;
                             }
                         }
@@ -444,11 +445,11 @@ namespace WindowsFormsApplication6
             #endregion
 
             //Check agents
-            #region CheckAgent
+            #region Checkagent
             bool breakValue = false;
-            foreach (Agent aa in Lists.agents)
+            foreach (agent aa in Lists.agents)
             {
-                foreach (Agent a in Lists.agents)
+                foreach (agent a in Lists.agents)
                 {
                     //Same team doesn't count
                     if (a.team.ID != aa.team.ID)
@@ -457,7 +458,7 @@ namespace WindowsFormsApplication6
                         if (a.posX == aa.posX && a.posY == aa.posY)
                         {
                             //Some Logic
-                            CombatCompareAgents(a, aa);
+                            CombatCompareagents(a, aa);
                             breakValue = !breakValue;
                             break;
                         }
@@ -500,26 +501,35 @@ namespace WindowsFormsApplication6
 
             using (var sr = new StreamReader(path + @"\agents.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<Agent>));
-                Lists.agents = (List<Agent>)deserializer.Deserialize(sr);
+                var deserializer = new XmlSerializer(typeof(List<agent>));
+                Lists.agents = (List<agent>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\teams.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<Team>));
-                Lists.teams = (List<Team>)deserializer.Deserialize(sr);
+                var deserializer = new XmlSerializer(typeof(List<team>));
+                Lists.teams = (List<team>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\squads.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<Squad>));
-                Lists.squads = (List<Squad>)deserializer.Deserialize(sr);
+                var deserializer = new XmlSerializer(typeof(List<oldSquad>));
+                List<oldSquad> oldsquad = (List<oldSquad>)deserializer.Deserialize(sr);
+                foreach (oldSquad old in oldsquad)
+                {
+                    List<agent> agents;
+                    foreach (int i in old.agents)
+                    {
+
+                    }
+                }
+                Lists.squad;
             }
 
             using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<ActionPattern>));
-                Lists.actionPatterns = (List<ActionPattern>)deserializer.Deserialize(sr);
+                var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
+                Lists.actionPatterns = (List<oldActionPattern>)deserializer.Deserialize(sr);
             }
         }
         #endregion
@@ -527,30 +537,30 @@ namespace WindowsFormsApplication6
         /// <summary>
         /// Place teams on the gamearea
         /// </summary>
-        #region PlaceTeams
-        public void placeTeams()
+        #region Placeteams
+        public void placeteams()
         {
-            int agentsOnTeam1 = 0;
-            int agentsOnTeam2 = 0;
-            int agentsOnTeam3 = 0;
-            int agentsOnTeam4 = 0;
-            foreach (Agent a in Lists.agents)
+            int agentsOnteam1 = 0;
+            int agentsOnteam2 = 0;
+            int agentsOnteam3 = 0;
+            int agentsOnteam4 = 0;
+            foreach (agent a in Lists.agents)
             {
                 if (a.team.ID == 1)
-                    agentsOnTeam1++;
+                    agentsOnteam1++;
                 if (a.team.ID == 2)
-                    agentsOnTeam2++;
+                    agentsOnteam2++;
                 if (a.team.ID == 3)
-                    agentsOnTeam3++;
+                    agentsOnteam3++;
                 if (a.team.ID == 4)
-                    agentsOnTeam4++;
+                    agentsOnteam4++;
             }
 
-            int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
-            int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
-            int it3 = (Grids / 2) - (agentsOnTeam3 / 2);
-            int it4 = (Grids / 2) - (agentsOnTeam4 / 2);
-            foreach (Agent a in Lists.agents)
+            int it1 = (Grids / 2) - (agentsOnteam1 / 2);
+            int it2 = (Grids / 2) - (agentsOnteam2 / 2);
+            int it3 = (Grids / 2) - (agentsOnteam3 / 2);
+            int it4 = (Grids / 2) - (agentsOnteam4 / 2);
+            foreach (agent a in Lists.agents)
             {
                 Point p = new Point();
                 if (a.team.ID == 1)
