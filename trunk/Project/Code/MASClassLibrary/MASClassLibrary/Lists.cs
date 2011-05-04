@@ -26,7 +26,7 @@ namespace MASClassLibrary
             List<Agent> results;
             Agent agent;
 
-            results = agents.FindAll(delegate(Agent a) { return a.name == ident; });
+            results = agents.FindAll(delegate(Agent a) { return a.name.ToLower() == ident.ToLower(); });
             if (results.Count != 1)
             {
                 return null;
@@ -35,7 +35,7 @@ namespace MASClassLibrary
             {
                 agent = results.FirstOrDefault();
             }
-                
+
             return agent;
         }
 
@@ -49,15 +49,20 @@ namespace MASClassLibrary
             List<Agent> results;
             Agent agent;
 
-            results = agents.FindAll(delegate(Agent a) { return a.ID == ident; });
-            if (results.Count != 1)
+            if (agents != null)
             {
-                return null;
+                results = agents.FindAll(delegate(Agent a) { return a.ID == ident; });
+                if (results.Count != 1)
+                {
+                    return null;
+                }
+                else
+                {
+                    agent = results.FirstOrDefault();
+                }
             }
             else
-            {
-                agent = results.FirstOrDefault();
-            }
+                return null;
 
             return agent;
         }
@@ -74,7 +79,12 @@ namespace MASClassLibrary
             List<Team> results;
             Team team;
 
-            results = teams.FindAll(delegate(Team t) { return t.name == ident; });
+            results = teams.FindAll(delegate(Team t)
+            {
+                if (t.name == null)
+                    return false;
+                return t.name.ToLower() == ident.ToLower();
+            });
             if (results.Count != 1)
             {
                 return null;
@@ -132,7 +142,12 @@ namespace MASClassLibrary
             List<Squad> results;
             Squad squad;
 
-            results = squads.FindAll(delegate(Squad s) { return s.name == ident; });
+            results = squads.FindAll(delegate(Squad s)
+            {
+                if (s.name == null)
+                    return false;
+                return s.name.ToLower() == ident.ToLower();
+            });
             if (results.Count != 1)
             {
                 return null;
@@ -155,7 +170,12 @@ namespace MASClassLibrary
             List<Squad> results;
             Squad squad;
 
-            results = squads.FindAll(delegate(Squad s) { return s.ID == ident; });
+            results = squads.FindAll(delegate(Squad s)
+            {
+                if (s.name == null)
+                    return false;
+                return s.ID == ident;
+            });
             if (results.Count != 1)
             {
                 return null;
@@ -179,8 +199,12 @@ namespace MASClassLibrary
         {
             List<ActionPattern> results;
             ActionPattern actionPattern;
-
-            results = actionPatterns.FindAll(delegate(ActionPattern ap) { return ap.name == ident; });
+            results = actionPatterns.FindAll(delegate(ActionPattern ap)
+            {
+                if (ap.name == null)
+                    return false;
+                return ap.name.ToLower() == ident.ToLower();
+            });
             if (results.Count != 1)
             {
                 return null;
@@ -203,7 +227,12 @@ namespace MASClassLibrary
             List<ActionPattern> results;
             ActionPattern actionPattern;
 
-            results = actionPatterns.FindAll(delegate(ActionPattern ap) { return ap.ID == ident; });
+            results = actionPatterns.FindAll(delegate(ActionPattern ap)
+            {
+                if (ap.name == null)
+                    return false;
+                return ap.ID == ident;
+            });
             if (results.Count != 1)
             {
                 return null;
