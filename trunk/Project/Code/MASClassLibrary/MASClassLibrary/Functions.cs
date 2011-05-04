@@ -22,16 +22,16 @@ namespace MASClassLibrary
                 if (agent.team.ID != Lists.currentteam.ID)
                     throw new Exception("Wrong team");
 
-                if (a.ID == agent.ID)
+                if (a.id == agent.id)
                 {
                     #region ifValid
                     //Set Figure to x,y
                     Point newPoint = new Point(xchord, ychord);
 
                     //Just moved agent
-                    agent moveagent = new agent(a.ID, a.name, a.rank, a.team);
-                    moveagent.posX = newPoint.X;
-                    moveagent.posY = newPoint.Y;
+                    agent moveagent = new agent(a.id, a.name, a.rank, a.team);
+                    moveagent.posx = newPoint.X;
+                    moveagent.posy = newPoint.Y;
 
                     Lists.moveagents.Add(moveagent);
 

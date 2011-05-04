@@ -51,7 +51,7 @@ namespace MASClassLibrary
 
             if (agents != null)
             {
-                results = agents.FindAll(delegate(agent a) { return a.ID == ident; });
+                results = agents.FindAll(delegate(agent a) { return a.id == ident; });
                 if (results.Count != 1)
                 {
                     return null;
