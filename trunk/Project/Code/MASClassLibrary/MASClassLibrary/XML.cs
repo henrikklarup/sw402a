@@ -56,7 +56,7 @@ namespace MASClassLibrary
                 os.agents = new int[s.Agents.Count];
                 foreach (agent a in s.Agents)
                 {
-                    os.agents[i] = a.ID;
+                    os.agents[i] = a.id;
                     i++;
                 }
                 os.ID = s.id;
@@ -182,7 +182,7 @@ namespace MASClassLibrary
             int i = 0;
             foreach (agent a in agents)
             {
-                this.agents[i] = a.ID;
+                this.agents[i] = a.id;
                 i++;
             }
         }
@@ -190,7 +190,7 @@ namespace MASClassLibrary
         public oldSquad(int ID, string name, agent agent)
         {
             int[] agentArray = new int[1];
-            agentArray[0] = agent.ID;
+            agentArray[0] = agent.id;
 
             this.ID = ID;
             this.name = name;
