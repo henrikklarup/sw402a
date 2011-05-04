@@ -109,7 +109,7 @@ namespace ActionInterpeter
         }
     }
 
-    class SquadID : AST
+    class squadID : AST
     {
         public Token num;
 
@@ -123,12 +123,12 @@ namespace ActionInterpeter
     {
         public enum Types
         {
-            agent,
-            team,
+            AGENT,
+            TEAM,
             SQUAD,
             ACTIONPATTERN,
-            agentID,
-            teamID,
+            AGENTID,
+            TEAMID,
             SQUADID,
             DIR,
             COORD,
