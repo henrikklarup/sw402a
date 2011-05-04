@@ -140,7 +140,7 @@ namespace ActionInterpeter
                 case (int)Token.keywords.S:
                     // Accepts the token, since its either S or Squad.
                     acceptIt();
-                    SquadID squad = parseSquadID();
+                    squadID squad = parseSquadID();
                     return squad;
                 case (int)Token.keywords.NUMBER:
                     agentID agentNum = parseagentID();
@@ -154,9 +154,9 @@ namespace ActionInterpeter
             return null;
         }
 
-        private SquadID parseSquadID()
+        private squadID parseSquadID()
         {
-            SquadID squad = new SquadID();
+            squadID squad = new squadID();
             squad.num = currentToken;
             acceptIt();
             return squad;

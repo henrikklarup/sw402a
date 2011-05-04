@@ -45,24 +45,24 @@ namespace ActionInterpeter
                 else if (object.ReferenceEquals(
                     single_Action.selection.GetType(), new agentID().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.agentID;
+                    single_Action.type = (int)Type.Types.AGENTID;
                 }
                 // try with team.
                 else if (object.ReferenceEquals(
                     single_Action.selection.GetType(), new teamID().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.teamID;
+                    single_Action.type = (int)Type.Types.TEAMID;
                 }
                 // and squad.
                 else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new SquadID().GetType()))
+                    single_Action.selection.GetType(), new squadID().GetType()))
                 {
                     single_Action.type = (int)Type.Types.SQUADID;
                 }
                 else if (object.ReferenceEquals(
                     selection.GetType(), new agent().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.agent;
+                    single_Action.type = (int)Type.Types.AGENT;
                 }
                 else if (object.ReferenceEquals(
                     selection.GetType(), new oldSquad().GetType()))
@@ -72,22 +72,22 @@ namespace ActionInterpeter
                 else if (object.ReferenceEquals(
                     selection.GetType(), new team().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.team;
+                    single_Action.type = (int)Type.Types.TEAM;
                 }
                 #endregion
             }
             // If the selection is an agent, set the type of the selection.
             else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new AgentID().GetType()))
+                single_Action.selection.GetType(), new agentID().GetType()))
             {
                 switch (single_Action.type)
                 {
-                    case (int)Type.Types.agentID:
-                    case (int)Type.Types.agent:
-                        visitCodeGen_Moveagent(single_Action, arg);
+                    case (int)Type.Types.AGENTID:
+                    case (int)Type.Types.AGENT:
+                        visitCodeGen_MoveAgent(single_Action, arg);
                         break;
-                    case (int)Type.Types.teamID:
-                    case (int)Type.Types.team:
+                    case (int)Type.Types.TEAMID:
+                    case (int)Type.Types.TEAM:
                         visitCodeGen_Moveteam(single_Action, arg);
                         break;
                     case (int)Type.Types.SQUADID:
@@ -98,28 +98,28 @@ namespace ActionInterpeter
             }
             // try with Team.
             else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new TeamID().GetType()))
+                single_Action.selection.GetType(), new teamID().GetType()))
             {
                 single_Action.type = (int)Type.Types.TEAMID;
             }
             // and squad.
             else if (object.ReferenceEquals(
-                single_Action.selection.GetType(), new SquadID().GetType()))
+                single_Action.selection.GetType(), new squadID().GetType()))
             {
                 single_Action.type = (int)Type.Types.SQUADID;
             }
             else if (object.ReferenceEquals(
-                selection.GetType(), new Agent().GetType()))
+                selection.GetType(), new agent().GetType()))
             {
                 single_Action.type = (int)Type.Types.AGENT;
             }
             else if (object.ReferenceEquals(
-                selection.GetType(), new Squad().GetType()))
+                selection.GetType(), new squad().GetType()))
             {
                 single_Action.type = (int)Type.Types.SQUAD;
             }
             else if (object.ReferenceEquals(
-                selection.GetType(), new Team().GetType()))
+                selection.GetType(), new team().GetType()))
             {
                 single_Action.type = (int)Type.Types.TEAM;
             }
@@ -142,10 +142,10 @@ namespace ActionInterpeter
             return null;
         }
 
-        private void visitCodeGen_Moveagent(Single_Action single_Action, object arg)
+        private void visitCodeGen_MoveAgent(Single_Action single_Action, object arg)
         {
             agent agent;
-            if (single_Action.type == (int)Type.Types.agentID)
+            if (single_Action.type == (int)Type.Types.AGENTID)
             {
                 agentID select = (agentID)single_Action.selection;
                 Token selectToken = select.num;
@@ -160,11 +160,11 @@ namespace ActionInterpeter
             visitCodeGen_MoveOption(agent, single_Action.move_option);
         }
 
-        private void visitCodeGen_Moveteam(Single_Action single_Action, object arg)
+        private void visitCodeGen_MoveTeam(Single_Action single_Action, object arg)
         {
             List<agent> agents;
             team team;
-            if (single_Action.type == (int)Type.Types.teamID)
+            if (single_Action.type == (int)Type.Types.TEAMID)
             {
                 teamID select = (teamID)single_Action.selection;
                 Token selectToken = select.num;
@@ -328,7 +328,7 @@ namespace ActionInterpeter
             return teamID;
         }
 
-        internal object visitSquadID(SquadID squadID, object arg)
+        internal object visitSquadID(squadID squadID, object arg)
         {
             return squadID;
         }
