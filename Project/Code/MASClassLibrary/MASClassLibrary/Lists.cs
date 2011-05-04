@@ -8,8 +8,8 @@ namespace MASClassLibrary
     public static class Lists
     {
         public static List<agent> agents;                 //List of agents
-        public static List<ActionPattern> actionPatterns; //List of actionPatterns
-        public static List<Squad> squads;                 //List of squads
+        public static List<actionpattern> actionPatterns; //List of actionPatterns
+        public static List<squad> squads;                 //List of squads
         public static List<team> teams;                   //List of teams
         public static List<agent> moveagents;             //List of agents to move
         public static team currentteam;                   //Current team
@@ -137,12 +137,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">Name of an squad</param>
         /// <returns>Squad</returns>
-        public static Squad RetrieveSquad(string ident)
+        public static squad RetrieveSquad(string ident)
         {
-            List<Squad> results;
-            Squad squad;
+            List<squad> results;
+            squad squad;
 
-            results = squads.FindAll(delegate(Squad s)
+            results = squads.FindAll(delegate(squad s)
             {
                 if (s.name == null)
                     return false;
@@ -165,12 +165,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of an squad</param>
         /// <returns>Squad</returns>
-        public static Squad RetrieveSquad(int ident)
+        public static squad RetrieveSquad(int ident)
         {
-            List<Squad> results;
-            Squad squad;
+            List<squad> results;
+            squad squad;
 
-            results = squads.FindAll(delegate(Squad s)
+            results = squads.FindAll(delegate(squad s)
             {
                 if (s.name == null)
                     return false;
@@ -197,9 +197,9 @@ namespace MASClassLibrary
         /// <returns>ActionPattern</returns>
         public static oldActionPattern RetrieveActionPattern(string ident)
         {
-            List<oldActionPattern> results;
-            oldActionPattern actionPattern;
-            results = actionPatterns.FindAll(delegate(oldActionPattern ap)
+            List<actionpattern> results;
+            actionpattern actionPattern;
+            results = actionpatterns.FindAll(delegate(actionpattern ap)
             {
                 if (ap.name == null)
                     return false;
