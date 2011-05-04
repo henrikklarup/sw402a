@@ -8,7 +8,7 @@ namespace MASClassLibrary
     public class actionpattern
     {
         public int ID;
-        public string[] actions;
+        public List<string> actions;
         public string name;
 
         public actionpattern()
@@ -17,16 +17,16 @@ namespace MASClassLibrary
         public actionpattern(int ID, string[] actions)
         {
             this.ID = ID;
-            this.actions = actions;
+            foreach (string s in actions)
+            {
+                this.actions.Add(s);
+            }
         }
 
         public actionpattern(int ID, string action)
         {
-            string[] actionString = new string[1];
-            actionString[0] = action;
-
             this.ID = ID;
-            this.actions = actionString;
+            this.actions.Add(action);
         }
     }
 }
