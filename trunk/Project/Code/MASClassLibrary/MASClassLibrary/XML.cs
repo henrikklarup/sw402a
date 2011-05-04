@@ -24,7 +24,6 @@ namespace MASClassLibrary
             if (!Lists.agents.Any() && !Lists.teams.Any())
             {
                 Lists.agents.Add(new agent());
-                Console.WriteLine("Missing Agents or Teams.");
                 return;
             }
             using (var sw = new StreamWriter(path + @"\agents.xml"))
@@ -36,7 +35,6 @@ namespace MASClassLibrary
             if (!Lists.teams.Any())
             {
                 Lists.teams.Add(new team());
-                Console.WriteLine("Missing Teams.");
             }
             using (var sw = new StreamWriter(path + @"\teams.xml"))
             {
@@ -47,7 +45,6 @@ namespace MASClassLibrary
             if (!Lists.squads.Any())
             {
                 Lists.squads.Add(new squad());
-                Console.WriteLine("No Squads added.");
             }
             foreach (squad s in Lists.squads)
             {
@@ -73,14 +70,12 @@ namespace MASClassLibrary
             if (!Lists.actionPatterns.Any())
             {
                 Lists.actionPatterns.Add(new actionpattern());
-                Console.WriteLine("No Action Patterns added.");
 
             }
             foreach (actionpattern ap in Lists.actionPatterns)
             {
                 oldActionPattern oap = new oldActionPattern();
                 oap.actions = ap.actions.ToArray();
-                oap.ID = ap.ID;
                 oap.name = ap.name;
                 oldActionPatterns.Add(oap);
             }
@@ -99,20 +94,24 @@ namespace MASClassLibrary
         {
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
+
             using (var sr = new StreamReader(path + @"\agents.xml"))
             {
+                Lists.agents.Clear();
                 var deserializer = new XmlSerializer(typeof(List<agent>));
                 Lists.agents = (List<agent>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\teams.xml"))
             {
+                Lists.teams.Clear();
                 var deserializer = new XmlSerializer(typeof(List<team>));
                 Lists.teams = (List<team>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\squads.xml"))
             {
+                Lists.squads.Clear();
                 var deserializer = new XmlSerializer(typeof(List<oldSquad>));
                 oldSquads = (List<oldSquad>)deserializer.Deserialize(sr);
                 foreach (oldSquad os in oldSquads)
@@ -122,19 +121,19 @@ namespace MASClassLibrary
                     {
                         s.Agents.Add(Lists.Retrieveagent(i));
                     }
+                    Lists.squads.Add(s);
                 }
             }
 
             using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
+                Lists.actionPatterns.Clear();
                 var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
                 oldActionPatterns = (List<oldActionPattern>)deserializer.Deserialize(sr);
                 foreach (oldActionPattern oap in oldActionPatterns)
                 {
-                    actionpattern ap = new actionpattern();
-                    ap.ID = oap.ID;
-                    ap.name = oap.name;
-                    ap.actions = oap.actions.ToList();
+                    actionpattern ap = new actionpattern(oap.name, oap.actions.ToList());
+                    Lists.actionPatterns.Add(ap);
                 }
             }
         }
