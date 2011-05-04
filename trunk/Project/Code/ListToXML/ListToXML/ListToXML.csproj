@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MAS">
-      <HintPath>..\..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MAS - Object lib\MAS\MAS\MAS\bin\Debug\MAS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,13 +41,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XMLawesome">
-      <HintPath>..\..\XMLawesome\XMLawesome\bin\Debug\XMLawesome.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj">
+      <Project>{B6B9134A-DCB1-47F0-9677-ED65A055E588}</Project>
+      <Name>MASClassLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
