@@ -212,7 +212,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "Agents left:";
+            this.label5.Text = "agents left:";
             // 
             // textBox4
             // 
@@ -235,7 +235,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(43, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Team 1";
+            this.label6.Text = "team 1";
             // 
             // dbPanel1
             // 
