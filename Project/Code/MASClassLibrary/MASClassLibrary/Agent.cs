@@ -12,12 +12,12 @@ namespace MASClassLibrary
         public int posY;
         public string name;
         public int rank;
-        public Team team;
+        public team team;
 
         public agent()
         { }
 
-        public agent(int ID, string name, int rank, Team team)
+        public agent(int ID, string name, int rank, team team)
         {
             this.ID = ID;
             this.name = name;

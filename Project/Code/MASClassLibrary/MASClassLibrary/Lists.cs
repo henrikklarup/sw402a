@@ -10,9 +10,9 @@ namespace MASClassLibrary
         public static List<agent> agents;                 //List of agents
         public static List<oldActionPattern> actionPatterns; //List of actionPatterns
         public static List<oldSquad> squads;                 //List of squads
-        public static List<Team> teams;                   //List of teams
+        public static List<team> teams;                   //List of teams
         public static List<agent> moveagents;             //List of agents to move
-        public static Team currentTeam;                   //Current team
+        public static team currentteam;                   //Current team
 
 
         #region Retrieveagent
@@ -68,18 +68,18 @@ namespace MASClassLibrary
         }
         #endregion
 
-        #region RetrieveTeam
+        #region Retrieveteam
         /// <summary>
-        /// Finds a Team by its name.
+        /// Finds a team by its name.
         /// </summary>
-        /// <param name="ident">Name of a Team</param>
-        /// <returns>Team</returns>
-        public static Team RetrieveTeam(string ident)
+        /// <param name="ident">Name of a team</param>
+        /// <returns>team</returns>
+        public static team Retrieveteam(string ident)
         {
-            List<Team> results;
-            Team team;
+            List<team> results;
+            team team;
 
-            results = teams.FindAll(delegate(Team t)
+            results = teams.FindAll(delegate(team t)
             {
                 if (t.name == null)
                     return false;
@@ -101,13 +101,13 @@ namespace MASClassLibrary
         /// Finds team by its ID.
         /// </summary>
         /// <param name="ident">ID of a team</param>
-        /// <returns>Team</returns>
-        public static Team RetrieveTeam(int ident)
+        /// <returns>team</returns>
+        public static team Retrieveteam(int ident)
         {
-            List<Team> results;
-            Team team;
+            List<team> results;
+            team team;
 
-            results = teams.FindAll(delegate(Team t) { return t.ID == ident; });
+            results = teams.FindAll(delegate(team t) { return t.ID == ident; });
             if (results.Count != 1)
             {
                 return null;
@@ -125,7 +125,7 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="team">The agents team.</param>
         /// <returns>a list of agents on a team.</returns>
-        public static List<agent> RetrieveagentsByTeam(Team team)
+        public static List<agent> RetrieveagentsByteam(team team)
         {
             return agents.FindAll(delegate(agent a) { return a.team == team; });
         }
