@@ -174,7 +174,7 @@ namespace MASClassLibrary
             {
                 if (s.name == null)
                     return false;
-                return s.ID == ident;
+                return s.id == ident;
             });
             if (results.Count != 1)
             {
@@ -195,11 +195,11 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">Name of the ActionPattern</param>
         /// <returns>ActionPattern</returns>
-        public static oldActionPattern RetrieveActionPattern(string ident)
+        public static actionpattern RetrieveActionPattern(string ident)
         {
             List<actionpattern> results;
             actionpattern actionPattern;
-            results = actionpatterns.FindAll(delegate(actionpattern ap)
+            results = actionPatterns.FindAll(delegate(actionpattern ap)
             {
                 if (ap.name == null)
                     return false;
@@ -222,12 +222,12 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of the ActionPattern</param>
         /// <returns>ActionPattern</returns>
-        public static oldActionPattern RetrieveActionPattern(int ident)
+        public static actionpattern RetrieveActionPattern(int ident)
         {
-            List<oldActionPattern> results;
-            oldActionPattern actionPattern;
+            List<actionpattern> results;
+            actionpattern actionPattern;
 
-            results = actionPatterns.FindAll(delegate(oldActionPattern ap)
+            results = actionPatterns.FindAll(delegate(actionpattern ap)
             {
                 if (ap.name == null)
                     return false;
