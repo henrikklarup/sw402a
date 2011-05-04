@@ -216,34 +216,6 @@ namespace MASClassLibrary
 
             return actionPattern;
         }
-
-        /// <summary>
-        /// Finds an ActionPattern by its ID
-        /// </summary>
-        /// <param name="ident">ID of the ActionPattern</param>
-        /// <returns>ActionPattern</returns>
-        public static actionpattern RetrieveActionPattern(int ident)
-        {
-            List<actionpattern> results;
-            actionpattern actionPattern;
-
-            results = actionPatterns.FindAll(delegate(actionpattern ap)
-            {
-                if (ap.name == null)
-                    return false;
-                return ap.ID == ident;
-            });
-            if (results.Count != 1)
-            {
-                return null;
-            }
-            else
-            {
-                actionPattern = results.FirstOrDefault();
-            }
-
-            return actionPattern;
-        }
         #endregion
 
         #region IDs
