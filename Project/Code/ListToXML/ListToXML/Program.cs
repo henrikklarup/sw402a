@@ -4,161 +4,156 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
-using XMLawesome;
-using MAS;
-
+using MASClassLibrary;
 
 namespace ListToXML
 {
     class Program
     {
-        public static List<Agent> agents = new List<Agent>();
-        public static List<Team> teams = new List<Team>();
-        public static List<Squad> squads = new List<Squad>();
-        public static List<ActionPattern> actionPatterns = new List<ActionPattern>();
+        public static List<agent> agents = new List<agent>();
+        public static List<team> teams = new List<team>();
+        public static List<squad> squads = new List<squad>();
+        public static List<actionpattern> actionPatterns = new List<actionpattern>();
+        public static List<oldSquad> oldSquads = new List<oldSquad>();
+        public static List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Title = "@AWESOME XML !";
-            Console.WriteLine("\t   ____   __  ____  __ _    " +
-"\n\t  / __ \\  \\ \\/ /  \\/  | |    " +
-"\n\t / / _` |  \\  /| |\\/| | |    " +
-"\n\t| | (_| |  /  \\| |  | | |___ " +
-"\n\t \\ \\__,_| /_/\\_\\_|  |_|_____|" +
-"\n\t  \\____/ AWESOME                     \n");
-            Console.ForegroundColor = ConsoleColor.White;
-            //Initializing the Teams, agents, squards and actionpattern
-            Team team1 = new Team("Team one", "Red");
-            Team team2 = new Team("Team Two", "Blue");
-            Agent agent = new Agent("Olsen", 2, team1);
-            Squad squad = new Squad("first squad", agent);
-            ActionPattern aP = new ActionPattern("first action pattern");
+            Console.WriteLine("(R)ead or (S)ave lists: ");
+
+
             //Initializing the lists
-            teams.Add(team1);
-            teams.Add(team2);
-            agents.Add(agent);
-            squads.Add(squad); 
+            team _team = new team(1, "Team one", "Red");
+            agent _agent = new agent(1, "Olsen", 2, _team);
+            squad _squad = new squad("first squad");
+            _squad.Agents.Add(_agent);
+            actionpattern aP = new actionpattern(1, "first action pattern");
+
+            teams.Add(_team);
+            agents.Add(_agent);
             actionPatterns.Add(aP);
+            squads.Add(_squad);
 
-            //XMLhelp.Generate(agents, teams, squads, actionPatterns);
-            mTeams(teams);
-            mAgents(agents);
-            mSquads(squads);
-            mActionPatterns(actionPatterns);
+            //Interface to test saving and loading the xml files
+            ConsoleKeyInfo cki = Console.ReadKey();
 
-            //Generate the xml file with <MAS> as root and default encoding
-            XML.GenerateThisShizzle("MAS", null);
-
-            //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGame.xml");
-
-
-            Reader.Mount();
-
-            //Add null filter
-            //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch("MAS>Squads>Squad"))
+            while (cki.Key != ConsoleKey.Escape)
             {
-                Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
-            }
-            Console.ReadKey();
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-        }
-
-        //Generate XML for each list
-
-        public static void mAgents(List<Agent> Agents)
-        {
-            XMLhelp.Root("Agents", null);
-            foreach (var value in Agents)
-            {
-                XMLhelp.Child("Agent", null);
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Node("posX", value.posX.ToString());
-                XMLhelp.Node("posY", value.posY.ToString());
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.Node("Rank", value.rank.ToString());
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
-                //Mangler at add team
-                //public Team team;
-                XMLhelp.Child("Teams", null);
-                XMLhelp.Child("Team", null);
-                XMLhelp.Node("Id", value.team.ID.ToString());
-                XMLhelp.Node("Name", value.team.name);
-                XMLhelp.Node("Color", value.team.color);
-
-
-            }
-        }
-
-        public static void mTeams(List<Team> Teams)
-        {
-            XMLhelp.Root("Teams", null);
-            foreach (var value in Teams)
-            {
-                XMLhelp.Child("Team", Teams.ToString());
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.LastNode("Color", value.color);
-            }
-        }
-
-        public static void mSquads(List<Squad> Squads)
-        {
-            XMLhelp.Root("Squads", null);
-            foreach (var value in Squads)
-            {
-                XMLhelp.Child("Squad", null);
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Child("Agents", null);
-                foreach (int agent in value.agents)
+                if (cki.Key == ConsoleKey.S)
                 {
-                    XMLhelp.Child("Agent", null);
-                    XMLhelp.Node("Id", agent.ToString());
+                    generateXML();
+                    Console.WriteLine("Saved");
                 }
+                if (cki.Key == ConsoleKey.R)
+                {
+                    returnLists();
+                    Console.WriteLine("Loaded");
+                }
+                cki = Console.ReadKey();
             }
         }
 
-        public static void mActionPatterns(List<ActionPattern> ActionPatterns)
+        /// <summary>
+        /// Generates the XML documents from the lists
+        /// </summary>
+        public static void generateXML()
         {
-            XMLhelp.Root("ActionPatterns", null);
-            foreach (var value in ActionPatterns)
+            //Tests if there is anything in the lists before saving them
+            if (!agents.Any() && !teams.Any())
             {
-                XMLhelp.Child("ActionPattern", null);
-                XMLhelp.Node("Id", value.ID.ToString());
-                XMLhelp.Child("Actions", null);
-                foreach (String action in value.actions)
+                agents.Add(new agent());
+                Console.WriteLine("Missing Agents or Teams.");
+                return;
+            }
+            using (var sw = new StreamWriter(@"C:\agents.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<agent>));
+                serializer.Serialize(sw, agents);
+            }
+
+            if (!teams.Any())
+            {
+                teams.Add(new team());
+                Console.WriteLine("Missing Teams.");
+            }
+            using (var sw = new StreamWriter(@"C:\teams.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<team>));
+                serializer.Serialize(sw, teams);
+            }
+
+            if (!squads.Any())
+            {
+                squads.Add(new squad());
+                Console.WriteLine("No Squads added.");
+            }
+            foreach (squad s in squads)
+            {
+                oldSquad os = new oldSquad();
+                int i = 0;
+                foreach (agent a in s.Agents)
                 {
-                    XMLhelp.Node("Action", action);
+                    os.agents[i] = a.ID;
+                    i++;
                 }
+                os.ID = s.id;
+                os.name = s.name;
+                oldSquads.Add(os);
+
+            }
+            using (var sw = new StreamWriter(@"C:\squads.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<oldSquad>));
+                serializer.Serialize(sw, oldSquads);
+            }
+
+            if (!actionPatterns.Any())
+            {
+                actionPatterns.Add(new actionpattern());
+                Console.WriteLine("No Action Patterns added.");
+                
+            }
+            foreach (actionpattern ap in actionPatterns)
+            { 
+                oldActionPattern oap = new oldActionPattern();
+                oap.actions = ap.actions.ToArray();
+                oap.ID = ap.ID;
+                oap.name = ap.name;
+                oldActionPatterns.Add(oap);
+            }
+            using (var sw = new StreamWriter(@"C:\actionPatterns.xml"))
+            {
+                var serializer = new XmlSerializer(typeof(List<oldActionPattern>));
+                serializer.Serialize(sw, oldActionPatterns);
             }
         }
+
+        public static void returnLists()
+        {
+            using (var sr = new StreamReader(@"C:\agents.xml"))
+            {
+                var deserializer = new XmlSerializer(typeof(List<agent>));
+                agents = (List<agent>)deserializer.Deserialize(sr);
+            }
+
+            using (var sr = new StreamReader(@"C:\teams.xml"))
+            {
+                var deserializer = new XmlSerializer(typeof(List<team>));
+                teams = (List<team>)deserializer.Deserialize(sr);
+            }
+
+            using (var sr = new StreamReader(@"C:\squads.xml"))
+            {
+                var deserializer = new XmlSerializer(typeof(List<squad>));
+                squads = (List<squad>)deserializer.Deserialize(sr);
+            }
+
+            using (var sr = new StreamReader(@"C:\actionPatterns.xml"))
+            {
+                var deserializer = new XmlSerializer(typeof(List<actionpattern>));
+                actionPatterns = (List<actionpattern>)deserializer.Deserialize(sr);
+            }
+        }
+
     }
 }
