@@ -20,5 +20,10 @@ namespace MASClassLibrary
             this.name = name;
             this.color = color;
         }
+
+        public void add(agent Agent)
+        {
+            Agent.team = this;
+        }
     }
 }
