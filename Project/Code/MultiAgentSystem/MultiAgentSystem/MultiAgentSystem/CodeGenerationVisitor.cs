@@ -8,7 +8,7 @@ namespace MultiAgentSystem
 {
     class CodeGenerationVisitor : Visitor
     {
-        private string CodeGenerationPath = @"C:\Users\Kasper\Desktop\MASSCode.cs";
+        private string CodeGenerationPath = Program.path + @"\MASSCode.cs";
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
@@ -22,7 +22,7 @@ namespace MultiAgentSystem
             ast.visit(this, arg);
 
             string text = File.ReadAllText(
-                @"C:\Users\Kasper\Documents\AAU Software\P4\SVN\sw402a\Project\Code\classes.txt");
+                Environment.CurrentDirectory + @"\classes.txt");
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine(text);
@@ -42,9 +42,9 @@ namespace MultiAgentSystem
         {
             arg = false;
 
-            File.Delete(@"C:\Users\Kasper\Desktop\MASSCode.cs");
+            File.Delete(Program.path + @"\MASSCode.cs");
             string text = File.ReadAllText(
-                @"C:\Users\Kasper\Documents\AAU Software\P4\SVN\sw402a\Project\Code\mainTextStart.txt");
+                Environment.CurrentDirectory + @"\mainTextStart.txt");
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(text);

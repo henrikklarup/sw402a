@@ -249,7 +249,30 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Compilation has completed");
             Console.Title = "MASS Compiler: Compilation has completed";
 
-            Recompile();
+            ConsoleKeyInfo cki;
+            while (true)
+            {
+                Console.WriteLine("Would you like to compile the newly compiled *.cs file.? y/n");
+                cki = Console.ReadKey();
+
+                if (cki.Key == ConsoleKey.Y)
+                {
+                    CompileCS();
+                    break;
+                }
+                if (cki.Key == ConsoleKey.N)
+                {
+                    Recompile();
+                    break;
+                }
+
+                Console.WriteLine(" is not an option.");
+            }
+        }
+
+        private static void CompileCS()
+        {
+            throw new NotImplementedException();
         }
 
         private static void Recompile()
