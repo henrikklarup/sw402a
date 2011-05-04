@@ -189,36 +189,36 @@ namespace MultiAgentSystem
         }
     }
 
-    // Identifier.(NextMethodIdentifier.Identifier).(etc.) (recursive, continues in each MethodIdentifier object)
-    class MethodIdentifier : Terminal
+    // Identifier.(NextLinkedIdentifier.Identifier).(etc.) (recursive, continues in each LinkedIdentifier object)
+    class LinkedIdentifier : Terminal
     {
         // Identifier of the object or method being held here.
         public Identifier Identifier;
 
-        // The MethodIdentifier containing the next identifier.
-        public MethodIdentifier NextMethodIdentifier;
+        // The LinkedIdentifier containing the next identifier.
+        public LinkedIdentifier NextLinkedIdentifier;
 
-        public MethodIdentifier()
+        public LinkedIdentifier()
         { }
 
         public override object visit(Visitor v, object arg)
         {
-            return v.visitMethodIdentifier(this, arg);
+            return v.visitLinkedIdentifier(this, arg);
         }
     }
 
-    // MethodIdentifier ( Input )
+    // LinkedIdentifier ( Input )
     class MethodCall : Command
     {
         // Path to the method, including the method name.
-        public MethodIdentifier methodIdentifier;
+        public LinkedIdentifier linkedIdentifier;
 
         // Input to the method.
         public Input input;
 
-        public MethodCall(MethodIdentifier methodIdentifier, Input input)
+        public MethodCall(LinkedIdentifier LinkedIdentifier, Input input)
         {
-            this.methodIdentifier = methodIdentifier;
+            this.linkedIdentifier = LinkedIdentifier;
             this.input = input;
         }
 
@@ -230,12 +230,19 @@ namespace MultiAgentSystem
 
     class AssignCommand : Command
     {
-        public Identifier ident;
+        public LinkedIdentifier ident;
         public AST becomes;
 
         public AssignCommand(Identifier ident, AST becomes)
         {
-            this.ident = ident;
+            this.ident = new LinkedIdentifier();
+            this.ident.Identifier = ident;
+            this.becomes = becomes;
+        }
+
+        public AssignCommand(LinkedIdentifier linked, AST becomes)
+        {
+            this.ident = linked;
             this.becomes = becomes;
         }
 

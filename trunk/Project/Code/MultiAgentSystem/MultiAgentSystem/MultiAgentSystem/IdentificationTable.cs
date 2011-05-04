@@ -7,8 +7,9 @@ namespace MultiAgentSystem
 {
     // Class used to hold all the data, stored about the identifier.
     // Which scope it was declared in, how its recognized, and which kind it is.
-    public class Attributes
+    class Attributes
     {
+        public LinkedIdentifier link;
         public int scope;
         public string ident;
         public int kind;
@@ -33,10 +34,9 @@ namespace MultiAgentSystem
         }
 
         // Method to search for an identifier in the identification table, returns an error if it doesn't exists.
-        public static int retrieve(Token token)
+        public static int retrieve(string ident)
         {
             Attributes attr;
-            string ident = token.spelling;
 
             // Find the first identifier in the identification table,
             // which matches the identifier.
@@ -48,6 +48,7 @@ namespace MultiAgentSystem
             if (attr != null) return attr.kind;
             return (int)Token.keywords.ERROR;
         }
+
         // When a new scope is identified, count the scopecounter 1 up.
         public static void openScope()
         {

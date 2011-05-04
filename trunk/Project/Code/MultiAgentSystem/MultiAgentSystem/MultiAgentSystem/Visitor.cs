@@ -100,7 +100,7 @@ namespace MultiAgentSystem
 
         internal abstract object visitInput(Input input, object arg);
 
-        internal abstract object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg);
+        internal abstract object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg);
 
         internal abstract object visitMASNumber(MASNumber mASNumber, object arg);
 
