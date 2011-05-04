@@ -24,14 +24,18 @@ namespace MASClassLibrary
         public List<agent> Agents;
 
         public squad()
-        {
-        }
+        { }
 
         public squad(string name)
         {
             this._name = name;
             Agents = new List<agent>();
             this._iD = Lists.NextSquadID;
+        }
+
+        public squad(string name, List<agent> list) : this(name)
+        {
+            Agents = list;
         }
 
         public void add(agent agent)

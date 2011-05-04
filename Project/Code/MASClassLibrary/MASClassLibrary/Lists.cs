@@ -14,6 +14,7 @@ namespace MASClassLibrary
         public static List<agent> moveagents;             //List of agents to move
         public static team currentteam;                   //Current team
 
+        public static int Points;
 
         #region Retrieveagent
         /// <summary>
@@ -107,7 +108,7 @@ namespace MASClassLibrary
             List<team> results;
             team team;
 
-            results = teams.FindAll(delegate(team t) { return t.ID == ident; });
+            results = teams.FindAll(delegate(team t) { return t.id == ident; });
             if (results.Count != 1)
             {
                 return null;

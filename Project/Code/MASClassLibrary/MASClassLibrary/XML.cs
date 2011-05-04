@@ -121,7 +121,6 @@ namespace MASClassLibrary
                     {
                         s.Agents.Add(Lists.Retrieveagent(i));
                     }
-                    Lists.squads.Add(s);
                 }
             }
 
@@ -133,7 +132,6 @@ namespace MASClassLibrary
                 foreach (oldActionPattern oap in oldActionPatterns)
                 {
                     actionpattern ap = new actionpattern(oap.name, oap.actions.ToList());
-                    Lists.actionPatterns.Add(ap);
                 }
             }
         }

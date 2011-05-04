@@ -27,6 +27,7 @@ namespace MASClassLibrary
             {
                 this.actions.Add(s);
             }
+            Lists.actionPatterns.Add(this);
         }
 
         public actionpattern(string name, string action)
@@ -34,6 +35,7 @@ namespace MASClassLibrary
             this._name = name;
             this.actions = new List<string>();
             this.actions.Add(action);
+            Lists.actionPatterns.Add(this);
         }
     }
 }
