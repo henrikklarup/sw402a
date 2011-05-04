@@ -12,6 +12,7 @@ namespace ActionInterpeter
         private static AST newAst;
         public static string input;
         public static StringBuilder output;
+        private static Visitor visitor;
 
         public static void Main()
         {
@@ -53,7 +54,7 @@ namespace ActionInterpeter
 
         private static void Decorate()
         {
-            Visitor visitor = new Visitor();
+            visitor = new Visitor();
             try
             {
                 visitor.visitAST(newAst, null);
@@ -62,6 +63,20 @@ namespace ActionInterpeter
             {
                 g.PrintExceptions();
                 Printer.WriteLine("Errors were found while DECORATING.");
+                return;
+            }
+        }
+
+        private static void CodeGen()
+        {
+            try
+            {
+                visitor.visitAST(newAst, 1);
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                Printer.WriteLine("Errors were found while GENERATING CODE.");
                 return;
             }
         }

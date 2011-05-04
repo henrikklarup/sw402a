@@ -118,4 +118,22 @@ namespace ActionInterpeter
             return v.visitSquadID(this, arg);
         }
     }
+
+    class Type
+    {
+        public enum Types
+        {
+            AGENT,
+            TEAM,
+            SQUAD,
+            ACTIONPATTERN,
+            AGENTID,
+            TEAMID,
+            SQUADID,
+            DIR,
+            COORD,
+            IDENTIFIER,
+            NUMBER,
+        }
+    }
 }
