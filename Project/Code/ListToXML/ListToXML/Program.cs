@@ -51,7 +51,7 @@ namespace ListToXML
         }
 
         /// <summary>
-        /// Generates the XML documents from the lists
+        /// Generates the XML documents from the lists.
         /// </summary>
         public static void generateXML()
         {            
@@ -129,6 +129,9 @@ namespace ListToXML
             }
         }
 
+        /// <summary>
+        /// Loads the XML documents to the lists.
+        /// </summary>
         public static void returnLists()
         {
             List<oldSquad> oldSquads = new List<oldSquad>();
