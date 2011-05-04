@@ -62,6 +62,10 @@ namespace WindowsFormsApplication6
 
             Lists.moveagents = new List<agent>();
             selectedagent = new agent();
+            Lists.teams = new List<team>();
+            Lists.agents = new List<agent>();
+            Lists.actionPatterns = new List<actionpattern>();
+            Lists.squads = new List<squad>();
             #endregion
 
             #region Folder Browser Dialog
@@ -517,19 +521,32 @@ namespace WindowsFormsApplication6
                 List<oldSquad> oldsquad = (List<oldSquad>)deserializer.Deserialize(sr);
                 foreach (oldSquad old in oldsquad)
                 {
-                    List<agent> agents;
+                    List<agent> agents = new List<agent>();
                     foreach (int i in old.agents)
                     {
-
+                        agents.Add(Lists.Retrieveagent(i));
                     }
+                    squad newsquad = new squad(old.name);
+                    newsquad.Agents = agents;
+                    Lists.squads.Add(newsquad);
                 }
-                Lists.squad;
             }
 
             using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
-                Lists.actionPatterns = (List<oldActionPattern>)deserializer.Deserialize(sr);
+                List<oldActionPattern> oldaction= (List<oldActionPattern>)deserializer.Deserialize(sr);
+                foreach (oldActionPattern old in oldaction)
+                {
+                    List<string> actions = new List<string>();
+                    foreach (string i in old.actions)
+                    {
+                         actions.Add(i);
+                    }
+                    actionpattern newactionpattern = new actionpattern(old.ID, old.actions);
+                    newactionpattern.name = old.name;
+                    Lists.actionPatterns.Add(newactionpattern);
+                }
             }
         }
         #endregion
