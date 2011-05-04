@@ -65,7 +65,7 @@ namespace ActionInterpeter
                     single_Action.type = (int)Type.Types.AGENT;
                 }
                 else if (object.ReferenceEquals(
-                    selection.GetType(), new oldSquad().GetType()))
+                    selection.GetType(), new squad().GetType()))
                 {
                     single_Action.type = (int)Type.Types.SQUAD;
                 }
@@ -156,8 +156,8 @@ namespace ActionInterpeter
             {
                 case (int)Type.Types.DIR:
                     Direction dir = (Direction)move_Option.dir_coord;
-                    num1 = agent.posX;
-                    num2 = agent.posY;
+                    num1 = agent.posx;
+                    num2 = agent.posy;
 
                     Token token = dir.dir;
                     switch (token.spelling.ToLower())
@@ -208,7 +208,7 @@ namespace ActionInterpeter
                 {
                     move_Option.type = (int)Type.Types.COORD;
                 }
-                else if (object.ReferenceEquals(dir_coord.GetType(), new oldActionPattern().GetType()))
+                else if (object.ReferenceEquals(dir_coord.GetType(), new actionpattern().GetType()))
                 {
                     move_Option.type = (int)Type.Types.ACTIONPATTERN;
                 }
