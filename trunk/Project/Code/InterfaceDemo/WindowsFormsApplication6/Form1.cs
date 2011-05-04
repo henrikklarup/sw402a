@@ -290,6 +290,7 @@ namespace WindowsFormsApplication6
         #endregion
 
         #region Logic
+        //Grid point logics
         #region GridPointLogic
 
         /// <summary>
@@ -406,22 +407,31 @@ namespace WindowsFormsApplication6
             //Game Logic
             #region GameLogic
 
+            //Update agent posistions
+            #region Update agent posistion
             foreach (Agent aa in Lists.agents)
             {
+                //Need to be current team to move
                 if (aa.team.ID == Lists.currentTeam.ID)
                 {
                     foreach (Agent a in Lists.moveAgents)
                     {
+                        //Checking for agents to move in moveAgents
                         if (aa.ID == a.ID)
                         {
+                            //Move "Down", keep in bounds
                             if (a.posY > aa.posY && aa.posY+1 < Grids)
                                 aa.posY++;
+                            //Move "Up", keep in bounds
                             else if (a.posY < aa.posY && aa.posY-1 > -1)
                                 aa.posY--;
+                            //Move "Right", keep in bounds
                             else if (a.posX > aa.posX && aa.posX+1 < Grids)
                                 aa.posX++;
+                            //Move "Left", keep in bounds
                             else if (a.posX < aa.posX && aa.posX-1 > -1)
                                 aa.posX--;
+                            //At destination, remove agent from moveAgents and break;
                             else
                             {
                                 Lists.moveAgents.Remove(a);
@@ -431,8 +441,7 @@ namespace WindowsFormsApplication6
                     }
                 }
             }
-
-
+            #endregion
 
             //Check agents
             #region CheckAgent
@@ -448,7 +457,6 @@ namespace WindowsFormsApplication6
                         if (a.posX == aa.posX && a.posY == aa.posY)
                         {
                             //Some Logic
-
                             CombatCompareAgents(a, aa);
                             breakValue = !breakValue;
                             break;
