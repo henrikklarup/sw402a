@@ -8,8 +8,8 @@ namespace MASClassLibrary
     public static class Lists
     {
         public static List<agent> agents;                 //List of agents
-        public static List<oldActionPattern> actionPatterns; //List of actionPatterns
-        public static List<oldSquad> squads;                 //List of squads
+        public static List<ActionPattern> actionPatterns; //List of actionPatterns
+        public static List<Squad> squads;                 //List of squads
         public static List<team> teams;                   //List of teams
         public static List<agent> moveagents;             //List of agents to move
         public static team currentteam;                   //Current team
