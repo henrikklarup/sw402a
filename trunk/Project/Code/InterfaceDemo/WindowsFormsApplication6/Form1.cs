@@ -25,6 +25,7 @@ namespace WindowsFormsApplication6
         int LineWidth;                      //Grid line width
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
         int turn;                           //Turnswitch
+        Agent selectedAgent;                //Selected Agent
         #endregion
 
         #region Constructor
@@ -60,6 +61,7 @@ namespace WindowsFormsApplication6
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
             Lists.moveAgents = new List<Agent>();
+            selectedAgent = new Agent();
             #endregion
 
             #region Folder Browser Dialog
@@ -77,12 +79,13 @@ namespace WindowsFormsApplication6
             //Turnswitch set to random
             Random rnd = new Random();
             turn = rnd.Next(1,Lists.teams.Count);
+            Lists.currentTeam = new Team();
+            Lists.currentTeam.ID = turn;
             label6.Text = "Team " + turn;
 
             textBox4.AppendText("WarGame Console");
 
             DrawTimer.Enabled = true;       //Enable the timer
-            gameTimer.Enabled = true;
         }
         #endregion
 
@@ -117,11 +120,14 @@ namespace WindowsFormsApplication6
             #region Draw Soldiers
             foreach (Agent a in Lists.agents)
             {
+                //Calculate the pixels of the x,y from the agent
                 Point drawPoint = new Point(a.posX, a.posY);
                 drawPoint = getGridPixelFromGrid(drawPoint);
 
+                //Makeup the agent drawRectangle
                 Rectangle drawRect = new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1);
 
+                //Make the font for drawing text
                 FontFamily ff = new FontFamily("Arial");
                 float fontSizePixel = drawRect.Width;
                 Font fnt = new System.Drawing.Font(ff, fontSizePixel, FontStyle.Regular, GraphicsUnit.Pixel);
@@ -130,6 +136,23 @@ namespace WindowsFormsApplication6
                 e.Graphics.FillEllipse(new SolidBrush(Color.FromName(a.team.color)), drawRect);
                 e.Graphics.DrawEllipse(Pens.White, new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
                 e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(drawPoint.X, drawPoint.Y));
+
+
+                //Destination point of agent
+                #region Despoint
+                foreach (Agent aa in Lists.moveAgents)
+                {
+                    if (aa.team.ID == Lists.currentTeam.ID)
+                    {
+                        if (aa.ID == selectedAgent.ID)
+                        {
+                            Point desPoint = new Point(aa.posX, aa.posY);
+                            desPoint = getGridPixelFromGrid(desPoint);
+                            e.Graphics.DrawEllipse(Pens.LightBlue, new Rectangle(desPoint.X, desPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                        }
+                    }
+                }
+                #endregion
             }
             #endregion
         }
@@ -172,60 +195,6 @@ namespace WindowsFormsApplication6
         }
         #endregion
 
-        #region GameTimer Tick
-        private void gameTimer_Tick(object sender, EventArgs e)
-        {
-            //Game Logic
-            #region GameLogic
-            //Check agents
-            bool breakValue = false;
-            foreach (Agent aa in Lists.agents)
-            {
-                foreach (Agent a in Lists.agents)
-                {
-                    if (a.team.ID != aa.team.ID)
-                    {
-                        if (a.posX == aa.posX && a.posY == aa.posY)
-                        {
-                            //Some Logic
-
-                            CombatCompareAgents(a, aa);
-                            breakValue = !breakValue;
-                            break;
-                        }
-                    }
-                }
-                if (breakValue)
-                    break;
-            }
-
-            foreach (Agent aa in Lists.agents)
-            {
-                foreach (Agent a in Lists.moveAgents)
-                {
-                    if (aa.ID == a.ID)
-                    {
-                        if (a.posY > aa.posY)
-                            aa.posY++;
-                        else if (a.posY < aa.posY)
-                            aa.posY--;
-                        else if (a.posX > aa.posX)
-                            aa.posX++;
-                        else if (a.posX < aa.posX)
-                            aa.posX--;
-                        else
-                        {
-                            Lists.moveAgents.Remove(a);
-                            break;
-                        }
-                    }
-                }
-            }
-            #endregion
-            gameTimer.Start();
-        }
-        #endregion
-
         #endregion
 
         #region Raised Events
@@ -241,11 +210,30 @@ namespace WindowsFormsApplication6
                 Point agentPoint = new Point(a.posX, a.posY);
                 if (agentPoint == mousePointGrid)
                 {
+                    selectedAgent = a;
                     //Write Agent stats
                     textBox2.Text = "Name: " + a.name + Environment.NewLine + "Id: " + a.ID + Environment.NewLine + "Team: " + a.team.name + Environment.NewLine + "Team Color: " + a.team.color;
                     break;
                 }
             }
+        }
+        #endregion
+
+        #region Endturn
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Run the game frame
+            gameFrame();
+
+            //Switch turn
+            if (turn < Lists.teams.Count+1)
+                turn++;
+            if (turn > Lists.teams.Count)
+                turn = 1;
+            Lists.currentTeam.ID = turn;
+
+            //Update label
+            label6.Text = "Team " + turn;
         }
         #endregion
 
@@ -367,7 +355,6 @@ namespace WindowsFormsApplication6
         {
             //Stop the tiemr, so we don't manulipulate the data while executing this
             DrawTimer.Stop();
-            gameTimer.Stop();
 
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
@@ -378,7 +365,7 @@ namespace WindowsFormsApplication6
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
             {
-                MessageBox.Show(a1.name + " beats " + a2.name);
+                textBox5.AppendText(a1.name + " beats " + a2.name);
                 foreach (Agent a in Lists.agents)
                 {
                     if (a.ID == a2.ID)
@@ -407,6 +394,72 @@ namespace WindowsFormsApplication6
 
             //Start the timer, and let the game continue
             DrawTimer.Start();
+        }
+        #endregion
+
+        /// <summary>
+        /// Game frame logics
+        /// </summary>
+        #region gameFrame
+        private void gameFrame()
+        {
+            //Game Logic
+            #region GameLogic
+
+            foreach (Agent aa in Lists.agents)
+            {
+                if (aa.team.ID == Lists.currentTeam.ID)
+                {
+                    foreach (Agent a in Lists.moveAgents)
+                    {
+                        if (aa.ID == a.ID)
+                        {
+                            if (a.posY > aa.posY && aa.posY+1 < Grids)
+                                aa.posY++;
+                            else if (a.posY < aa.posY && aa.posY-1 > -1)
+                                aa.posY--;
+                            else if (a.posX > aa.posX && aa.posX+1 < Grids)
+                                aa.posX++;
+                            else if (a.posX < aa.posX && aa.posX-1 > -1)
+                                aa.posX--;
+                            else
+                            {
+                                Lists.moveAgents.Remove(a);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            //Check agents
+            #region CheckAgent
+            bool breakValue = false;
+            foreach (Agent aa in Lists.agents)
+            {
+                foreach (Agent a in Lists.agents)
+                {
+                    //Same team doesn't count
+                    if (a.team.ID != aa.team.ID)
+                    {
+                        //Need to have same values of x,y
+                        if (a.posX == aa.posX && a.posY == aa.posY)
+                        {
+                            //Some Logic
+
+                            CombatCompareAgents(a, aa);
+                            breakValue = !breakValue;
+                            break;
+                        }
+                    }
+                }
+                if (breakValue)
+                    break;
+            }
+            #endregion
+            #endregion
         }
         #endregion
 
@@ -544,16 +597,5 @@ namespace WindowsFormsApplication6
             Application.Exit();
         }
         #endregion
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (turn < Lists.teams.Count)
-                turn++;
-            if (turn == Lists.teams.Count)
-                turn = 1;
-
-            Lists.currentTeam.ID = turn-1;
-            label6.Text = "Team " + turn;
-        }
     }
 }
