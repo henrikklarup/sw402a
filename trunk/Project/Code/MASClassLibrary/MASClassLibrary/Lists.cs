@@ -245,5 +245,11 @@ namespace MASClassLibrary
             return actionPattern;
         }
         #endregion
+
+        #region IDs
+
+
+
+        #endregion
     }
 }
