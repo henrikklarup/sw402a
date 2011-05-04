@@ -248,7 +248,10 @@ namespace MASClassLibrary
 
         #region IDs
 
-
+        public static int NextSquadID
+        {
+            get { return squads.Count + 1; }
+        }
 
         #endregion
     }
