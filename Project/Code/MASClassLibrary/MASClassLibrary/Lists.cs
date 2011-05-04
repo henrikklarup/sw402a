@@ -109,6 +109,16 @@ namespace MASClassLibrary
 
             return team;
         }
+
+        /// <summary>
+        /// Finds all agents belonging to a certain team.
+        /// </summary>
+        /// <param name="team">The agents team.</param>
+        /// <returns>a list of agents on a team.</returns>
+        public static List<Agent> RetrieveAgentsByTeam(Team team)
+        {
+            return agents.FindAll(delegate(Agent a) { return a.team == team; });
+        }
         #endregion
 
         #region RetrieveSquad

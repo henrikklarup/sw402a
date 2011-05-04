@@ -114,9 +114,23 @@ namespace ActionInterpeter
         private void visitCodeGen_MoveTeam(Single_Action single_Action, object arg)
         {
             List<Agent> agents;
+            Team team;
             if (single_Action.type == (int)Type.Types.TEAMID)
-            { 
-                
+            {
+                TeamID select = (TeamID)single_Action.selection;
+                Token selectToken = select.num;
+                team = Lists.RetrieveTeam(Convert.ToInt32(selectToken.spelling));
+            }
+            else
+            {
+                Identifier ident = (Identifier)single_Action.selection;
+                team = Lists.RetrieveTeam(ident.name.spelling);
+            }
+
+            agents = Lists.RetrieveAgentsByTeam(team);
+            foreach (Agent a in agents)
+            {
+                visitCodeGen_MoveOption(a, single_Action.move_option);
             }
         }
 
