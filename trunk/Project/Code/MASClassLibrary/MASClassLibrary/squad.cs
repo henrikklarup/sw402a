@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MASClassLibrary
 {
-    class squad
+    public class squad
     {
         private int _iD;
         private string _name;
