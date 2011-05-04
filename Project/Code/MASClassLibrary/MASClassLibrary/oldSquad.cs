@@ -5,16 +5,16 @@ using System.Text;
 
 namespace MASClassLibrary
 {
-    public class Squad
+    public class oldSquad
     {
         public int ID;
         public string name;
         public int[] agents;
 
-        public Squad()
+        public oldSquad()
         { }
 
-        public Squad(int ID, string name, List<Agent> agents)
+        public oldSquad(int ID, string name, List<Agent> agents)
         {
             this.ID = ID;
             this.name = name;
@@ -27,7 +27,7 @@ namespace MASClassLibrary
             }
         }
 
-        public Squad(int ID, string name, Agent agent)
+        public oldSquad(int ID, string name, Agent agent)
         {
             int[] agentArray = new int[1];
             agentArray[0] = agent.ID;
