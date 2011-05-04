@@ -7,7 +7,7 @@ namespace MASClassLibrary
 {
     public class actionpattern
     {
-        private List<string> actions;
+        public List<string> actions;
         private string _name;
 
         public string name
@@ -19,7 +19,7 @@ namespace MASClassLibrary
         public actionpattern()
         { }
 
-        public actionpattern(string name, string[] actions)
+        public actionpattern(string name, List<string> actions)
         {
             this._name = name;
             this.actions = new List<string>();
