@@ -9,7 +9,6 @@ namespace MultiAgentSystem
     // Which scope it was declared in, how its recognized, and which kind it is.
     class Attributes
     {
-        public LinkedIdentifier link;
         public int scope;
         public string ident;
         public int kind;
