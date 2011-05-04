@@ -159,14 +159,18 @@ namespace MultiAgentSystem
                     {
                         returnObject = (Expression)parseExpression();
                     }
-                    else if (tokenList.ElementAt(listCount + 1).kind ==
-                        (int)Token.keywords.BECOMES)
-                    {
-                        returnObject = (AssignCommand)parseAssignCommand();
-                    }
                     else
                     {
-                        returnObject = (MethodCall)parseMethodCall();
+                        LinkedIdentifier linked = (LinkedIdentifier)parseLinkedIdentifier();
+
+                        if (currentToken.kind == (int)Token.keywords.BECOMES)
+                        {
+                            returnObject = (AssignCommand)parseAssignCommand(linked);
+                        }
+                        else
+                        {
+                            returnObject = (MethodCall)parseMethodCall(linked);
+                        }
                     }
                     accept(Token.keywords.SEMICOLON);
                     break;
@@ -317,7 +321,7 @@ namespace MultiAgentSystem
             accept(Token.keywords.SEMICOLON);
             Expression expression_1 = (Expression)parseExpression();
             accept(Token.keywords.SEMICOLON);
-            AssignCommand assignCommand = (AssignCommand)parseAssignCommand();
+            AssignCommand assignCommand = (AssignCommand)parseAssignCommand(null);
             accept(Token.keywords.RPAREN);
             Block block = (Block)parseBlock();
 
@@ -411,18 +415,27 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing a method call.
         /// </summary>
-        private Command parseMethodCall()
+        private Command parseMethodCall(LinkedIdentifier linked)
         {
             Printer.WriteLine("Method call");
             Printer.Expand();
 
-            MethodIdentifier methodIdentifier = (MethodIdentifier)parseMethodIdentifier();
+            // If a linked identifier was recieved as input, use that, else parse a new one.
+            LinkedIdentifier LinkedIdentifier;
+            if (linked != null)
+            {
+                LinkedIdentifier = linked;
+            }
+            else
+            {
+                LinkedIdentifier = (LinkedIdentifier)parseLinkedIdentifier();
+            }
             accept(Token.keywords.LPAREN);
             Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
 
             Printer.Collapse();
-            return new MethodCall(methodIdentifier, input);
+            return new MethodCall(LinkedIdentifier, input);
         }
 
         /// <summary>
@@ -430,26 +443,26 @@ namespace MultiAgentSystem
         /// forward to the method.
         /// </summary>
         /// <returns></returns>
-        private Terminal parseMethodIdentifier()
+        private Terminal parseLinkedIdentifier()
         {
-            MethodIdentifier MI = new MethodIdentifier();
+            LinkedIdentifier Linked = new LinkedIdentifier();
             
-            Printer.WriteLine("Method Identifier");
+            Printer.WriteLine("Linked Identifier");
             Printer.Expand();
 
-            MI.Identifier = parseIdentifier();
+            Linked.Identifier = parseIdentifier();
             if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
             {
                 acceptIt();
-                MI.NextMethodIdentifier = (MethodIdentifier)parseMethodIdentifier();
+                Linked.NextLinkedIdentifier = (LinkedIdentifier)parseLinkedIdentifier();
             }
             else
             {
-                MI.NextMethodIdentifier = null;
+                Linked.NextLinkedIdentifier = null;
             }
 
             Printer.Collapse();
-            return MI;
+            return Linked;
         }
 
         /// <summary>
@@ -457,15 +470,23 @@ namespace MultiAgentSystem
         /// Syntax: identifier becomes variable | identifier becomes expression
         /// </summary>
         /// <returns></returns>
-        private Command parseAssignCommand()
+        private Command parseAssignCommand(LinkedIdentifier linked)
         {
             Printer.WriteLine("Assign Command");
             Printer.Expand();
 
-            Identifier ident = null;
+            LinkedIdentifier ident = null;
             AST becomes;
 
-            ident = parseIdentifier();
+            // If a linked identifier was recieved as input, use that, else parse a new one.
+            if (linked != null)
+            {
+                ident = linked;
+            }
+            else
+            {
+                ident = (LinkedIdentifier)parseLinkedIdentifier();
+            }
             accept(Token.keywords.BECOMES);
 
             if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)

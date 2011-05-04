@@ -21,6 +21,7 @@ namespace MultiAgentSystem
         {
             ast.visit(this, arg);
 
+            // This prints all the classes used in the C# code, and is put in at the end of the file.
             string text = File.ReadAllText(
                 Environment.CurrentDirectory + @"\classes.txt");
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -40,8 +41,6 @@ namespace MultiAgentSystem
         /// <returns></returns>
         internal override object visitMainBlock(Mainblock block, object arg)
         {
-            arg = false;
-
             File.Delete(Program.path + @"\MASSCode.cs");
             string text = File.ReadAllText(
                 Environment.CurrentDirectory + @"\mainTextStart.txt");
@@ -55,10 +54,16 @@ namespace MultiAgentSystem
 
             block.input.visit(this, arg);
 
+            /* arg will always have boolean values in here. 
+             * True is the default state, and false signals a special condition.
+             * Here arg is set to false, so visitBlock knows not to write the first "{",
+             * as this has already been done manually for the mainblock. */
+             
             arg = false;
+
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.WriteLine("; ");
+                file.WriteLine("); ");
             }
 
             block.block.visit(this, arg);
@@ -85,7 +90,13 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
-            if ((bool)arg)
+            // If arg is true, start a new block.
+            if (!(bool)arg)
+            {
+                // arg is reset to true, as the false state is not needed after this.
+                arg = true;
+            }
+            else
             {
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
@@ -93,13 +104,13 @@ namespace MultiAgentSystem
                 }
             }
 
-            arg = true;
-
+            // Every command in the block is visited.
             foreach (Command c in block.commands)
             {
                 c.visit(this, arg);
             }
 
+            // Finish the block.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("}");
@@ -124,25 +135,27 @@ namespace MultiAgentSystem
             Printer.WriteLine("Object Declaration");
             Printer.Expand();
 
-            // Get the kind of Object and the spelling of the identifier.
+            // The object type and identifier in the objectdeclaration are saved.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
             Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
 
+            // Write the C# code for an objectdeclaration, with room for input.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(_object.spelling.ToLower() + " " +
                     identifier.spelling.ToLower() + " = new " + _object.spelling.ToLower() + "(");
             }
 
-            // visit the input and check the spelling.
+            // Visit the input.
             if (objectDeclaration.input != null)
+            {
                 objectDeclaration.input.visit(this, arg);
+            }
 
+            // Finish the objectdeclaration and add the object to the relevant list in C#.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("); ");
-                file.WriteLine(_object.spelling.ToLower() + "List.Add(" +
-                    identifier.spelling.ToLower() + ");");
             }
 
             Printer.Collapse();
@@ -163,16 +176,15 @@ namespace MultiAgentSystem
             Printer.WriteLine("Type declaration");
             Printer.Expand();
 
-            // Stores the type and the identifier of the declaration
+            // Store the type and the identifier of the declaration.
             Token Type = (Token)typeDeclaration.Type.visit(this, arg);
             Token VarName = (Token)typeDeclaration.VarName.visit(this, arg);
 
             int kind = Type.kind;
             string ident = VarName.spelling;
 
-            // Print the first part of the type declaration:
-            // If the type is "num", then it should be "double" in C#. Else use the same type name.
             string type;
+            // If the type is "num", then it should be "double" in C#. Else use the same type name.
             if (kind == (int)Token.keywords.NUM)
             {
                 type = "double";
@@ -182,23 +194,35 @@ namespace MultiAgentSystem
                 type = ((Token.keywords)kind).ToString();
             }
 
+            // Print the first part of the type declaration.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(type.ToLower() + " " + ident.ToLower() + " = ");
             }
 
+            // Visit the object that represents what the variable is to become.
             object becomes = typeDeclaration.Becomes.visit(this, arg);
 
-            // If the declaration becomes an expression, visit the expression.
-            // Else check if it becomes the right type.
+            /* If the declaration becomes an expression, then it was printed when "becomes" was visited.
+             * If that isn't the case, then simply take what the declaration becomes and print it. */
             if (!Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),
                 new Expression(null, null, null, null).GetType()))
             {
                 Token masVariable = (Token)becomes;
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                if ((bool)arg)
                 {
-                    file.WriteLine(masVariable.spelling.ToLower() + "; ");
-                }   
+                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.WriteLine(masVariable.spelling.ToLower() + "; ");
+                    }
+                }
+                else
+                {
+                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.WriteLine(masVariable.spelling.ToLower());
+                    }
+                }
             }
 
             Printer.Collapse();
@@ -206,7 +230,7 @@ namespace MultiAgentSystem
         }
 
         /// <summary>
-        /// visit an if expression, consists of a boolean expression and two blocks.
+        /// Visit an if expression, consists of a boolean expression and two blocks.
         /// If the last block (the else block) exists, then visit it.
         /// Syntax: if ( bool-expression ) block
         /// Syntax: if ( bool-expression ) block else block
@@ -220,23 +244,24 @@ namespace MultiAgentSystem
             Printer.WriteLine("If Command");
             Printer.Expand();
             
-            arg = false;
+            // Start the if command.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write("if (");
             }
 
-            // visit the expression, if the expression isn't boolean, report and error.
+            // As no semicolon should be printed at the end of the expression, arg is marked false.
+            arg = false;
+            // Visit and print the expression.
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
+            arg = true;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine(")");
             }
 
-            arg = true;
-
-            // visit the first block.
+            // Visit the first block.
             ifCommand.IfBlock.visit(this, arg);
 
             // If the second block exists, visit it.
@@ -267,26 +292,28 @@ namespace MultiAgentSystem
             Printer.WriteLine("For Command");
             Printer.Expand();
 
+            // Start the for loop.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write("for (");
             }
 
-            // visit the declaration, the two expressions and the block.
+            // Visit the declaration, the two expressions and the block.
             forCommand.CounterDeclaration.visit(this, arg);
             forCommand.LoopExpression.visit(this, arg);
 
+            // As no semicolon should be printed at the end of the expression, arg is marked false.
             arg = false;
-
             forCommand.CounterExpression.visit(this, arg);
+            arg = true;
 
+            // Finish printing the conditions for the loop.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine(")");
             }
 
-            arg = true;
-
+            // And visit the block.
             forCommand.ForBlock.visit(this, arg);
 
             Printer.Collapse();
@@ -305,11 +332,13 @@ namespace MultiAgentSystem
             Printer.WriteLine("While Command");
             Printer.Expand();
 
+            // Start printing the while loop.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write("while (");
             }
 
+            // As no semicolon should be printed at the end of the expression, arg is marked false.
             arg = false;
             whileCommand.LoopExpression.visit(this, arg);
             arg = true;
@@ -330,15 +359,19 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Method Call");
 
-            methodCall.methodIdentifier.visit(this, arg);
+            // The method identifiers are printed.
+            methodCall.linkedIdentifier.visit(this, arg);
 
+            // A parenthesis for the input is printed.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write("(");
             }
 
+            // The input is printed.
             methodCall.input.visit(this, arg);
 
+            // And the input is ended. If arg is false, then no semicolon should be set.
             if ((bool)arg)
             {
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -363,27 +396,28 @@ namespace MultiAgentSystem
             Printer.WriteLine("Expression");
             Printer.Expand();
 
-            // Always a Token of kind number, boolean or identifier.
+            // Put the first part of the expression in a token.
             Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
 
-            // Always a Token of kind, operator, if this doesn't exists, 
-            // visit the primaryExpression and return null.
+            // Put the operator in a token.
             Token _operator = (Token)expression._operator.visit(this, arg);
 
-            // 2nd Primary expression can be both an expression or a token.
+            // The second part of the expression can be both a new expression or a single variable.
             object primExpr2 = expression.primaryExpression_2.visit(this, arg);
 
+            // Print the first part of the expression.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(primExpr1.spelling.ToLower() + " " + _operator.spelling + " ");
             }
 
-            // If this evaluates to true, the primExpr2 is a token and therefor a number, boolean or identifier.
-            // primExpr1 is of type Token.
-            if (object.ReferenceEquals(primExpr2.GetType(), primExpr1.GetType()))
+            // If the second part of the expression is not a new expression, print it as it is. 
+            if (!Expression.ReferenceEquals(primExpr2.GetType(),
+                new Expression(null, null, null, null).GetType()))
             {
                 Token _primExpr2 = (Token)primExpr2;
 
+                // If arg is false, don't print the semicolon.
                 if ((bool)arg)
                 {
                     using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -423,12 +457,10 @@ namespace MultiAgentSystem
 
             arg = false;
 
-            Token firstVar;
-            object nextVar;
-
+            // If the first input exists, print it.
             if (input.firstVar != null)
             {
-                firstVar = (Token)input.firstVar.visit(this, arg);
+                Token firstVar = (Token)input.firstVar.visit(this, arg);
 
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
@@ -437,10 +469,12 @@ namespace MultiAgentSystem
 
                 arg = true;
             }
+
+            // If more input exists, print it.
             if (input.nextVar != null)
             {
                 Printer.Collapse();
-                nextVar = (Input)input.nextVar.visit(this, arg);
+                object nextVar = (Input)input.nextVar.visit(this, arg);
                 Printer.Expand();
             }
 
@@ -448,30 +482,33 @@ namespace MultiAgentSystem
             return null;
         }
 
-        internal override object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
+        internal override object visitLinkedIdentifier(LinkedIdentifier linkedIdentifier, object arg)
         {
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
-            Token identifier;
 
-            identifier = (Token)methodIdentifier.Identifier.visit(this, arg);
+            string identifier;
+
+            // Save the first identifier and print it.
+            identifier = ((Token)linkedIdentifier.Identifier.visit(this, arg)).spelling;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(identifier.spelling.ToLower());
+                file.Write(identifier.ToLower());
             }
 
-            if (methodIdentifier.NextMethodIdentifier != null)
+            // If more identifiers exists, print them.
+            if (linkedIdentifier.NextLinkedIdentifier != null)
             {
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
                     file.Write(".");
                 }
-                methodIdentifier.NextMethodIdentifier.visit(this, arg);
+                identifier += "." + linkedIdentifier.NextLinkedIdentifier.visit(this, arg);
             }
 
             Printer.Collapse();
-            return null;
+            return identifier;
         }
 
         internal override object visitMASNumber(MASNumber mASNumber, object arg)
@@ -515,17 +552,14 @@ namespace MultiAgentSystem
             Printer.WriteLine("Assign Command");
             Printer.Expand();
 
-            int kind;
-            Token ident = (Token)assignCommand.ident.visit(this, arg);
+            string ident = (string)assignCommand.ident.visit(this, arg);
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(ident.spelling.ToLower() + " = ");
+                file.Write(" = ");
             }
 
             object becomes = assignCommand.becomes.visit(this, arg);
-
-            kind = IdentificationTable.retrieve(ident);
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.

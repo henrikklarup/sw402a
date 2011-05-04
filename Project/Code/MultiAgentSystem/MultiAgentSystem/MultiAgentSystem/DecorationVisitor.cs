@@ -103,6 +103,11 @@ namespace MultiAgentSystem
 
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
+            IdentificationTable.enter((int)Token.keywords.STRING, ident + ".name");
+            if (kind == (int)Token.keywords.TEAM)
+            {
+                IdentificationTable.enter((int)Token.keywords.STRING, ident + ".color");
+            }
 
             // visit the input and check the spelling.
             if(objectDeclaration.input != null)
@@ -154,7 +159,7 @@ namespace MultiAgentSystem
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable) != kind)
+                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -170,7 +175,7 @@ namespace MultiAgentSystem
                             && masVariable.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable) != kind)
+                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -185,7 +190,7 @@ namespace MultiAgentSystem
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
-                                && IdentificationTable.retrieve(masVariable) != kind)
+                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -206,7 +211,7 @@ namespace MultiAgentSystem
                         break;
                 }
             }
-            if (IdentificationTable.retrieve(VarName) == (int)Token.keywords.ERROR)
+            if (IdentificationTable.retrieve(VarName.spelling) == (int)Token.keywords.ERROR)
                 IdentificationTable.enter(kind, ident);
             else
             {
@@ -318,7 +323,7 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Method Call");
 
-            methodCall.methodIdentifier.visit(this, arg);
+            methodCall.linkedIdentifier.visit(this, arg);
             methodCall.input.visit(this, arg);
 
             return null;
@@ -335,7 +340,7 @@ namespace MultiAgentSystem
 
             if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
             {
-                int tempKind = IdentificationTable.retrieve(primExpr1);
+                int tempKind = IdentificationTable.retrieve(primExpr1.spelling);
 
                 if (tempKind != (int)Token.keywords.NUM && tempKind != (int)Token.keywords.BOOL)
                 {
@@ -394,7 +399,7 @@ namespace MultiAgentSystem
 
                 // If primary expression 1 is an identifier, check which type it is.
                 if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
-                    identifier1Kind = IdentificationTable.retrieve(primExpr1);
+                    identifier1Kind = IdentificationTable.retrieve(primExpr1.spelling);
                 else
                     identifier1Kind = primExpr1.kind;
 
@@ -402,7 +407,7 @@ namespace MultiAgentSystem
 
                 // If primary expression 2 is an identifier, check which type it is.
                 if (_primExpr2.kind == (int)Token.keywords.IDENTIFIER)
-                    identifier2Kind = IdentificationTable.retrieve(_primExpr2);
+                    identifier2Kind = IdentificationTable.retrieve(_primExpr2.spelling);
                 else
                     identifier2Kind = _primExpr2.kind;
 
@@ -462,7 +467,7 @@ namespace MultiAgentSystem
                 int identifierKind;
                 // If primary expression 1 is an identifier, check which type it is.
                 if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
-                    identifierKind = IdentificationTable.retrieve(primExpr1);
+                    identifierKind = IdentificationTable.retrieve(primExpr1.spelling);
                 else
                     identifierKind = primExpr1.kind;
 
@@ -536,7 +541,7 @@ namespace MultiAgentSystem
 
                 if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
                 {
-                    if (IdentificationTable.retrieve(firstVar) == (int)Token.keywords.ERROR)
+                    if (IdentificationTable.retrieve(firstVar.spelling) == (int)Token.keywords.ERROR)
                     {
                         Printer.ErrorMarker();
                         throwException = true;
@@ -557,7 +562,7 @@ namespace MultiAgentSystem
             return null;
         }
 
-        internal override object visitMethodIdentifier(MethodIdentifier methodIdentifier, object arg)
+        internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)
         {
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
@@ -565,16 +570,16 @@ namespace MultiAgentSystem
             Token identifier;
             string ident;
 
-            identifier = (Token)methodIdentifier.Identifier.visit(this, arg);
+            identifier = (Token)LinkedIdentifier.Identifier.visit(this, arg);
             ident = identifier.spelling;
 
-            if (methodIdentifier.NextMethodIdentifier != null)
+            if (LinkedIdentifier.NextLinkedIdentifier != null)
             {
-                methodIdentifier.NextMethodIdentifier.visit(this, arg);
+                ident += "." + (string)LinkedIdentifier.NextLinkedIdentifier.visit(this, arg);
             }
 
             Printer.Collapse();
-            return null;
+            return ident;
         }
 
         internal override object visitMASNumber(MASNumber mASNumber, object arg)
@@ -619,7 +624,7 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             int kind;
-            Token ident = (Token)assignCommand.ident.visit(this, arg);
+            string ident = (string)assignCommand.ident.visit(this, arg);
             object becomes = assignCommand.becomes.visit(this, arg);
 
             kind = IdentificationTable.retrieve(ident);
@@ -641,14 +646,14 @@ namespace MultiAgentSystem
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
-                                IdentificationTable.retrieve(masVariable) != kind)
+                                IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
                                         ") The types in the assignment of " +
-                                        ident.spelling + " do not match."));
+                                        ident + " do not match."));
                             }
                         }
                         break;
@@ -657,14 +662,14 @@ namespace MultiAgentSystem
                             masVariable.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER &&
-                                IdentificationTable.retrieve(masVariable) != kind)
+                                IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
                                         ") The types in the assignment of " +
-                                        ident.spelling + " do not match."));
+                                        ident + " do not match."));
                             }
                         }
                         break;
@@ -672,14 +677,14 @@ namespace MultiAgentSystem
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
-                                IdentificationTable.retrieve(masVariable) != kind)
+                                IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
                                     new GrammarException("(Line " + masVariable.row +
                                         ") The types in the assignment of " +
-                                        ident.spelling + " do not match."));
+                                        ident + " do not match."));
                             }
                         }
                         break;
@@ -688,13 +693,20 @@ namespace MultiAgentSystem
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + masVariable.row +
-                                ") The types in the assignment of " + ident.spelling + " do not match."));
+                                ") The types in the assignment of " + ident + " do not match."));
                         break;
                 }
             }
 
             Printer.Collapse();
             return null;
+        }
+
+        private LinkedIdentifier CreateLinkedIdentifier(Token t)
+        {
+            LinkedIdentifier link = new LinkedIdentifier();
+            link.Identifier = new Identifier(t);
+            return link;
         }
     }
 }
