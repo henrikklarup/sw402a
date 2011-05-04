@@ -7,16 +7,21 @@ namespace MASClassLibrary
 {
     public class actionpattern
     {
-        public int ID;
-        public List<string> actions;
-        public string name;
+        private List<string> actions;
+        private string _name;
+
+        public string name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         public actionpattern()
         { }
 
-        public actionpattern(int ID, string[] actions)
+        public actionpattern(string name, string[] actions)
         {
-            this.ID = ID;
+            this._name = name;
             this.actions = new List<string>();
             foreach (string s in actions)
             {
@@ -24,9 +29,9 @@ namespace MASClassLibrary
             }
         }
 
-        public actionpattern(int ID, string action)
+        public actionpattern(string name, string action)
         {
-            this.ID = ID;
+            this._name = name;
             this.actions = new List<string>();
             this.actions.Add(action);
         }
