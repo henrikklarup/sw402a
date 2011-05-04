@@ -226,6 +226,7 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Code Generation");
             Console.Title = "MASS Compiler: Code Generation";
 
+            path = Path.GetDirectoryName(path);
             CodeGenerationVisitor visitor = new CodeGenerationVisitor();
 
             try

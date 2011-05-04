@@ -21,12 +21,9 @@ namespace MultiAgentSystem
         {
             ast.visit(this, arg);
 
-            // This prints all the classes used in the C# code, and is put in at the end of the file.
-            string text = File.ReadAllText(
-                Environment.CurrentDirectory + @"\classes.txt");
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.WriteLine(text);
+                file.WriteLine("}");
             }
 
             return null;
@@ -63,7 +60,7 @@ namespace MultiAgentSystem
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.WriteLine("); ");
+                file.WriteLine("; ");
             }
 
             block.block.visit(this, arg);
