@@ -140,7 +140,7 @@ namespace MASClassLibrary
         }
     }
 
-    public class oldActionPattern
+    class oldActionPattern
     {
         public int ID;
         public string[] actions;
@@ -165,7 +165,7 @@ namespace MASClassLibrary
         }
     }
 
-    public class oldSquad
+    class oldSquad
     {
         public int ID;
         public string name;
