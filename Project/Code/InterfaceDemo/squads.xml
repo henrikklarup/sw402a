@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfSquad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Squad>
-    <ID>0</ID>
-  </Squad>
-</ArrayOfSquad>
+<ArrayOfOldSquad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <oldSquad>
+    <ID>1</ID>
+    <name>first squad</name>
+    <agents>
+      <int>1</int>
+    </agents>
+  </oldSquad>
+</ArrayOfOldSquad>

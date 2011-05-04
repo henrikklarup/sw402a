@@ -85,7 +85,7 @@ namespace WindowsFormsApplication6
             turn = rnd.Next(1,Lists.teams.Count);
             Lists.currentteam = new team();
             Lists.currentteam.ID = turn;
-            label6.Text = "team " + turn;
+            label6.Text = "Team " + turn;
 
             textBox4.AppendText("WarGame Console");
 
@@ -186,7 +186,16 @@ namespace WindowsFormsApplication6
             }
 
             //Generate gameStats
-            string gameStats = "team 1: " + agentsOnteam1 + Environment.NewLine + "team 2: " + agentsOnteam2 + Environment.NewLine + "team 3: " + agentsOnteam3 + Environment.NewLine + "team 4: " + agentsOnteam4;
+            string gameStats = string.Empty;
+            if (Lists.teams.Count >= 1)
+                gameStats += "Team 1: " + agentsOnteam1;
+            if (Lists.teams.Count >= 2)
+                gameStats += Environment.NewLine + "Team 2: " + agentsOnteam2;
+            if (Lists.teams.Count >= 3)
+                gameStats += Environment.NewLine + "Team 3: " + agentsOnteam3;
+            if (Lists.teams.Count == 4)
+                gameStats += Environment.NewLine + "Team 4: " + agentsOnteam4;
+
 
             //If Text changed, update textbox
             if (textBox3.Text != gameStats)
