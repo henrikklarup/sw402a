@@ -495,23 +495,6 @@ namespace WindowsFormsApplication6
         #region GetXMLData
         public void getXmlData(string path)
         {
-            /* XML IMPLEMENTATION!
-             * Kristian's shizzle
-             * 
-             * 
-            //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\WarGame.xml");
-            Reader.Mount();
-            foreach (XmlType item in Reader.XmlSearch(""))
-            {
-                Console.WriteLine(item.Tag + item.Value);
-            }
-
-
-            */
-
-
-
             using (var sr = new StreamReader(path + @"\agents.xml"))
             {
                 var deserializer = new XmlSerializer(typeof(List<agent>));
