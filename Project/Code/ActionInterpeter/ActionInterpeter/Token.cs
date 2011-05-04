@@ -31,9 +31,6 @@ namespace ActionInterpeter
             EOL,
             EOT,
             ERROR,
-            DIR,
-            COORD,
-            ACTIONPATTERN,
         }
 
         //The equivilint spellings of the tokens, used by the Token method to change the identifier from identifier to a keyword
