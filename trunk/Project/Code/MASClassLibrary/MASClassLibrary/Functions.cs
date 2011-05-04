@@ -19,8 +19,8 @@ namespace MASClassLibrary
         {
             foreach (agent a in Lists.agents)
             {
-                if (agent.team.ID != Lists.currentTeam.ID)
-                    throw new Exception("Wrong Team");
+                if (agent.team.ID != Lists.currentteam.ID)
+                    throw new Exception("Wrong team");
 
                 if (a.ID == agent.ID)
                 {
