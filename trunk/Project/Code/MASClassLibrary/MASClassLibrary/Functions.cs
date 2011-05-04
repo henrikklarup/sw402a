@@ -19,12 +19,16 @@ namespace MASClassLibrary
         {
             foreach (Agent a in Lists.agents)
             {
+                if (agent.team.ID != Lists.currentTeam.ID)
+                    throw new Exception("Wrong Team");
+
                 if (a.ID == agent.ID)
                 {
                     #region ifValid
                     //Set Figure to x,y
                     Point newPoint = new Point(xchord, ychord);
 
+                    //Just moved agent
                     Agent moveagent = new Agent(a.ID, a.name, a.rank, a.team);
                     moveagent.posX = newPoint.X;
                     moveagent.posY = newPoint.Y;
