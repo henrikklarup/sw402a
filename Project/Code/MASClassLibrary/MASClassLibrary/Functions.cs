@@ -11,13 +11,13 @@ namespace MASClassLibrary
         /// <summary>
         /// Moves the selected agent to the x and y choords selected
         /// </summary>
-        /// <param name="agent">Agent to move</param>
+        /// <param name="agent">agent to move</param>
         /// <param name="xchord">X chord</param>
         /// <param name="ychord">Y chord</param>
-        #region MoveAgent
-        public static void moveAgent(Agent agent, int xchord, int ychord)
+        #region Moveagent
+        public static void moveagent(agent agent, int xchord, int ychord)
         {
-            foreach (Agent a in Lists.agents)
+            foreach (agent a in Lists.agents)
             {
                 if (agent.team.ID != Lists.currentTeam.ID)
                     throw new Exception("Wrong Team");
@@ -29,11 +29,11 @@ namespace MASClassLibrary
                     Point newPoint = new Point(xchord, ychord);
 
                     //Just moved agent
-                    Agent moveagent = new Agent(a.ID, a.name, a.rank, a.team);
+                    agent moveagent = new agent(a.ID, a.name, a.rank, a.team);
                     moveagent.posX = newPoint.X;
                     moveagent.posY = newPoint.Y;
 
-                    Lists.moveAgents.Add(moveagent);
+                    Lists.moveagents.Add(moveagent);
 
                     //OLD SHIT
                     //a.posX = newPoint.X;
