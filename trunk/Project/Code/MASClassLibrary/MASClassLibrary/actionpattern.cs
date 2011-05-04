@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MASClassLibrary
 {
-    class actionpattern
+    public class actionpattern
     {
     }
 }
