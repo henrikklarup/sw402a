@@ -89,23 +89,23 @@ namespace ActionInterpeter
         }
     }
 
-    class AgentID : AST
+    class agentID : AST
     {
         public Token num;
 
         public override object visit(Visitor v, object arg)
         {
-            return v.visitAgentID(this, arg);
+            return v.visitagentID(this, arg);
         }
     }
 
-    class TeamID : AST
+    class teamID : AST
     {
         public Token num;
 
         public override object visit(Visitor v, object arg)
         {
-            return v.visitTeamID(this, arg);
+            return v.visitteamID(this, arg);
         }
     }
 
@@ -123,12 +123,12 @@ namespace ActionInterpeter
     {
         public enum Types
         {
-            AGENT,
-            TEAM,
+            agent,
+            team,
             SQUAD,
             ACTIONPATTERN,
-            AGENTID,
-            TEAMID,
+            agentID,
+            teamID,
             SQUADID,
             DIR,
             COORD,

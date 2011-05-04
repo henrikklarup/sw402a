@@ -41,15 +41,15 @@ namespace ActionInterpeter
                 }
                 // If the selection is an agent, set the type of the selection.
                 else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new AgentID().GetType()))
+                    single_Action.selection.GetType(), new agentID().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.AGENTID;
+                    single_Action.type = (int)Type.Types.agentID;
                 }
-                // try with Team.
+                // try with team.
                 else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new TeamID().GetType()))
+                    single_Action.selection.GetType(), new teamID().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.TEAMID;
+                    single_Action.type = (int)Type.Types.teamID;
                 }
                 // and squad.
                 else if (object.ReferenceEquals(
@@ -58,19 +58,19 @@ namespace ActionInterpeter
                     single_Action.type = (int)Type.Types.SQUADID;
                 }
                 else if (object.ReferenceEquals(
-                    selection.GetType(), new Agent().GetType()))
+                    selection.GetType(), new agent().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.AGENT;
+                    single_Action.type = (int)Type.Types.agent;
                 }
                 else if (object.ReferenceEquals(
-                    selection.GetType(), new Squad().GetType()))
+                    selection.GetType(), new oldSquad().GetType()))
                 {
                     single_Action.type = (int)Type.Types.SQUAD;
                 }
                 else if (object.ReferenceEquals(
-                    selection.GetType(), new Team().GetType()))
+                    selection.GetType(), new team().GetType()))
                 {
-                    single_Action.type = (int)Type.Types.TEAM;
+                    single_Action.type = (int)Type.Types.team;
                 }
                 #endregion
             }
@@ -78,13 +78,13 @@ namespace ActionInterpeter
             {
                 switch (single_Action.type)
                 {
-                    case (int)Type.Types.AGENTID:
-                    case (int)Type.Types.AGENT:
-                        visitCodeGen_MoveAgent(single_Action, arg);
+                    case (int)Type.Types.agentID:
+                    case (int)Type.Types.agent:
+                        visitCodeGen_Moveagent(single_Action, arg);
                         break;
-                    case (int)Type.Types.TEAMID:
-                    case (int)Type.Types.TEAM:
-                        visitCodeGen_MoveTeam(single_Action, arg);
+                    case (int)Type.Types.teamID:
+                    case (int)Type.Types.team:
+                        visitCodeGen_Moveteam(single_Action, arg);
                         break;
                     case (int)Type.Types.SQUADID:
                     case (int)Type.Types.SQUAD:
@@ -95,42 +95,42 @@ namespace ActionInterpeter
             return null;
         }
 
-        private void visitCodeGen_MoveAgent(Single_Action single_Action, object arg)
+        private void visitCodeGen_Moveagent(Single_Action single_Action, object arg)
         {
-            Agent agent;
-            if (single_Action.type == (int)Type.Types.AGENTID)
+            agent agent;
+            if (single_Action.type == (int)Type.Types.agentID)
             {
-                AgentID select = (AgentID)single_Action.selection;
+                agentID select = (agentID)single_Action.selection;
                 Token selectToken = select.num;
-                agent = Lists.RetrieveAgent(Convert.ToInt32(selectToken.spelling));
+                agent = Lists.Retrieveagent(Convert.ToInt32(selectToken.spelling));
             }
             else
             {
                 Identifier ident = (Identifier)single_Action.selection;
-                agent = Lists.RetrieveAgent(ident.name.spelling);
+                agent = Lists.Retrieveagent(ident.name.spelling);
             }
 
             visitCodeGen_MoveOption(agent, single_Action.move_option);
         }
 
-        private void visitCodeGen_MoveTeam(Single_Action single_Action, object arg)
+        private void visitCodeGen_Moveteam(Single_Action single_Action, object arg)
         {
-            List<Agent> agents;
-            Team team;
-            if (single_Action.type == (int)Type.Types.TEAMID)
+            List<agent> agents;
+            team team;
+            if (single_Action.type == (int)Type.Types.teamID)
             {
-                TeamID select = (TeamID)single_Action.selection;
+                teamID select = (teamID)single_Action.selection;
                 Token selectToken = select.num;
-                team = Lists.RetrieveTeam(Convert.ToInt32(selectToken.spelling));
+                team = Lists.Retrieveteam(Convert.ToInt32(selectToken.spelling));
             }
             else
             {
                 Identifier ident = (Identifier)single_Action.selection;
-                team = Lists.RetrieveTeam(ident.name.spelling);
+                team = Lists.Retrieveteam(ident.name.spelling);
             }
 
-            agents = Lists.RetrieveAgentsByTeam(team);
-            foreach (Agent a in agents)
+            agents = Lists.RetrieveagentsByteam(team);
+            foreach (agent a in agents)
             {
                 visitCodeGen_MoveOption(a, single_Action.move_option);
             }
@@ -143,11 +143,11 @@ namespace ActionInterpeter
 
 
         /// <summary>
-        /// Execute the moveAgent method.
+        /// Execute the moveagent method.
         /// </summary>
         /// <param name="agent">The agent which is being moved.</param>
         /// <param name="move_Option">Move option from the single_action</param>
-        private void visitCodeGen_MoveOption(Agent agent, Move_Option move_Option)
+        private void visitCodeGen_MoveOption(agent agent, Move_Option move_Option)
         {
             int num1;
             int num2;
@@ -189,7 +189,7 @@ namespace ActionInterpeter
                 default:
                     throw new Exception("The move Option was invalid!");
             }
-            Functions.moveAgent(agent, num1, num2);
+            Functions.moveagent(agent, num1, num2);
         }
 
 
@@ -208,7 +208,7 @@ namespace ActionInterpeter
                 {
                     move_Option.type = (int)Type.Types.COORD;
                 }
-                else if (object.ReferenceEquals(dir_coord.GetType(), new ActionPattern().GetType()))
+                else if (object.ReferenceEquals(dir_coord.GetType(), new oldActionPattern().GetType()))
                 {
                     move_Option.type = (int)Type.Types.ACTIONPATTERN;
                 }
@@ -227,13 +227,13 @@ namespace ActionInterpeter
             if (token.kind == (int)Token.keywords.IDENTIFIER)
             {
                 object obj = null;
-                obj = Lists.RetrieveAgent(token.spelling);
+                obj = Lists.Retrieveagent(token.spelling);
                 if (obj != null)
                     return obj;
                 obj = Lists.RetrieveSquad(token.spelling);
                 if (obj != null)
                     return obj;
-                obj = Lists.RetrieveTeam(token.spelling);
+                obj = Lists.Retrieveteam(token.spelling);
                 if (obj != null)
                     return obj;
                 obj = Lists.RetrieveActionPattern(token.spelling);
@@ -270,13 +270,13 @@ namespace ActionInterpeter
             return mASNumber.ID;
         }
 
-        #region Agent/Team/Squad ID
-        internal object visitAgentID(AgentID agentID, object arg)
+        #region agent/team/Squad ID
+        internal object visitagentID(agentID agentID, object arg)
         {
             return agentID;
         }
 
-        internal object visitTeamID(TeamID teamID, object arg)
+        internal object visitteamID(teamID teamID, object arg)
         {
             return teamID;
         }

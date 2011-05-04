@@ -124,17 +124,17 @@ namespace ActionInterpeter
         {
             switch (currentToken.kind)
             { 
-                case (int)Token.keywords.AGENT:
+                case (int)Token.keywords.agent:
                 case (int)Token.keywords.A:
-                    // Accepts the token, since its either A or Agent.
+                    // Accepts the token, since its either A or agent.
                     acceptIt();
-                    AgentID agent = parseAgentID();
+                    agentID agent = parseagentID();
                     return agent;
-                case (int)Token.keywords.TEAM:
+                case (int)Token.keywords.team:
                 case (int)Token.keywords.T:
-                    // Accepts the token, since its either T or Team.
+                    // Accepts the token, since its either T or team.
                     acceptIt();
-                    TeamID team = parseTeamID();
+                    teamID team = parseteamID();
                     return team;
                 case (int)Token.keywords.SQUAD:
                 case (int)Token.keywords.S:
@@ -143,7 +143,7 @@ namespace ActionInterpeter
                     SquadID squad = parseSquadID();
                     return squad;
                 case (int)Token.keywords.NUMBER:
-                    AgentID agentNum = parseAgentID();
+                    agentID agentNum = parseagentID();
                     return agentNum;
                 case (int)Token.keywords.IDENTIFIER:
                     Identifier ident = parseIdentifier();
@@ -162,17 +162,17 @@ namespace ActionInterpeter
             return squad;
         }
 
-        private TeamID parseTeamID()
+        private teamID parseteamID()
         {
-            TeamID team = new TeamID();
+            teamID team = new teamID();
             team.num = currentToken;
             acceptIt();
             return team;
         }
 
-        private AgentID parseAgentID()
+        private agentID parseagentID()
         {
-            AgentID agent = new AgentID();
+            agentID agent = new agentID();
             agent.num = currentToken;
             acceptIt();
             return agent;
