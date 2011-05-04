@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MASClassLibrary
 {
-    public class Agent
+    public class agent
     {
         public int ID;
         public int posX;
@@ -14,10 +14,10 @@ namespace MASClassLibrary
         public int rank;
         public Team team;
 
-        public Agent()
+        public agent()
         { }
 
-        public Agent(int ID, string name, int rank, Team team)
+        public agent(int ID, string name, int rank, Team team)
         {
             this.ID = ID;
             this.name = name;
