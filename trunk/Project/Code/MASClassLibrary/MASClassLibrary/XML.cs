@@ -15,6 +15,7 @@ namespace MASClassLibrary
         /// <param name="path">The path the files should be stored to.</param>
         public static void generateXML(string path)
         {
+            // Initialize the lists.
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
