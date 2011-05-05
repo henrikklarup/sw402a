@@ -356,7 +356,17 @@
       <name>JorgesTeam</name>
       <color />
     </team>
-    <rank>20</rank>
+    <rank>10</rank>
+    <posx>0</posx>
+    <posy>0</posy>
+  </agent>
+  <agent>
+    <name>Paolo</name>
+    <team>
+      <name>JorgesTeam</name>
+      <color />
+    </team>
+    <rank>10</rank>
     <posx>0</posx>
     <posy>0</posy>
   </agent>
