@@ -7,7 +7,7 @@ using MASClassLibrary;
 
 namespace XMLawesome
 {
-    public class XML
+    public class aXML
     {
         public int _depth;
         public String _input;
@@ -15,7 +15,7 @@ namespace XMLawesome
         public bool _standalone;
         public String _attr;
         public int _pop;
-        public XML(int depth, String tag, String input, bool standalone, String Attr, int Pop)
+        public aXML(int depth, String tag, String input, bool standalone, String Attr, int Pop)
         {
             this._input = input;
             this._depth = depth;
@@ -42,7 +42,7 @@ namespace XMLawesome
             String c = "</";
             String XML = a + XmlName + b;
             //Generate the xml string
-            List<XML> stack = new List<XML>();
+            List<aXML> stack = new List<aXML>();
 
             for(int i = 0; i < XMLhelp.XmlList.Count; i++)
             {
