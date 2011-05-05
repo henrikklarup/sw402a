@@ -324,7 +324,10 @@ namespace MultiAgentSystem
             Printer.WriteLine("Method Call");
 
             methodCall.linkedIdentifier.visit(this, arg);
-            methodCall.input.visit(this, arg);
+            if (methodCall.input != null)
+            {
+                methodCall.input.visit(this, arg);
+            }
 
             return null;
         }
