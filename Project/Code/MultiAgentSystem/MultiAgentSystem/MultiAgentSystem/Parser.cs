@@ -502,6 +502,7 @@ namespace MultiAgentSystem
             return new AssignCommand(ident, becomes);
         }
 
+        private int parent = 0;
         /// <summary>
         /// Method for parsing an expression (unfinished).
         /// Syntax: primary-expression operator primary-expression
@@ -515,10 +516,34 @@ namespace MultiAgentSystem
             Operator _operator;
             AST primaryExpression_2;
 
-            primaryExpression_1 = parsePrimaryExpression();
+            if (currentToken.kind == (int)Token.keywords.LPAREN)
+            {
+                acceptIt();
+                tokenList.ElementAt(listCount).spelling = "(" + currentToken.spelling;
+                parent++;
+                primaryExpression_1 = parsePrimaryExpression();
+            }
+            else if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.RPAREN && parent > 0)
+            {
+                tokenList.ElementAt(listCount).spelling = currentToken.spelling + ")";
+                primaryExpression_1 = parsePrimaryExpression();
+                acceptIt();
+                parent--;
+            }
+            else
+                primaryExpression_1 = parsePrimaryExpression();
             _operator = (Operator)parseOperator();
             // If the next token is an operator, parse an expression.
             if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
+            {
+                primaryExpression_2 = parseExpression();
+            }
+            else if (currentToken.kind == (int)Token.keywords.LPAREN)
+            {
+                primaryExpression_2 = parseExpression();
+            }
+            else if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.RPAREN
+                && tokenList.ElementAt(listCount + 2).kind == (int)Token.keywords.OPERATOR)
             {
                 primaryExpression_2 = parseExpression();
             }
@@ -553,12 +578,6 @@ namespace MultiAgentSystem
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
                     returnObject = parseMASBool();
-                    break;
-                case (int)Token.keywords.LPAREN:
-                    // Accept the LPARENT.
-                    acceptIt();
-                    returnObject = parseExpression();
-                    accept(Token.keywords.RPAREN);
                     break;
                 case (int)Token.keywords.IDENTIFIER:
                     returnObject = parseIdentifier();
