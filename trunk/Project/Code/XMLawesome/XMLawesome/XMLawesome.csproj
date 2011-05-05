@@ -52,10 +52,6 @@
     <Compile Include="XmlType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MAS - Object lib\MAS\MAS\MAS\MAS.csproj">
-      <Project>{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}</Project>
-      <Name>MAS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj">
       <Project>{B6B9134A-DCB1-47F0-9677-ED65A055E588}</Project>
       <Name>MASClassLibrary</Name>

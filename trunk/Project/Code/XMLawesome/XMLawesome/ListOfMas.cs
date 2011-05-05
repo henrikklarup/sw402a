@@ -9,7 +9,7 @@ namespace XMLawesome
     public class ListOfMas
     {
         private List<team> ListOfTeams = new List<team>();
-        private List<team> ListOfSquad = new List<team>();
+        private List<squad> ListOfSquad = new List<squad>();
         private List<agent> ListOfAgent = new List<agent>();
         private List<actionpattern> ListOfActionPattern = new List<actionpattern>();
         private List<List<Object>> list = new List<List<Object>>();
@@ -37,7 +37,7 @@ namespace XMLawesome
                 List<XmlType> MasList = Reader.XmlSearch("MAS>Squads");
                 String name = "";
                 int id = 0;
-                List<int> agentId = new List<int>();
+                List<agent> agentId = new List<agent>();
                 for (int i = 0; i < MasList.Count; i++)
                 {
                     name = "";
@@ -63,7 +63,8 @@ namespace XMLawesome
                                 {
                                     if (MasList[k].Tag == "Id")
                                     {
-                                        agentId.Add(Convert.ToInt32(MasList[k].Value));
+                                        agent newAgent = new agent(Convert.ToInt32(MasList[k].Value));
+                                        agentId.Add(newAgent);
                                     }
                                     else
                                     {
@@ -73,7 +74,7 @@ namespace XMLawesome
                                 }
                             }
                         }
-                        squad squad = new squad(id, name, agentId);
+                        squad squad = new squad(name, agentId);
                         ListOfSquad.Add(squad);
                     }
                 }
@@ -150,7 +151,7 @@ namespace XMLawesome
                 }
                 
                 team team = new team(teamId, teamName, teamColor);
-                agent agent = new agent(id, name, rank, posX, posY, team);
+                agent agent = new agent(id, name, rank, team);
                 ListOfAgent.Add(agent);
             }
             return ListOfAgent;
@@ -190,8 +191,7 @@ namespace XMLawesome
                                 }
                             }
                         }
-                        String[] action = actions.ToArray();
-                        actionpattern AP = new actionpattern(id, action);
+                        actionpattern AP = new actionpattern(name, actions);
                         ListOfActionPattern.Add(AP);
                     }
                 }
