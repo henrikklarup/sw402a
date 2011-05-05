@@ -31,7 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -48,9 +50,9 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -58,10 +60,10 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(681, 338);
+            this.tabControl1.Location = new System.Drawing.Point(621, 338);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(151, 292);
+            this.tabControl1.Size = new System.Drawing.Size(211, 292);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -70,20 +72,45 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(143, 266);
+            this.tabPage1.Size = new System.Drawing.Size(153, 266);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Combat Log";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // textBox5
+            // 
+            this.textBox5.Enabled = false;
+            this.textBox5.Location = new System.Drawing.Point(0, 0);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox5.Size = new System.Drawing.Size(153, 266);
+            this.textBox5.TabIndex = 0;
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.textBox6);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(143, 266);
+            this.tabPage2.Size = new System.Drawing.Size(203, 266);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Command List";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // textBox6
+            // 
+            this.textBox6.Enabled = false;
+            this.textBox6.Location = new System.Drawing.Point(0, 0);
+            this.textBox6.Multiline = true;
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
+            this.textBox6.Size = new System.Drawing.Size(203, 266);
+            this.textBox6.TabIndex = 0;
+            this.textBox6.Text = "Move agents:\r\n[agentIdentifier] move [destination]\r\n\r\nagentIdentifiers:\r\n- Agent " +
+                "id\r\n- Agent name\r\n\r\ndestinations:\r\n- x and y coordinates. I.e. 2,3\r\n- up, down, " +
+                "left, right";
             // 
             // textBox1
             // 
@@ -134,7 +161,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(678, 13);
+            this.label2.Location = new System.Drawing.Point(618, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 6;
@@ -188,31 +215,31 @@
             // textBox2
             // 
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Location = new System.Drawing.Point(671, 30);
+            this.textBox2.Location = new System.Drawing.Point(621, 29);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(151, 167);
+            this.textBox2.Size = new System.Drawing.Size(201, 167);
             this.textBox2.TabIndex = 13;
             // 
             // textBox3
             // 
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Location = new System.Drawing.Point(671, 233);
+            this.textBox3.Location = new System.Drawing.Point(621, 233);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(151, 56);
+            this.textBox3.Size = new System.Drawing.Size(201, 56);
             this.textBox3.TabIndex = 14;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(671, 214);
+            this.label5.Location = new System.Drawing.Point(622, 217);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "agents left:";
+            this.label5.Text = "Agents left:";
             // 
             // textBox4
             // 
@@ -233,7 +260,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(532, 719);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.Size = new System.Drawing.Size(39, 13);
             this.label6.TabIndex = 17;
             this.label6.Text = "team 1";
             // 
@@ -251,17 +278,6 @@
             this.dbPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.dbPanel1_Paint);
             this.dbPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseClick);
             this.dbPanel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dbPanel1_MouseMove);
-            // 
-            // textBox5
-            // 
-            this.textBox5.Enabled = false;
-            this.textBox5.Location = new System.Drawing.Point(0, 0);
-            this.textBox5.Multiline = true;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox5.Size = new System.Drawing.Size(143, 266);
-            this.textBox5.TabIndex = 0;
             // 
             // WarGame
             // 
@@ -293,6 +309,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,6 +338,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
     }
 }
 
