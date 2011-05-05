@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 
 namespace MultiAgentSystem
 {
@@ -273,7 +275,13 @@ namespace MultiAgentSystem
 
         private static void CompileCS()
         {
-            throw new NotImplementedException();
+            var csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            var parameters = new CompilerParameters(new[] { "mscorelib.dll", "System.Core.dll" }, "foo.exe", true);
+            parameters.GenerateExecutable = true;
+            CompilerResults results = csc.CompileAssemblyFromFile(parameters, path + @"\MASSCode.cs");
+
+            results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+            Recompile();
         }
 
         private static void Recompile()
