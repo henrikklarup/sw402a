@@ -9,13 +9,11 @@ namespace MASClassLibrary
 {
     public static class XML
     {
-        public static string path;
-
         /// <summary>
         /// Generates the XML documents from the lists.
-        /// XML.path has to be initialized first.
         /// </summary>
-        public static void generateXML()
+        /// <param name="path">The path the files should be stored to.</param>
+        public static void generateXML(string path)
         {
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
@@ -88,30 +86,27 @@ namespace MASClassLibrary
 
         /// <summary>
         /// Loads the XML documents to the lists.
-        /// XML.path has to be initialized first.
         /// </summary>
-        public static void returnLists()
+        /// /// <param name="path">The path the files should be loaded from.</param>
+        public static void returnLists(string path)
         {
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
-
+            
             using (var sr = new StreamReader(path + @"\agents.xml"))
             {
-                Lists.agents.Clear();
                 var deserializer = new XmlSerializer(typeof(List<agent>));
                 Lists.agents = (List<agent>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\teams.xml"))
             {
-                Lists.teams.Clear();
                 var deserializer = new XmlSerializer(typeof(List<team>));
                 Lists.teams = (List<team>)deserializer.Deserialize(sr);
             }
 
             using (var sr = new StreamReader(path + @"\squads.xml"))
             {
-                Lists.squads.Clear();
                 var deserializer = new XmlSerializer(typeof(List<oldSquad>));
                 oldSquads = (List<oldSquad>)deserializer.Deserialize(sr);
                 foreach (oldSquad os in oldSquads)
@@ -126,7 +121,6 @@ namespace MASClassLibrary
 
             using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
             {
-                Lists.actionPatterns.Clear();
                 var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
                 oldActionPatterns = (List<oldActionPattern>)deserializer.Deserialize(sr);
                 foreach (oldActionPattern oap in oldActionPatterns)
@@ -137,7 +131,7 @@ namespace MASClassLibrary
         }
     }
 
-    class oldActionPattern
+    public class oldActionPattern
     {
         public int ID;
         public string[] actions;
@@ -162,7 +156,7 @@ namespace MASClassLibrary
         }
     }
 
-    class oldSquad
+    public class oldSquad
     {
         public int ID;
         public string name;
