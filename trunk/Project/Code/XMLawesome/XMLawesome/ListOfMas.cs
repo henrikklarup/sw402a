@@ -179,11 +179,10 @@ namespace XMLawesome
                 List<XmlType> MasList = Reader.XmlSearch("MAS>Agents");
                 for (int i = 0; i > MasList.Count; i += 3)
                 {
-                    int id = Convert.ToInt32(Reader.XmlSearch("MAS>Teams>Team")[i].Value);
-                    String name = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
-                    String color = Reader.XmlSearch("MAS>Teams>Team")[i + 2].Value;
-                    Team team = new Team(id, name, color);
-                    ListOfTeams.Add(team);
+                    if (MasList[i].Tag == "ActionPattern")
+                    {
+
+                    }
                 }
             }
         }
