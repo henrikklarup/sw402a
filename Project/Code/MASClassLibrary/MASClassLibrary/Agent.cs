@@ -60,5 +60,10 @@ namespace MASClassLibrary
             this.team = team;
             this._iD = id;
         }
+
+        public agent(int id)
+        {
+            this._iD = id;
+        }
     }
 }
