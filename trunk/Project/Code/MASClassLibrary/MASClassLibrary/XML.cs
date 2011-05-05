@@ -20,7 +20,7 @@ namespace MASClassLibrary
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
             //Tests if there is anything in the lists before saving them
-            if (!Lists.agents.Any() && !Lists.teams.Any())
+            if (Lists.agents.Any() && Lists.teams.Any())
             {
                 using (var fs = new FileStream(path + @"\agents.xml", FileMode.Create))
                 {
@@ -70,7 +70,7 @@ namespace MASClassLibrary
                 }
             }
 
-            if (!Lists.actionPatterns.Any())
+            if (Lists.actionPatterns.Any())
             {
                 foreach (actionpattern ap in Lists.actionPatterns)
                 {

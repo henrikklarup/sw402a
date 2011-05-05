@@ -48,6 +48,7 @@ namespace MASClassLibrary
 
         public agent(string name, int rank)
         {
+            this._iD = Lists.NextAgentID;
             this.name = name;
             this._rank = rank;
             this._posX = 0;
