@@ -34,49 +34,43 @@ namespace ActionInterpeter
             // If there is nothing stored in the selection, trow an exception.
             if (selection == null)
             {
-                #region Compare selection type
-                
-                // If there is nothing stored in the selection, trow an exception.
-                if (selection == null)
-                {
-                    throw new GrammarException("Couldn't match the selected unit.");
-                }
-                // If the selection is an agent, set the type of the selection.
-                else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new agentID().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.AGENTID;
-                }
-                // try with team.
-                else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new teamID().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.TEAMID;
-                }
-                // and squad.
-                else if (object.ReferenceEquals(
-                    single_Action.selection.GetType(), new squadID().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.SQUADID;
-                }
-                else if (object.ReferenceEquals(
-                    selection.GetType(), new agent().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.AGENT;
-                }
-                else if (object.ReferenceEquals(
-                    selection.GetType(), new squad().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.SQUAD;
-                }
-                else if (object.ReferenceEquals(
-                    selection.GetType(), new team().GetType()))
-                {
-                    single_Action.type = (int)Type.Types.TEAM;
-                }
-                #endregion
+                throw new GrammarException("Couldn't match the selected unit.");
+            }
+            // If the selection is an agent, set the type of the selection.
+            else if (object.ReferenceEquals(
+                single_Action.selection.GetType(), new agentID().GetType()))
+            {
+                single_Action.type = (int)Type.Types.AGENTID;
+            }
+            // try with team.
+            else if (object.ReferenceEquals(
+                single_Action.selection.GetType(), new teamID().GetType()))
+            {
+                single_Action.type = (int)Type.Types.TEAMID;
+            }
+            // and squad.
+            else if (object.ReferenceEquals(
+                single_Action.selection.GetType(), new squadID().GetType()))
+            {
+                single_Action.type = (int)Type.Types.SQUADID;
+            }
+            else if (object.ReferenceEquals(
+                selection.GetType(), new agent().GetType()))
+            {
+                single_Action.type = (int)Type.Types.AGENT;
+            }
+            else if (object.ReferenceEquals(
+                selection.GetType(), new squad().GetType()))
+            {
+                single_Action.type = (int)Type.Types.SQUAD;
+            }
+            else if (object.ReferenceEquals(
+                selection.GetType(), new team().GetType()))
+            {
+                single_Action.type = (int)Type.Types.TEAM;
             }
             #endregion
+
             switch (single_Action.type)
             {
                 case (int)Type.Types.AGENTID:

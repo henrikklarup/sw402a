@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MASClassLibrary;
 
 namespace ActionInterpeter
 {
@@ -34,7 +35,7 @@ namespace ActionInterpeter
             {
                 Parse();
             }
-            catch (Exception e)
+            catch (WrongTeamException e)
             {
                 Printer.WriteLine(e.Message);
             }
