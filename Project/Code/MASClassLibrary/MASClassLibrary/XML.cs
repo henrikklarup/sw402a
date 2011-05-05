@@ -16,6 +16,7 @@ namespace MASClassLibrary
         public static void generateXML(string path)
         {
             // Initialize the lists.
+            List<oldTeam> oldTeams = new List<oldTeam>();
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
@@ -33,10 +34,20 @@ namespace MASClassLibrary
 
             if (Lists.teams.Any())
             {
+                foreach (team t in Lists.teams)
+                { 
+                    oldTeam ot = new oldTeam();
+                    ot.id = t.id;
+                    ot.name = t.name;
+                    ot.color = "#" + t.color.Name.Remove(0,2).ToUpper();
+
+                    oldTeams.Add(ot);
+                }
+
                 using (var fs = new FileStream(path + @"\teams.xml", FileMode.Create))
                 {
-                    var serializer = new XmlSerializer(typeof(List<team>));
-                    serializer.Serialize(fs, Lists.teams);
+                    var serializer = new XmlSerializer(typeof(List<oldTeam>));
+                    serializer.Serialize(fs, oldTeams);
                     fs.Flush();
                     fs.Close();
                 }
@@ -95,6 +106,7 @@ namespace MASClassLibrary
         /// /// <param name="path">The path the files should be loaded from.</param>
         public static void returnLists(string path)
         {
+            List<oldTeam> oldTeams = new List<oldTeam>();
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
@@ -105,14 +117,22 @@ namespace MASClassLibrary
                     var deserializer = new XmlSerializer(typeof(List<agent>));
                     Lists.agents = (List<agent>)deserializer.Deserialize(fs);
                 }
+                foreach (agent a in Lists.agents)
+                {
+                    a.team = Lists.Retrieveteam(a.team.name);
+                }
             }
 
             if (Directory.Exists(path + @"\teams.xml"))
             {
                 using (var fs = new FileStream(path + @"\teams.xml", FileMode.Open))
                 {
-                    var deserializer = new XmlSerializer(typeof(List<team>));
-                    Lists.teams = (List<team>)deserializer.Deserialize(fs);
+                    var deserializer = new XmlSerializer(typeof(List<oldTeam>));
+                    oldTeams = (List<oldTeam>)deserializer.Deserialize(fs);
+                }
+                foreach (oldTeam ot in oldTeams)
+                {
+                    new team(ot.name, ot.color);
                 }
             }
 
@@ -156,21 +176,6 @@ namespace MASClassLibrary
 
         public oldActionPattern()
         { }
-
-        public oldActionPattern(int ID, string[] actions)
-        {
-            this.ID = ID;
-            this.actions = actions;
-        }
-
-        public oldActionPattern(int ID, string action)
-        {
-            string[] actionString = new string[1];
-            actionString[0] = action;
-
-            this.ID = ID;
-            this.actions = actionString;
-        }
     }
 
     public class oldSquad
@@ -181,29 +186,15 @@ namespace MASClassLibrary
 
         public oldSquad()
         { }
+    }
 
-        public oldSquad(int ID, string name, List<agent> agents)
-        {
-            this.ID = ID;
-            this.name = name;
+    public class oldTeam
+    {
+        public int id;
+        public string name;
+        public string color;
 
-            int i = 0;
-            foreach (agent a in agents)
-            {
-                this.agents[i] = a.id;
-                i++;
-            }
-        }
-
-
-        public oldSquad(int ID, string name, agent agent)
-        {
-            int[] agentArray = new int[1];
-            agentArray[0] = agent.id;
-
-            this.ID = ID;
-            this.name = name;
-            this.agents = agentArray;
-        }
+        public oldTeam()
+        { }
     }
 }
