@@ -21,15 +21,7 @@ namespace ActionInterpeter
                 input = Console.ReadLine();
                 if (input.Count() == 0)
                     continue;
-                try
-                {
-                    Parse();
-                }
-                catch (Exception e)
-                {
-                    Printer.WriteLine(e.Message);
-                    return;
-                }
+                Parse();
                 Console.WriteLine("Success");
                 Console.ReadKey();
             }
@@ -38,7 +30,14 @@ namespace ActionInterpeter
         public static string Compile()
         {
             output = new StringBuilder("");
-            Parse();
+            try
+            {
+                Parse();
+            }
+            catch (Exception e)
+            {
+                Printer.WriteLine(e.Message);
+            }
             return output.ToString();
         }
 
