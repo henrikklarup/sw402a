@@ -19,12 +19,11 @@ namespace XMLawesome
         {
             XmlReader Reader = new XmlReader(file);
             Reader.Mount();
-                for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i += 3)
+                for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i += 2)
                 {
-                    int id = Convert.ToInt32(Reader.XmlSearch("MAS>Teams>Team")[i].Value);
-                    String name = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
-                    String color = Reader.XmlSearch("MAS>Teams>Team")[i + 2].Value;
-                    team team = new team(id, name, color);
+                    String name = Reader.XmlSearch("MAS>Teams>Team")[i].Value;
+                    String color = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
+                    team team = new team(name, color);
                     ListOfTeams.Add(team);
                 }
             return ListOfTeams;
@@ -36,12 +35,10 @@ namespace XMLawesome
                 Reader.Mount();
                 List<XmlType> MasList = Reader.XmlSearch("MAS>Squads");
                 String name = "";
-                int id = 0;
                 List<agent> agentId = new List<agent>();
                 for (int i = 0; i < MasList.Count; i++)
                 {
                     name = "";
-                    id = 0;
                     agentId.Clear();
                     if (MasList[i].Tag == "Squad")
                     {
@@ -50,11 +47,6 @@ namespace XMLawesome
                             if (MasList[j].Tag == "Name")
                             {
                                 name = MasList[j].Value;
-                            }
-
-                            if (MasList[j].Tag == "Id")
-                            {
-                                id = Convert.ToInt32(MasList[j].Value);
                             }
 
                             if (MasList[j].Tag == "Agents")
@@ -88,12 +80,8 @@ namespace XMLawesome
             List<XmlType> MasList = Reader.XmlSearch("MAS>Agents");
             for (int i = 0; i < MasList.Count; i++)
             {
-                int id = 0;
-                int posX = -1;
-                int posY = -1;
                 String name = "";
                 int rank = 0;
-                int teamId = 0;
                 String teamName = "";
                 String teamColor = "";
 
@@ -101,20 +89,6 @@ namespace XMLawesome
                 {
                     for (int j = i+1; i < MasList.Count; j++ )
                     {
-                        if (MasList[j].Tag == "Id")
-                        {
-                            id = Convert.ToInt32(MasList[j].Value);
-                        }
-
-                        if (MasList[j].Tag == "posX")
-                        {
-                            posX = Convert.ToInt32(MasList[j].Value);
-                        }
-
-                        if (MasList[j].Tag == "posY")
-                        {
-                            posY = Convert.ToInt32(MasList[j].Value);
-                        }
 
                         if (MasList[j].Tag == "Name")
                         {
@@ -130,11 +104,7 @@ namespace XMLawesome
                         {
                             for (int g = j; g < MasList.Count; g++)
                             {
-                                if (MasList[g].Tag == "Id")
-                                {
-                                    teamId = Convert.ToInt32(MasList[g].Value);
-                                }
-                                else if (MasList[g].Tag == "Name")
+                                if (MasList[g].Tag == "Name")
                                 {
                                     teamName = MasList[g].Value;
                                 }
@@ -150,8 +120,8 @@ namespace XMLawesome
                     }
                 }
                 
-                team team = new team(teamId, teamName, teamColor);
-                agent agent = new agent(id, name, rank, team);
+                team team = new team(teamName, teamColor);
+                agent agent = new agent(name, rank, team);
                 ListOfAgent.Add(agent);
             }
             return ListOfAgent;
