@@ -237,6 +237,8 @@ namespace WindowsFormsApplication6
             for(int i = 0; i < 3; i++)
                 gameFrame();
 
+            switchTurn();
+
             //Update label
             label6.Text = "Team " + turn;
         }
@@ -476,6 +478,8 @@ namespace WindowsFormsApplication6
         }
         #endregion
 
+        //Switch turn
+        #region SwitchTurn
         private void switchTurn()
         {
             int agentsOnteam1 = 0;
@@ -495,15 +499,21 @@ namespace WindowsFormsApplication6
             }
 
             if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+            {
                 MessageBox.Show("Team 1 wins");
-            if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+            }
+            else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+            {
                 MessageBox.Show("Team 2 wins");
-            if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0)
+            }
+            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0)
+            {
                 MessageBox.Show("Team 3 wins");
-            if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0)
+            }
+            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0)
+            {
                 MessageBox.Show("Team 4 wins");
-
-            Application.Restart();
+            }
 
             //Switch turn
             if (turn < Lists.teams.Count + 1)
@@ -520,6 +530,7 @@ namespace WindowsFormsApplication6
             if (Lists.currentteam.id == 4 && agentsOnteam4 == 0)
                 switchTurn();
         }
+        #endregion
 
         #endregion
 
