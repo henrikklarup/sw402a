@@ -78,6 +78,7 @@ namespace XMLawesome
             aXML temp = new aXML(Depth, Tag, Value, true, null, childCount);
             XmlList.Add(temp);
             Depth = Depth - childCount;
+
             childCount = 0;
         }
     }
