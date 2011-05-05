@@ -53,7 +53,7 @@ namespace XMLawesome
                             {
                                 for (int k = j+1; k < MasList.Count; k++)
                                 {
-                                    if (MasList[k].Tag == "Id")
+                                    if (MasList[k].Tag == "Name")
                                     {
                                         agent newAgent = new agent(Convert.ToInt32(MasList[k].Value));
                                         agentId.Add(newAgent);
