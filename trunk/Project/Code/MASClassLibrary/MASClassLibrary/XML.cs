@@ -136,7 +136,7 @@ namespace MASClassLibrary
                     Lists.agents.Add(
                         new agent(
                             Lists.NextAgentID, a.name, a.rank, 
-                            Lists.Retrieveteam(a.team.name)
+                            Lists.RetrieveTeam(a.team.name)
                             )
                         );
                 }
@@ -154,7 +154,7 @@ namespace MASClassLibrary
                     squad s = new squad(os.name);
                     foreach (int i in os.agents)
                     {
-                        s.Agents.Add(Lists.Retrieveagent(i));
+                        s.Agents.Add(Lists.RetrieveAgent(i));
                     }
                 }
             }

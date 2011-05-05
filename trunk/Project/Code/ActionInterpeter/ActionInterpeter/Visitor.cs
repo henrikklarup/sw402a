@@ -123,7 +123,7 @@ namespace ActionInterpeter
                 team = Lists.RetrieveTeam(ident.name.spelling);
             }
 
-            agents = Lists.RetrieveagentsByteam(team);
+            agents = Lists.RetrieveAgentsByteam(team);
             foreach (agent a in agents)
             {
                 visitCodeGen_MoveOption(a, single_Action.move_option);
@@ -243,7 +243,7 @@ namespace ActionInterpeter
                 obj = Lists.RetrieveSquad(token.spelling);
                 if (obj != null)
                     return obj;
-                obj = Lists.Retrieveteam(token.spelling);
+                obj = Lists.RetrieveTeam(token.spelling);
                 if (obj != null)
                     return obj;
                 obj = Lists.RetrieveActionPattern(token.spelling);
