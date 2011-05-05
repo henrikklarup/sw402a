@@ -44,6 +44,12 @@ namespace MASClassLibrary
             this._color = Color.Green;
         }
 
+        public team(string name, string color)
+        {
+            this.name = name;
+            this._color = ColorTranslator.FromHtml(color);
+        }
+
         public team(int ID, string name, string color)
         {
             this._iD = ID;
