@@ -11,6 +11,7 @@ namespace MASClassLibrary
         private int _iD;
         public string name;
         public Color color;
+        public String colorStr;
 
         public int id
         {
@@ -38,6 +39,7 @@ namespace MASClassLibrary
             this._iD = Lists.NextTeamID;
             this.name = name;
             this.color = ColorTranslator.FromHtml(color);
+            this.colorStr = color;
             Lists.teams.Add(this);
         }
 
@@ -46,6 +48,7 @@ namespace MASClassLibrary
             this._iD = ID;
             this.name = name;
             this.color = ColorTranslator.FromHtml(color);
+            this.colorStr = color;
         }
 
         public void add(agent Agent)

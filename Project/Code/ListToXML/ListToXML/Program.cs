@@ -64,26 +64,7 @@ namespace ListToXML
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
-            Console.ReadKey();
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
 
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
         }
 
         //Generate XML for each list
@@ -94,26 +75,17 @@ namespace ListToXML
             foreach (var value in Agents)
             {
                 XMLhelp.Child("Agent", null);
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
-                XMLhelp.Node("Id", value.id.ToString());
-                XMLhelp.Node("posX", value.posx.ToString());
-                XMLhelp.Node("posY", value.posx.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.Node("Rank", value.rank.ToString());
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
                 //Mangler at add team
                 //public Team team;
-                XMLhelp.Child("Teams", null);
-                XMLhelp.Child("Team", null);
-                XMLhelp.Node("Id", value.team.id.ToString());
-                XMLhelp.Node("Name", value.team.name);
-                XMLhelp.Node("Color", value.team.color);
+                if (value.team == null)
+                {
+                    XMLhelp.Child("Teams", null);
+                    XMLhelp.Child("Team", null);
+                    XMLhelp.Node("Name", value.team.name);
+                    XMLhelp.Node("Color", value.team.colorStr);
+                }
 
 
             }
@@ -125,9 +97,8 @@ namespace ListToXML
             foreach (var value in Teams)
             {
                 XMLhelp.Child("Team", Teams.ToString());
-                XMLhelp.Node("Id", value.id.ToString());
                 XMLhelp.Node("Name", value.name);
-                XMLhelp.LastNode("Color", value.color);
+                XMLhelp.LastNode("Color", value.colorStr);
             }
         }
 
