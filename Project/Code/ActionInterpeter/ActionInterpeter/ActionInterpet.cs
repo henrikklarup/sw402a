@@ -8,7 +8,6 @@ namespace ActionInterpeter
 {
     public class ActionInterpet
     {
-
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
         public static string input;
