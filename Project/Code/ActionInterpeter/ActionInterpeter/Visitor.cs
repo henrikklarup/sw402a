@@ -237,7 +237,7 @@ namespace ActionInterpeter
             if (token.kind == (int)Token.keywords.IDENTIFIER)
             {
                 object obj = null;
-                obj = Lists.Retrieveagent(token.spelling);
+                obj = Lists.RetrieveAgent(token.spelling);
                 if (obj != null)
                     return obj;
                 obj = Lists.RetrieveSquad(token.spelling);
