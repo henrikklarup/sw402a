@@ -304,6 +304,7 @@
             this.MaximumSize = new System.Drawing.Size(850, 790);
             this.MinimumSize = new System.Drawing.Size(850, 726);
             this.Name = "WarGame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "War Game";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
