@@ -96,12 +96,12 @@ namespace ActionInterpeter
             {
                 agentID select = (agentID)single_Action.selection;
                 Token selectToken = select.num;
-                agent = Lists.Retrieveagent(Convert.ToInt32(selectToken.spelling));
+                agent = Lists.RetrieveAgent(Convert.ToInt32(selectToken.spelling));
             }
             else
             {
                 Identifier ident = (Identifier)single_Action.selection;
-                agent = Lists.Retrieveagent(ident.name.spelling);
+                agent = Lists.RetrieveAgent(ident.name.spelling);
             }
 
             visitCodeGen_MoveOption(agent, single_Action.move_option);
@@ -115,12 +115,12 @@ namespace ActionInterpeter
             {
                 teamID select = (teamID)single_Action.selection;
                 Token selectToken = select.num;
-                team = Lists.Retrieveteam(Convert.ToInt32(selectToken.spelling));
+                team = Lists.RetrieveTeam(Convert.ToInt32(selectToken.spelling));
             }
             else
             {
                 Identifier ident = (Identifier)single_Action.selection;
-                team = Lists.Retrieveteam(ident.name.spelling);
+                team = Lists.RetrieveTeam(ident.name.spelling);
             }
 
             agents = Lists.RetrieveagentsByteam(team);
@@ -132,7 +132,23 @@ namespace ActionInterpeter
 
         private void visitCodeGen_MoveSquad(Single_Action single_Action, object arg)
         {
-            throw new NotImplementedException();
+            squad squad;
+            if (single_Action.type == (int)Type.Types.SQUADID)
+            {
+                squadID select = (squadID)single_Action.selection;
+                Token selectToken = select.num;
+                squad = Lists.RetrieveSquad(Convert.ToInt32(selectToken.spelling));
+            }
+            else
+            {
+                Identifier ident = (Identifier)single_Action.selection;
+                squad = Lists.RetrieveSquad(ident.name.spelling);
+            }
+
+            foreach (agent a in squad.Agents)
+            {
+                visitCodeGen_MoveOption(a, single_Action.move_option);
+            }
         }
 
 

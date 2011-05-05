@@ -16,13 +16,13 @@ namespace MASClassLibrary
 
         public static int Points;
 
-        #region Retrieveagent
+        #region RetrieveAgent
         /// <summary>
         /// Finds an agent by its name.
         /// </summary>
         /// <param name="ident">Name of an agent</param>
         /// <returns>agent</returns>
-        public static agent Retrieveagent(string ident)
+        public static agent RetrieveAgent(string ident)
         {
             List<agent> results;
             agent agent;
@@ -45,7 +45,7 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of an agent</param>
         /// <returns>agent</returns>
-        public static agent Retrieveagent(int ident)
+        public static agent RetrieveAgent(int ident)
         {
             List<agent> results;
             agent agent;
@@ -69,13 +69,13 @@ namespace MASClassLibrary
         }
         #endregion
 
-        #region Retrieveteam
+        #region RetrieveTeam
         /// <summary>
         /// Finds a team by its name.
         /// </summary>
         /// <param name="ident">Name of a team</param>
         /// <returns>team</returns>
-        public static team Retrieveteam(string ident)
+        public static team RetrieveTeam(string ident)
         {
             List<team> results;
             team team;
@@ -103,7 +103,7 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="ident">ID of a team</param>
         /// <returns>team</returns>
-        public static team Retrieveteam(int ident)
+        public static team RetrieveTeam(int ident)
         {
             List<team> results;
             team team;
@@ -126,7 +126,7 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="team">The agents team.</param>
         /// <returns>a list of agents on a team.</returns>
-        public static List<agent> RetrieveagentsByteam(team team)
+        public static List<agent> RetrieveAgentsByteam(team team)
         {
             return agents.FindAll(delegate(agent a) { return a.team == team; });
         }
