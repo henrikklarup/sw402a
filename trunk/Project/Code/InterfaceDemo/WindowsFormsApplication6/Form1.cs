@@ -378,7 +378,7 @@ namespace WindowsFormsApplication6
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
             {
-                textBox5.AppendText(a1.name + " beats " + a2.name);
+                textBox5.Text += a1.name + " beats " + a2.name + Environment.NewLine;
                 foreach (agent a in Lists.agents)
                 {
                     if (a.id == a2.id)
@@ -392,7 +392,7 @@ namespace WindowsFormsApplication6
             //If agent 2 wins, remove agent 1
             else
             {
-                MessageBox.Show(a2.name + " beats " + a1.name);
+                textBox5.Text += a2.name + " beats " + a1.name + Environment.NewLine;
                 foreach (agent a in Lists.agents)
                 {
                     if (a.id == a1.id)
