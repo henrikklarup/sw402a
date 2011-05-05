@@ -366,7 +366,10 @@ namespace MultiAgentSystem
             }
 
             // The input is printed.
-            methodCall.input.visit(this, arg);
+            if (methodCall.input != null)
+            {
+                methodCall.input.visit(this, arg);
+            }
 
             // And the input is ended. If arg is false, then no semicolon should be set.
             if ((bool)arg)
