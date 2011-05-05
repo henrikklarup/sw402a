@@ -13,23 +13,17 @@ namespace MASClassLibrary
         public actionpattern()
         { }
 
-        public actionpattern(string name, List<string> actions)
+        public actionpattern(string name, List<string> actions) : this (name)
         {
-            this.name = name;
-            this.actions = new List<string>();
             foreach (string s in actions)
             {
                 this.actions.Add(s);
             }
-            Lists.actionPatterns.Add(this);
         }
 
-        public actionpattern(string name, string action)
+        public actionpattern(string name, string action) : this (name)
         {
-            this.name = name;
-            this.actions = new List<string>();
             this.actions.Add(action);
-            Lists.actionPatterns.Add(this);
         }
 
         public actionpattern(string name)
