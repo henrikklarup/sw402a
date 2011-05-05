@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 using XMLawesome;
-using MAS;
+using MASClassLibrary;
 
 
 namespace ListToXML
