@@ -4,7 +4,7 @@
     <ID>1</ID>
     <posX>0</posX>
     <posY>0</posY>
-    <name>Olsen</name>
+    <name>Olsen1</name>
     <rank>2</rank>
     <team>
       <ID>1</ID>
@@ -16,7 +16,7 @@
     <ID>2</ID>
     <posX>0</posX>
     <posY>0</posY>
-    <name>Olsen</name>
+    <name>Olsen2</name>
     <rank>2</rank>
     <team>
       <ID>1</ID>
@@ -28,7 +28,7 @@
     <ID>3</ID>
     <posX>0</posX>
     <posY>0</posY>
-    <name>Olsen</name>
+    <name>Olsen3</name>
     <rank>2</rank>
     <team>
       <ID>1</ID>
@@ -40,7 +40,7 @@
     <ID>4</ID>
     <posX>0</posX>
     <posY>0</posY>
-    <name>Olsen</name>
+    <name>Olsen4</name>
     <rank>2</rank>
     <team>
       <ID>1</ID>
@@ -52,7 +52,7 @@
     <ID>5</ID>
     <posX>0</posX>
     <posY>0</posY>
-    <name>Olsen</name>
+    <name>Olsen5</name>
     <rank>2</rank>
     <team>
       <ID>1</ID>
