@@ -112,7 +112,7 @@ namespace ListToXML
                 XMLhelp.Child("Agents", null);
                 foreach (agent agent in value.Agents)
                 {
-                    XMLhelp.Node("Id", agent.id.ToString());
+                    XMLhelp.Node("Name", agent.name);
                 }
             }
         }
