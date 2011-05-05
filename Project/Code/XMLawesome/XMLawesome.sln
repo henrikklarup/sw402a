@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListToXML", "..\ListToXML\L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAS", "..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MAS - Object lib\MAS\MAS\MAS\MAS.csproj", "{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASClassLibrary", "..\..\..\..\..\..\..\Desktop\UNI\SW4\Project - MAS\Project\Code\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj", "{B6B9134A-DCB1-47F0-9677-ED65A055E588}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -51,6 +53,16 @@ Global
 		{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{337BC463-5BE9-4CBE-8679-3C2B8FE142F5}.Release|x86.ActiveCfg = Release|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B6B9134A-DCB1-47F0-9677-ED65A055E588}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
