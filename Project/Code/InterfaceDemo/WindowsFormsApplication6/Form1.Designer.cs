@@ -72,7 +72,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(153, 266);
+            this.tabPage1.Size = new System.Drawing.Size(203, 266);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Combat Log";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox5.Size = new System.Drawing.Size(153, 266);
+            this.textBox5.Size = new System.Drawing.Size(203, 266);
             this.textBox5.TabIndex = 0;
             // 
             // tabPage2
@@ -101,7 +101,6 @@
             // 
             // textBox6
             // 
-            this.textBox6.Enabled = false;
             this.textBox6.Location = new System.Drawing.Point(0, 0);
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
