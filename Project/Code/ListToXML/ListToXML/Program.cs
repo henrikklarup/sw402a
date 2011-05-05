@@ -109,11 +109,9 @@ namespace ListToXML
             {
                 XMLhelp.Child("Squad", null);
                 XMLhelp.Node("Name", value.name);
-                XMLhelp.Node("Id", value.id.ToString());
                 XMLhelp.Child("Agents", null);
                 foreach (agent agent in value.Agents)
                 {
-                    XMLhelp.Child("Agent", null);
                     XMLhelp.Node("Id", agent.id.ToString());
                 }
             }
@@ -125,7 +123,7 @@ namespace ListToXML
             foreach (var value in ActionPatterns)
             {
                 XMLhelp.Child("ActionPattern", null);
-                XMLhelp.Node("Id", value.name);
+                XMLhelp.Node("Name", value.name);
                 XMLhelp.Child("Actions", null);
                 foreach (String action in value.actions)
                 {
