@@ -47,6 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\Documents\Visual Studio 2010\Projects\XMLawesome\Project\Code\XMLawesome\XMLawesome\XMLawesome.csproj">
+      <Project>{F9E2E5DF-97BD-4BAD-8C4E-E2950070E76E}</Project>
+      <Name>XMLawesome</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj">
       <Project>{B6B9134A-DCB1-47F0-9677-ED65A055E588}</Project>
       <Name>MASClassLibrary</Name>
