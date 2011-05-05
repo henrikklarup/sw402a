@@ -470,6 +470,10 @@ namespace MultiAgentSystem
             // If more input exists, print it.
             if (input.nextVar != null)
             {
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.Write(", ");
+                }
                 Printer.Collapse();
                 object nextVar = (Input)input.nextVar.visit(this, arg);
                 Printer.Expand();
