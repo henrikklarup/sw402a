@@ -15,27 +15,15 @@ namespace MASClassLibrary
         //public team team;
 
         private int _iD;
-        private string _name;
-        private team _team;
+        public string name;
+        public team team;
         private int _posX;
         private int _posY;
-        private int _rank;
+        public int _rank;
 
         public int id
         {
             get { return _iD; }
-        }
-
-        public string name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public team team
-        {
-            get { return _team; }
-            set { _team = value; }
         }
 
         public int posx
@@ -60,7 +48,7 @@ namespace MASClassLibrary
 
         public agent(string name, int rank)
         {
-            this._name = name;
+            this.name = name;
             this._rank = rank;
             this._posX = 0;
             this._posY = 0;
@@ -69,11 +57,11 @@ namespace MASClassLibrary
 
         public agent(int id, string name, int rank, team team)
         {
-            this._name = name;
+            this.name = name;
             this._rank = rank;
             this._posX = 0;
             this._posY = 0;
-            this._team = team;
+            this.team = team;
             this._iD = id;
         }
     }

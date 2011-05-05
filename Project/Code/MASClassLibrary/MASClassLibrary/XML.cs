@@ -21,66 +21,70 @@ namespace MASClassLibrary
             //Tests if there is anything in the lists before saving them
             if (!Lists.agents.Any() && !Lists.teams.Any())
             {
-                Lists.agents.Add(new agent());
-                return;
-            }
-            using (var sw = new StreamWriter(path + @"\agents.xml"))
-            {
-                var serializer = new XmlSerializer(typeof(List<agent>));
-                serializer.Serialize(sw, Lists.agents);
-            }
-
-            if (!Lists.teams.Any())
-            {
-                Lists.teams.Add(new team());
-            }
-            using (var sw = new StreamWriter(path + @"\teams.xml"))
-            {
-                var serializer = new XmlSerializer(typeof(List<team>));
-                serializer.Serialize(sw, Lists.teams);
-            }
-
-            if (!Lists.squads.Any())
-            {
-                Lists.squads.Add(new squad());
-            }
-            foreach (squad s in Lists.squads)
-            {
-                oldSquad os = new oldSquad();
-                int i = 0;
-                os.agents = new int[s.Agents.Count];
-                foreach (agent a in s.Agents)
+                using (var fs = new FileStream(path + @"\agents.xml", FileMode.Create))
                 {
-                    os.agents[i] = a.id;
-                    i++;
+                    var serializer = new XmlSerializer(typeof(List<agent>));
+                    serializer.Serialize(fs, Lists.agents);
+                    fs.Flush();
+                    fs.Close();
                 }
-                os.ID = s.id;
-                os.name = s.name;
-                oldSquads.Add(os);
-
             }
-            using (var sw = new StreamWriter(path + @"\squads.xml"))
+
+            if (Lists.teams.Any())
             {
-                var serializer = new XmlSerializer(typeof(List<oldSquad>));
-                serializer.Serialize(sw, oldSquads);
+                using (var fs = new FileStream(path + @"\teams.xml", FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(List<team>));
+                    serializer.Serialize(fs, Lists.teams);
+                    fs.Flush();
+                    fs.Close();
+                }
+            }
+
+            if (Lists.squads.Any())
+            {
+                foreach (squad s in Lists.squads)
+                {
+
+                    oldSquad os = new oldSquad();
+                    int i = 0;
+                    os.agents = new int[s.Agents.Count];
+                    foreach (agent a in s.Agents)
+                    {
+                        os.agents[i] = a.id;
+                        i++;
+                    }
+                    os.ID = s.id;
+                    os.name = s.name;
+                    oldSquads.Add(os);
+
+                }
+
+                using (var fs = new FileStream(path + @"\squads.xml", FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(List<oldSquad>));
+                    serializer.Serialize(fs, oldSquads);
+                    fs.Flush();
+                    fs.Close();
+                }
             }
 
             if (!Lists.actionPatterns.Any())
             {
-                Lists.actionPatterns.Add(new actionpattern());
-
-            }
-            foreach (actionpattern ap in Lists.actionPatterns)
-            {
-                oldActionPattern oap = new oldActionPattern();
-                oap.actions = ap.actions.ToArray();
-                oap.name = ap.name;
-                oldActionPatterns.Add(oap);
-            }
-            using (var sw = new StreamWriter(path + @"\actionPatterns.xml"))
-            {
-                var serializer = new XmlSerializer(typeof(List<oldActionPattern>));
-                serializer.Serialize(sw, oldActionPatterns);
+                foreach (actionpattern ap in Lists.actionPatterns)
+                {
+                    oldActionPattern oap = new oldActionPattern();
+                    oap.actions = ap.actions.ToArray();
+                    oap.name = ap.name;
+                    oldActionPatterns.Add(oap);
+                }
+                using (var fs = new FileStream(path + @"\actionPatterns.xml", FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(List<oldActionPattern>));
+                    serializer.Serialize(fs, oldActionPatterns);
+                    fs.Flush();
+                    fs.Close();
+                }
             }
         }
 
@@ -92,40 +96,52 @@ namespace MASClassLibrary
         {
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
-            
-            using (var sr = new StreamReader(path + @"\agents.xml"))
-            {
-                var deserializer = new XmlSerializer(typeof(List<agent>));
-                Lists.agents = (List<agent>)deserializer.Deserialize(sr);
-            }
 
-            using (var sr = new StreamReader(path + @"\teams.xml"))
+            if (Directory.Exists(path + @"\agents.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<team>));
-                Lists.teams = (List<team>)deserializer.Deserialize(sr);
-            }
-
-            using (var sr = new StreamReader(path + @"\squads.xml"))
-            {
-                var deserializer = new XmlSerializer(typeof(List<oldSquad>));
-                oldSquads = (List<oldSquad>)deserializer.Deserialize(sr);
-                foreach (oldSquad os in oldSquads)
+                using (var fs = new FileStream(path + @"\agents.xml", FileMode.Open))
                 {
-                    squad s = new squad(os.name);
-                    foreach (int i in os.agents)
+                    var deserializer = new XmlSerializer(typeof(List<agent>));
+                    Lists.agents = (List<agent>)deserializer.Deserialize(fs);
+                }
+            }
+
+            if (Directory.Exists(path + @"\teams.xml"))
+            {
+                using (var fs = new FileStream(path + @"\teams.xml", FileMode.Open))
+                {
+                    var deserializer = new XmlSerializer(typeof(List<team>));
+                    Lists.teams = (List<team>)deserializer.Deserialize(fs);
+                }
+            }
+
+            if (Directory.Exists(path + @"\squads.xml"))
+            {
+                using (var fs = new FileStream(path + @"\squads.xml", FileMode.Open))
+                {
+                    var deserializer = new XmlSerializer(typeof(List<oldSquad>));
+                    oldSquads = (List<oldSquad>)deserializer.Deserialize(fs);
+                    foreach (oldSquad os in oldSquads)
                     {
-                        s.Agents.Add(Lists.Retrieveagent(i));
+                        squad s = new squad(os.name);
+                        foreach (int i in os.agents)
+                        {
+                            s.Agents.Add(Lists.Retrieveagent(i));
+                        }
                     }
                 }
             }
 
-            using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
+            if (Directory.Exists(path + @"\actionPatterns.xml"))
             {
-                var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
-                oldActionPatterns = (List<oldActionPattern>)deserializer.Deserialize(sr);
-                foreach (oldActionPattern oap in oldActionPatterns)
+                using (var fs = new FileStream(path + @"\actionPatterns.xml", FileMode.Open))
                 {
-                    actionpattern ap = new actionpattern(oap.name, oap.actions.ToList());
+                    var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
+                    oldActionPatterns = (List<oldActionPattern>)deserializer.Deserialize(fs);
+                    foreach (oldActionPattern oap in oldActionPatterns)
+                    {
+                        actionpattern ap = new actionpattern(oap.name, oap.actions.ToList());
+                    }
                 }
             }
         }
@@ -177,6 +193,7 @@ namespace MASClassLibrary
                 i++;
             }
         }
+
 
         public oldSquad(int ID, string name, agent agent)
         {
