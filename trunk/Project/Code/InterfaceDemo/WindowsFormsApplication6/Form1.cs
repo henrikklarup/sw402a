@@ -82,7 +82,7 @@ namespace WindowsFormsApplication6
             //Turnswitch set to random
             Random rnd = new Random();
             turn = rnd.Next(1,Lists.teams.Count);
-            Lists.currentteam = Lists.Retrieveteam(turn);
+            Lists.currentteam = Lists.RetrieveTeam(turn);
             label6.Text = "Team " + turn;
 
             textBox4.AppendText("WarGame Console");
@@ -237,15 +237,8 @@ namespace WindowsFormsApplication6
             for(int i = 0; i < 3; i++)
                 gameFrame();
 
-            //Switch turn
-            if (turn < Lists.teams.Count+1)
-                turn++;
-            if (turn > Lists.teams.Count)
-                turn = 1;
-            Lists.currentteam = Lists.Retrieveteam(turn);
-
             //Update label
-            label6.Text = "team " + turn;
+            label6.Text = "Team " + turn;
         }
         #endregion
 
@@ -482,6 +475,51 @@ namespace WindowsFormsApplication6
             #endregion
         }
         #endregion
+
+        private void switchTurn()
+        {
+            int agentsOnteam1 = 0;
+            int agentsOnteam2 = 0;
+            int agentsOnteam3 = 0;
+            int agentsOnteam4 = 0;
+            foreach (agent a in Lists.agents)
+            {
+                if (a.team.id == 1)
+                    agentsOnteam1++;
+                if (a.team.id == 2)
+                    agentsOnteam2++;
+                if (a.team.id == 3)
+                    agentsOnteam3++;
+                if (a.team.id == 4)
+                    agentsOnteam4++;
+            }
+
+            if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+                MessageBox.Show("Team 1 wins");
+            if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+                MessageBox.Show("Team 2 wins");
+            if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0)
+                MessageBox.Show("Team 3 wins");
+            if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0)
+                MessageBox.Show("Team 4 wins");
+
+            Application.Restart();
+
+            //Switch turn
+            if (turn < Lists.teams.Count + 1)
+                turn++;
+            if (turn > Lists.teams.Count)
+                turn = 1;
+            Lists.currentteam = Lists.RetrieveTeam(turn);
+            if (Lists.currentteam.id == 1 && agentsOnteam1 == 0)
+                switchTurn();
+            if (Lists.currentteam.id == 2 && agentsOnteam2 == 0)
+                switchTurn();
+            if (Lists.currentteam.id == 3 && agentsOnteam3 == 0)
+                switchTurn();
+            if (Lists.currentteam.id == 4 && agentsOnteam4 == 0)
+                switchTurn();
+        }
 
         #endregion
 
