@@ -39,5 +39,12 @@ namespace MAS
             this.ID = Id;
             this.actions = actionString;
         }
+
+        public ActionPattern(int Id, string[] actions)
+        {
+            IDcount++;
+            this.ID = Id;
+            this.actions = actions;
+        }
     }
 }

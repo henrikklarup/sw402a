@@ -18,6 +18,11 @@ namespace MAS
         public Agent()
         { }
 
+        public Agent(int Id)
+        {
+            this.ID = Id;
+        }
+
         public Agent(string name, int rank, Team team, int posX, int posY)
         {
             IDcount++;
