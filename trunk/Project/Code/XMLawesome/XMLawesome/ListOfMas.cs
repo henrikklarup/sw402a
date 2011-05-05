@@ -191,7 +191,7 @@ namespace XMLawesome
                                 }
                             }
                         }
-                        actionpattern AP = new actionpattern(name, actions);
+                        actionpattern AP = new actionpattern("asd", actions);
                         ListOfActionPattern.Add(AP);
                     }
                 }
