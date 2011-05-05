@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml.Serialization;
 using ActionInterpeter;
 using MASClassLibrary;
+using System.Threading;
 
 namespace WindowsFormsApplication6
 {
@@ -260,7 +261,19 @@ namespace WindowsFormsApplication6
         #region Execute
         private void button4_Click(object sender, EventArgs e)
         {
-            Execute();
+            ThreadStart ts1 = new ThreadStart(doGameFrame);
+            Thread workThread = new Thread(ts1);
+            workThread.Start();
+        }
+
+        private void doGameFrame()
+        {
+            while (Lists.moveagents.Count > 0)
+            {
+                gameFrame();
+                Thread.Sleep(200);
+                doGameFrame();
+            }
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
