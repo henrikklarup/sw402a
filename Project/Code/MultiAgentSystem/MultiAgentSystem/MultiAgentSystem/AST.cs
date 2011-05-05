@@ -318,6 +318,10 @@ namespace MultiAgentSystem
     /// </summary>
     class Input : AST
     {
+        // Used to manage input for different overloads.
+        public int OverloadID = 0;
+        public bool Mandatory = true;
+
         // The first input variable.
         public AST firstVar = null;
 
