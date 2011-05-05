@@ -107,6 +107,7 @@ namespace MASClassLibrary
         public static void returnLists(string path)
         {
             List<oldTeam> oldTeams = new List<oldTeam>();
+            List<agent> oldAgents = new List<agent>();
             List<oldSquad> oldSquads = new List<oldSquad>();
             List<oldActionPattern> oldActionPatterns = new List<oldActionPattern>();
 
@@ -128,11 +129,16 @@ namespace MASClassLibrary
                 using (var fs = new FileStream(path + @"\agents.xml", FileMode.Open))
                 {
                     var deserializer = new XmlSerializer(typeof(List<agent>));
-                    Lists.agents = (List<agent>)deserializer.Deserialize(fs);
+                    oldAgents = (List<agent>)deserializer.Deserialize(fs);
                 }
-                foreach (agent a in Lists.agents)
+                foreach (agent a in oldAgents)
                 {
-                    a.team = Lists.Retrieveteam(a.team.name);
+                    Lists.agents.Add(
+                        new agent(
+                            Lists.NextAgentID, a.name, a.rank, 
+                            Lists.Retrieveteam(a.team.name)
+                            )
+                        );
                 }
             }
 
