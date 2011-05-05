@@ -223,7 +223,10 @@ namespace WindowsFormsApplication6
                 {
                     selectedagent = a;
                     //Write agent stats
-                    textBox2.Text = "Name: " + a.name + Environment.NewLine + "Id: " + a.id + Environment.NewLine + "team: " + a.team.name + Environment.NewLine + "team Color: " + a.team.color.ToString(); ;
+                    textBox2.Text = "Name: " + a.name +  " (" + a.id + ")" + Environment.NewLine
+                        + "Rank: " + a.rank + Environment.NewLine
+                        + "Team: " + a.team.name + " (" + a.team.id + ")" + Environment.NewLine
+                        + "Position: " + a.posx + "," + a.posy + Environment.NewLine;
                     break;
                 }
             }
