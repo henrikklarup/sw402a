@@ -50,11 +50,40 @@ namespace XMLawesome
             set
             {
                 List<XmlType> MasList = Reader.XmlSearch("MAS>Squads>Squad");
-                for (int i = 0; i > MasList.Count; i += 3)
+                String name;
+                int id;
+                List<int> agentId = new List<int>();
+                int[] agentIds;
+                for (int i = 0; i > MasList.Count; i++)
                 {
                     if (MasList[i].Tag == "Squad")
                     {
+                        for (int j = i; j > MasList.Count; j++)
+                        {
+                            if (MasList[j].Tag == "Name")
+                            {
+                                name = MasList[j].Value;
+                            }
 
+                            if (MasList[j].Tag == "Id")
+                            {
+                                id = Convert.ToInt32(MasList[j].Value);
+                            }
+
+                            if (MasList[j].Tag == "Agents")
+                            {
+                                for (int k = j; k > MasList.Count; k++)
+                                {
+                                    if (MasList[k].Tag == "Id")
+                                    {
+                                        agentId.Add(Convert.ToInt32(MasList[k].Value));
+                                    }
+                                }
+                            }
+                        }
+                        agentIds = agentId.ToArray();
+                        Squad squad = new Squad(id, name, agentId);
+                        ListOfSquad.Add(squad);
                     }
                 }
             }
