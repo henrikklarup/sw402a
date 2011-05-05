@@ -61,6 +61,16 @@ namespace MASClassLibrary
             this._iD = id;
         }
 
+        public agent(string name, int rank, team team)
+        {
+            this.name = name;
+            this.rank = rank;
+            this._posX = 0;
+            this._posY = 0;
+            this.team = team;
+            this._iD = Lists.NextAgentID;
+        }
+
         public agent(int id)
         {
             this._iD = id;
