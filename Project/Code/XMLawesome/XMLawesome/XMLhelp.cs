@@ -12,7 +12,7 @@ namespace XMLawesome
         private static int childCount = 0;
         public static int Cdepth = -1;
         public static int Cint = 0;
-        public static List<XML> XmlList = new List<XML>();
+        public static List<aXML> XmlList = new List<aXML>();
         public static int Depth = 0;
         private static bool single = true;
 
@@ -20,7 +20,7 @@ namespace XMLawesome
         {
             //Return to root
             Depth = 0;
-            XML temp = new XML(Depth, Tag, Value, false,null,0);
+            aXML temp = new aXML(Depth, Tag, Value, false,null,0);
             XmlList.Add(temp);
         }
         
@@ -44,7 +44,7 @@ namespace XMLawesome
         {
             //Return to root
             Depth = 0;
-            XML temp = new XML(-1, null, null, false, null,0);
+            aXML temp = new aXML(-1, null, null, false, null,0);
             XmlList.Add(temp);
         }
 
@@ -53,7 +53,7 @@ namespace XMLawesome
             //Make child
             childCount++;
             Depth++;
-            XML temp = new XML(Depth, Tag, Value, false, null,0);
+            aXML temp = new aXML(Depth, Tag, Value, false, null,0);
             XmlList.Add(temp);
             Depth++;
         }
@@ -69,13 +69,13 @@ namespace XMLawesome
 
         public static void Node(String Tag, String Value)
         {
-            XML temp = new XML(Depth, Tag, Value, true, null,0);
+            aXML temp = new aXML(Depth, Tag, Value, true, null,0);
             XmlList.Add(temp);
         }
 
         public static void LastNode(String Tag, String Value)
         {
-            XML temp = new XML(Depth, Tag, Value, true, null, childCount);
+            aXML temp = new aXML(Depth, Tag, Value, true, null, childCount);
             XmlList.Add(temp);
             Depth = Depth - childCount;
             childCount = 0;

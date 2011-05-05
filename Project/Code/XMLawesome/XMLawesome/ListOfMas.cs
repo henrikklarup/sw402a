@@ -8,14 +8,14 @@ namespace XMLawesome
 {
     public class ListOfMas
     {
-        private List<Team> ListOfTeams = new List<Team>();
-        private List<Squad> ListOfSquad = new List<Squad>();
-        private List<Agent> ListOfAgent = new List<Agent>();
-        private List<ActionPattern> ListOfActionPattern = new List<ActionPattern>();
+        private List<team> ListOfTeams = new List<team>();
+        private List<team> ListOfSquad = new List<team>();
+        private List<agent> ListOfAgent = new List<agent>();
+        private List<actionpattern> ListOfActionPattern = new List<actionpattern>();
         private List<List<Object>> list = new List<List<Object>>();
  
 
-        public List<Team> TeamList(String file)
+        public List<team> TeamList(String file)
         {
             XmlReader Reader = new XmlReader(file);
             Reader.Mount();
@@ -24,13 +24,13 @@ namespace XMLawesome
                     int id = Convert.ToInt32(Reader.XmlSearch("MAS>Teams>Team")[i].Value);
                     String name = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
                     String color = Reader.XmlSearch("MAS>Teams>Team")[i + 2].Value;
-                    Team team = new Team(id, name, color);
+                    team team = new team(id, name, color);
                     ListOfTeams.Add(team);
                 }
             return ListOfTeams;
         }
 
-        public List<Squad> SquadList(String file)
+        public List<squad> SquadList(String file)
         {
                 XmlReader Reader = new XmlReader(file);
                 Reader.Mount();
@@ -73,14 +73,14 @@ namespace XMLawesome
                                 }
                             }
                         }
-                        Squad squad = new Squad(id, name, agentId);
+                        squad squad = new squad(id, name, agentId);
                         ListOfSquad.Add(squad);
                     }
                 }
                 return ListOfSquad;
             }
 
-        public List<Agent> AgentList(String file)
+        public List<agent> AgentList(String file)
         {
             XmlReader Reader = new XmlReader(file);
             Reader.Mount();
@@ -149,14 +149,14 @@ namespace XMLawesome
                     }
                 }
                 
-                Team team = new Team(teamId, teamName, teamColor);
-                Agent agent = new Agent(id, name, rank, posX, posY, team);
+                team team = new team(teamId, teamName, teamColor);
+                agent agent = new agent(id, name, rank, posX, posY, team);
                 ListOfAgent.Add(agent);
             }
             return ListOfAgent;
         }
 
-        public List<ActionPattern> ApList(String file)
+        public List<actionpattern> ApList(String file)
         {
                 XmlReader Reader = new XmlReader(file);
                 Reader.Mount();
@@ -191,7 +191,7 @@ namespace XMLawesome
                             }
                         }
                         String[] action = actions.ToArray();
-                        ActionPattern AP = new ActionPattern(id, action);
+                        actionpattern AP = new actionpattern(id, action);
                         ListOfActionPattern.Add(AP);
                     }
                 }
