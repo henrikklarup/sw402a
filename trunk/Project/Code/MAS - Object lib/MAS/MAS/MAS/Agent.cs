@@ -42,7 +42,7 @@ namespace MAS
 
         }
 
-        public Agent(int Id, string name, int rank, Team team, int posX, int posY)
+        public Agent(int Id, string name, int rank, int posX, int posY, Team team)
         {
             this.ID = Id;
             this.name = name;
