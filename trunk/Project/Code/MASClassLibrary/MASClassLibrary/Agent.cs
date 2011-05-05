@@ -19,7 +19,7 @@ namespace MASClassLibrary
         public team team;
         private int _posX;
         private int _posY;
-        public int _rank;
+        public int rank;
 
         public int id
         {
@@ -38,11 +38,6 @@ namespace MASClassLibrary
             set { _posY = value; }
         }
 
-        public int rank
-        {
-            get { return _rank; }
-        }
-
         public agent()
         { }
 
@@ -50,7 +45,7 @@ namespace MASClassLibrary
         {
             this._iD = Lists.NextAgentID;
             this.name = name;
-            this._rank = rank;
+            this.rank = rank;
             this._posX = 0;
             this._posY = 0;
             Lists.agents.Add(this);
@@ -59,7 +54,7 @@ namespace MASClassLibrary
         public agent(int id, string name, int rank, team team)
         {
             this.name = name;
-            this._rank = rank;
+            this.rank = rank;
             this._posX = 0;
             this._posY = 0;
             this.team = team;
