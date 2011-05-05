@@ -442,18 +442,43 @@ namespace WindowsFormsApplication6
                         //Checking for agents to move in moveagents
                         if (aa.id == a.id)
                         {
-                            //Move "Down", keep in bounds
-                            if (a.posy > aa.posy && aa.posy + 1 < Grids)
-                                aa.posy++;
-                            //Move "Up", keep in bounds
-                            else if (a.posy < aa.posy && aa.posy - 1 > -1)
-                                aa.posy--;
-                            //Move "Right", keep in bounds
-                            else if (a.posx > aa.posx && aa.posx + 1 < Grids)
-                                aa.posx++;
-                            //Move "Left", keep in bounds
-                            else if (a.posx < aa.posx && aa.posx - 1 > -1)
-                                aa.posx--;
+
+
+
+                                Point agentPoint = new Point(aa.posx, aa.posy);
+                                //Move "Down", keep in bounds
+                                if (a.posy > aa.posy && aa.posy + 1 < Grids)
+                                    agentPoint.Y++;
+                                //Move "Up", keep in bounds
+                                else if (a.posy < aa.posy && aa.posy - 1 > -1)
+                                    agentPoint.Y--;
+                                //Move "Right", keep in bounds
+                                else if (a.posx > aa.posx && aa.posx + 1 < Grids)
+                                    agentPoint.X++;
+                                //Move "Left", keep in bounds
+                                else if (a.posx < aa.posx && aa.posx - 1 > -1)
+                                    agentPoint.X--;
+
+                            /*
+                                Moving after id, don't move right if somebody is on your left!
+                            */
+
+                            bool validMove = true;
+                            foreach (agent standingAgent in Lists.agents)
+                            {
+                                Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
+                                if (agentPoint == standingAgentPoint)
+                                {
+                                    validMove = false;
+                                    break;
+                                }
+                            }
+
+                            if (validMove)
+                            {
+                                aa.posx = agentPoint.X;
+                                aa.posy = agentPoint.Y;
+                            }
                             //At destination, remove agent from moveagents and break;
                             else
                             {
@@ -468,26 +493,30 @@ namespace WindowsFormsApplication6
 
             //Check agents
             #region Checkagent
-            bool breakValue = false;
-            foreach (agent aa in Lists.agents)
+            int agentCount = Lists.agents.Count;
+            for (int i = 0; i < agentCount; i++)
             {
-                foreach (agent a in Lists.agents)
+                bool breakValue = false;
+                foreach (agent aa in Lists.agents)
                 {
-                    //Same team doesn't count
-                    if (a.team.id != aa.team.id)
+                    foreach (agent a in Lists.agents)
                     {
-                        //Need to have same values of x,y
-                        if (a.posx == aa.posx && a.posy == aa.posy)
+                        //Same team doesn't count
+                        if (a.team.id != aa.team.id)
                         {
-                            //Some Logic
-                            CombatCompareagents(a, aa);
-                            breakValue = !breakValue;
-                            break;
+                            //Need to have same values of x,y
+                            if (a.posx == aa.posx && a.posy == aa.posy)
+                            {
+                                //Some Logic
+                                CombatCompareagents(a, aa);
+                                breakValue = !breakValue;
+                                break;
+                            }
                         }
                     }
+                    if (breakValue)
+                        break;
                 }
-                if (breakValue)
-                    break;
             }
             #endregion
             #endregion
