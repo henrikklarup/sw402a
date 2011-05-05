@@ -7,7 +7,7 @@ The terminal symbols are individual characters, which are put together to form t
 \\
 The development of the scanner can be divided into three steps:
 \begin{enumerate}
-\item The lexical grammar is expressed in EBNF.
+\item The lexical grammar is expressed in EBNF \ref{sec:ebnf}.
 \item Then there is for each EBNF production rule $N::=X$ made a transcription to a scanning method \texttt{scanN}, where the body is determined by $X$.
 \item The scanner has the following list of variables and methods: private variable \texttt{currentChar}, private methods \texttt{take} and \texttt{takeIt}, the private method \texttt{scanN} in (2) is improved to record token's spelling and kind, and last, a public method \texttt{scan}, which scans the combination 'Separator* Token', discarding the separator and returning the token.
 \end{enumerate}
