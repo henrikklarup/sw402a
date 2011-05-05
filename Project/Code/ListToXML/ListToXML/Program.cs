@@ -58,7 +58,7 @@ namespace ListToXML
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch("MAS>Squads>Squad"))
+            foreach (XmlType item in Reader.XmlSearch("MAS>ActionPatterns"))
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
@@ -92,22 +92,13 @@ namespace ListToXML
             foreach (var value in Agents)
             {
                 XMLhelp.Child("Agent", null);
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
                 XMLhelp.Node("Id", value.ID.ToString());
                 XMLhelp.Node("posX", value.posX.ToString());
                 XMLhelp.Node("posY", value.posY.ToString());
                 XMLhelp.Node("Name", value.name);
                 XMLhelp.Node("Rank", value.rank.ToString());
-                XMLhelp.Attribute("Attr", "AttrValue");
-                XMLhelp.Attribute("Attr2", "AttrValue2");
-                XMLhelp.Attribute("Attr3", "AttrValue3");
-                XMLhelp.Attribute("Attr4", "AttrValue4");
                 //Mangler at add team
                 //public Team team;
-                XMLhelp.Child("Teams", null);
                 XMLhelp.Child("Team", null);
                 XMLhelp.Node("Id", value.team.ID.ToString());
                 XMLhelp.Node("Name", value.team.name);
