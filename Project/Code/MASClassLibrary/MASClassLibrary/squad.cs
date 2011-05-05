@@ -8,34 +8,28 @@ namespace MASClassLibrary
     public class squad
     {
         private int _iD;
-        private string _name;
+        public string name;
+        public List<agent> Agents;
 
         public int id
         {
             get { return _iD; }
         }
 
-        public string name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public List<agent> Agents;
-
         public squad()
         { }
 
         public squad(string name)
         {
-            this._name = name;
-            Agents = new List<agent>();
+            this.name = name;
+            this.Agents = new List<agent>();
             this._iD = Lists.NextSquadID;
+            Lists.squads.Add(this);
         }
 
         public squad(string name, List<agent> list) : this(name)
         {
-            Agents = list;
+            this.Agents = list;
         }
 
         public void add(agent agent)
