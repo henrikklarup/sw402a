@@ -31,12 +31,16 @@ namespace ListToXML
             //Initializing the Teams, agents, squards and actionpattern
             Team team1 = new Team("Team one", "Red");
             Team team2 = new Team("Team Two", "Blue");
+            Team team3 = new Team("Team Three", "Pink");
+            Team team4 = new Team("Team Four", "Purple");
             Agent agent = new Agent("Olsen", 2, team1);
             Squad squad = new Squad("first squad", agent);
             ActionPattern aP = new ActionPattern("first action pattern");
             //Initializing the lists
             teams.Add(team1);
             teams.Add(team2);
+            teams.Add(team3);
+            teams.Add(team4);
             agents.Add(agent);
             squads.Add(squad); 
             actionPatterns.Add(aP);
@@ -58,30 +62,50 @@ namespace ListToXML
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
-            foreach (XmlType item in Reader.XmlSearch("MAS>ActionPatterns"))
+          //  foreach (XmlType item in Reader.XmlSearch("MAS>Agents"))
+            //{
+              //  Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
+            //}
+
+            ListOfMas derp = new ListOfMas();
+
+
+            foreach (Team a in derp.TeamList(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
             {
-                Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
+                Console.WriteLine("test");
+                Console.WriteLine(a.ID + a.color + a.name);
+                //Console.WriteLine(a.ID + "@" + a.name + "@" + a.posX + "@" + a.posY + "@" + a.rank + "@" + a.team.color + "@" + a.team.name + "@" + a.team.ID);
             }
+
+            foreach (Agent a in derp.AgentList(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
+            {
+                Console.WriteLine("test");
+                Console.WriteLine(a.ID + "@" + a.name + "@" + a.posX + "@" + a.posY + "@" + a.rank + "@" + a.team.color + "@" + a.team.name + "@" + a.team.ID);
+            }
+
+            foreach (Squad a in derp.SquadList(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
+            {
+                Console.WriteLine("test");
+                Console.WriteLine(a.ID + "@" + a.name);
+                foreach (int b in a.agents)
+                {
+                    Console.WriteLine(b);
+                }
+                Console.WriteLine("testend");
+            }
+
+            foreach (ActionPattern a in derp.ApList(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
+            {
+                Console.WriteLine("test");
+                Console.WriteLine("id: " + a.ID);
+                foreach (String b in a.actions)
+                {
+                    Console.WriteLine("action: " + b);
+                }
+            }
+            
             Console.ReadKey();
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
-
-            for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i++)
-            {
-
-            }
+          
         }
 
         //Generate XML for each list
@@ -131,7 +155,6 @@ namespace ListToXML
                 XMLhelp.Child("Agents", null);
                 foreach (int agent in value.agents)
                 {
-                    XMLhelp.Child("Agent", null);
                     XMLhelp.Node("Id", agent.ToString());
                 }
             }
