@@ -110,8 +110,14 @@ namespace MultiAgentSystem
 
             // Get the kind of Object and the spelling of the identifier.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
+            Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
 
             int kind = _object.kind;
+            string ident = identifier.spelling;
+
+            // Puts the kind and spelling into the Identification Table.
+            IdentificationTable.enter(kind, ident);
+            IdentificationTable.enter((int)Token.keywords.STRING, ident + ".name");
 
             dummyInput = new Input();
 
@@ -126,6 +132,8 @@ namespace MultiAgentSystem
                     dummyInput.nextVar.firstVar = dummyNumber;
                     break;
                 case (int)Token.keywords.TEAM:
+                    IdentificationTable.enter((int)Token.keywords.STRING, ident + ".color");
+
                     dummyString1.token.spelling = "name";
                     dummyString2.token.spelling = "color";
 
@@ -353,6 +361,7 @@ namespace MultiAgentSystem
                         errorMessage += " (optional)";
                     }
                     errorMessage += ", ";
+                    current = current.nextVar;
                 }
                 while (current != null);
                 errorMessage = errorMessage.Remove(errorMessage.Length - 2);
@@ -411,16 +420,86 @@ namespace MultiAgentSystem
 
             Token firstVar, dummyVar;
 
-            if (input.firstVar != null && currentDummyInput.firstVar != null)
+            if (input.firstVar != null)
             {
-                firstVar = (Token)input.firstVar.visit(this, currentDummyInput.nextVar);
-                dummyVar = (Token)currentDummyInput.firstVar.visit(this, arg);
-                if (firstVar.kind != dummyVar.kind && currentDummyInput.Mandatory)
+                if (input.nextVar != null)
                 {
+                    input.nextVar.visit(this, currentDummyInput.nextVar);
+                }
+
+                firstVar = (Token)input.firstVar.visit(this, arg);
+                if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
+                {
+                    firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
+                }
+
+                if (currentDummyInput.firstVar != null)
+                {
+                    dummyVar = (Token)currentDummyInput.firstVar.visit(this, arg);
+                    if (firstVar.kind != dummyVar.kind && currentDummyInput.Mandatory)
+                    {
+                        Token temp;
+                        string errorMessage = "(Line " + firstVar.row + ") ";
+                        Input current = input;
+                        do
+                        {
+                            temp = (Token)current.firstVar.visit(this, arg);
+                            errorMessage += temp.spelling;
+                            if (!current.Mandatory)
+                            {
+                                errorMessage += " (optional)";
+                            }
+                            errorMessage += ", ";
+                            current = current.nextVar;
+                        }
+                        while (current != null);
+                        errorMessage = errorMessage.Remove(errorMessage.Length - 2);
+                        errorMessage += " was not legal input. This is the legal input: ";
+                        current = dummyInput;
+                        do
+                        {
+                            temp = (Token)current.firstVar.visit(this, arg);
+                            errorMessage += temp.spelling;
+                            if (!current.Mandatory)
+                            {
+                                errorMessage += " (optional)";
+                            }
+                            errorMessage += ", ";
+                            current = current.nextVar;
+                        }
+                        while (current != null);
+                        errorMessage = errorMessage.Remove(errorMessage.Length - 2);
+                        errorMessage += ".";
+
+                        gException.containedExceptions.Add(new GrammarException(errorMessage));
+                        throwException = true;
+                        Printer.ErrorMarker();
+                    }
+                }
+                else
+                {
+                    string errorMessage = "(Line " + firstVar.row + ") " +
+                        "The given input was not legal. This is the legal input: ";
+                    Token temp;
+                    Input current = dummyInput;
+                    do
+                    {
+                        temp = (Token)current.firstVar.visit(this, arg);
+                        errorMessage += temp.spelling;
+                        if (!current.Mandatory)
+                        {
+                            errorMessage += " (optional)";
+                        }
+                        errorMessage += ", ";
+                        current = current.nextVar;
+                    }
+                    while (current != null);
+                    errorMessage = errorMessage.Remove(errorMessage.Length - 2);
+                    errorMessage += ".";
+
+                    gException.containedExceptions.Add(new GrammarException(errorMessage));
                     throwException = true;
-                    gException.containedExceptions.Add(new GrammarException("(Line " + firstVar.row + 
-                        ") Input of type " + (Token.keywords)firstVar.kind +
-                        "was not legal, input of type " + (Token.keywords)dummyVar.kind + " was expected."));
+                    Printer.ErrorMarker();
                 }
             }
 
