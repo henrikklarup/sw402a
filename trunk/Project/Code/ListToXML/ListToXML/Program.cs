@@ -33,23 +33,58 @@ namespace ListToXML
 
             team team1 = new team("Team one", "Red");
             team team2 = new team("Team Two", "Blue");
-            agent agent = new agent(0,"Olsen", 2, team1);
+            team team3 = new team("Team Three", "Pink");
+            team team4 = new team("Team Four", "Black");
+            agent agent1 = new agent("Olsen", 2, team1);
+            agent agent2 = new agent("Kasper", 2, team1);
+            agent agent3 = new agent("Rasmus", 2, team2);
+            agent agent4 = new agent("Simon", 2, team2);
+            agent agent5 = new agent("Henrik", 2, team3);
+            agent agent6 = new agent("Lasse", 2, team3);
+            agent agent7 = new agent("Kristian", 2, team4);
+            agent agent8 = new agent("Jørgen", 2, team4);
 
-            List<agent> Agent = new List<agent>();
-            Agent.Add(agent);
+            List<agent> Agent1 = new List<agent>();
+            Agent1.Add(agent1);
+            Agent1.Add(agent2);
+            List<agent> Agent2 = new List<agent>();
+            Agent2.Add(agent3);
+            Agent2.Add(agent4);
+            List<agent> Agent3 = new List<agent>();
+            Agent3.Add(agent5);
+            Agent3.Add(agent6);
+            List<agent> Agent4 = new List<agent>();
+            Agent4.Add(agent7);
+            Agent4.Add(agent8);
 
-            squad squad = new squad("first squad", Agent);
-            actionpattern aP = new actionpattern("first action pattern","action!");
+            squad squad1 = new squad("first squad", Agent1);
+            squad squad2 = new squad("second squad", Agent2);
+            squad squad3 = new squad("third squad", Agent3);
+            squad squad4 = new squad("forth squad", Agent4);
+
+            List<String> newString = new List<String>();
+            newString.Add("action1");
+            newString.Add("action2");
+            newString.Add("action3");
+            newString.Add("action4");
+            List<String> newString1 = new List<String>();
+            newString1.Add("action5");
+            newString1.Add("action6");
+            newString1.Add("action7");
+            newString1.Add("action8");
+            actionpattern aP = new actionpattern("first action pattern", newString);
+            actionpattern aP1 = new actionpattern("second action pattern", newString1);
 
             //XMLhelp.Generate(agents, teams, squads, actionPatterns);
             mTeams(Lists.teams);
-            newListagent.Add(agent);
-            mAgents(newListagent);
+            mAgents(Lists.agents);
             mSquads(Lists.squads);
             mActionPatterns(Lists.actionPatterns);
 
             //Generate the xml file with <MAS> as root and default encoding
-            aXML.GenerateThisShizzle("MAS", null);
+            //aXML.GenerateThisShizzle("MAS", null, @"C:\Users\Kristian\Desktop\XML\WarGame.xml");
+
+            Generate.XML(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml", Lists.actionPatterns, Lists.teams, Lists.agents, Lists.squads);
 
             //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGame.xml");
@@ -63,6 +98,8 @@ namespace ListToXML
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
+            ListOfMas newLists = new ListOfMas();
+            newLists.Init(@"C:\Users\Kristian\Desktop\XML\WarGame.xml",true);
             Console.ReadKey();
         }
 
@@ -84,7 +121,7 @@ namespace ListToXML
                 {
                     XMLhelp.Child("Team", null);
                     XMLhelp.Node("Name", value.team.name);
-                    XMLhelp.Node("Color", value.team.colorStr);
+                    XMLhelp.LastNode("Color", value.team.colorStr);
                 }
 
             }
@@ -108,16 +145,11 @@ namespace ListToXML
             foreach (squad value in Squads)
             {
                 XMLhelp.Child("Squad", null);
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.Child("Agents", null);
                 foreach (agent agent in value.Agents)
                 {
-                    XMLhelp.Node("Name", agent.name);
-                    XMLhelp.Node("Rank", agent.rank.ToString());
-                    XMLhelp.Child("Team", null);
-                    XMLhelp.Node("Color", agent.team.colorStr);
-                    XMLhelp.Node("Name", agent.team.name);
+                    XMLhelp.Node("AgentName", agent.name);
                 }
+                XMLhelp.LastNode("Name", value.name);
             }
         }
 
@@ -127,12 +159,11 @@ namespace ListToXML
             foreach (var value in ActionPatterns)
             {
                 XMLhelp.Child("ActionPattern", null);
-                XMLhelp.Node("Name", value.name);
-                XMLhelp.Child("Actions", null);
                 foreach (String action in value.actions)
                 {
                     XMLhelp.Node("Action", action);
                 }
+                XMLhelp.LastNode("Name", value.name);
             }
         }
     }
