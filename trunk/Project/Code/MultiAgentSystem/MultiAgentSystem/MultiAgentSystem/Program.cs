@@ -22,7 +22,7 @@ namespace MultiAgentSystem
             thread.Start();
             Console.ReadKey();
             thread.Abort();*/
-
+            
             Console.ForegroundColor = ConsoleColor.White;
 
             Printer.printLogo();
@@ -53,11 +53,20 @@ namespace MultiAgentSystem
             {
                 Console.WriteLine();
                 Console.WriteLine("Would you like to use the standard file (desktop/mass.txt)? y/n");
+
                 ConsoleKeyInfo cki = Console.ReadKey();
 
                 if (cki.Key == ConsoleKey.Y)
                 {
+                    Console.WriteLine("");
                     path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\mass.txt";
+                    // Checks whether the file exists or not.
+                    while (File.Exists(Program.path) == false)
+                    {
+                        Console.WriteLine("File does not exist");
+                        Console.WriteLine("Please input a valid filepath");
+                        Program.path = Console.ReadLine();
+                    }
                     break;
                 }
                 if (cki.Key == ConsoleKey.N)
@@ -260,7 +269,7 @@ namespace MultiAgentSystem
 
                 if (cki.Key == ConsoleKey.Y)
                 {
-                    CompileCS();
+                    GenerateCSharp();
                     break;
                 }
                 if (cki.Key == ConsoleKey.N)
@@ -273,14 +282,11 @@ namespace MultiAgentSystem
             }
         }
 
-        private static void CompileCS()
+        private static void GenerateCSharp()
         {
-            var csc = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
-            var parameters = new CompilerParameters(new[] { "mscorelib.dll", "System.Core.dll" }, "foo.exe", true);
-            parameters.GenerateExecutable = true;
-            CompilerResults results = csc.CompileAssemblyFromFile(parameters, path + @"\MASSCode.cs");
+            string CSharpPath = path + @"\MASSCode.cs";
 
-            results.Errors.Cast<CompilerError>().ToList().ForEach(error => Console.WriteLine(error.ErrorText));
+            CompileCSharpCode.compile(CSharpPath);
             Recompile();
         }
 

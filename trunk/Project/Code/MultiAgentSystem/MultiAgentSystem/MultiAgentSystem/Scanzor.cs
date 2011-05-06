@@ -364,6 +364,14 @@ namespace MultiAgentSystem
 
         public Scanzor()
         {
+            // Checks whether the file exists or not.
+            while (File.Exists(Program.path) == false)
+            {
+                Console.WriteLine("File does not exist");
+                Console.WriteLine("Please input a valid filepath");
+                Program.path = Console.ReadLine();
+            }
+                
             fileLines = File.ReadAllLines(Program.path); //The name of the files input
             
             // Initializes the string being read by the scanner, and its counters
