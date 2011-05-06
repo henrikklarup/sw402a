@@ -243,9 +243,6 @@ namespace WindowsFormsApplication6
                 gameFrame();
 
             switchTurn();
-
-            //Update label
-            label6.Text = "Team " + turn;
         }
         #endregion
 
@@ -269,7 +266,7 @@ namespace WindowsFormsApplication6
 
         private void doGameFrame()
         {
-            if (Lists.moveagents.Count > 0)
+            if (Lists.moveagents.Count > 0 && Lists.currentteam.id == turn)
             {
                 gameFrame();
                 Thread.Sleep(200);
@@ -277,6 +274,8 @@ namespace WindowsFormsApplication6
             }
             else
             {
+                DrawTimer.Start();
+                switchTurn();
                 Thread.CurrentThread.Abort();
             }
         }
@@ -384,7 +383,7 @@ namespace WindowsFormsApplication6
         private void CombatCompareagents(agent a1, agent a2)
         {
             //Stop the tiemr, so we don't manulipulate the data while executing this
-            DrawTimer.Stop();
+            //DrawTimer.Stop();
 
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
@@ -402,7 +401,8 @@ namespace WindowsFormsApplication6
                 {
                     if (a.id == a2.id)
                     {
-                        Lists.moveagents.Remove(a);
+                        agent removeagent = Lists.moveagents.Find(s => s.id == a.id);
+                        Lists.moveagents.Remove(removeagent);
                         Lists.agents.Remove(a);
                         break;
                     }
@@ -420,7 +420,8 @@ namespace WindowsFormsApplication6
                 {
                     if (a.id == a1.id)
                     {
-                        Lists.moveagents.Remove(a);
+                        agent removeagent = Lists.moveagents.Find(s => s.id == a.id);
+                        Lists.moveagents.Remove(removeagent);
                         Lists.agents.Remove(a);
                         break;
                     }
@@ -428,10 +429,8 @@ namespace WindowsFormsApplication6
                 }
             }
 
-
             //Start the timer, and let the game continue
-            DrawTimer.Start();
-            dbPanel1.Invalidate();
+            //DrawTimer.Start();
         }
         #endregion
 
@@ -485,7 +484,7 @@ namespace WindowsFormsApplication6
                                     if (agentPoint == standingAgentPoint)
                                     {
                                         validMove = false;
-                                        string sendtext = Environment.NewLine + "Invalid Move!";
+                                        string sendtext = Environment.NewLine + a.name + " bumped into " + standingAgent.name;
                                         textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
                                         //textBox4.AppendText(Environment.NewLine + "Invalid move!");
                                         break;
@@ -571,21 +570,21 @@ namespace WindowsFormsApplication6
                     agentsOnteam4++;
             }
 
-            if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+            if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
             {
-                MessageBox.Show("Team 1 wins");
+                MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
             }
-            else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0)
+            else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 1)
             {
-                MessageBox.Show("Team 2 wins");
+                MessageBox.Show("Team 2 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
             }
-            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0)
+            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 2)
             {
-                MessageBox.Show("Team 3 wins");
+                MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
             }
-            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0)
+            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0 && Lists.teams.Count > 3)
             {
-                MessageBox.Show("Team 4 wins");
+                MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
             }
 
             //Switch turn
@@ -602,6 +601,8 @@ namespace WindowsFormsApplication6
                 switchTurn();
             if (Lists.currentteam.id == 4 && agentsOnteam4 == 0)
                 switchTurn();
+
+            label6.BeginInvoke(new UpdateTextCallback(UpdateLabel6), "Team " + turn);
         }
         #endregion
 
@@ -741,12 +742,17 @@ namespace WindowsFormsApplication6
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         private void WarGame_Load(object sender, EventArgs e)
         {
             SetForegroundWindow(Handle.ToInt32());
+        }
+
+        private void WarGame_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
         }
         #endregion
 
@@ -767,11 +773,11 @@ namespace WindowsFormsApplication6
         {
             textBox5.AppendText(message);
         }
-        #endregion
 
-        private void WarGame_FormClosing(object sender, FormClosingEventArgs e)
+        private void UpdateLabel6(string message)
         {
-            Environment.Exit(0);
+            label6.Text = message;
         }
+        #endregion
     }
 }
