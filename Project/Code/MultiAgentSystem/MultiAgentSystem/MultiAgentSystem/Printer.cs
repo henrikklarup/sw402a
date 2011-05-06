@@ -60,6 +60,7 @@ namespace MultiAgentSystem
             // Changes the cursor position, to match the indent.
             Console.SetCursorPosition(indent * 2, Console.CursorTop);
             Error(text);
+            Console.WriteLine("");
         }
 
         /// <summary>
