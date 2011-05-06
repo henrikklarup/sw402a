@@ -34,9 +34,19 @@ namespace ActionInterpeter
             {
                 Parse();
             }
+            catch (InvalidMoveOptionException e)
+            {
+                foreach (string s in e.PrintExceptions())
+                {
+                    Printer.WriteLine(s);
+                }
+            }
             catch (WrongTeamException e)
             {
-                Printer.WriteLine(e.Message);
+                foreach (string s in e.PrintExceptions())
+                {
+                    Printer.WriteLine(s);
+                }
             }
             return output.ToString();
         }
@@ -63,19 +73,6 @@ namespace ActionInterpeter
             try
             {
                 visitor.visitAST(newAst, null);
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
-        }
-
-        private static void CodeGen()
-        {
-            try
-            {
-                visitor.visitAST(newAst, 1);
             }
             catch (GrammarException g)
             {

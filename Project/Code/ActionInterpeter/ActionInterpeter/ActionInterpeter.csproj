@@ -54,6 +54,10 @@
     <Compile Include="Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ActionPatternCompiler\ActionPatternCompiler\ActionPatternCompiler.csproj">
+      <Project>{ECDDF072-D5CD-4F27-AA2E-54064494F3F1}</Project>
+      <Name>ActionPatternCompiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj">
       <Project>{B6B9134A-DCB1-47F0-9677-ED65A055E588}</Project>
       <Name>MASClassLibrary</Name>

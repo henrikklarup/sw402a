@@ -173,6 +173,9 @@ namespace MASClassLibrary
             }
         }
 
+        /// <summary>
+        /// Initializes the four lists.
+        /// </summary>
         public static void initLists()
         {
             Lists.teams = new List<team>();

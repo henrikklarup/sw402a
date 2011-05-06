@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MASClassLibrary;
+using ActionPatternCompiler;
 
 namespace ActionInterpeter
 {
@@ -157,7 +158,7 @@ namespace ActionInterpeter
         /// </summary>
         /// <param name="agent">The agent which is being moved.</param>
         /// <param name="move_Option">Move option from the single_action</param>
-        private void visitCodeGen_MoveOption(agent agent, Move_Option move_Option)
+        private void visitCodeGen_MoveOption(agent _agent, Move_Option move_Option)
         {
             int num1;
             int num2;
@@ -166,8 +167,8 @@ namespace ActionInterpeter
             {
                 case (int)Type.Types.DIR:
                     Direction dir = (Direction)move_Option.dir_coord;
-                    num1 = agent.posx;
-                    num2 = agent.posy;
+                    num1 = _agent.posx;
+                    num2 = _agent.posy;
 
                     Token token = dir.dir;
                     switch (token.spelling.ToLower())
@@ -195,21 +196,23 @@ namespace ActionInterpeter
                     num2 = Convert.ToInt16(coord.num2.spelling);
                     break;
                 case (int)Type.Types.ACTIONPATTERN:
-                    Token apToken = (Token)move_Option.dir_coord.visit(this, null);
-                    actionpattern ap = Lists.RetrieveActionPattern(apToken.spelling);
-                    if (ap == null)
+                    object moveOption = move_Option.dir_coord.visit(this, null);
+                    // If there was no actionpattern with this name, Exception.
+                    if (moveOption == null || !object.ReferenceEquals(moveOption.GetType(), new actionpattern().GetType()))
                     {
-                        throw new InvalidOperationException("The move Option " + apToken.spelling + " was not an actionpattern.");
+                        throw new InvalidMoveOptionException("The actionpattern was invalid!");
                     }
+                    actionpattern ap = (actionpattern)moveOption;
                     foreach (string s in ap.actions)
-                    { 
-                        // Missing ActionInterpeter
+                    {
+                        ActionPattern.Compile(s, _agent);
                     }
                     return;
                 default:
-                    throw new InvalidMoveOptionException("The move Option was invalid!");
+                    // No move has been matched!
+                    throw new InvalidMoveOptionException("The move option was invalid!");
             }
-            Functions.moveagent(agent, num1, num2);
+            Functions.moveagent(_agent, num1, num2);
         }
 
 
@@ -235,7 +238,7 @@ namespace ActionInterpeter
             }
             else
             {
-                throw new GrammarException("An invalid move options was chosen.");
+                throw new GrammarException("An invalid move option was chosen.");
             }
             return move_Option;
         }
