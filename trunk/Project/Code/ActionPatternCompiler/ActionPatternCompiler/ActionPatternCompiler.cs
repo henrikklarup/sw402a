@@ -11,6 +11,7 @@ namespace ActionPatternCompiler
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
         public static string input;
+        public static agent thisAgent;
         public static StringBuilder output;
         private static Visitor visitor;
 
@@ -27,8 +28,10 @@ namespace ActionPatternCompiler
             }
         }
 
-        public static string Compile()
+        public static string Compile(string _input, agent _agent)
         {
+            input = _input;
+            thisAgent = _agent;
             output = new StringBuilder("");
             try
             {
