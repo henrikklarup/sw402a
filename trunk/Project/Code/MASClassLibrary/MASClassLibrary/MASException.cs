@@ -109,7 +109,7 @@ namespace MASClassLibrary
         {
             List<string> output = new List<string>();
             output.Add(this.Message);
-            foreach (WrongTeamException exc in this.containedExceptions)
+            foreach (InvalidMoveOptionException exc in this.containedExceptions)
             {
                 output.Add(exc.Message);
             }
