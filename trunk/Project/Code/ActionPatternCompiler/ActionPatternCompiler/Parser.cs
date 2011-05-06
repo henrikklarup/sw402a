@@ -66,27 +66,7 @@ namespace ActionPatternCompiler
             
             return ast;
         }
-
-        private Identifier parseIdentifier()
-        {
-            Identifier ident;
-            if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
-            {
-                ident = new Identifier();
-                ident.name = currentToken;
-                acceptIt();
-                return ident;
-            }
-            else
-            {
-                throwException = true;
-                gException.containedExceptions.Add(new GrammarException(
-                    "Token " +
-                    (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken));
-            }
-            return null;
-        }
-
+        
         private MASNumber parseMASNumber()
         { 
             MASNumber num;
@@ -125,10 +105,6 @@ namespace ActionPatternCompiler
                 case (int)Token.keywords.NUMBER:
                     move_option = new Move_Option();
                     move_option.dir_coord = parseCoordinate();
-                    break;
-                case (int)Token.keywords.IDENTIFIER:
-                    move_option = new Move_Option();
-                    move_option.dir_coord = parseIdentifier();
                     break;
                 default:
                     throwException = true;
