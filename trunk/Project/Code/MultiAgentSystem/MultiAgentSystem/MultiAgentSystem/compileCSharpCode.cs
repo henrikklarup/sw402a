@@ -14,6 +14,12 @@ namespace MultiAgentSystem
         public static void compile(string path)
         {
             string inputfil = @"";
+            string CustomLibraryPath = "";
+            CustomLibraryPath = (Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString()).ToString()).ToString()).ToString()).ToString() + "\\MASClassLibrary\\MASClassLibrary\\bin\\Debug\\MASClassLibrary.dll";
+            if (File.Exists(CustomLibraryPath) == true) Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine(CustomLibraryPath);
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ReadLine();
 
             Dictionary<string, string> provOptions = new Dictionary<string, string>();
             provOptions.Add("CompilerVersion", "v4.0");
@@ -23,7 +29,6 @@ namespace MultiAgentSystem
             reader.Close();
 
             Console.Write(inputfil);
-            //Kan jeg committe nu?
 
             CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp", provOptions);
             string Output = Path.ChangeExtension(path, ".exe");
@@ -33,6 +38,8 @@ namespace MultiAgentSystem
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = Output;
             parameters.ReferencedAssemblies.Add("System.Drawing.dll");
+            parameters.ReferencedAssemblies.Add(CustomLibraryPath);
+
             CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, inputfil);
 
             if (results.Errors.Count > 0)
