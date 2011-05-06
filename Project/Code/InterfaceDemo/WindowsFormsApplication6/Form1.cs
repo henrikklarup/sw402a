@@ -269,11 +269,15 @@ namespace WindowsFormsApplication6
 
         private void doGameFrame()
         {
-            while (Lists.moveagents.Count > 0)
+            if (Lists.moveagents.Count > 0)
             {
                 gameFrame();
                 Thread.Sleep(200);
                 doGameFrame();
+            }
+            else
+            {
+                Thread.CurrentThread.Abort();
             }
         }
 
@@ -304,7 +308,8 @@ namespace WindowsFormsApplication6
                     newOutput.Append("The command \"" + text + "\" was successfull.");
                     output = newOutput.ToString();
                 }
-                textBox4.AppendText(output);
+                textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), output);
+                //textBox4.AppendText(output);
 
                 textBox1.Clear();
             }
@@ -390,25 +395,32 @@ namespace WindowsFormsApplication6
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
             {
-                textBox5.Text += a1.name + " beats " + a2.name + Environment.NewLine;
+                string sendtext = a1.name + " beats " + a2.name + Environment.NewLine;
+                textBox5.BeginInvoke(new UpdateTextCallback(UpdateTextbox5), sendtext);
+                //textBox5.Text += a1.name + " beats " + a2.name + Environment.NewLine;
                 foreach (agent a in Lists.agents)
                 {
                     if (a.id == a2.id)
                     {
+                        Lists.moveagents.Remove(a);
                         Lists.agents.Remove(a);
                         break;
                     }
 
                 }
             }
+
             //If agent 2 wins, remove agent 1
             else
             {
-                textBox5.Text += a2.name + " beats " + a1.name + Environment.NewLine;
+                string sendtext = a2.name + " beats " + a1.name + Environment.NewLine;
+                textBox5.BeginInvoke(new UpdateTextCallback(UpdateTextbox5), sendtext);
+                //textBox5.Text += a2.name + " beats " + a1.name + Environment.NewLine;
                 foreach (agent a in Lists.agents)
                 {
                     if (a.id == a1.id)
                     {
+                        Lists.moveagents.Remove(a);
                         Lists.agents.Remove(a);
                         break;
                     }
@@ -419,6 +431,7 @@ namespace WindowsFormsApplication6
 
             //Start the timer, and let the game continue
             DrawTimer.Start();
+            dbPanel1.Invalidate();
         }
         #endregion
 
@@ -428,6 +441,7 @@ namespace WindowsFormsApplication6
         #region gameFrame
         private void gameFrame()
         {
+            //DrawTimer.Stop();
             //Game Logic
             #region GameLogic
 
@@ -465,12 +479,17 @@ namespace WindowsFormsApplication6
                             bool validMove = true;
                             foreach (agent standingAgent in Lists.agents)
                             {
-                                Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
-                                if (agentPoint == standingAgentPoint)
+                                if (standingAgent.team.id == aa.team.id && standingAgent.id != aa.id)
                                 {
-                                    validMove = false;
-                                    textBox4.AppendText(Environment.NewLine + "Invalid move!");
-                                    break;
+                                    Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
+                                    if (agentPoint == standingAgentPoint)
+                                    {
+                                        validMove = false;
+                                        string sendtext = Environment.NewLine + "Invalid Move!";
+                                        textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                        //textBox4.AppendText(Environment.NewLine + "Invalid move!");
+                                        break;
+                                    }
                                 }
                             }
 
@@ -480,8 +499,14 @@ namespace WindowsFormsApplication6
                                 aa.posx = agentPoint.X;
                                 aa.posy = agentPoint.Y;
                             }
-                            //Move not valid, or agent at distination, remove from moveAgents list
                             else
+                            {
+                                Lists.moveagents.Remove(a);
+                                break;
+                            }
+
+                            //Move not valid, or agent at distination, remove from moveAgents list
+                            if(a.posx == aa.posx && a.posy == aa.posy)
                             {
                                 Lists.moveagents.Remove(a);
                                 break;
@@ -511,6 +536,7 @@ namespace WindowsFormsApplication6
                                 //Some Logic
                                 CombatCompareagents(a, aa);
                                 breakValue = !breakValue;
+                                DrawTimer.Start();
                                 break;
                             }
                         }
@@ -521,6 +547,7 @@ namespace WindowsFormsApplication6
             }
             #endregion
             #endregion
+            //DrawTimer.Start();
         }
         #endregion
 
@@ -727,5 +754,24 @@ namespace WindowsFormsApplication6
         [DllImport("User32.dll")]
         public static extern Int32 SetForegroundWindow(int hWnd);
         #endregion
+
+        #region Delegates
+        public delegate void UpdateTextCallback(string message);
+
+        private void UpdateTextbox4(string message)
+        {
+            textBox4.AppendText(message);
+        }
+
+        private void UpdateTextbox5(string message)
+        {
+            textBox5.AppendText(message);
+        }
+        #endregion
+
+        private void WarGame_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
