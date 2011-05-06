@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AST.cs" />
     <Compile Include="CodeGenerationVisitor.cs" />
+    <Compile Include="CompileCSharpCode.cs" />
     <Compile Include="GrammarException.cs" />
     <Compile Include="IdentificationTable.cs" />
     <Compile Include="Parser.cs" />
