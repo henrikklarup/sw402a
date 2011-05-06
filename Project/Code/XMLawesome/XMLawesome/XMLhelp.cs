@@ -12,6 +12,7 @@ namespace XMLawesome
         private static int childCount = 0;
         public static int Cdepth = -1;
         public static int Cint = 0;
+        public static int xcount = -1;
         public static List<aXML> XmlList = new List<aXML>();
         public static int Depth = 0;
         private static bool single = true;
@@ -78,6 +79,35 @@ namespace XMLawesome
             aXML temp = new aXML(Depth, Tag, Value, true, null, childCount);
             XmlList.Add(temp);
             Depth = Depth - childCount;
+
+            childCount = 0;
+        }
+
+        public static void UnChild()
+        {
+
+        }
+
+        public static void LastNode(String Tag, String Value, int depth, int count)
+        {
+                    
+            if (xcount == -1)
+            {
+                xcount = count-1;
+            }
+
+            if (xcount > 0)
+            {
+                aXML temp = new aXML(Depth, Tag, Value, true, null, depth);
+                XmlList.Add(temp);
+                xcount--;
+            }
+            else if (xcount == 0)
+            {
+                aXML temp = new aXML(Depth, Tag, Value, true, null, depth+1);
+                XmlList.Add(temp);
+                xcount--;
+            }
 
             childCount = 0;
         }

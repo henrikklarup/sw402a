@@ -25,7 +25,7 @@ namespace XMLawesome
             this._pop = Pop;
         }
 
-        public static void GenerateThisShizzle(String XmlName, String Encoding)
+        public static void GenerateThisShizzle(String XmlName, String Encoding, String filePath)
         {
             XMLhelp.End();
             if (Encoding == null)
@@ -115,7 +115,7 @@ namespace XMLawesome
             }
             XML += c + XmlName + b;
 
-            using (StreamWriter outfile = new StreamWriter(@"C:\Users\Kristian\Desktop\XML\WarGame.xml"))
+            using (StreamWriter outfile = new StreamWriter(filePath))
             {
                 outfile.Write(Encoding+XML);
             }
