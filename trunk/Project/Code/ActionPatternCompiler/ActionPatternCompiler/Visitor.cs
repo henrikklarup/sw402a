@@ -88,15 +88,15 @@ namespace ActionPatternCompiler
             if (dir_coord != null)
             {
                 // If the direction or coordinate is a direction.
-                if (object.ReferenceEquals(dir_coord.GetType(), new Direction().GetType()))
+                if (object.ReferenceEquals(move_Option.dir_coord.GetType(), new Direction().GetType()))
                 {
                     move_Option.type = (int)Type.Types.DIR;
                 }
-                else if (object.ReferenceEquals(dir_coord.GetType(), new Coordinate().GetType()))
+                else if (object.ReferenceEquals(move_Option.dir_coord.GetType(), new Coordinate().GetType()))
                 {
                     move_Option.type = (int)Type.Types.COORD;
                 }
-                else if (object.ReferenceEquals(dir_coord.GetType(), new Identifier().GetType()))
+                else if (object.ReferenceEquals(move_Option.dir_coord.GetType(), new Identifier().GetType()))
                 {
                     move_Option.type = (int)Type.Types.ACTIONPATTERN;
                 }
