@@ -510,19 +510,39 @@ namespace MultiAgentSystem
             Printer.Collapse();
             return expression;
         }
-
+        /// <summary>
+        /// Visits an Identifier and returns its token.
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitIdentifier(Identifier identifier, object arg)
         {
             Printer.WriteLine("Identifier: " + identifier.token.spelling);
             return identifier.token;
         }
 
+        /// <summary>
+        /// Visits an Operator and returns its token.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitOperator(Operator p, object arg)
         {
             Printer.WriteLine("Operator: " + p.token.spelling);
             return p.token;
         }
 
+        /// <summary>
+        /// Visits and input and visits its variables.
+        /// The firstVar is always the first variable and read as a token.
+        /// The nextVar is an input if there is more than just the next variable,
+        /// and a token if this is the last variable in the input.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitInput(Input input, object arg)
         {
             Printer.WriteLine("Input");
@@ -621,6 +641,12 @@ namespace MultiAgentSystem
             return mASVariable.token;
         }
 
+        /// <summary>
+        /// Visits the assign command, ensures that identifier and the assigned expression has the same type.
+        /// </summary>
+        /// <param name="assignCommand"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitAssignCommand(AssignCommand assignCommand, object arg)
         {
             Printer.WriteLine("Assign Command");

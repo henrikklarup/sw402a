@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MultiAgentSystem
 {
+    /* All these classes are used by the parser to create the Abstract Syntax Tree.
+     * The descriptions above the classes, in the AST file, is the function syntax.
+    */
     abstract class AST
     {
         public abstract object visit(Visitor v, object arg);
@@ -18,11 +21,12 @@ namespace MultiAgentSystem
     {
     }
 
+    // Main input block
     class Mainblock : AST
     {
+        public Input input;
         //The block part of the mainblock
         public Block block;
-        public Input input;
 
         public Mainblock(AST C)
         {
@@ -78,7 +82,7 @@ namespace MultiAgentSystem
         }
     }
 
-    // Type VarName = becomes...SomethingSomething...
+    // Type VarName = Becomes (BOOL / STRING / NUM / IDENTIFIER / EXPRESSION)
     class TypeDeclaration : Command
     {
         // What kind of variable is being declared (bool, string or num).
@@ -96,6 +100,7 @@ namespace MultiAgentSystem
         }
     }
     
+    // AGENT / TEAM / etc.
     class Object : Terminal
     {
         // Name of the object (Agent, Team, etc.)
@@ -228,6 +233,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // ident = becomes
     class AssignCommand : Command
     {
         public LinkedIdentifier ident;
@@ -283,6 +289,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Any token of kind Identifier.
     class Identifier : Terminal
     {
         public Token token;
@@ -298,6 +305,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Any token of kind Operator.
     class Operator : Terminal
     {
         public Token token;
@@ -337,6 +345,7 @@ namespace MultiAgentSystem
         }
     }
 
+    // Any variable.
     class MASVariable : Terminal
     {
         public Token token;
