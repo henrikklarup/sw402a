@@ -114,8 +114,9 @@ namespace ListToXML
                 {
                     XMLhelp.Node("Name", agent.name);
                     XMLhelp.Node("Rank", agent.rank.ToString());
-                    XMLhelp.Node("Team color", agent.team.colorStr);
-                    XMLhelp.Node("Team name", agent.team.name);
+                    XMLhelp.Child("Team", null);
+                    XMLhelp.Node("Color", agent.team.colorStr);
+                    XMLhelp.Node("Name", agent.team.name);
                 }
             }
         }
