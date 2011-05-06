@@ -1,6 +1,6 @@
 \section{Parser}
 \label{sec:parser}
-The scanner \ref{sec:scannertheory} has the purpose to recognize tokens, and that leads to recognizing the input string and determining the phrase structure, which is the purpose of the parser \cite{misc:spo}. We strive to make the language unambiguous\footnote{This means that every sentence has exactly one abstract syntax tree. See section \ref{asttheory} for more about the abstract syntax tree.} to avoid the complication an ambiguous sentence would bring.\\
+The scanner \ref{sec:scannertheory} has the purpose to recognize tokens, and that leads to recognizing the input string and determining the phrase structure, which is the purpose of the parser \cite{misc:spo}. We strive to make the language unambiguous\footnote{This means that every sentence has exactly one abstract syntax tree (AST). See section \ref{asttheory} for more about the abstract syntax tree.} to avoid the complication an ambiguous sentence would bring.\\
 \\
-There are two basic parsing strategies, \textit{bottom-up} and \textit{top-down}. We will here expand on \textit{top-down} strategy, because it is what we have implemented.\\ \indent
-The \textit{top-down} parsing algorithm is characterized by...
+There are two basic parsing strategies, \textit{bottom-up} and \textit{top-down}. We will here expand on \textit{top-down} strategy, because that is what we have implemented.\\ \indent
+The \textit{top-down} parsing algorithm is characterized by the way it builds the AST. The parser does not \textit{need} to make an AST, but it is convenient to describe the parsing strategy by making the AST.
