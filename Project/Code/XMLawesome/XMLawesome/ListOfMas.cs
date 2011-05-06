@@ -8,41 +8,56 @@ namespace XMLawesome
 {
     public class ListOfMas
     {
-        private List<team> ListOfTeams = new List<team>();
-        private List<squad> ListOfSquad = new List<squad>();
-        private List<agent> ListOfAgent = new List<agent>();
-        private List<actionpattern> ListOfActionPattern = new List<actionpattern>();
-        private List<List<Object>> list = new List<List<Object>>();
- 
 
-        public List<team> TeamList(String file)
+        private List<List<Object>> list = new List<List<Object>>();
+
+
+        public void Init(String file)
+        {
+            Lists.agents = new List<agent>();
+            Lists.teams = new List<team>();
+            Lists.squads = new List<squad>();
+            Lists.actionPatterns = new List<actionpattern>();
+            ApList(file);
+            TeamList(file);
+            AgentList(file);
+            SquadList(file);
+        }
+
+
+        public void TeamList(String file)
         {
             XmlReader Reader = new XmlReader(file);
             Reader.Mount();
+            if (Reader.XmlSearch("MAS>Teams>Team").Count > 0)
+            {
                 for (int i = 0; i < Reader.XmlSearch("MAS>Teams>Team").Count; i += 2)
                 {
                     String name = Reader.XmlSearch("MAS>Teams>Team")[i].Value;
                     String color = Reader.XmlSearch("MAS>Teams>Team")[i + 1].Value;
                     team team = new team(name, color);
-                    ListOfTeams.Add(team);
+                    //Lists.teams.Add(team);
                 }
-            return ListOfTeams;
+            }
+            //return Lists.teams;
         }
 
-        public List<squad> SquadList(String file)
+        public void SquadList(String file)
         {
-                XmlReader Reader = new XmlReader(file);
-                Reader.Mount();
-                List<XmlType> MasList = Reader.XmlSearch("MAS>Squads");
-                String name = "";
-                List<agent> agentId = new List<agent>();
+            XmlReader Reader = new XmlReader(file);
+            Reader.Mount();
+            List<XmlType> MasList = Reader.XmlSearch("MAS>Squads");
+            String name = "";
+            List<agent> agentId = new List<agent>();
+            if (MasList.Count > 0)
+            {
                 for (int i = 0; i < MasList.Count; i++)
                 {
                     name = "";
                     agentId.Clear();
                     if (MasList[i].Tag == "Squad")
                     {
-                        for (int j = i+1; j < MasList.Count; j++)
+                        for (int j = i + 1; j < MasList.Count; j++)
                         {
                             if (MasList[j].Tag == "Name")
                             {
@@ -51,103 +66,128 @@ namespace XMLawesome
 
                             if (MasList[j].Tag == "Agents")
                             {
-                                for (int k = j+1; k < MasList.Count; k++)
+                                for (int k = j + 1; k < MasList.Count; k++)
                                 {
+                                    String aname = "";
+                                    int arank = 0;
+                                    String tcolor = "";
+                                    String tname = "";
                                     if (MasList[k].Tag == "Name")
                                     {
-                                        agent newAgent = new agent(Convert.ToInt32(MasList[k].Value));
-                                        agentId.Add(newAgent);
+                                        aname = MasList[k].Value;
+                                    }
+                                    else if (MasList[k].Tag == "Rank")
+                                    {
+                                        arank = Convert.ToInt32(MasList[k].Value);
+                                    }
+                                    else if (MasList[k].Tag == "Team")
+                                    {
+                                        if (MasList[k + 1].Tag == "Color")
+                                        {
+                                            tcolor = MasList[k].Value;
+                                        }
+                                        else if (MasList[k + 2].Tag == "Name")
+                                        {
+                                            tname = MasList[k].Value;
+                                        }
                                     }
                                     else
                                     {
                                         k = MasList.Count;
                                         j = MasList.Count;
                                     }
+                                    agentId.Add(Lists.agents.First(x => x.name == aname && x.rank == arank));
                                 }
                             }
                         }
                         squad squad = new squad(name, agentId);
-                        ListOfSquad.Add(squad);
+                        //Lists.squads.Add(squad);
                     }
                 }
-                return ListOfSquad;
+                //return Lists.squads;
             }
+        }
 
-        public List<agent> AgentList(String file)
+        public void AgentList(String file)
         {
             XmlReader Reader = new XmlReader(file);
             Reader.Mount();
             List<XmlType> MasList = Reader.XmlSearch("MAS>Agents");
-            for (int i = 0; i < MasList.Count; i++)
+            if (MasList.Count > 0)
             {
-                String name = "";
-                int rank = 0;
-                String teamName = "";
-                String teamColor = "";
-
-                if (MasList[i].Tag == "Agent")
+                for (int i = 0; i < MasList.Count; i++)
                 {
-                    for (int j = i+1; i < MasList.Count; j++ )
+                    String name = "";
+                    int rank = 0;
+                    String teamName = "";
+                    String teamColor = "";
+
+                    if (MasList[i].Tag == "Agent")
                     {
-
-                        if (MasList[j].Tag == "Name")
+                        for (int j = i + 1; i < MasList.Count; j++)
                         {
-                            name = MasList[j].Value;
-                        }
 
-                        if (MasList[j].Tag == "Rank")
-                        {
-                            rank = Convert.ToInt32(MasList[j].Value);
-                        }
-
-                        if (MasList[j].Tag == "Team")
-                        {
-                            for (int g = j; g < MasList.Count; g++)
+                            if (MasList[j].Tag == "Name")
                             {
-                                if (MasList[g].Tag == "Name")
+                                name = MasList[j].Value;
+                            }
+
+                            if (MasList[j].Tag == "Rank")
+                            {
+                                rank = Convert.ToInt32(MasList[j].Value);
+                            }
+
+                            if (MasList[j].Tag == "Team")
+                            {
+                                for (int g = j; g < MasList.Count; g++)
                                 {
-                                    teamName = MasList[g].Value;
-                                }
-                                else if (MasList[g].Tag == "Color")
-                                {
-                                    teamColor = MasList[g].Value;
-                                    j = MasList.Count;
-                                    g = MasList.Count;
-                                    i = MasList.Count;
+                                    if (MasList[g].Tag == "Name")
+                                    {
+                                        teamName = MasList[g].Value;
+                                    }
+                                    else if (MasList[g].Tag == "Color")
+                                    {
+                                        teamColor = MasList[g].Value;
+                                        j = MasList.Count;
+                                        g = MasList.Count;
+                                        i = MasList.Count;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    //team team = new team(teamName, teamColor);
+                    agent agent = new agent(name, rank, Lists.teams.First(x => x.name == teamName && x.colorStr == teamColor));
+                    //Lists.agents.Add(agent);
                 }
-                
-                team team = new team(teamName, teamColor);
-                agent agent = new agent(name, rank, team);
-                ListOfAgent.Add(agent);
+                //return Lists.agents;
             }
-            return ListOfAgent;
         }
 
-        public List<actionpattern> ApList(String file)
+        public void ApList(String file)
         {
-                XmlReader Reader = new XmlReader(file);
-                Reader.Mount();
-                List<XmlType> MasList = Reader.XmlSearch("MAS>ActionPatterns");
+            XmlReader Reader = new XmlReader(file);
+            Reader.Mount();
+            List<XmlType> MasList = Reader.XmlSearch("MAS>ActionPatterns");
+            if (MasList.Count > 0)
+            {
                 for (int i = 0; i < MasList.Count; i++)
                 {
-                    int id = 0;
+                    String name = "";
                     List<String> actions = new List<String>();
                     if (MasList[i].Tag == "ActionPattern")
                     {
-                        for (int j = i+1; j < MasList.Count; j++)
+                        for (int j = i + 1; j < MasList.Count; j++)
                         {
-                            if (MasList[j].Tag == "Id")
+                            if (MasList[j].Tag == "Name")
                             {
-                                id = Convert.ToInt32(MasList[j].Value);
+                                name = MasList[j].Value;
                             }
 
                             if (MasList[j].Tag == "Actions")
                             {
-                                for (int k = j+1; k < MasList.Count; k++)
+                                for (int k = j + 1; k < MasList.Count; k++)
                                 {
                                     if (MasList[k].Tag == "Action")
                                     {
@@ -161,11 +201,12 @@ namespace XMLawesome
                                 }
                             }
                         }
-                        actionpattern AP = new actionpattern("asd", actions);
-                        ListOfActionPattern.Add(AP);
+                        actionpattern AP = new actionpattern(name, actions);
+                        //Lists.actionPatterns.Add(AP);
                     }
                 }
-            return ListOfActionPattern;
+                //return Lists.actionPatterns;
             }
         }
     }
+}
