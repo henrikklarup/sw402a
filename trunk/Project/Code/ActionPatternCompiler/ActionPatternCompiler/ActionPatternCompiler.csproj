@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionInterpet.cs" />
+    <Compile Include="ActionPatternCompiler.cs" />
     <Compile Include="AST.cs" />
     <Compile Include="GrammarException.cs" />
     <Compile Include="Parser.cs" />
