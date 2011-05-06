@@ -180,7 +180,7 @@ namespace ActionPatternCompiler
         public Scanzor()
         {
             //Initializes the string being read by the scanner, and its counters
-            charLine = ActionPatternCompiler.input.ToCharArray();
+            charLine = ActionPattern.input.ToCharArray();
             currentChar = charLine[charCounter++];
         }
 

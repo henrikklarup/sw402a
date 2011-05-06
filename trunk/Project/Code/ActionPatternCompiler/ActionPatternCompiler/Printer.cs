@@ -13,13 +13,13 @@ namespace ActionPatternCompiler
         public static void Error(String error)
         {
             // Writes the error to the console.
-            ActionPatternCompiler.output.Append(error);
+            ActionPattern.output.Append(error);
         }
 
         // Extention of the Error method, changes the cursor to the next line. 
         public static void ErrorLine(string text)
         {
-            ActionPatternCompiler.output.AppendLine();
+            ActionPattern.output.AppendLine();
             Error(text);
         }
 
@@ -37,13 +37,13 @@ namespace ActionPatternCompiler
         public static void Write(String text)
         {
             // Writes the message to the console.
-            ActionPatternCompiler.output.Append(text);
+            ActionPattern.output.Append(text);
         }
 
         // Extention of the Write method.
         public static void WriteLine(string text)
         {
-            ActionPatternCompiler.output.AppendLine();
+            ActionPattern.output.AppendLine();
             Write(text);
         }
 

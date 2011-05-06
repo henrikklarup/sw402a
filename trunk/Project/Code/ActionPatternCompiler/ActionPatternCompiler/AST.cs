@@ -56,6 +56,16 @@ namespace ActionPatternCompiler
         }
     }
 
+    class Identifier : Terminal
+    {
+        public Token name;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitIdentifier(this, arg);
+        }
+    }
+
     class Type
     {
         public enum Types
@@ -63,6 +73,7 @@ namespace ActionPatternCompiler
             DIR,
             COORD,
             NUMBER,
+            ACTIONPATTERN,
         }
     }
 }
