@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using ActionInterpeter;
 using MASClassLibrary;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace WindowsFormsApplication6
 {
@@ -442,27 +443,25 @@ namespace WindowsFormsApplication6
                         //Checking for agents to move in moveagents
                         if (aa.id == a.id)
                         {
-
-
-
-                                Point agentPoint = new Point(aa.posx, aa.posy);
-                                //Move "Down", keep in bounds
-                                if (a.posy > aa.posy && aa.posy + 1 < Grids)
-                                    agentPoint.Y++;
-                                //Move "Up", keep in bounds
-                                else if (a.posy < aa.posy && aa.posy - 1 > -1)
-                                    agentPoint.Y--;
-                                //Move "Right", keep in bounds
-                                else if (a.posx > aa.posx && aa.posx + 1 < Grids)
-                                    agentPoint.X++;
-                                //Move "Left", keep in bounds
-                                else if (a.posx < aa.posx && aa.posx - 1 > -1)
-                                    agentPoint.X--;
+                            Point agentPoint = new Point(aa.posx, aa.posy);
+                            //Move "Down", keep in bounds
+                            if (a.posy > aa.posy && aa.posy + 1 < Grids)
+                                agentPoint.Y++;
+                            //Move "Up", keep in bounds
+                            else if (a.posy < aa.posy && aa.posy - 1 > -1)
+                                agentPoint.Y--;
+                            //Move "Right", keep in bounds
+                            else if (a.posx > aa.posx && aa.posx + 1 < Grids)
+                                agentPoint.X++;
+                            //Move "Left", keep in bounds
+                            else if (a.posx < aa.posx && aa.posx - 1 > -1)
+                                agentPoint.X--;
 
                             /*
-                                Moving after id, don't move right if somebody is on your left!
+                                Moving after id, don't move right if somebody is on your right!
                             */
 
+                            //Check if move is valid, check if anyother agent is on the position where the agent is gonna move
                             bool validMove = true;
                             foreach (agent standingAgent in Lists.agents)
                             {
@@ -470,16 +469,18 @@ namespace WindowsFormsApplication6
                                 if (agentPoint == standingAgentPoint)
                                 {
                                     validMove = false;
+                                    textBox4.AppendText(Environment.NewLine + "Invalid move!");
                                     break;
                                 }
                             }
 
+                            //Move is valid, move agent
                             if (validMove)
                             {
                                 aa.posx = agentPoint.X;
                                 aa.posy = agentPoint.Y;
                             }
-                            //At destination, remove agent from moveagents and break;
+                            //Move not valid, or agent at distination, remove from moveAgents list
                             else
                             {
                                 Lists.moveagents.Remove(a);
@@ -715,6 +716,16 @@ namespace WindowsFormsApplication6
         {
             Application.Exit();
         }
+
+        private void WarGame_Load(object sender, EventArgs e)
+        {
+            SetForegroundWindow(Handle.ToInt32());
+        }
+        #endregion
+
+        #region DllImport
+        [DllImport("User32.dll")]
+        public static extern Int32 SetForegroundWindow(int hWnd);
         #endregion
     }
 }
