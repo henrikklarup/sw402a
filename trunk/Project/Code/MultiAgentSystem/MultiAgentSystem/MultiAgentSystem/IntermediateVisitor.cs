@@ -55,7 +55,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            dummyNumber.token.spelling = "available rank";
+            dummyNumber.token.spelling = "points allocated";
             dummyInput.firstVar = dummyNumber;
 
             block.input.visit(this, dummyInput);
@@ -287,7 +287,7 @@ namespace MultiAgentSystem
 
             Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
 
-            string method = identifier.spelling.Remove(0, identifier.spelling.Length - 3);
+            string method = identifier.spelling.Remove(0, identifier.spelling.Length - 3).ToLower();
             string name = identifier.spelling.Remove(identifier.spelling.Length - 4);
 
             int kind = IdentificationTable.retrieve(name);
