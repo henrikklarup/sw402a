@@ -12,29 +12,6 @@ namespace ActionPatternCompiler
 
     abstract class Terminal : AST
     { }
-
-    class Action : AST
-    {
-        public Single_Action single_action;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitAction(this, arg);
-        }
-    }
-    
-    class Single_Action : AST
-    {
-        public AST selection;
-        public Move_Option move_option;
-
-        public int type;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitSingle_Action(this, arg);
-        }
-    }
         
     class Move_Option : AST
     {
@@ -89,50 +66,12 @@ namespace ActionPatternCompiler
         }
     }
 
-    class agentID : AST
-    {
-        public Token num;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitagentID(this, arg);
-        }
-    }
-
-    class teamID : AST
-    {
-        public Token num;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitteamID(this, arg);
-        }
-    }
-
-    class squadID : AST
-    {
-        public Token num;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitSquadID(this, arg);
-        }
-    }
-
     class Type
     {
         public enum Types
         {
-            AGENT,
-            TEAM,
-            SQUAD,
-            ACTIONPATTERN,
-            AGENTID,
-            TEAMID,
-            SQUADID,
             DIR,
             COORD,
-            IDENTIFIER,
             NUMBER,
         }
     }

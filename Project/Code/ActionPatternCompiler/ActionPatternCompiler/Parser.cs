@@ -55,21 +55,16 @@ namespace ActionPatternCompiler
         public AST parse()
         {
             currentToken = scanner.scan();
+            
+            // the first token in an actionpattern should always be "unit".
+            accept(Token.keywords.UNIT);
 
-            AST ast = parseAction();
+            AST ast = parseMove_Option();
             
             if (throwException)
             { throw gException; }
             
             return ast;
-        }
-
-        private Action parseAction()
-        {
-            Action singleAction = new Action();
-            singleAction.single_action = parseSingle_Action();
-           
-            return singleAction;
         }
 
         private Identifier parseIdentifier()
@@ -110,72 +105,6 @@ namespace ActionPatternCompiler
                     (Token.keywords)currentToken.kind + " is not a valid number.", currentToken));
             }
             return null;
-        }
-
-        private Single_Action parseSingle_Action()
-        {
-            Single_Action singleAction = new Single_Action();
-            singleAction.selection = parseSelection();
-            singleAction.move_option = parseMove_Option();
-            return singleAction;
-        }
-
-        private AST parseSelection()
-        {
-            switch (currentToken.kind)
-            { 
-                case (int)Token.keywords.AGENT:
-                case (int)Token.keywords.A:
-                    // Accepts the token, since its either A or agent.
-                    acceptIt();
-                    agentID agent = parseagentID();
-                    return agent;
-                case (int)Token.keywords.TEAM:
-                case (int)Token.keywords.T:
-                    // Accepts the token, since its either T or team.
-                    acceptIt();
-                    teamID team = parseteamID();
-                    return team;
-                case (int)Token.keywords.SQUAD:
-                case (int)Token.keywords.S:
-                    // Accepts the token, since its either S or Squad.
-                    acceptIt();
-                    squadID squad = parseSquadID();
-                    return squad;
-                case (int)Token.keywords.NUMBER:
-                    agentID agentNum = parseagentID();
-                    return agentNum;
-                case (int)Token.keywords.IDENTIFIER:
-                    Identifier ident = parseIdentifier();
-                    return ident;
-
-            }
-
-            return null;
-        }
-
-        private squadID parseSquadID()
-        {
-            squadID squad = new squadID();
-            squad.num = currentToken;
-            acceptIt();
-            return squad;
-        }
-
-        private teamID parseteamID()
-        {
-            teamID team = new teamID();
-            team.num = currentToken;
-            acceptIt();
-            return team;
-        }
-
-        private agentID parseagentID()
-        {
-            agentID agent = new agentID();
-            agent.num = currentToken;
-            acceptIt();
-            return agent;
         }
 
         private Move_Option parseMove_Option()
