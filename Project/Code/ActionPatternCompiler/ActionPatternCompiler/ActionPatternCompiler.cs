@@ -6,7 +6,7 @@ using MASClassLibrary;
 
 namespace ActionPatternCompiler
 {
-    public class ActionInterpet
+    public class ActionPatternCompiler
     {
         private static List<Token> Tokens = new List<Token>();
         private static AST newAst;
