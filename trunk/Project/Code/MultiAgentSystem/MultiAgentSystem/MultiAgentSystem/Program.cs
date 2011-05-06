@@ -227,6 +227,20 @@ namespace MultiAgentSystem
                 Recompile();
                 return;
             }
+
+            IntermediateVisitor visitor2 = new IntermediateVisitor();
+            try
+            {
+                visitor2.visitAST(newAst, null);
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                Console.Write("Errors were found while Dkhjuhui.");
+                Recompile();
+                return;
+            }
+
             CodeGen();
         }
 
