@@ -106,6 +106,10 @@ namespace ActionPatternCompiler
                     move_option = new Move_Option();
                     move_option.dir_coord = parseCoordinate();
                     break;
+                case (int)Token.keywords.IDENTIFIER:
+                    move_option = new Move_Option();
+                    move_option.dir_coord = parseIdentifier();
+                    break;
                 default:
                     throwException = true;
                     gException.containedExceptions.Add(new GrammarException(
@@ -114,6 +118,26 @@ namespace ActionPatternCompiler
                     return null;
             }
             return move_option;
+        }
+
+        private Identifier parseIdentifier()
+        {
+            Identifier ident;
+            if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
+            {
+                ident = new Identifier();
+                ident.name = currentToken;
+                acceptIt();
+                return ident;
+            }
+            else
+            {
+                throwException = true;
+                gException.containedExceptions.Add(new GrammarException(
+                    "Token " +
+                    (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken));
+            }
+            return null;
         }
 
         private Direction parseDirection()
