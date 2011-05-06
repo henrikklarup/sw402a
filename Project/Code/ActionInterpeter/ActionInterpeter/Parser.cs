@@ -56,6 +56,7 @@ namespace ActionInterpeter
         {
             currentToken = scanner.scan();
 
+            // First command is always an action.
             AST ast = parseAction();
             
             if (throwException)
@@ -64,6 +65,10 @@ namespace ActionInterpeter
             return ast;
         }
 
+        /// <summary>
+        /// Parse an Action.
+        /// </summary>
+        /// <returns>An action containing a single action.</returns>
         private Action parseAction()
         {
             Action singleAction = new Action();
@@ -72,6 +77,10 @@ namespace ActionInterpeter
             return singleAction;
         }
 
+        /// <summary>
+        /// If the current token is an identfier, parse it, else throw and exception.
+        /// </summary>
+        /// <returns>An identifier containing a token.</returns>
         private Identifier parseIdentifier()
         {
             Identifier ident;
@@ -92,6 +101,10 @@ namespace ActionInterpeter
             return null;
         }
 
+        /// <summary>
+        /// If the current token is a number, parse it, else thrown an exception.
+        /// </summary>
+        /// <returns>A number containing a token.</returns>
         private MASNumber parseMASNumber()
         { 
             MASNumber num;
@@ -112,27 +125,37 @@ namespace ActionInterpeter
             return null;
         }
 
+        /// <summary>
+        /// Parse a single action, parse the selection and the move option.
+        /// </summary>
+        /// <returns>A single action, containing selection and move option.</returns>
         private Single_Action parseSingle_Action()
         {
             Single_Action singleAction = new Single_Action();
+            // Parse which unit it is going to select.
             singleAction.selection = parseSelection();
+            // Parse which move option the selected unit is going to use.
             singleAction.move_option = parseMove_Option();
             return singleAction;
         }
 
+        /// <summary>
+        /// Parse the selection, to one of the five possibilities.
+        /// </summary>
+        /// <returns>Either, agent, agent id, team, squad or identifier.</returns>
         private AST parseSelection()
         {
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.AGENT:
                 case (int)Token.keywords.A:
-                    // Accepts the token, since its either A or agent.
+                    // Accepts the token, since its either A or Agent.
                     acceptIt();
                     agentID agent = parseagentID();
                     return agent;
                 case (int)Token.keywords.TEAM:
                 case (int)Token.keywords.T:
-                    // Accepts the token, since its either T or team.
+                    // Accepts the token, since its either T or Team.
                     acceptIt();
                     teamID team = parseteamID();
                     return team;
@@ -143,17 +166,22 @@ namespace ActionInterpeter
                     squadID squad = parseSquadID();
                     return squad;
                 case (int)Token.keywords.NUMBER:
+                    // If only a number has been selected, parse it as an Agent ID.
                     agentID agentNum = parseagentID();
                     return agentNum;
                 case (int)Token.keywords.IDENTIFIER:
+                    // If the selection is an identifier, treat it as one.
                     Identifier ident = parseIdentifier();
                     return ident;
 
             }
-
             return null;
         }
 
+        /// <summary>
+        /// Parse the squad ID.
+        /// </summary>
+        /// <returns>A squadID with a token.</returns>
         private squadID parseSquadID()
         {
             squadID squad = new squadID();
@@ -162,6 +190,10 @@ namespace ActionInterpeter
             return squad;
         }
 
+        /// <summary>
+        /// Parse the team ID.
+        /// </summary>
+        /// <returns>A teamID with a token.</returns>
         private teamID parseteamID()
         {
             teamID team = new teamID();
@@ -170,6 +202,10 @@ namespace ActionInterpeter
             return team;
         }
 
+        /// <summary>
+        /// Parse the agent ID.
+        /// </summary>
+        /// <returns>A agentID with a token.</returns>
         private agentID parseagentID()
         {
             agentID agent = new agentID();
@@ -178,6 +214,10 @@ namespace ActionInterpeter
             return agent;
         }
 
+        /// <summary>
+        /// Parse a move option, to a Direction, Coordinate or an actionpattern.
+        /// </summary>
+        /// <returns>move option containing a direction, coordinate or an actionpattern.</returns>
         private Move_Option parseMove_Option()
         {
             Move_Option move_option;
@@ -211,6 +251,10 @@ namespace ActionInterpeter
             return move_option;
         }
 
+        /// <summary>
+        /// Parse a direction.
+        /// </summary>
+        /// <returns>A direction containing a token.</returns>
         private Direction parseDirection()
         {
             Direction dir = new Direction();

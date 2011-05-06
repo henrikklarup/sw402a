@@ -8,15 +8,20 @@ namespace ActionInterpeter
     static class Printer
     {
 
-        // Changes the cursor position, to match the indent, and changes the text color to red,
-        // to display the error message.
-        public static void Error(String error)
+        /// <summary>
+        /// Appends an error to the output, does the same as write.
+        /// </summary>
+        /// <param name="error">The error message.</param>
+        public static void Error(string error)
         {
             // Writes the error to the console.
             ActionInterpet.output.Append(error);
         }
 
-        // Extention of the Error method, changes the cursor to the next line. 
+        /// <summary>
+        /// Extention of the Error method, with a newline.
+        /// </summary>
+        /// <param name="text">The error message.</param>
         public static void ErrorLine(string text)
         {
             ActionInterpet.output.AppendLine();
@@ -31,16 +36,20 @@ namespace ActionInterpeter
             Error(" <!>");
         }
 
-        // Changes the cursor position, to match the indent,
-        // Changes the text color to green
-        // to display that the function went well.
+        /// <summary>
+        /// Appends the text to the output string.
+        /// </summary>
+        /// <param name="text">Text to be printed.</param>
         public static void Write(String text)
         {
             // Writes the message to the console.
             ActionInterpet.output.Append(text);
         }
 
-        // Extention of the Write method.
+        /// <summary>
+        /// Extention of the Write method.
+        /// </summary>
+        /// <param name="text">Text to be printed.</param>
         public static void WriteLine(string text)
         {
             ActionInterpet.output.AppendLine();

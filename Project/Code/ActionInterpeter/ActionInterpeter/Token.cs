@@ -40,7 +40,11 @@ namespace ActionInterpeter
             "agent", "a", "team", "t", "squad", "s", "move", "<EOL>", "<EOT>", "<ERROR>"
         };
 
-        //Converting the string of the identifier to a token if any keyword matches the string
+        /// <summary>
+        /// Converting the string of the identifier to a token if any keyword matches the string
+        /// </summary>
+        /// <param name="kind">The kind of the word (identifier for all words)</param>
+        /// <param name="spelling">The spelling of the word</param>
         public Token(int kind, string spelling)
         {
             this.kind = kind;

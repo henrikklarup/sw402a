@@ -8,12 +8,16 @@ namespace ActionInterpeter
 {
     public class ActionInterpet
     {
-        private static List<Token> Tokens = new List<Token>();
-        private static AST newAst;
-        public static string input;
-        public static StringBuilder output;
-        private static Visitor visitor;
+        private static List<Token> Tokens = new List<Token>();      // All tokens found by the scanner.
+        private static AST newAst;                                  // The ast created by the parser.
+        public static string input;                                 // The input from the GUI console.
+        public static StringBuilder output;                         // The output from the interpeter, errors etc.
+        private static Visitor visitor;                             // The instance of the visitor class used to decorate and call commands.
 
+        #region Main
+        /// <summary>
+        /// Main class used for debugging purpose only.
+        /// </summary>
         public static void Main()
         {
             while (true)
@@ -26,7 +30,13 @@ namespace ActionInterpeter
                 Console.ReadKey();
             }
         }
+        #endregion
 
+        #region The compiler
+        /// <summary>
+        /// Starts the compiler.
+        /// </summary>
+        /// <returns>Errors and Exceptions</returns>
         public static string Compile()
         {
             output = new StringBuilder("");
@@ -51,6 +61,9 @@ namespace ActionInterpeter
             return output.ToString();
         }
 
+        /// <summary>
+        /// Parses the input string.
+        /// </summary>
         private static void Parse()
         {
             Parser parser = new Parser();
@@ -67,6 +80,9 @@ namespace ActionInterpeter
             Decorate();
         }
 
+        /// <summary>
+        /// Decorates the ast from the parser, when move option is reached, executes the move command.
+        /// </summary>
         private static void Decorate()
         {
             visitor = new Visitor();
@@ -80,5 +96,6 @@ namespace ActionInterpeter
                 return;
             }
         }
+        #endregion
     }
 }

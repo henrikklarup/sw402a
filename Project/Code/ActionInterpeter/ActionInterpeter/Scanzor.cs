@@ -8,26 +8,29 @@ namespace ActionInterpeter
 {
     class Scanzor
     {
-        //Holds the current line as an array of chars
+        // Holds the current line as an array of chars
         public char[] charLine;
 
-        //Counts the current char
+        // Counts the current char
         public int charCounter = 0;
 
-        //The current Char being processed by the scanner.
+        // The current Char being processed by the scanner.
         public char currentChar;
 
-        //The kind of Token expecting the current char/string to have.
+        // The kind of Token expecting the current char/string to have.
         private int currentKind;
 
-        //Builds the string
+        // Builds the string
         private StringBuilder currentSpelling;
 
         // Exception for catching errors.
         private GrammarException gException =
             new GrammarException("These errors were found by the scanner:");
 
-        // Used to accept characters that match the exact char.
+        /// <summary>
+        /// Used to accept characters that match the exact char.
+        /// </summary>
+        /// <param name="expectedChar">The character the scanner expects.</param>
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -42,20 +45,28 @@ namespace ActionInterpeter
             }
         }
 
-        //Used to take the current Character no matter which one it is and put it in the string
+        /// <summary>
+        /// Takes the current Character no matter which one it is and put it in the string
+        /// </summary>
         private void takeIt()
         {
             currentSpelling.Append(currentChar);
             currentChar = nextSourceChar();
         }
 
-        //Used to ignore the current Character and get the next char from the source file
+        /// <summary>
+        /// Used to ignore the current Character and get the next char from the source file
+        /// </summary>
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
         }
 
-        //Used to check if the char is a digit (0-9) and returns true if it is
+        /// <summary>
+        /// Used to check if the char is a digit (0-9)
+        /// </summary>
+        /// <param name="c">The character being checked</param>
+        /// <returns>True if its a digit</returns>
         private bool isDigit(char c)
         {
             switch (c)
@@ -75,7 +86,11 @@ namespace ActionInterpeter
             return false;
         }
 
-        //Checks if the char is a letter (a-z) and returns true if it is
+        /// <summary>
+        /// Checks if the char is a letter (a-z).
+        /// </summary>
+        /// <param name="c">The character being checked</param>
+        /// <returns>True if its a letter.</returns>
         private bool isLetter(char c)
         {
             switch (char.ToLower(c))
@@ -111,9 +126,11 @@ namespace ActionInterpeter
             return false;
         }
 
-        /* As long as the current character is a digit append it to the string and
-         * read the next untill no digit is read
-         * if a . is read build the last part of the digit */
+        /// <summary>
+        /// As long as the current character is a digit append it to the string and
+        /// read the next untill no digit is read
+        /// if a . is read build the last part of the digit
+        /// </summary>
         private void scanDigit()
         {
             while (isDigit(currentChar))
@@ -128,8 +145,12 @@ namespace ActionInterpeter
             }
         }
 
-        /* Scans the current Character and returns the corresponding byte value 
-         * (to the token) while building the string which is identifying the token */
+        
+        /// <summary>
+        /// Scans the current Character and returns the corresponding byte value 
+        /// (to the token) while building the string which is identifying the token
+        /// </summary>
+        /// <returns></returns>
         private int scanToken()
         {
             if (isLetter(currentChar))
@@ -178,6 +199,9 @@ namespace ActionInterpeter
             return '\n';
         }
 
+        /// <summary>
+        /// Initializes the scanner, sets the current char and the current line being read.
+        /// </summary>
         public Scanzor()
         {
             //Initializes the string being read by the scanner, and its counters
@@ -185,6 +209,10 @@ namespace ActionInterpeter
             currentChar = charLine[charCounter++];
         }
 
+        /// <summary>
+        /// Scans the scource code.
+        /// </summary>
+        /// <returns>A Token containing the word, the type and its position.</returns>
         public Token scan()
         {
             // If looking at a seperator, take the next character and start building a new string
@@ -203,6 +231,9 @@ namespace ActionInterpeter
             return new Token(currentKind, currentSpelling.ToString());
         }
 
+        /// <summary>
+        /// Ignores all seperators (space, indent, and newlines)
+        /// </summary>
         private void scanSeperator()
         {
             switch (currentChar)
