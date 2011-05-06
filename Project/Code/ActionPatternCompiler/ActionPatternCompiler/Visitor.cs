@@ -75,7 +75,7 @@ namespace ActionPatternCompiler
                     }
                     return;
                 default:
-                    throw new Exception("The move Option was invalid!");
+                    throw new InvalidMoveOptionException("The move Option was invalid!");
             }
             Functions.moveagent(ActionPattern.thisAgent, num1, num2);
         }
@@ -103,7 +103,7 @@ namespace ActionPatternCompiler
             }
             else
             {
-                throw new GrammarException("An invalid move options was chosen.");
+                throw new InvalidMoveOptionException("An invalid move options was chosen.");
             }
 
             visitCodeGen_MoveOption(move_Option);
