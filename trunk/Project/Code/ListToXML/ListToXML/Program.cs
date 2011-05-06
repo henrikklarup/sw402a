@@ -113,6 +113,9 @@ namespace ListToXML
                 foreach (agent agent in value.Agents)
                 {
                     XMLhelp.Node("Name", agent.name);
+                    XMLhelp.Node("Rank", agent.rank.ToString());
+                    XMLhelp.Node("Team color", agent.team.colorStr);
+                    XMLhelp.Node("Team name", agent.team.name);
                 }
             }
         }
