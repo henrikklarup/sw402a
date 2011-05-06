@@ -464,7 +464,7 @@ namespace MultiAgentSystem
 
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
-                    file.Write(firstVar.spelling.ToLower());
+                    file.Write(firstVar.spelling);
                 }
 
                 arg = true;
