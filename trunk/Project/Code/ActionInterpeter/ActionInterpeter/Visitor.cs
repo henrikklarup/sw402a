@@ -195,9 +195,19 @@ namespace ActionInterpeter
                     num2 = Convert.ToInt16(coord.num2.spelling);
                     break;
                 case (int)Type.Types.ACTIONPATTERN:
-                    throw new NotImplementedException();
+                    Token apToken = (Token)move_Option.dir_coord.visit(this, null);
+                    actionpattern ap = Lists.RetrieveActionPattern(apToken.spelling);
+                    if (ap == null)
+                    {
+                        throw new InvalidOperationException("The move Option " + apToken.spelling + " was not an actionpattern.");
+                    }
+                    foreach (string s in ap.actions)
+                    { 
+                        
+                    }
+                    return;
                 default:
-                    throw new Exception("The move Option was invalid!");
+                    throw new InvalidMoveOptionException("The move Option was invalid!");
             }
             Functions.moveagent(agent, num1, num2);
         }
@@ -218,7 +228,7 @@ namespace ActionInterpeter
                 {
                     move_Option.type = (int)Type.Types.COORD;
                 }
-                else if (object.ReferenceEquals(dir_coord.GetType(), new actionpattern().GetType()))
+                else if (object.ReferenceEquals(dir_coord.GetType(), new Identifier().GetType()))
                 {
                     move_Option.type = (int)Type.Types.ACTIONPATTERN;
                 }
