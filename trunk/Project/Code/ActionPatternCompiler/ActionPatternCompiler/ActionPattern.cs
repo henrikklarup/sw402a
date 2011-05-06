@@ -25,7 +25,29 @@ namespace ActionPatternCompiler
                 input = Console.ReadLine();
                 if (input.Count() == 0)
                     continue;
-                Parse();
+                try
+                {
+                    Parse();
+                }
+                catch (GrammarException e)
+                {
+                    e.PrintExceptions();
+                }
+                catch (InvalidMoveOptionException e)
+                {
+                    foreach (string s in e.PrintExceptions())
+                    {
+                        Printer.WriteLine(s);
+                    }
+                }
+                catch (WrongTeamException e)
+                {
+                    foreach (string s in e.PrintExceptions())
+                    {
+                        Printer.WriteLine(s);
+                    }
+                }
+                Console.WriteLine(output.ToString());
                 Console.WriteLine("Success");
                 Console.ReadKey();
             }

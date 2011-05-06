@@ -79,7 +79,7 @@ namespace ActionPatternCompiler
             {
                 Printer.ErrorLine(exc.Message);
             }
-            Console.WriteLine();
+
         }
     }
 }
