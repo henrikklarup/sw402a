@@ -13,12 +13,14 @@ namespace MultiAgentSystem
             new GrammarException("These inputs and methods were illegal:");
         private bool throwException = false;
 
-        private MASNumber dummyNumber = new MASNumber(new Token((int)Token.keywords.NUMBER, "", -1, -1));
+        private MASNumber dummyNumber = new MASNumber(
+            new Token((int)Token.keywords.NUMBER, "", -1, -1));
         private MASString dummyString1 = new MASString(
             new Token((int)Token.keywords.ACTUAL_STRING, "", -1, -1));
         private MASString dummyString2 = new MASString(
             new Token((int)Token.keywords.ACTUAL_STRING, "", -1, -1));
-        private Identifier dummyAgent = new Identifier(new Token((int)Token.keywords.AGENT, "", -1, -1));
+        private Identifier dummyAgent = new Identifier(
+            new Token((int)Token.keywords.AGENT, "", -1, -1));
 
         private Input dummyInput = new Input();
 
@@ -161,7 +163,7 @@ namespace MultiAgentSystem
                     errorMessage += temp.spelling;
                     if (!current.Mandatory)
                     {
-                        errorMessage += " (not required)";
+                        errorMessage += " (optional)";
                     }
                     errorMessage += ", ";
                     current = current.nextVar;
@@ -289,7 +291,6 @@ namespace MultiAgentSystem
             string name = identifier.spelling.Remove(identifier.spelling.Length - 4);
 
             int kind = IdentificationTable.retrieve(name);
-            string derp = ((Token.keywords)kind).ToString();
 
             switch (kind)
             {
@@ -299,7 +300,8 @@ namespace MultiAgentSystem
                     {
                         throwException = true;
                         gException.containedExceptions.Add(new GrammarException("(Line " +
-                            identifier.row + ") Only \".add\" is a valid method for squads and teams."));
+                            identifier.row + ") Only the add-method is valid" +
+                            " for action patterns, squads and teams."));
                     }
                     else
                     {
@@ -312,7 +314,8 @@ namespace MultiAgentSystem
                     {
                         throwException = true;
                         gException.containedExceptions.Add(new GrammarException("(Line " +
-                            identifier.row + ") Only \".add\" is a valid method for actionpatterns."));
+                            identifier.row + ") Only the add-method is valid" +
+                            " for action patterns, squads and teams."));
                     }
                     else
                     {
@@ -321,6 +324,13 @@ namespace MultiAgentSystem
                     }
                     break;
                 default:
+                    if (method != "add")
+                    {
+                        throwException = true;
+                        gException.containedExceptions.Add(new GrammarException("(Line " +
+                            identifier.row + ") Only the add-method is valid" +
+                            " for action patterns, squads and teams."));
+                    }
                     dummyInput = null;
                     break;
             }
@@ -340,7 +350,7 @@ namespace MultiAgentSystem
                     errorMessage += temp.spelling;
                     if (!current.Mandatory)
                     {
-                        errorMessage += " (not required)";
+                        errorMessage += " (optional)";
                     }
                     errorMessage += ", ";
                 }
