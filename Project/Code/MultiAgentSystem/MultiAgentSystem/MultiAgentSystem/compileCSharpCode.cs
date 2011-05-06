@@ -23,6 +23,7 @@ namespace MultiAgentSystem
             reader.Close();
 
             Console.Write(inputfil);
+            //Kan jeg committe nu?
 
             CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp", provOptions);
             string Output = Path.ChangeExtension(path, ".exe");
