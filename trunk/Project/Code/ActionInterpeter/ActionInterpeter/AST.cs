@@ -6,6 +6,7 @@ using MASClassLibrary;
 
 namespace ActionInterpeter
 {
+    // All classes used to create the abstract syntax tree.
     abstract class AST
     {
         public abstract object visit(Visitor v, object arg);

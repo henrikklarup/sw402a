@@ -13,18 +13,36 @@ namespace ActionInterpeter
         private GrammarException gException =
             new GrammarException("These errors were found during decoration:");
 
+        /// <summary>
+        /// Visits the AST
+        /// </summary>
+        /// <param name="ast">Any AST</param>
+        /// <param name="arg">Any object</param>
+        /// <returns>null</returns>
         public object visitAST(AST ast, object arg)
         {
             ast.visit(this, arg);
             return null;
         }
 
+        /// <summary>
+        /// Visits an Action
+        /// </summary>
+        /// <param name="action">Any Action</param>
+        /// <param name="arg">Any object</param>
+        /// <returns>null</returns>
         internal object visitAction(Action action, object arg)
         {
             action.single_action.visit(this, arg);
             return null;
         }
 
+        /// <summary>
+        /// Vists a single action
+        /// </summary>
+        /// <param name="single_Action">Any Single Action</param>
+        /// <param name="arg">Any object</param>
+        /// <returns>null</returns>
         internal object visitSingle_Action(Single_Action single_Action, object arg)
         {
             object selection = single_Action.selection.visit(this, arg);
@@ -90,6 +108,11 @@ namespace ActionInterpeter
             return null;
         }
 
+        /// <summary>
+        /// Calls the moveoption method.
+        /// </summary>
+        /// <param name="single_Action">Any SingleAction containing a defined type.</param>
+        /// <param name="arg">Any object</param>
         private void visitCodeGen_MoveAgent(Single_Action single_Action, object arg)
         {
             agent agent;
