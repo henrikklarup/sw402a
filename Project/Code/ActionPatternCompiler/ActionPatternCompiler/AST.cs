@@ -25,16 +25,6 @@ namespace ActionPatternCompiler
         }
     }
 
-    class Identifier : Terminal
-    {
-        public Token name;
-
-        public override object visit(Visitor v, object arg)
-        {
-            return v.visitIdentifier(this, arg);
-        }
-    }
-
     class MASNumber : Terminal
     {
         public Token ID;
