@@ -85,7 +85,6 @@ namespace ListToXML
             //aXML.GenerateThisShizzle("MAS", null, @"C:\Users\Kristian\Desktop\XML\WarGame.xml");
 
             Generate.XML(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml", Lists.actionPatterns, Lists.teams, Lists.agents, Lists.squads);
-
             //Create instance of the XmlReader with a path to the xml file
             XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml");
 
