@@ -87,7 +87,7 @@ namespace ListToXML
             Generate.XML(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml", Lists.actionPatterns, Lists.teams, Lists.agents, Lists.squads);
 
             //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGame.xml");
+            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml");
 
 
             Reader.Mount();
@@ -99,7 +99,7 @@ namespace ListToXML
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
             ListOfMas newLists = new ListOfMas();
-            newLists.Init(@"C:\Users\Kristian\Desktop\XML\WarGame.xml",true);
+            newLists.Init(@"C:\Users\Kristian\Desktop\XML\WarGame.xml",false);
             Console.ReadKey();
         }
 
