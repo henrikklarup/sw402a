@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MASClassLibrary;
+using ActionPatternCompiler;
 
 namespace ActionPatternCompiler
 {
@@ -32,8 +33,8 @@ namespace ActionPatternCompiler
             {
                 case (int)Type.Types.DIR:
                     Direction dir = (Direction)move_Option.dir_coord;
-                    num1 = ActionPatternCompiler.thisAgent.posx;
-                    num2 = ActionPatternCompiler.thisAgent.posy;
+                    num1 = ActionPattern.thisAgent.posx;
+                    num2 = ActionPattern.thisAgent.posy;
 
                     Token token = dir.dir;
                     switch (token.spelling.ToLower())
@@ -60,10 +61,23 @@ namespace ActionPatternCompiler
                     num1 = Convert.ToInt16(coord.num1.spelling);
                     num2 = Convert.ToInt16(coord.num2.spelling);
                     break;
+                case (int)Type.Types.ACTIONPATTERN:
+                    object moveOption = move_Option.dir_coord.visit(this, null);
+                    // If there was no actionpattern with this name, Exception.
+                    if (moveOption == null || !object.ReferenceEquals(moveOption.GetType(), new actionpattern().GetType()))
+                    {
+                        throw new InvalidMoveOptionException("The actionpattern was invalid!");
+                    }
+                    actionpattern ap = (actionpattern)moveOption;
+                    foreach (string s in ap.actions)
+                    {
+                        ActionPattern.Compile(s, ActionPattern.thisAgent);
+                    }
+                    return;
                 default:
                     throw new Exception("The move Option was invalid!");
             }
-            Functions.moveagent(ActionPatternCompiler.thisAgent, num1, num2);
+            Functions.moveagent(ActionPattern.thisAgent, num1, num2);
         }
 
 
@@ -82,6 +96,10 @@ namespace ActionPatternCompiler
                 {
                     move_Option.type = (int)Type.Types.COORD;
                 }
+                else if (object.ReferenceEquals(dir_coord.GetType(), new Identifier().GetType()))
+                {
+                    move_Option.type = (int)Type.Types.ACTIONPATTERN;
+                }
             }
             else
             {
@@ -89,6 +107,20 @@ namespace ActionPatternCompiler
             }
 
             visitCodeGen_MoveOption(move_Option);
+            return null;
+        }
+
+        internal object visitIdentifier(Identifier identifier, object arg)
+        {
+            //Check if this identifier exists
+            Token token = identifier.name;
+            if (token.kind == (int)Token.keywords.IDENTIFIER)
+            {
+                object obj = null;
+                obj = Lists.RetrieveActionPattern(token.spelling);
+                if (obj != null)
+                    return obj;
+            }
             return null;
         }
 
