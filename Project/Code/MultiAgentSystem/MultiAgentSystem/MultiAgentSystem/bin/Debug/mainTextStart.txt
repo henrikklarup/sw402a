@@ -10,4 +10,4 @@ namespace MultiAgentSystem
 		static void Main(string[] args)
 		{ 
 			/* Here the program starts. */ 
-			int points = 
+			Lists.Points = 
