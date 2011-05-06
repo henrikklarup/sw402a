@@ -69,6 +69,7 @@ namespace MASClassLibrary
             this._posY = 0;
             this.team = team;
             this._iD = Lists.NextAgentID;
+            Lists.agents.Add(this);
         }
 
         public agent(int id)
