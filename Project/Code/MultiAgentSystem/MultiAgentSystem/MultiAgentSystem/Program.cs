@@ -15,6 +15,10 @@ namespace MultiAgentSystem
         private static AST newAst;
         public static string path;
 
+        /// <summary>
+        /// The main method of the Multi Agent System compiler.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             /*StartUp startUp = new StartUp();
@@ -28,6 +32,7 @@ namespace MultiAgentSystem
             Printer.printLogo();
             Printer.CompilationMarker("Options");
 
+            /* Gives the user, the option to choose to write all errors and actions in the console, or just leave it. */
             while (true)
             {
                 Console.WriteLine();
@@ -48,7 +53,7 @@ namespace MultiAgentSystem
                     Console.WriteLine(" is not an option.");
             }
 
-
+            /* Gives the user the option to change the source file. */
             while (true)
             {
                 Console.WriteLine();
@@ -84,9 +89,14 @@ namespace MultiAgentSystem
             Console.WriteLine("Hit any key to continue!");
             Console.ReadKey();
 
+            // Starts the compilation of the choosen file.
             Compile();
         }
 
+        /// <summary>
+        /// Method to let the user choose which file in the current directory should be used as source file.
+        /// </summary>
+        /// <returns>True if a new path has been choosen.</returns>
         private static bool getFile()
         {
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -119,6 +129,9 @@ namespace MultiAgentSystem
             }
         }
 
+        /// <summary>
+        /// Clears all save tokens from the tokens list, and compiles the choosen file.
+        /// </summary>
         private static void Compile()
         {
             Tokens.Clear();
@@ -126,9 +139,13 @@ namespace MultiAgentSystem
             Printer.printLogo();
             Printer.CompilationMarker("Compile");
 
+            // Starts the scanner.
             Scan();
         }
 
+        /// <summary>
+        /// Initializes and starts the scanner.
+        /// </summary>
         private static void Scan()
         {
             // Exception for errors found in the scanner.
@@ -136,6 +153,7 @@ namespace MultiAgentSystem
                 "These errors were found by the scanner:");
             bool scanningError = false;
 
+            // The class is called Scanzor, because the class scanner is already in use in the C-language.
             Scanzor scanzor = new Scanzor();
             Token newToken = null;
 
@@ -143,7 +161,7 @@ namespace MultiAgentSystem
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Scanning");
             Console.Title = "MASS Compiler: Scanning";
-
+            // Scans the source file, untill the scanner returns an "end of transmission" token.
             while (true)
             {
                 try
@@ -181,9 +199,13 @@ namespace MultiAgentSystem
                 Recompile();
             }
 
+            // Starts the parser.
             Parse();
         }
 
+        /// <summary>
+        /// Initializes the parser, and parses all tokens stored in the tokens list, to an abstract syntax tree.
+        /// </summary>
         private static void Parse()
         {
             Console.WriteLine();            
@@ -205,9 +227,13 @@ namespace MultiAgentSystem
                 return;
             }
 
+            // Starts decorating the abstract syntax tree.
             Decorate();
         }
 
+        /// <summary>
+        /// Initializes the Decorator visitor, and decorates the abstract syntax tree.
+        /// </summary>
         private static void Decorate()
         {
             Console.WriteLine();
@@ -278,6 +304,10 @@ namespace MultiAgentSystem
             Completed();
         }
 
+        /// <summary>
+        /// Completes the compilation of the source file, by giving the user 
+        /// the opportunity to compile and run the output file.
+        /// </summary>
         private static void Completed()
         {
             Console.WriteLine();
@@ -293,11 +323,14 @@ namespace MultiAgentSystem
 
                 if (cki.Key == ConsoleKey.Y)
                 {
+                    // Compiles the output file with the C# compiler.
                     GenerateCSharp();
                     break;
                 }
                 if (cki.Key == ConsoleKey.N)
                 {
+                    /* Gives the user the option to compile the source file again,
+                     * if the user has made any changes to it. */
                     Recompile();
                     break;
                 }
@@ -306,14 +339,23 @@ namespace MultiAgentSystem
             }
         }
 
+        /// <summary>
+        /// Compiles and runs the output file with the C# compiler.
+        /// </summary>
         private static void GenerateCSharp()
         {
             string CSharpPath = path + @"\MASSCode.cs";
 
             CompileCSharpCode.compile(CSharpPath);
+            /* Gives the user the option to compile the source file again,
+            * if the user has made any changes to it. */
             Recompile();
         }
 
+        /// <summary>
+        /// User option to compile the source file again,
+        /// in case any changes have been made to the source file.
+        /// </summary>
         private static void Recompile()
         {
             ConsoleKeyInfo cki;

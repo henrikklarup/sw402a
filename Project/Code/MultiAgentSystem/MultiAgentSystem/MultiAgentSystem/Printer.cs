@@ -7,10 +7,12 @@ namespace MultiAgentSystem
 {
     public static class Printer
     {
-        // Used to indent the messages sent by the compiler to the user.
-        private static int indent;
-        public static bool printCompleted;
+        private static int indent;          // Used to indent the messages sent by the compiler to the user.
+        public static bool printCompleted;  // Turns compiler messages on/off.
 
+        /// <summary>
+        /// Clears the console and Prints the MASS logo.
+        /// </summary>
         public static void printLogo()
         {
             // Used to place the cursor in the Console.
@@ -37,8 +39,11 @@ namespace MultiAgentSystem
             Console.ForegroundColor = tmpColor;
         }
         
-        // Changes the cursor position, to match the indent, and changes the text color to red,
-        // to display the error message.
+        /// <summary>
+        /// Changes the cursor position, to match the indent, and changes the text color to red,
+        /// to display an error message. 
+        /// </summary>
+        /// <param name="error">The message printed.</param>
         public static void Error(String error)
         {
             // Save the current text color.
@@ -53,7 +58,10 @@ namespace MultiAgentSystem
             Console.ForegroundColor = tmpColor;
         }
 
-        // Extention of the Error method, changes the cursor to the next line. 
+        /// <summary>
+        /// Extention of the Error method, changes the cursor to the next line. 
+        /// </summary>
+        /// <param name="text"></param>
         public static void ErrorLine(string text)
         {
             Console.WriteLine();
