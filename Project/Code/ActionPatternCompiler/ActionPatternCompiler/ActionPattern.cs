@@ -17,6 +17,9 @@ namespace ActionPatternCompiler
 
         public static void Main(String[] args)
         {
+            XML.initLists();
+            XML.returnLists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            output = new StringBuilder("");
             while (true)
             {
                 input = Console.ReadLine();
@@ -33,14 +36,7 @@ namespace ActionPatternCompiler
             input = _input;
             thisAgent = _agent;
             output = new StringBuilder("");
-            try
-            {
-                Parse();
-            }
-            catch (WrongTeamException e)
-            {
-                Printer.WriteLine(e.Message);
-            }
+            Parse();
             return output.ToString();
         }
 
@@ -48,43 +44,16 @@ namespace ActionPatternCompiler
         {
             Parser parser = new Parser();
 
-            try
-            {
-                newAst = parser.parse();
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
+            newAst = parser.parse();
             Decorate();
+            return;
         }
 
         private static void Decorate()
         {
             visitor = new Visitor();
-            try
-            {
-                visitor.visitAST(newAst, null);
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
-        }
-
-        private static void CodeGen()
-        {
-            try
-            {
-                visitor.visitAST(newAst, 1);
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
+            visitor.visitAST(newAst, null);
+            return;
         }
     }
 }

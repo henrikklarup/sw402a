@@ -49,3 +49,5 @@ C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code
 C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\InterfaceDemo\WindowsFormsApplication6\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\MASClassLibrary.dll
 C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\MASClassLibrary.pdb
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\ActionPatternCompiler.exe
+C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\Code\InterfaceDemo\WindowsFormsApplication6\bin\Debug\ActionPatternCompiler.pdb
