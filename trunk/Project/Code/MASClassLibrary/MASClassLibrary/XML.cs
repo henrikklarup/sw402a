@@ -172,6 +172,14 @@ namespace MASClassLibrary
                 }
             }
         }
+
+        public static void initLists()
+        {
+            Lists.teams = new List<team>();
+            Lists.agents = new List<agent>();
+            Lists.squads = new List<squad>();
+            Lists.actionPatterns = new List<actionpattern>();
+        }
     }
 
     public class oldActionPattern
