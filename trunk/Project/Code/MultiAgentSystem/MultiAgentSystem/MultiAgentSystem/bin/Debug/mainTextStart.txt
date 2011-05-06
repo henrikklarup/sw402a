@@ -10,4 +10,8 @@ namespace MultiAgentSystem
 		static void Main(string[] args)
 		{ 
 			/* Here the program starts. */ 
+			Lists.agents = new List<agent>();
+			Lists.squads = new List<squad>();
+			Lists.teams = new List<team>();
+			Lists.actionpatterns = new List<actionpattern>();
 			Lists.Points = 
