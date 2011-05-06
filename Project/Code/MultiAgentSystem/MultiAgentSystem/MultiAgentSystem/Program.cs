@@ -228,15 +228,25 @@ namespace MultiAgentSystem
                 return;
             }
 
-            IntermediateVisitor visitor2 = new IntermediateVisitor();
+            Intermediate();
+        }
+
+        private static void Intermediate()
+        {
+            Console.WriteLine();
+            Console.CursorLeft = 0;
+            Printer.CompilationMarker("@Intermediate");
+            Console.Title = "MASS Compiler: Intermediate";
+
+            IntermediateVisitor visitor = new IntermediateVisitor();
             try
             {
-                visitor2.visitAST(newAst, null);
+                visitor.visitAST(newAst, null);
             }
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while Dkhjuhui.");
+                Console.Write("Errors were found while checking methods and input.");
                 Recompile();
                 return;
             }
