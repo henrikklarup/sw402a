@@ -79,16 +79,23 @@ namespace MultiAgentSystem
             Error(" <!>");
         }
 
+        /// <summary>
+        /// Prints two lines before and after the text.
+        /// </summary>
+        /// <param name="text">Any string</param>
         public static void CompilationMarker(string text)
         {
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine(text);
             Console.WriteLine("--------------------------------------------------");
         }
-
-        // Changes the cursor position, to match the indent,
-        // Changes the text color to green
-        // to display that the function went well.
+        
+        /// <summary>
+        /// Changes the cursor position, to match the indent,
+        /// Changes the text color to green
+        /// to display that the function went well.
+        /// </summary>
+        /// <param name="text">Any string</param>
         public static void Write(String text)
         {
             if (!printCompleted)
@@ -105,7 +112,10 @@ namespace MultiAgentSystem
             Console.ForegroundColor = tmpColor;
         }
 
-        // Extention of the Write method.
+        /// <summary>
+        /// Extention of the Write method.
+        /// </summary>
+        /// <param name="text">Any string</param> 
         public static void WriteLine(string text)
         {
             if (!printCompleted)
@@ -116,13 +126,17 @@ namespace MultiAgentSystem
             Write(text);
         }
 
-        // Expand the indention of the messages.
+        /// <summary>
+        /// Expand the indention of the messages.
+        /// </summary>
         public static void Expand()
         {
             indent++;
         }
 
-        // Collaps the indention of the messages.
+        /// <summary>
+        /// Collaps the indention of the messages.
+        /// </summary>
         public static void Collapse()
         {
             indent--;
