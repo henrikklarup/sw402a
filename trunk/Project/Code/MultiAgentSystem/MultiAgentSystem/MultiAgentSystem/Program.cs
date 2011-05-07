@@ -21,6 +21,8 @@ namespace MultiAgentSystem
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            StartUp.Aparture();
+            Console.ReadKey();
             /*StartUp startUp = new StartUp();
             Thread thread = new Thread(new ThreadStart(startUp.first));
             thread.Start();
