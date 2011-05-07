@@ -11,19 +11,38 @@ namespace MultiAgentSystem
         public static List<MASMethod> MethodLibrary;
 
         /// <summary>
-        /// Finds the method in the library of methods by matching the name.
+        /// Finds a list of methods that match the name and UseWith type.
         /// </summary>
         /// <param name="name">Name of the method to find.</param>
-        /// <returns>A MASMethod or null if no match was found.</returns>
-        public static MASMethod FindMethod(string name)
+        /// <param name="type">Type of the object the method is used on.</param>
+        /// <returns>A list containing every overload for the matching method.</returns>
+        public static List<MASMethod> FindMethod(string name, int useWith)
         {
             // Find the method that matches the name.
-            MASMethod method = MethodLibrary.Find(
-                delegate(MASMethod m)
+            List<MASMethod> list = new List<MASMethod>();
+            foreach (MASMethod m in MethodLibrary)
+            {
+                if (m.Name.ToLower() == name.ToLower() && m.UseWith == useWith)
                 {
-                    return m.Name.ToLower() == name.ToLower();
-                });
-            return method;
+                    list.Add(m);
+                }
+            }
+            return list;
+        }
+    }
+
+    class Methods
+    {
+        public Methods()
+        {
+            MASMethodLibrary.MethodLibrary = new List<MASMethod>();
+
+            Input temp = new Input();
+            Token t = new Token(-1, "", -1, -1);
+
+            t.kind = (int)Token.keywords.AGENT;
+            temp.firstVar = new Identifier(t);
+            AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(temp);
         }
     }
 
@@ -32,10 +51,10 @@ namespace MultiAgentSystem
     /// </summary>
     class AddAgentToTeam : MASMethod, ICodeTemplate
     {
-        public AddAgentToTeam()
+        public AddAgentToTeam(Input input) : base(input)
         {
             this._name = "add";
-            this._objectKind = (int)Token.keywords.TEAM;
+            this._useWith = (int)Token.keywords.TEAM;
             this._returnKind = (int)Token.keywords.ERROR;
         }
 
@@ -48,19 +67,6 @@ namespace MultiAgentSystem
         public string PrintGeneratedCode(string one, string two)
         {
             return two + ".team = " + one + ";";
-        }
-
-        /// <summary>
-        /// A method that returns a dummy input that can be used to check for correct input with.
-        /// </summary>
-        /// <returns>Input with the correct properties.</returns>
-        public Input GenerateValidInput()
-        {
-            Input temp = new Input();
-            Token t = new Token((int)Token.keywords.AGENT, "", -1, -1);
-            temp.firstVar = new Identifier(t);
-
-            return temp;
         }
 
         /// <summary>
@@ -86,15 +92,15 @@ namespace MultiAgentSystem
             get { return _name; }
         }
 
-        internal int _objectKind;
+        internal int _useWith;
 
         /// <summary>
         /// The kind of object that this code method should be used with.
         /// Refers to Token.keywords.
         /// </summary>
-        public int ObjectKind
+        public int UseWith
         {
-            get { return _objectKind; }
+            get { return _useWith; }
         }
 
         internal int _returnKind;
@@ -107,13 +113,54 @@ namespace MultiAgentSystem
         {
             get { return _returnKind; }
         }
+
+        internal int _overloadID;
+
+        /// <summary>
+        /// Specifies the ID of the overload, making it easier to identify individual overloads.
+        /// </summary>
+        public int OverloadID
+        {
+            get { return _overloadID; }
+        }
+
+        internal Input _validInput;
+
+        /// <summary>
+        /// Specifies the valid input for this method.
+        /// </summary>
+        public Input ValidInput
+        {
+            get { return _validInput; }
+        }
+
+        public MASMethod(Input input)
+        {
+            this._overloadID = GetOverLoadID(_name, _useWith);
+            this._validInput = input;
+            MASMethodLibrary.MethodLibrary.Add(this);
+        }
+
+        /// <summary>
+        /// Finds the proper ID for the overload of any method.
+        /// </summary>
+        /// <param name="name">Name of the method.</param>
+        /// <param name="useWith">Type of the object the method is used on.</param>
+        /// <returns>The overload ID of the method.</returns>
+        public int GetOverLoadID(string name, int useWith)
+        {
+            return MASMethodLibrary.FindMethod(name, useWith).Count + 1;
+        }
     }
 
     interface ICodeTemplate
     {
         string PrintGeneratedCode(string one, string two);
 
-        Input GenerateValidInput();
+        Input ValidInput
+        {
+            get;
+        }
 
         string PrintInvalidErrorMessage();
     }

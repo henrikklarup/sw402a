@@ -6,7 +6,7 @@ using System.IO;
 
 namespace MultiAgentSystem
 {
-    abstract class Visitor
+    public abstract class Visitor
     {
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
