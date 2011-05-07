@@ -32,16 +32,11 @@ namespace MultiAgentSystem
     /// </summary>
     class AddAgentToTeam : MASMethod, ICodeTemplate
     {
-        public AddAgentToTeam(string name, int objectkind)
+        public AddAgentToTeam()
         {
-            this._name = name;
-            this._objectKind = objectkind;
-        }
-
-        public AddAgentToTeam(string name, int objectkind, int returnkind)
-            : this(name, objectkind)
-        {
-            this._returnKind = returnkind;
+            this._name = "add";
+            this._objectKind = (int)Token.keywords.TEAM;
+            this._returnKind = (int)Token.keywords.ERROR;
         }
 
         /// <summary>
