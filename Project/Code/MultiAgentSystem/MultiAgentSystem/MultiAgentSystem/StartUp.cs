@@ -8,6 +8,7 @@ namespace MultiAgentSystem
 {
     class StartUp
     {
+        #region Matrix
         static Random rand = new Random();
         static int width, height;
 
@@ -138,5 +139,36 @@ namespace MultiAgentSystem
                 kind[i] = 0;
             }
         }
+        #endregion
+
+        #region Aparture
+
+        public static void Aparture()
+        {
+            Console.Write(
+@"               ',-:;//;:=
+          . :H@@@MM@M#H/.,+%;,
+       ,/X+ +M@@M@MM%=,.%HMMM@X/,
+     -+@MM; $M@@MH+-,;XMMMM@MMMM@+-
+    ;@M@@M- XM@X;. -+XXXXXHHH@M@M#@/.
+  ,%MM@@MH ,@%=            .---=-=:=,.
+  =@#@@@MX .,              -%HX$$%%%+;
+ =-./@M@M$                  .;@MMMM@MM:
+ X@/ -@MM/                    .+MM@@@M$
+,@M@H  :@:                    . =X#@@@@-
+,@@@MMX,  .                        ;@M@M=
+.H@@@@M@+,                         .%#$. 
+ /MMMM@MMH/.                     /\   =;               _
+  /%+%$XHH@$=              ,    /  \   _ __   ___ _ __| |_ _   _ _ __ ___
+   .=--------.           -%H.  / /\ \ | '_ \ / _ \ '__| __| | | | '__/ _ \
+   .%MM@@@HHHXX$$$%+- .:$MMX  / ____ \| |_) |  __/ |  | |_| |_| | | |  __/
+     =XMMM@MM@MM#H;.-+HMM@M+ /_/    \_\ .__/ \___|_|   \__|\__,_|_|  \___|
+       =%@M@M#@$-.=$@MM@@@M;          | | ''We do what we must, because we can''
+         ,:+$+-,/H#MMMMMMM@=          |_|
+               =++%%%%+/:-.
+            ");
+        }
+
+        #endregion
     }
 }
