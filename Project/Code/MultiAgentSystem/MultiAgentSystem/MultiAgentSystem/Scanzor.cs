@@ -8,36 +8,23 @@ namespace MultiAgentSystem
 {
     class Scanzor
     {
-        // The input file being read
-        public string[] fileLines;
 
-        // Counts which line currently being looked at
-        public int fileCounter = 0;
+        public string[] fileLines;                  // The input file being read
+        public int fileCounter = 0;                 // Counts which line currently being looked at        
+        public char[] charLine;                     // Holds the current line as an array of chars
+        public int charCounter = 0;                 // Counts the current char
+        public char currentChar;                    // The current Char being processed by the scanner.
+        private int currentKind;                    // The kind of Token expecting the current char/string to have.
+        private StringBuilder currentSpelling;      // Builds the string
+        private int row, col;                       // Coordinates used by the parser to tell where a syntax error has been found
 
-        // Holds the current line as an array of chars
-        public char[] charLine;
+        private GrammarException gException =
+            new GrammarException("These errors were found by the scanner:");    // Exception for catching errors.
 
-        // Counts the current char
-        public int charCounter = 0;
-
-        // The current Char being processed by the scanner.
-        public char currentChar;
-
-        // The kind of Token expecting the current char/string to have.
-        private int currentKind;
-
-        // Builds the string
-        private StringBuilder currentSpelling;
-
-        // Coordinates used by the parser to tell where a syntax error has been found
-        private int row;
-        private int col;
-
-        // Exception for catching errors.
-        private GrammarException gException = 
-            new GrammarException("These errors were found by the scanner:");
-
-        // Used to accept characters that match the exact char.
+        /// <summary>
+        /// Accepts the character if it match the exact char.
+        /// </summary>
+        /// <param name="expectedChar">Char expected</param>
         private void take(char expectedChar)
         {
             if (currentChar == expectedChar)
@@ -53,7 +40,9 @@ namespace MultiAgentSystem
             }
         }
 
-        // Used to take the current Character no matter which one it is and put it in the string
+        /// <summary>
+        /// Takes the current Character no matter which one it is and put it in the string
+        /// </summary>
         private void takeIt()
         {
             coords();
@@ -61,12 +50,19 @@ namespace MultiAgentSystem
             currentChar = nextSourceChar();
         }
 
-        // Used to ignore the current Character and get the next char from the source file
+        /// <summary>
+        /// Ignores the current Character and get the next char from the source file
+        /// </summary>
         private void ignoreIt()
         {
             currentChar = nextSourceChar();
         }
 
+        /// <summary>
+        /// Gets the current line and row, and stores it in col, row.
+        /// Only works, if the next character is the first character of the word.
+        /// e.g. nothing has been stored in currentSpelling yet.
+        /// </summary>
         private void coords()
         {
             if (currentSpelling.ToString() == "")
@@ -76,7 +72,11 @@ namespace MultiAgentSystem
             }
         }
 
-        // Used to check if the char is a digit (0-9) and returns true if it is
+        /// <summary>
+        /// Checks if the char is a digit (0-9)
+        /// </summary>
+        /// <param name="c">Any char</param>
+        /// <returns>True if its a digit</returns>
         private bool isDigit(char c)
         {
             switch (c)
@@ -96,7 +96,11 @@ namespace MultiAgentSystem
             return false;
         }
 
-        // Checks if the char is a letter (a-z) and returns true if it is
+        /// <summary>
+        /// Checks if the char is a letter (a-z)
+        /// </summary>
+        /// <param name="c">Any char</param>
+        /// <returns>True if its a letter.</returns>
         private bool isLetter(char c)
         {
             switch (char.ToLower(c))
@@ -132,8 +136,12 @@ namespace MultiAgentSystem
             return false;
         }
 
-        /* Checks if the next char is a * and the char after that is a / 
-         * if this is true it returns false and the loop breaks because the comment has ended */
+        /// <summary>
+        /// Checks if the next char is a * and the char after that is a /
+        /// if this is true it returns false and the loop breaks because the comment has ended.
+        /// </summary>
+        /// <param name="c">Any character</param>
+        /// <returns>Flase if the comment has ended.</returns>
         private bool isMultiLineComment(char c)
         {
             if (c == '*')
@@ -148,8 +156,12 @@ namespace MultiAgentSystem
             return true;
         }
 
-        /* Checks if the next char is a newline and returns false 
-         * to break the loop and end the comment section */
+        /// <summary>
+        /// Checks if the next char is a newline and returns false 
+        /// to break the loop and end the comment section.
+        /// </summary>
+        /// <param name="c">Any character</param>
+        /// <returns>False if the comment has ended.</returns>
         private bool isOneLineComment(char c)
         {
             if (c == '\n')
@@ -160,8 +172,10 @@ namespace MultiAgentSystem
             return true;
         }
 
-        /* Ignores the current Character if its a blank space or a newline 
-         * Ignores everything between in multiline comments with the loop using the isMultiLineCommen method */
+        /// <summary>
+        /// Ignores the current Character if its a blank space or a newline 
+        /// Ignores everything between in multiline comments with the loop using the isMultiLineCommen method.
+        /// </summary>
         private void scanSeperator()
         {
             switch (currentChar)
@@ -215,9 +229,11 @@ namespace MultiAgentSystem
             }
         }
 
-        /* As long as the current character is a digit append it to the string and
-         * read the next untill no digit is read
-         * if a . is read build the last part of the digit */
+        /// <summary>
+        /// As long as the current character is a digit append it to the string and
+        /// read the next untill no digit is read
+        /// if a . is read build the last part of the digit.
+        /// </summary>
         private void scanDigit()
         {
             while (isDigit(currentChar))
@@ -232,8 +248,10 @@ namespace MultiAgentSystem
             }
         }
 
-        /* Reads currentChar untill the current character is " and checks if the previous character " was \ (\")
-         * If the previous character wasn't \ the string has been completed and is returned */
+        /// <summary>
+        /// Reads currentChar untill the current character is " and checks if the previous character " was \ (\")
+        /// If the previous character wasn't \ the string has been completed and is returned.
+        /// </summary>
         private void scanString()
         {
             char lastChar;
@@ -249,8 +267,11 @@ namespace MultiAgentSystem
             }
         }
 
-        /* Scans the current Character and returns the corresponding byte value 
-         * (to the token) while building the string which is identifying the token */
+        /// <summary>
+        /// Scans the current Character and returns the corresponding byte value 
+        /// (to the token) while building the string which is identifying the token.
+        /// </summary>
+        /// <returns>(int) kind if the token</returns>
         private int scanToken()
         {
             if (isLetter(currentChar))
@@ -352,7 +373,10 @@ namespace MultiAgentSystem
             }
         }
 
-        // if the next character exists return it, if not return next line char
+        /// <summary>
+        /// if the next character exists return it, if not return next line char.
+        /// </summary>
+        /// <returns>Next character from the source</returns>
         private char nextSourceChar()
         {
             if (charCounter < charLine.Length)
@@ -362,6 +386,9 @@ namespace MultiAgentSystem
             return '\n';
         }
 
+        /// <summary>
+        /// Initializes the scanner, from the path in the Program class.
+        /// </summary>
         public Scanzor()
         {
             // Checks whether the file exists or not.
@@ -379,6 +406,10 @@ namespace MultiAgentSystem
             currentChar = charLine[charCounter++];
         }
 
+        /// <summary>
+        /// Scans the next token from the source file.
+        /// </summary>
+        /// <returns>The token consisting of, kind, spelling and a coordinate.</returns>
         public Token scan()
         {
             // If looking at a seperator, take the next character and start building a new string
