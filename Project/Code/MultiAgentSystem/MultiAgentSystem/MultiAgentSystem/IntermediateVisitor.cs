@@ -159,27 +159,10 @@ namespace MultiAgentSystem
             }
             else if (objectDeclaration.input == null && dummyInput != null)
             {
+                gException.containedExceptions.Add(new GrammarException(
+                        PrintErrorMessage(_object.row)));
                 throwException = true;
                 Printer.ErrorMarker();
-
-                Token temp;
-                string errorMessage = "(Line " + _object.row + ") This constructor takes ";
-                Input current = dummyInput;
-                do
-                {
-                    temp = (Token)current.firstVar.visit(this, arg);
-                    errorMessage += temp.spelling;
-                    if (!current.Mandatory)
-                    {
-                        errorMessage += " (optional)";
-                    }
-                    errorMessage += ", ";
-                    current = current.nextVar;
-                }
-                while (current != null);
-                errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-                errorMessage += " as input.";
-                gException.containedExceptions.Add(new GrammarException(errorMessage));
             }
 
             Printer.Collapse();
@@ -349,25 +332,8 @@ namespace MultiAgentSystem
             }
             else if (methodCall.input == null && dummyInput != null)
             {
-                Token temp;
-                string errorMessage = "(Line " + identifier.row + ") This method must have an ";
-                Input current = dummyInput;
-                do
-                {
-                    temp = (Token)current.firstVar.visit(this, arg);
-                    errorMessage += temp.spelling;
-                    if (!current.Mandatory)
-                    {
-                        errorMessage += " (optional)";
-                    }
-                    errorMessage += ", ";
-                    current = current.nextVar;
-                }
-                while (current != null);
-                errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-                errorMessage += " as input.";
-
-                gException.containedExceptions.Add(new GrammarException(errorMessage));
+                gException.containedExceptions.Add(new GrammarException(
+                    PrintErrorMessage(identifier.row)));
                 throwException = true;
                 Printer.ErrorMarker();
             }
@@ -438,66 +404,16 @@ namespace MultiAgentSystem
                     dummyVar = (Token)currentDummyInput.firstVar.visit(this, arg);
                     if (firstVar.kind != dummyVar.kind && currentDummyInput.Mandatory)
                     {
-                        Token temp;
-                        string errorMessage = "(Line " + firstVar.row + ") ";
-                        Input current = input;
-                        do
-                        {
-                            temp = (Token)current.firstVar.visit(this, arg);
-                            errorMessage += temp.spelling;
-                            if (!current.Mandatory)
-                            {
-                                errorMessage += " (optional)";
-                            }
-                            errorMessage += ", ";
-                            current = current.nextVar;
-                        }
-                        while (current != null);
-                        errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-                        errorMessage += " was not legal input. This is the legal input: ";
-                        current = dummyInput;
-                        do
-                        {
-                            temp = (Token)current.firstVar.visit(this, arg);
-                            errorMessage += temp.spelling;
-                            if (!current.Mandatory)
-                            {
-                                errorMessage += " (optional)";
-                            }
-                            errorMessage += ", ";
-                            current = current.nextVar;
-                        }
-                        while (current != null);
-                        errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-                        errorMessage += ".";
-
-                        gException.containedExceptions.Add(new GrammarException(errorMessage));
+                        gException.containedExceptions.Add(new GrammarException(
+                            PrintErrorMessage(firstVar.row)));
                         throwException = true;
                         Printer.ErrorMarker();
                     }
                 }
                 else
                 {
-                    string errorMessage = "(Line " + firstVar.row + ") " +
-                        "The given input was not legal. This is the legal input: ";
-                    Token temp;
-                    Input current = dummyInput;
-                    do
-                    {
-                        temp = (Token)current.firstVar.visit(this, arg);
-                        errorMessage += temp.spelling;
-                        if (!current.Mandatory)
-                        {
-                            errorMessage += " (optional)";
-                        }
-                        errorMessage += ", ";
-                        current = current.nextVar;
-                    }
-                    while (current != null);
-                    errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-                    errorMessage += ".";
-
-                    gException.containedExceptions.Add(new GrammarException(errorMessage));
+                    gException.containedExceptions.Add(new GrammarException(
+                        PrintErrorMessage(firstVar.row)));
                     throwException = true;
                     Printer.ErrorMarker();
                 }
@@ -574,6 +490,30 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
+        }
+
+        private string PrintErrorMessage(int line)
+        {
+            string errorMessage = "(Line " + line + ") " +
+                        "The given input was not legal. \n\tThe legal input is: ";
+            Token temp;
+            Input current = dummyInput;
+            do
+            {
+                temp = (Token)current.firstVar.visit(this, null);
+                errorMessage += temp.spelling;
+                if (!current.Mandatory)
+                {
+                    errorMessage += " (optional)";
+                }
+                errorMessage += ", ";
+                current = current.nextVar;
+            }
+            while (current != null);
+            errorMessage = errorMessage.Remove(errorMessage.Length - 2);
+            errorMessage += ".";
+
+            return errorMessage;
         }
     }
 }
