@@ -145,6 +145,8 @@ namespace MultiAgentSystem
 
         public static void Aparture()
         {
+            ConsoleColor tmpColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(
 @"               ',-:;//;:=
           . :H@@@MM@M#H/.,+%;,
@@ -156,17 +158,18 @@ namespace MultiAgentSystem
  =-./@M@M$                  .;@MMMM@MM:
  X@/ -@MM/                    .+MM@@@M$
 ,@M@H  :@:                    . =X#@@@@-
-,@@@MMX,  .                        ;@M@M=
-.H@@@@M@+,                         .%#$. 
- /MMMM@MMH/.                     /\   =;               _
+,@@@MMX,  .                       ;@M@M=
+.H@@@@M@+,                        .%#$. 
+ /MMMM@MMH/.                     /\  =;                _
   /%+%$XHH@$=              ,    /  \   _ __   ___ _ __| |_ _   _ _ __ ___
    .=--------.           -%H.  / /\ \ | '_ \ / _ \ '__| __| | | | '__/ _ \
    .%MM@@@HHHXX$$$%+- .:$MMX  / ____ \| |_) |  __/ |  | |_| |_| | | |  __/
      =XMMM@MM@MM#H;.-+HMM@M+ /_/    \_\ .__/ \___|_|   \__|\__,_|_|  \___|
-       =%@M@M#@$-.=$@MM@@@M;          | | ''We do what we must, because we can''
+       =%@M@M#@$-.=$@MM@@@M;          | | We do what we must, because we can
          ,:+$+-,/H#MMMMMMM@=          |_|
                =++%%%%+/:-.
             ");
+            Console.ForegroundColor = tmpColor;
         }
 
         #endregion
