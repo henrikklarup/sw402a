@@ -49,6 +49,7 @@
     <Compile Include="GrammarException.cs" />
     <Compile Include="IdentificationTable.cs" />
     <Compile Include="IntermediateVisitor.cs" />
+    <Compile Include="MASMethodLibrary.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Program.cs" />
