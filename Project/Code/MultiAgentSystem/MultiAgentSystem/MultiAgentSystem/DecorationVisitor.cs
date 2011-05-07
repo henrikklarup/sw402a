@@ -11,7 +11,6 @@ namespace MultiAgentSystem
         // Exception for catching errors.
         private GrammarException gException = 
             new GrammarException("These errors were found during decoration:");
-        private bool throwException = false;
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
