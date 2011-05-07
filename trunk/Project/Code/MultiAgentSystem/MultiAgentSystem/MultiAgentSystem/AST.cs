@@ -8,21 +8,21 @@ namespace MultiAgentSystem
     /* All these classes are used by the parser to create the Abstract Syntax Tree.
      * The descriptions above the classes, in the AST file, is the function syntax.
     */
-    abstract class AST
+    public abstract class AST
     {
         public abstract object visit(Visitor v, object arg);
     }
 
-    abstract class Command : AST
+    public abstract class Command : AST
     {
     }
 
-    abstract class Terminal : AST
+    public abstract class Terminal : AST
     {
     }
 
     // Main input block
-    class Mainblock : AST
+    public class Mainblock : AST
     {
         public Input input;
         //The block part of the mainblock
@@ -43,7 +43,7 @@ namespace MultiAgentSystem
     }
     
     // { commands }
-    class Block : AST
+    public class Block : AST
     {
         // All Commands contained in the block.
         public List<Command> commands;
@@ -58,7 +58,7 @@ namespace MultiAgentSystem
     }
 
     // new ObjectKind ObjectName ( Input )
-    class ObjectDeclaration : Command
+    public class ObjectDeclaration : Command
     {
         // What kind of object is being declared.
         public Object _object;
@@ -83,7 +83,7 @@ namespace MultiAgentSystem
     }
 
     // Type VarName = Becomes (BOOL / STRING / NUM / IDENTIFIER / EXPRESSION)
-    class TypeDeclaration : Command
+    public class TypeDeclaration : Command
     {
         // What kind of variable is being declared (bool, string or num).
         public MASType Type;
@@ -101,7 +101,7 @@ namespace MultiAgentSystem
     }
     
     // AGENT / TEAM / etc.
-    class Object : Terminal
+    public class Object : Terminal
     {
         // Name of the object (Agent, Team, etc.)
         public Token token;
@@ -118,7 +118,7 @@ namespace MultiAgentSystem
     }
 
     // if ( Expression ) ifBlock elseBlock
-    class IfCommand : Command
+    public class IfCommand : Command
     {
         // The expression being evaluated.
         public Expression Expression;
@@ -148,7 +148,7 @@ namespace MultiAgentSystem
     }
 
     // for ( CounterDeclaration ; LoopExpression ; CounterExpression ) ForBlock
-    class ForCommand : Command
+    public class ForCommand : Command
     {
         // The type declaration with the counter variable.
         public TypeDeclaration CounterDeclaration;
@@ -177,7 +177,7 @@ namespace MultiAgentSystem
     }
 
     // while ( LoopExpression ) WhileBlock
-    class WhileCommand : Command
+    public class WhileCommand : Command
     {
         public Expression LoopExpression;
         public Block WhileBlock;
@@ -195,7 +195,7 @@ namespace MultiAgentSystem
     }
 
     // Identifier.(NextLinkedIdentifier.Identifier).(etc.) (recursive, continues in each LinkedIdentifier object)
-    class LinkedIdentifier : Terminal
+    public class LinkedIdentifier : Terminal
     {
         // Identifier of the object or method being held here.
         public Identifier Identifier;
@@ -213,7 +213,7 @@ namespace MultiAgentSystem
     }
 
     // LinkedIdentifier ( Input )
-    class MethodCall : Command
+    public class MethodCall : Command
     {
         // Path to the method, including the method name.
         public LinkedIdentifier linkedIdentifier;
@@ -234,7 +234,7 @@ namespace MultiAgentSystem
     }
 
     // ident = becomes
-    class AssignCommand : Command
+    public class AssignCommand : Command
     {
         public LinkedIdentifier ident;
         public AST becomes;
@@ -258,14 +258,14 @@ namespace MultiAgentSystem
         }
     }
 
-    abstract class ExpressionAST : Command
+    public abstract class ExpressionAST : Command
     { }
 
     /// <summary>
     /// Can consist of other expressions, or an arbitrary combination of variables and numbers.
     /// Syntax: primary-expression operator primary-expression
     /// </summary>
-    class Expression : ExpressionAST
+    public class Expression : ExpressionAST
     {
         public Token basicToken = null;
         public AST primaryExpression_1;
@@ -290,7 +290,7 @@ namespace MultiAgentSystem
     }
 
     // Any token of kind Identifier.
-    class Identifier : Terminal
+    public class Identifier : Terminal
     {
         public Token token;
         
@@ -306,7 +306,7 @@ namespace MultiAgentSystem
     }
 
     // Any token of kind Operator.
-    class Operator : Terminal
+    public class Operator : Terminal
     {
         public Token token;
 
@@ -324,7 +324,7 @@ namespace MultiAgentSystem
     /// <summary>
     /// Syntax: (variable | identifier (, variable | , identifier)* )+
     /// </summary>
-    class Input : AST
+    public class Input : AST
     {
         // Used to manage input for different overloads.
         public bool Mandatory = true;
@@ -345,7 +345,7 @@ namespace MultiAgentSystem
     }
 
     // Any variable.
-    class MASVariable : Terminal
+    public class MASVariable : Terminal
     {
         public Token token;
 
@@ -361,7 +361,7 @@ namespace MultiAgentSystem
     }
 
     // Booleans of the system.
-    class MASBool : Terminal
+    public class MASBool : Terminal
     {
         public Token token;
 
@@ -377,7 +377,7 @@ namespace MultiAgentSystem
     }
 
     // Strings of the system.
-    class MASString : Terminal
+    public class MASString : Terminal
     {
         public Token token;
 
@@ -393,7 +393,7 @@ namespace MultiAgentSystem
     }
 
     // Numbers of the system.
-    class MASNumber : Terminal
+    public class MASNumber : Terminal
     {
         public Token token;
 
@@ -409,7 +409,7 @@ namespace MultiAgentSystem
     }
 
     // Types of the system (either bool, num or string)
-    class MASType : Terminal
+    public class MASType : Terminal
     {
         public Token token;
 
