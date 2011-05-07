@@ -11,7 +11,8 @@ namespace MultiAgentSystem
         // Exception for catching errors.
         private GrammarException gException =
             new GrammarException("These inputs and methods were illegal:");
-        private bool throwException = false;
+
+        private Methods methods = new Methods();
 
         private MASNumber dummyNumber = new MASNumber(
             new Token((int)Token.keywords.NUMBER, "", -1, -1));
@@ -278,35 +279,43 @@ namespace MultiAgentSystem
 
             Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
 
-            string method = identifier.spelling.Remove(0, identifier.spelling.Length - 3).ToLower();
-            string name = identifier.spelling.Remove(identifier.spelling.Length - 4);
+            string[] names = identifier.spelling.Split('.');
+            string method = names[names.Length - 1];
+
+            string name = identifier.spelling.Remove(identifier.spelling.Length - (method.Length + 1));
 
             int kind = IdentificationTable.retrieve(name);
+
+            List<MASMethod> Methods;
 
             switch (kind)
             {
                 case (int)Token.keywords.SQUAD:
-                case (int)Token.keywords.TEAM:
-                    if (method != "add")
+                    Methods = MASMethodLibrary.FindMethod(method, kind);
+                    if (Methods.Count < 1)
                     {
-                        throwException = true;
-                        gException.containedExceptions.Add(new GrammarException("(Line " +
-                            identifier.row + ") Only the add-method is valid" +
-                            " for action patterns, squads and teams."));
+                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
                     }
-                    else
+                    else if (Methods.Count == 1)
                     {
-                        dummyAgent.token.spelling = "agent";
-                        dummyInput.firstVar = dummyAgent;
+                        dummyInput = Methods.ElementAt(0).ValidInput;
+                    }
+                    break;
+                case (int)Token.keywords.TEAM:
+                    Methods = MASMethodLibrary.FindMethod(method, kind);
+                    if (Methods.Count < 1)
+                    {
+                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
+                    }
+                    else if (Methods.Count == 1)
+                    {
+                        dummyInput = Methods.ElementAt(0).ValidInput;
                     }
                     break;
                 case (int)Token.keywords.ACTION_PATTERN:
                     if (method != "add")
                     {
-                        throwException = true;
-                        gException.containedExceptions.Add(new GrammarException("(Line " +
-                            identifier.row + ") Only the add-method is valid" +
-                            " for action patterns, squads and teams."));
+                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
                     }
                     else
                     {
@@ -317,10 +326,7 @@ namespace MultiAgentSystem
                 default:
                     if (method != "add")
                     {
-                        throwException = true;
-                        gException.containedExceptions.Add(new GrammarException("(Line " +
-                            identifier.row + ") Only the add-method is valid" +
-                            " for action patterns, squads and teams."));
+                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
                     }
                     dummyInput = null;
                     break;
@@ -496,22 +502,22 @@ namespace MultiAgentSystem
         {
             string errorMessage = "(Line " + line + ") " +
                         "The given input was not legal. \n\tThe legal input is: ";
-            Token temp;
-            Input current = dummyInput;
-            do
-            {
-                temp = (Token)current.firstVar.visit(this, null);
-                errorMessage += temp.spelling;
-                if (!current.Mandatory)
-                {
-                    errorMessage += " (optional)";
-                }
-                errorMessage += ", ";
-                current = current.nextVar;
-            }
-            while (current != null);
-            errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-            errorMessage += ".";
+            //Token temp;
+            //Input current = dummyInput;
+            //do
+            //{
+            //    temp = (Token)current.firstVar.visit(this, null);
+            //    errorMessage += temp.spelling;
+            //    if (!current.Mandatory)
+            //    {
+            //        errorMessage += " (optional)";
+            //    }
+            //    errorMessage += ", ";
+            //    current = current.nextVar;
+            //}
+            //while (current != null);
+            //errorMessage = errorMessage.Remove(errorMessage.Length - 2);
+            //errorMessage += ".";
 
             return errorMessage;
         }

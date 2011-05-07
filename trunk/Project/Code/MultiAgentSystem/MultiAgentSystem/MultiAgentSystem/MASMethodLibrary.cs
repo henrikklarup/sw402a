@@ -40,9 +40,11 @@ namespace MultiAgentSystem
             Input temp = new Input();
             Token t = new Token(-1, "", -1, -1);
 
+            // Methods and overloads that only take an agent as input:
             t.kind = (int)Token.keywords.AGENT;
             temp.firstVar = new Identifier(t);
-            AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(temp);
+            AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(temp, "add", (int)Token.keywords.TEAM);
+            AddAgentToSquad addAgentToSquad1 = new AddAgentToSquad(temp, "add", (int)Token.keywords.SQUAD);
         }
     }
 
@@ -51,10 +53,8 @@ namespace MultiAgentSystem
     /// </summary>
     class AddAgentToTeam : MASMethod, ICodeTemplate
     {
-        public AddAgentToTeam(Input input) : base(input)
+        public AddAgentToTeam(Input input, string name, int useWith) : base(input, name, useWith)
         {
-            this._name = "add";
-            this._useWith = (int)Token.keywords.TEAM;
             this._returnKind = (int)Token.keywords.ERROR;
         }
 
@@ -74,15 +74,50 @@ namespace MultiAgentSystem
         /// and specifies how it should be used.
         /// </summary>
         /// <returns>A string containing the errormessage.</returns>
-        public string PrintInvalidErrorMessage()
+        public string PrintInvalidErrorMessage(int linenumber)
         {
-            return "The given input was not legal. This method takes an agent as input.";
+            return "(Line " + linenumber + 
+                ") The given input was not legal. This method takes an agent as input.";
+        }
+    }
+
+    /// <summary>
+    /// Method for adding an agent to a team.
+    /// </summary>
+    class AddAgentToSquad : MASMethod, ICodeTemplate
+    {
+        public AddAgentToSquad(Input input, string name, int useWith)
+            : base(input, name, useWith)
+        {
+            this._returnKind = (int)Token.keywords.ERROR;
+        }
+
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the squad.</param>
+        /// <param name="two">Name of the agent.</param>
+        /// <returns>A string containing the C# code.</returns>
+        public string PrintGeneratedCode(string one, string two)
+        {
+            return one + ".agents.add(" + two + ");";
+        }
+
+        /// <summary>
+        /// A method that prints an errormessage for when the object isn't used correctly, 
+        /// and specifies how it should be used.
+        /// </summary>
+        /// <returns>A string containing the errormessage.</returns>
+        public string PrintInvalidErrorMessage(int linenumber)
+        {
+            return "(Line " + linenumber +
+                ") The given input was not legal. This method takes an agent as input.";
         }
     }
 
     public abstract class MASMethod
     {
-        internal string _name;
+        protected string _name;
 
         /// <summary>
         /// The name/spelling of the method.
@@ -92,7 +127,7 @@ namespace MultiAgentSystem
             get { return _name; }
         }
 
-        internal int _useWith;
+        protected int _useWith;
 
         /// <summary>
         /// The kind of object that this code method should be used with.
@@ -103,7 +138,7 @@ namespace MultiAgentSystem
             get { return _useWith; }
         }
 
-        internal int _returnKind;
+        protected int _returnKind;
 
         /// <summary>
         /// Specifies the type of the object that is returned by the method.
@@ -114,7 +149,7 @@ namespace MultiAgentSystem
             get { return _returnKind; }
         }
 
-        internal int _overloadID;
+        protected int _overloadID;
 
         /// <summary>
         /// Specifies the ID of the overload, making it easier to identify individual overloads.
@@ -124,7 +159,7 @@ namespace MultiAgentSystem
             get { return _overloadID; }
         }
 
-        internal Input _validInput;
+        protected Input _validInput;
 
         /// <summary>
         /// Specifies the valid input for this method.
@@ -134,8 +169,10 @@ namespace MultiAgentSystem
             get { return _validInput; }
         }
 
-        public MASMethod(Input input)
+        public MASMethod(Input input, string name, int useWith)
         {
+            this._name = name;
+            this._useWith = useWith;
             this._overloadID = GetOverLoadID(_name, _useWith);
             this._validInput = input;
             MASMethodLibrary.MethodLibrary.Add(this);
@@ -162,6 +199,6 @@ namespace MultiAgentSystem
             get;
         }
 
-        string PrintInvalidErrorMessage();
+        string PrintInvalidErrorMessage(int linenumber);
     }
 }

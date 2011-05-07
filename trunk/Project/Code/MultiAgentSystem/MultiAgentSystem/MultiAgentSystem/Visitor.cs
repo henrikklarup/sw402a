@@ -8,6 +8,8 @@ namespace MultiAgentSystem
 {
     public abstract class Visitor
     {
+        protected bool throwException = false;
+
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
         /// visits the Main Block.
@@ -115,5 +117,19 @@ namespace MultiAgentSystem
         internal abstract object visitMASVariable(MASVariable mASVariable, object arg);
 
         internal abstract object visitAssignCommand(AssignCommand assignCommand, object arg);
+
+        protected string GenerateError(int line, string text)
+        {
+            Printer.ErrorMarker();
+            throwException = true;
+            return "(Line " + line + ") " + text;
+        }
+
+        protected string GenerateError(string text)
+        {
+            Printer.ErrorMarker();
+            throwException = true;
+            return text;
+        }
     }
 }
