@@ -120,18 +120,25 @@ namespace MultiAgentSystem
 
         internal abstract object visitAssignCommand(AssignCommand assignCommand, object arg);
 
+        /// <summary>
+        /// Returns a given error message with line number and the proper error markings.
+        /// </summary>
+        /// <param name="line">Line number of the error.</param>
+        /// <param name="text">Text to follow the linenumber.</param>
+        /// <returns>String containing the full error.</returns>
         protected string GenerateError(int line, string text)
         {
-            Printer.ErrorMarker();
-            throwException = true;
+            GenerateError();
             return "(Line " + line + ") " + text;
         }
 
-        protected string GenerateError(string text)
+        /// <summary>
+        /// Generates an error in the code.
+        /// </summary>
+        protected void GenerateError()
         {
             Printer.ErrorMarker();
             throwException = true;
-            return text;
         }
     }
 }

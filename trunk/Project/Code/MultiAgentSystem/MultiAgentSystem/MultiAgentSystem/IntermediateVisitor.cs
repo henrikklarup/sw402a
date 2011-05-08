@@ -6,13 +6,11 @@ using System.IO;
 
 namespace MultiAgentSystem
 {
-    class IntermediateVisitor : Visitor
+    public class IntermediateVisitor : Visitor
     {
         // Exception for catching errors.
         private GrammarException gException =
             new GrammarException("These inputs and methods were illegal:");
-
-        private Methods methods = new Methods();
 
         private MASNumber dummyNumber = new MASNumber(
             new Token((int)Token.keywords.NUMBER, "", -1, -1));
@@ -56,10 +54,11 @@ namespace MultiAgentSystem
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            dummyNumber.token.spelling = "points allocated";
-            dummyInput.firstVar = dummyNumber;
+            // Valid input for the mainblock:
+            Input ValidInput = new Input();
+            ValidInput.firstVar = new Identifier(new Token((int)Token.keywords.NUMBER, "", -1, -1));
 
-            block.input.visit(this, dummyInput);
+            block.input.visit(this, ValidInput);
             block.block.visit(this, arg);
 
             Printer.Collapse();
@@ -160,9 +159,8 @@ namespace MultiAgentSystem
             else if (objectDeclaration.input == null && dummyInput != null)
             {
                 gException.containedExceptions.Add(new GrammarException(
-                        PrintErrorMessage(_object.row)));
-                throwException = true;
-                Printer.ErrorMarker();
+                        "heu - object declaration"));
+                GenerateError();
             }
 
             Printer.Collapse();
@@ -274,44 +272,56 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Method Call");
 
-            dummyInput = new Input();
-
             Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
 
+            /* To test the method, a list of overloads is found that matches the method,
+             * and a valid input is derived from the best matching overload. 
+             * This input is then tested against what was given in the method. */
+
+            // Find the name of the method called.
             string[] names = identifier.spelling.Split('.');
             string method = names[names.Length - 1];
 
+            // Name of the object the method is called on, and its kind.
             string name = identifier.spelling.Remove(identifier.spelling.Length - (method.Length + 1));
-
             int kind = IdentificationTable.retrieve(name);
 
-            List<MASMethod> Methods = MASMethodLibrary.FindMethod(method, kind);
+            // The input to test against.
+            Input ValidInput = null;
+
+            // The list of overloads for the method.
+            List<MASMethod> Methods = MASLibrary.FindMethod(method, kind);
+
             if (Methods.Count < 1)
             {
+                // If no methods were found, the method name isn't correct.
                 gException.containedExceptions.Add(new GrammarException(
                     GenerateError(identifier.row, "'" + method + "' is not a valid method.")));
-                
             }
             else if (Methods.Count == 1)
             {
-                dummyInput = Methods.ElementAt(0).ValidInput;
+                // If only one method is found, use its valid input to test against.
+                ValidInput = Methods.ElementAt(0).ValidInput;
             }
             else
             {
-                methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
+                // If several overloads are found, use OverloadVisit to find the best match for the input.
+                ValidInput = methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
             }
 
+            // Visit the input if it exists.
             if (methodCall.input != null)
             {
-                methodCall.input.visit(this, dummyInput);
+                methodCall.input.visit(this, ValidInput);
             }
-            else if (methodCall.input == null && dummyInput != null)
+            else if (methodCall.input == null && ValidInput != null)
             {
+                // If the two are different, but the input doesn't exist, give an error.
                 gException.containedExceptions.Add(new GrammarException(
-                    PrintErrorMessage(identifier.row)));
-                throwException = true;
-                Printer.ErrorMarker();
+                    Methods.ElementAt(0).PrintInvalidErrorMessage(identifier.row)));
+                GenerateError();
             }
+            
             return null;
         }
 
@@ -352,45 +362,53 @@ namespace MultiAgentSystem
             Printer.WriteLine("Input");
             Printer.Expand();
 
-            Input currentDummyInput = new Input();
+            /*  */
+
+            // The current valid input is reset.
+            Input currentValidInput = new Input();
 
             if (arg != null)
             {
-                currentDummyInput = (Input)arg;
+                // If a new input was given, use it.
+                currentValidInput = (Input)arg;
             }
 
             Token firstVar, dummyVar;
 
             if (input.firstVar != null)
             {
+                // If the next input exists, visit it with the next valid input as arg.
                 if (input.nextVar != null)
                 {
-                    input.nextVar.visit(this, currentDummyInput.nextVar);
+                    input.nextVar.visit(this, currentValidInput.nextVar);
                 }
 
                 firstVar = (Token)input.firstVar.visit(this, arg);
+                /* If firstVar turns out to be an identifier, 
+                 * look it up in the ID table to get the real kind. */
                 if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
                 {
                     firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
                 }
 
-                if (currentDummyInput.firstVar != null)
+                if (currentValidInput.firstVar != null)
                 {
-                    string s = ((Token.keywords)firstVar.kind).ToString();
-                    dummyVar = (Token)currentDummyInput.firstVar.visit(this, arg);
-                    string t = ((Token.keywords)dummyVar.kind).ToString();
+                    dummyVar = (Token)currentValidInput.firstVar.visit(this, arg);
+                    /* So far in the proces, the valid input matches the given input
+                     * and if the kinds match too, then they match perfectly. If not, give an error. */
                     if (firstVar.kind != dummyVar.kind)
                     {
                         gException.containedExceptions.Add(new GrammarException(
-                            PrintErrorMessage(firstVar.row)));
+                            /*PrintErrorMessage(firstVar.row)*/firstVar.row + "iubhuhy"));
                         throwException = true;
                         Printer.ErrorMarker();
                     }
                 }
+                // If the given input is different from null, but the valid input is not, give error.
                 else
                 {
                     gException.containedExceptions.Add(new GrammarException(
-                        PrintErrorMessage(firstVar.row)));
+                        /*PrintErrorMessage(firstVar.row)*/firstVar.row + "iubhuhy"));
                     throwException = true;
                     Printer.ErrorMarker();
                 }
@@ -439,7 +457,8 @@ namespace MultiAgentSystem
 
             if (arg.Count != 1)
             {
-                gException.containedExceptions.Add(new GrammarException(GenerateError(line, "No suited overload was found.")));
+                gException.containedExceptions.Add(new GrammarException(
+                    GenerateError(line, "No correct overload was found for this method.")));
                 return null;
             }
             else
@@ -454,10 +473,8 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             Token identifier;
-            string ident;
 
             identifier = (Token)LinkedIdentifier.Identifier.visit(this, arg);
-            ident = identifier.spelling;
 
             if (LinkedIdentifier.NextLinkedIdentifier != null)
             {
@@ -515,30 +532,6 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
-        }
-
-        private string PrintErrorMessage(int line)
-        {
-            string errorMessage = "(Line " + line + ") " +
-                        "The given input was not legal. \n\tThe legal input is: ";
-            //Token temp;
-            //Input current = dummyInput;
-            //do
-            //{
-            //    temp = (Token)current.firstVar.visit(this, null);
-            //    errorMessage += temp.spelling;
-            //    if (!current.Mandatory)
-            //    {
-            //        errorMessage += " (optional)";
-            //    }
-            //    errorMessage += ", ";
-            //    current = current.nextVar;
-            //}
-            //while (current != null);
-            //errorMessage = errorMessage.Remove(errorMessage.Length - 2);
-            //errorMessage += ".";
-
-            return errorMessage;
         }
     }
 }
