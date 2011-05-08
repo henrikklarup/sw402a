@@ -326,9 +326,6 @@ namespace MultiAgentSystem
     /// </summary>
     public class Input : AST
     {
-        // Used to manage input for different overloads.
-        public bool Mandatory = true;
-
         // The first input variable.
         public AST firstVar = null;
 
@@ -341,6 +338,11 @@ namespace MultiAgentSystem
         public override object visit(Visitor v, object arg)
         {
             return v.visitInput(this, arg);
+        }
+
+        public Input OverloadVisit(Visitor v, List<Input> arg, int line)
+        {
+            return v.visitOverload(this, arg, line);
         }
     }
 
