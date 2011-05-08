@@ -1,0 +1,87 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 10. kursusgang}
+\author{Rasmus Aaen}
+\date{}
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Hvordan kan man af big-step-reglerne for repeat-løkker se, at
+  betingelsen skal evalueres \emph{efter} hvert gennemløb af løkkens
+  krop? Vær så præcis som muligt; brug bogens notation.
+\begin{svar}
+Den skal udføre kommandoen $S$ indtil betingelsen $b$ evaluerer til sand. Det ses ud fra reglerne, at udtrykket, uanset om det er $\texttt{[REPEAT-FALSK]}$ eller $\texttt{[REPEAT-SAND]}$, resulterer i $s \rightarrow s'$. (se side 64)
+\end{svar}
+\item Hvad har Sætning 5.2 med semantisk ækvivalens at gøre? Vær så
+  præcis som muligt i dit svar; brug bogens notation.
+\begin{svar}
+Sætningen siger, at $\langle\texttt{repeat}  S  \texttt{until}  b, s\rangle \rightarrow s'$ gælder, hvis $\langle S; \texttt{while}  \neg  b  \texttt{do}  S, s\rangle \rightarrow s'$ gælder. Dvs. de to udtryk er semantisk ækvivalente når de, givet den samme start-tilstand, returnerer den samme slut-tilstand.
+\end{svar}
+\item I beviset for Sætning 5.2 benytter vi, at $s \vdash b \ra t \!
+  t$ hvis og kun hvis $s \vdash b \ra f \! f$. Hvordan kan vi se, at
+  dette gælder? Giv et præcist svar.
+\begin{svar}
+\end{svar}
+\item En studerende blev til eksamen bedt om at definere big-step semantisk
+  ækvivalens. Her er hvad han sagde:
+\begin{quote}
+  $S_1$ og $S_2$ er big-step semantisk ækvivalente, hvis der findes en
+  $s$ så $\langle S_1,s \rangle \ra s'$ og $\langle S_2,s \rangle \ra
+  s'$
+\end{quote}
+Er dette et korrekt svar? Hvis ja, så forklar hvorfor. Hvis nej, så giv
+det rigtige og præcise svar. Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Ja, det er korrekt. jvf bogen side 67, så er to kommandoer $S1$ og $S2$ semantisk ækvivalente hvis de, givet den samme starttilstand, returnerer den samme sluttilstand.
+\end{svar}
+\item En anden studerende blev til eksamen bedt om at definere big-step semantisk
+  ækvivalens. Her er hvad han sagde:
+\begin{quote}
+  Big-step semantisk ækvivalens er defineret ved at 
+\begin{itemize}
+\item $S_1 \sim_{bss}
+  S_1$, 
+\item hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_1$, og
+\item hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_3$, så også $S_1 \sim_{bss}   S_3$, og
+\end{itemize}
+\end{quote}
+Er dette definitionen af semantisk ækvivalens? Hvis ja, så forklar
+hvorfor. Hvis nej, så forklar hvorfor ikke, og hvad det så er, han har
+prøvet at udtrykke. Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+
+Nej, det ser ikke ud til at være den korrekte definition på semantisk ækvivalens. Man kan ikke starte med at sige at $S_1 \sim_{bss} S_1$, eller det kan man godt, men det giver ingen mening at sige at en kommando er semantisk ækvivalent med sig selv, hvis hvis $S_1 \sim_{bss}   S_2$ så også $S_2 \sim_{bss}   S_1$, osv.
+
+\end{svar}
+\item Hvor mange transitionsregler er der for
+  \texttt{abort}-kommandoen i big-step-semantikken? Og i
+  small-step-semantikken? Hvorfor?
+\begin{svar}
+Der er ingen transitionsregler for \texttt{abort} i nogen af dem, da der pr. definition kun er en transition, hvis vi kan finde et derivationstræ for den, ved brug af vores transitionsregler.
+\end{svar}
+\item Hvorfor gælder det at $\texttt{while}\; \texttt{0=0}\; \texttt{do}\; \texttt{skip}
+\sim_{sss} \texttt{abort}$? Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Der er semantisk ækvivalens mellem uendelige løkker og abnorm terminering.
+\end{svar}
+\item Hvad er forskellen på god \emph{(angelic)} og ond
+  \emph{(demonic)} nondeterminisme? Vær så præcis som muligt; brug bogens
+notation.
+\begin{svar}
+Big-step-semantik undertrykker uendelige løkker, dvs. uheldige valg giver ikke anledning til nogen transitioner. Dette kan man kalde \textit{god nondeterminisme}.\\
+Modsat er det i small-step-semantik, hvor uendelige løkker ikke undertrykkes, dvs. der dannes en uendelig transitionsfølge hvis man træffer et uheldigt valg (s. 72-73).
+\end{svar}
+\end{enumerate}
+\end{document}
+ 

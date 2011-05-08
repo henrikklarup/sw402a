@@ -1,0 +1,72 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål}
+\author{Rasmus Aaen}
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\section*{Spørgsmål til 1. kursusgang}
+\begin{enumerate}
+\item Lad $A$ og $B$ være mængder. Forklar med egne ord og derefter med en præis definition hvad $A \times B$ betegner.
+\begin{svar}
+$A \times B$ er alle mulige kombinationer af de to sprogs strenge.\\
+If $A = {1,2}$ and $B = {x,y}$,
+$A \times B = { (1,x), (1,y), (2,x), (2,y) }$
+\end{svar}
+\item Forklar med en præcis definition hvad et sprog er.
+\begin{svar}
+Et sprog er en mængde af strenge,\\
+En streng er en endelig følge af tegn fra et alfabet, $\Sigma$\\
+Et alfabet $\Sigma$ er en endelig mængde af tegn.
+\end{svar}
+\item Lad $L_{1}$ og $L_{2}$ være sprog over et 
+  alfabet $\Sigma$. Beskriv ved brug af bogens notation
+\begin{enumerate}
+\item Sproget af de strenge som enten er i $L_{1}$ eller $L_{2}$
+\item Sproget af de strenge som både er i $L_{1}$ og $L_{2}$
+\item Sproget af de strenge som består af en streng fra $L_{1}$ efterfulgt
+  af en streng fra $L_{2}$
+\item Sproget af de strenge som består af et antal (evt. $0$) strenge fra
+  $L_{1}$ eller $L_{2}$
+\item $L_{1}$ er et sprog over alfabetet $\Sigma$
+\end{enumerate}
+\begin{svar}
+\begin{enumerate}
+\item $L_{1} \cup L_{2}$
+\item $L_{1} \cap L_{2}$
+\item $L_{1} \circ L_{2}$
+\item $\Sigma = \{\varepsilon\}$
+\item $\Sigma = \{ L_{1,1},L_{1,2},...,L_{1,n} \}$
+\end{enumerate}
+
+\end{svar}
+\item Forklar med egne ord og derefter med en præcis definition hvordan $\delta: Q \times \Sigma \ra Q$ skal læses.
+\begin{svar}
+
+\end{svar}
+\item Hvad er et regulært sprog? Giv en præcis definition.
+\begin{svar}
+Et sprog $L_{1}$ er regulært hvis og kun hvis der findes en endelig automat
+\end{svar}
+\item Hvad er de regulære operationer?
+\begin{svar}
+\begin{enumerate}
+\item Forening $\cup: A \cup B = \{x|x \epsilon A$ eller $x \epsilon B\}$
+\item Konkatenering $\circ: A \circ B = \{xy | x \epsilon A, y \epsilon B\}$
+\item Kleene Stjernen: $^{*}: A^{*} = \{x_{1} ... x_{k} | \geq 0 , x_{i} \epsilon A $ for alle $i \}$
+\end{enumerate}
+\end{svar}
+\item Er de regulære sprog lukket under $\cup$? Hvis ja, forklar hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+
+\end{svar}
+\end{enumerate}
+
+\end{document}

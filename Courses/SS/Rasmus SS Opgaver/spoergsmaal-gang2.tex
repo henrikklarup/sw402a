@@ -1,0 +1,55 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 2. kursusgang}
+\author{Rasmus Aaen}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item En NFA og en DFA er begge defineret som 5-tupler. Hvad er de præcise forskelle på en NFA og en DFA?
+\begin{svar}
+NFA = Nondeterministisk Endelig Automat, DFA = deterministisk Endelig Automat\\
+De fungere på samme måde, men den nondeterministiske endelige automat, kan have flere set tilstande til et input, fx. kan "`a"' fra en enkelt tilstand godt have 0 eller flere tilstande at gå til.
+\end{svar}
+\item Overføringsfunktionen $\delta$ kan beskrives med en tabel. Hvis
+  en NFA ikke har nogen transitioner mærket $b$ fra en tilstand $q$,
+  hvordan kommer det da til udtryk i tabellen for $\delta$?
+\begin{svar}
+Vi markere dette ved at skrive "`Ø"'.
+\end{svar}
+\item Forklar med egne ord og dernæst med en præcis definition, hvornår en NFA $M$ accepterer en inputstreng $w$.
+\begin{svar}
+Præcis: En NFA $M$ acceptere en inputstreng $w$, hvis en af "`kopierne"' af $M$ er en accept tilstand med inputstrengen $w$.
+\end{svar}
+\item Hvad er det vigtige resultat om sammenhængen mellem NFA'er og
+  DFA'er?
+\begin{svar}
+Hvis er sprog er genkendt af en NFA, kan det også genkendes af en tilsvarende DFA.
+\end{svar}
+\item Hvis $S$ er en mængde af tilstande, hvad betegner $E(S)$ da?
+  Og hvorfor indfører bogen i det hele taget denne notation?
+\begin{svar}
+$E(S)$ er mængden af tilstande vi kan nå fra $S$ med $Q$ eller flere \epsilon
+\end{svar}
+\item Findes der en systematisk metode til at konvertere en NFA til en
+  DFA, eller er man nødt til at prøve sig frem? Begrund dit svar så
+  præcist som muligt og forklar grundideer i metoden, hvis den findes.
+\begin{svar}
+
+\end{svar}
+\item Er de regulære sprog lukket under $\ast$? Hvis ja, forklar præcist
+  hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+
+\end{svar}
+\end{enumerate}
+
+\end{document}

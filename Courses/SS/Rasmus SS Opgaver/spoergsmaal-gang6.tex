@@ -1,0 +1,54 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 6. kursusgang}
+\author{Rasmus Aaen}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at den kan være nondeterministisk?
+\begin{svar}
+	Fordi den tomme streng kan indgå i Alfabetet $\Sigma_{\varepsilon}$ vi bruger til overførsels tilstanden og fordi overførsels tilstanden kan have flere tilstande.
+\end{svar}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at
+  automaten kan tilføje et element til stakken \emph{(pushe)} ?
+\begin{svar}
+	Det ses i overføringsfunktionen \Gamma
+\end{svar}
+\item Hvordan kan vi se af definitionen af en pushdownautomat, at
+  automaten kan fjerne topelementet af stakken \emph{(poppe)} ?
+\begin{svar}
+	Det ses i overføringsfunktionen
+\end{svar}
+\item Præcis hvad har pushdownautomater med kontekstfrie sprog at
+  gøre?
+\begin{svar}
+	Et sprog er kontekstfrit hviss en PDA genkender det.
+\end{svar}
+\item I dagens tekst indfører vi nogle variabler, vi kalder
+  $A_{pq}$. I hvilken sammenhæng optræder de, og hvad er deres rolle? 
+\begin{svar}
+	$A_{pq}$ bruges i forbindelse med beviset for at generering af CFG fra PDA'er.
+\end{svar}
+\item Gælder det, at man kan konvertere en nondeterministisk
+  pushdownautomat til en deterministisk? Hvis ja, forklar hvor dette
+  er beskrevet i dagens tekst og opsummer argumentet. Hvis nej,
+  forklar hvor dette er beskrevet i dagens tekst  og opsummer argumentet.
+\begin{svar}
+	Side 111: "`Nondeterministic pushdown automata recognize certain languages which no deterministic pushdown automata can recognize, though we will not prove this fact."'
+\end{svar}
+\item Findes der regulære sprog, der ikke er kontekstfrie? Hvis ja, så
+  forklar præcis hvorfor. Hvis ikke, så forklar præcis hvorfor.
+\begin{svar}
+Alle regulære sprog er kontekstfrie fordi en endelig automat er en PDA bare uden stack, se side 122 i bogen.
+\end{svar}
+\end{enumerate}\end{document}
+ 
