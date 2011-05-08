@@ -145,31 +145,35 @@ namespace MultiAgentSystem
 
         public static void Aparture()
         {
-            ConsoleColor tmpColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            ConsoleColor tmpForegroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(
-@"               ',-:;//;:=
+@"
+
+               ',-:;//;:=
           . :H@@@MM@M#H/.,+%;,
        ,/X+ +M@@M@MM%=,.%HMMM@X/,
      -+@MM; $M@@MH+-,;XMMMM@MMMM@+-
     ;@M@@M- XM@X;. -+XXXXXHHH@M@M#@/.
-  ,%MM@@MH ,@%=            .---=-=:=,.
-  =@#@@@MX .,              -%HX$$%%%+;
- =-./@M@M$                  .;@MMMM@MM:
- X@/ -@MM/                    .+MM@@@M$
-,@M@H  :@:                    . =X#@@@@-
-,@@@MMX,  .                       ;@M@M=
-.H@@@@M@+,                        .%#$. 
- /MMMM@MMH/.                     /\  =;                _
-  /%+%$XHH@$=              ,    /  \   _ __   ___ _ __| |_ _   _ _ __ ___
-   .=--------.           -%H.  / /\ \ | '_ \ / _ \ '__| __| | | | '__/ _ \
-   .%MM@@@HHHXX$$$%+- .:$MMX  / ____ \| |_) |  __/ |  | |_| |_| | | |  __/
-     =XMMM@MM@MM#H;.-+HMM@M+ /_/    \_\ .__/ \___|_|   \__|\__,_|_|  \___|
-       =%@M@M#@$-.=$@MM@@@M;          | | We do what we must, because we can
-         ,:+$+-,/H#MMMMMMM@=          |_|
-               =++%%%%+/:-.
-            ");
-            Console.ForegroundColor = tmpColor;
+  ,%MM@@MH ,@%=           .---=-=:=,.
+  =@#@@@MX .,             -%HX$$%%%+;
+ =-./@M@M$                 .;@MMMM@MM:
+ X@/ -@MM/                   .+MM@@@M$
+,@M@H  :@:                   . =X#@@@@-
+,@@@MMX,  .                      ;@M@M=
+.H@@@@M@+,                       .%#$. 
+ /MMMM@MMH/.                      _ =,___ ___ ___ _____ _   _ ___ ___ 
+  /%+%$XHH@$=                ,   /_\ | _ \ __| _ \_   _| | | | _ \ __|
+   .=--------.            -%H.  / _ \|  _/ _||   / | | | |_| |   / _|
+   .%MM@@@HHHXX$$$%+-  .:$MMX  /_/ \_\_| |___|_|_\ |_|  \___/|_|_\___|
+     =XMMM@MM@MM#H;. -+HMM@M+      _  _  _  _  _ ___ _  _ ___ __ __
+       =%@M@M#@$-.=$@MM@@@M;   |  |_||_)/ \|_)|_| | / \|_) | |_ (_ 
+         ,:+$+-,/H#MMMMMMM@=   |__| ||_)\_/| \| | | \_/| \_|_|____)
+               =++%%%%+/:-.    
+
+
+Press any key to start testing.");
+            Console.ForegroundColor = tmpForegroundColor;
         }
 
         #endregion
