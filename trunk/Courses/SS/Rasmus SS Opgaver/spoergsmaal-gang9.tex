@@ -1,0 +1,57 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 9. kursusgang}
+\author{Rasmus Aaen}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item En studerende blev til en eksamen spurgt, hvad en programtilstand er i bogens kapitel 4. Her er, hvad han svarede:
+\begin{quote}
+\emph{En tilstand er et øjeblikkeligt syn på vores program; der hvor det står. Det er alt hvad vi ved om programmet, skridt, linjenumre osv.}
+\end{quote}
+Hvad er det rigtige, præcise svar ifølge bogen? (Det er en dårlig idé ikke at bruge bogens notation.)
+\begin{svar}
+
+\end{svar}
+\item I dagens tekst optræder både $S$ og $s$. Betegner de det samme? Hvad betegner de egentlig?
+\begin{svar}
+$S$ er en kommando, $s$ er en tilstand.
+\end{svar}
+\item Er alle reglerne i big-step-semantikken for \textbf{Bims} kompositionelle? Hvis ja, hvorfor? Hvis nej, hvilke regler er da ikke kompositionelle og hvorfor ikke?
+\begin{svar}
+Nej, while er ikke kompositionel, fordi den bliver til både while true og while false.
+\end{svar}
+\item Hvordan kan vi af big-step-reglerne for $\texttt{while}\;b\; \texttt{do}\;S$ se, at betingelsen $b$ skal evalueres \emph{inden} løkkens krop kan blive udført?
+\begin{svar}
+Man skal evaluere b før man kan finde ud af hvilken metode man skal bruge på kommandoen.
+\end{svar}
+\item Hvor mange regler er der for $\texttt{while}\;b\; \texttt{do}\;S$ i \emph{small-step-semantikken}?
+\begin{svar}
+Der er 1.
+\end{svar}
+\item Hvordan kan vi af small-step-reglerne for $S_1; S_2$ se, at $S_1$ skal udføres inden $S_2$?
+\begin{svar}
+$S_2$ afhænger af evalueringen af $S_1$
+\end{svar}
+
+\item Hvad er det vigtigste \emph{resultat} i dagens tekst ?
+\begin{svar}
+
+\end{svar}
+\item Hvorfor er induktion i transitionsfølgers længde ikke noget 
+særlig nyttigt bevisprincip for vor big-step-semantik?
+\begin{svar}
+Fordi man er nød til at udregne uendelige løkker til enden, hvilket virker rimeligt umuligt.
+\end{svar}
+\end{enumerate}
+\end{document}
+ 

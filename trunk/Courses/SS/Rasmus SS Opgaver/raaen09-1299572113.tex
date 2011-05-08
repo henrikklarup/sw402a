@@ -1,0 +1,136 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{\emph{Syntaks og semantik} \\
+Svar på tekstspørgsmål}
+
+
+
+\author{\huge{\textbf{Rasmus Hoppe Nesgaard Aaen}}}
+\date{Tirsdag 8. marts 2011, 09:15:13}
+
+\begin{document}
+\maketitle
+\newpage
+
+\section*{Kursusgang 1}
+
+\begin{enumerate}
+\item Lad $A$ og $B$ vÃ¸re mÃ¸ngder. Forklar med egne ord og derefter med en prÃ¸cis definition hvad $A \times B$ betegner.
+\begin{svar}
+$A \times B$ er alle mulige kombinationer af de to sprogs strenge.\\
+If $A = {1,2}$ and $B = {x,y}$,
+$A \times B = { (1,x), (1,y), (2,x), (2,y) }$ 
+%Jeg tror svaret skal være lidt mere generelt, selvom eksemplet er fint. F.eks. $A \times B = \{p=(x,y)| x \in A, y \in B \}$
+\end{svar}
+\item Forklar med en prÃ¸cis definition hvad et sprog er.
+\begin{svar}
+Et sprog er en mÃ¦ngde af strenge,\\
+En streng er en endelig fÃ¸lge af tegn fra et alfabet, $\Sigma$\\
+Et alfabet $\Sigma$ er en endelig mÃ¦ngde af tegn.
+\end{svar}
+\item Lad $L_{1}$ og $L_{2}$ vÃ¦re sprog over et 
+  alfabet $\Sigma$. Beskriv ved brug af bogens notation
+\begin{enumerate}
+\item Sproget af de strenge som enten er i $L_{1}$ eller $L_{2}$
+\item Sproget af de strenge som bÃ¥de er i $L_{1}$ og $L_{2}$
+\item Sproget af de strenge som bestÃ¥r af en streng fra $L_{1}$ efterfulgt
+  af en streng fra $L_{2}$
+\item Sproget af de strenge som bestÃ¥r af et antal (evt. $0$) strenge fra
+  $L_{1}$ eller $L_{2}$
+\item $L_{1}$ er et sprog over alfabetet $\Sigma$
+\end{enumerate}
+\begin{svar}
+\begin{enumerate}
+\item $L_{1} \cup L_{2}$
+\item $L_{1} \cap L_{2}$
+\item $L_{1} \circ L_{2}$
+\item $\Sigma = \{\varepsilon\}$ %Sigma illustrerer ikke et sprog, men et alfabet. Her har du angivet et alfabet der indeholde en tom streng. Jeg ved ikke helt hvad meningen er.
+\item $\Sigma = \{ L_{1,1},L_{1,2},...,L_{1,n} \}$ %Et alfabet består ikke af sprog, et sprog består af strenge over et alfabet.
+\end{enumerate}
+
+\end{svar}
+\item Forklar med egne ord og derefter med en prÃ¦cis definition hvordan $\delta: Q \times \Sigma \ra Q$ skal lÃ¸ses.
+\begin{svar}
+%Overføringsfunktionen. Prøv at kigge på side 35-36 samt side 7 i bogen.
+\end{svar}
+\item Hvad er et regulÃ¦rt sprog? Giv en prÃ¦cis definition.
+\begin{svar}
+Et sprog $L_{1}$ er regulÃ¦rt hvis og kun hvis der findes en endelig automat %som accepterer det. Korrekt.
+\end{svar}
+\item Hvad er de regulÃ¦re operationer?
+\begin{svar}
+\begin{enumerate}
+\item Forening $\cup: A \cup B = \{x|x \epsilon A$ eller $x \epsilon B\}$ %brug \in istedet for \epsilon, det er det tegn du leder efter.
+\item Konkatenering $\circ: A \circ B = \{xy | x \epsilon A, y \epsilon B\}$
+\item Kleene Stjernen: $^{*}: A^{*} = \{x_{1} ... x_{k} | \geq 0 , x_{i} \epsilon A $ for alle $i \}$
+\end{enumerate}
+\end{svar}
+\item Er de regulÃ¦re sprog lukket under $\cup$? Hvis ja, forklar hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+%det er de. Hvis der findes en endelig automat for hvert af de to sprog, så kan man konstruere en automat som kombinerer de to, og som accepterer begge sprog.
+\end{svar}
+\end{enumerate}
+%%%Jeg har ikke kunnet kompilere dit dokument (Jeg tror det er noget med en sprogpakke), men jeg håber at mit review kan hjælpe.
+
+
+\section*{Kursusgang 2}
+
+\begin{enumerate}
+\item En NFA og en DFA er begge defineret som 5-tupler. Hvad er de præcise forskelle på en NFA og en DFA?
+\begin{svar}
+NFA = Nondeterministisk Endelig Automat, DFA = deterministisk Endelig Automat\\
+De fungere på samme måde, men den nondeterministiske endelige automat, kan have flere set tilstande til et input, fx. kan "`a"' fra en enkelt tilstand godt have 0 eller flere tilstande at gå til.
+\end{svar}
+\item Overføringsfunktionen $\delta$ kan beskrives med en tabel. Hvis
+  en NFA ikke har nogen transitioner mærket $b$ fra en tilstand $q$,
+  hvordan kommer det da til udtryk i tabellen for $\delta$?
+\begin{svar}
+Vi markere dette ved at skrive "`Ø"'.
+\end{svar}
+\item Forklar med egne ord og dernæst med en præcis definition, hvornår en NFA $M$ accepterer en inputstreng $w$.
+\begin{svar}
+Med egne ord: En NFA $M$ acceptere en inputstreng $w$, hvis en af "`kopierne"' af $M$ er en accept tilstand med inputstrengen $w$.
+\end{svar}
+\item Hvad er det vigtige resultat om sammenhængen mellem NFA'er og
+  DFA'er?
+\begin{svar}
+Hvis er sprog er genkendt af en NFA, kan det også genkendes af en tilsvarende DFA.
+\end{svar}
+\item Hvis $S$ er en mængde af tilstande, hvad betegner $E(S)$ da?
+  Og hvorfor indfører bogen i det hele taget denne notation?
+\begin{svar}
+$E(S)$ er mængden af tilstande vi kan nå fra $S$ med $0$ eller flere $\epsilon$
+\end{svar}
+\item Findes der en systematisk metode til at konvertere en NFA til en
+  DFA, eller er man nødt til at prøve sig frem? Begrund dit svar så
+  præcist som muligt og forklar grundideer i metoden, hvis den findes.
+\begin{svar}
+
+\end{svar}
+\item Er de regulære sprog lukket under $\ast$? Hvis ja, forklar præcist
+  hvorfor. Hvis nej, forklar hvorfor ikke.
+\begin{svar}
+
+\end{svar}
+\end{enumerate}
+
+
+
+\section*{Kursusgang 3}
+
+Intet bidrag endnu.
+
+\section*{Kursusgang 4}
+
+Intet bidrag endnu.
+
+\section*{Kursusgang 5}
+
+Intet bidrag endnu.
+
+\end{document}

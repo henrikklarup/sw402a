@@ -1,0 +1,84 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 11. kursusgang}
+\author{Rasmus Aaen}
+\date{}
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Hvad betegner $env_{V}$ i dagens tekst ?
+\begin{svar}
+Et vilkårligt element i $\textbf{EnvV}$.
+\end{svar}
+\item Hvad betegner $\textbf{EnvV}$ i dagens tekst ?
+\begin{svar}
+Dette betegner mængden af variabelenvironments som er mængden af partielle funktioner fra variabler til lokationer.
+\end{svar}
+\item I dagens tekst optræder både $\mathrm{next}$ og $\mathrm{new}$. Hvad er de, og hvordan er de defineret?
+\begin{svar}
+$\mathrm{next}$ giver den næste ledige lokation. Hvis man kalder $\mathrm{new}$ til en lokation, så returneres den næste lokation, fri eller ej.
+\end{svar}
+\item Forklar ved brug af environment-store-modellen indholdet af transitionsreglen
+
+\begin{tabular*}{0.9\textwidth}{lc}
+\hline \\
+$[\mbox{var-bip}_{\mbox{bss}}]$ & $env_{V},sto \vdash x \ra_a v \;\;\;\; \mbox{hvis} \;\;\;\;
+env_{V} \; x = l$ og $sto \; l = v$ \\
+& \\
+\hline
+\end{tabular*}
+\begin{svar}
+--
+\end{svar}
+\item Præcis eet af nedenstående udsagn om big-step-semantikkerne i
+  dagens tekst er korrekt. Hvilket er korrekt og hvorfor? Forklar,
+  hvorfor netop dette udsagn bør være sandt for \textbf{Bip}.
+\begin{itemize}
+\item Udførelse af en kommando $S$ kan ændre både variabel-environment og store
+\item Udførelse af en kommando $S$ kan ændre variabel-environment
+\item Udførelse af en kommando $S$ kan ændre store
+\end{itemize}
+\begin{svar}
+Udførelse af en kommando $S$ kan ændre store (se s. 84).
+\end{svar}
+\item Definer $\textbf{EnvP}$ i tilfældet hvor vi antager dynamiske
+  scoperegler for variable og statiske scoperegler for
+  procedurer. Forklar, hvordan vi af definitionen af $\textbf{EnvP}$ kan se, at der er
+  tale om netop disse scoperegler.
+\begin{svar}
+$\textbf{EnvP}$ giver udførelsen af en procedure $p$ med variabelbindingerne på kaldstidspunktet, men med procedurebindingerne på $p$'s erklæringstidspunkt.
+\end{svar}
+\item Her er en big-step-transitionsregel. Forklar
+ hvilken kombination af scoperegler den udtrykker.
+
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{call-1} & \infrule{env_{V},env'_{P} \vdash \lag S,sto 
+                \rag \ra sto'}{env_{V},env_{P} \vdash \lag \mbox{\tt call}\; p,sto 
+                \rag \ra sto'} \\
+                & $\mbox{hvor}\; env_{P}p = (S,env'_{P})$ \\
+& \\
+                \hline
+        \end{tabular}
+\begin{svar}
+Den udtrykker \textit{dynamisk binding af variabler og statisk binding af procedurer}.
+\end{svar}
+\item Betragt tilfældet, hvor vi antager dynamiske scoperegler for
+  variabler og procedurer, og antag at der i en procedure $p$ med krop
+  $S$ ikke også findes en lokal procedure med samme navn. Forklar,
+  hvorfor alle kald af $p$ i kroppen $S$ da vil være rekursive.
+\begin{svar}
+--
+\end{svar}
+\end{enumerate}
+\end{document}
+ 

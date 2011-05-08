@@ -1,0 +1,47 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 7. kursusgang}
+\author{INDSÆT DIT NAVN HER}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Kan Pumping Lemma bruges til at bevise, at et sprog er kontekstfrit? Hvis ja, så forklar hvordan man bærer sig ad. Hvis nej, så forklar hvorfor dette ikke er muligt.
+\begin{svar}
+Nej, fordi vi normalt bruger Pumping Lemma til at bevise at et sprog ikke er kontekstfrit.
+\end{svar}
+\item Der dukker et $b$ op i beviset for Pumping Lemma. Hvad betegner $b$, og hvorfor er det vigtigt?
+\begin{svar}
+$b$ is the maximum number of symbols in the right-hand side of a rule. A node can have no more than $b$ children. At most $b^{h}$ leaves are within $h$ steps of the start variable.
+\end{svar}
+\item I beviset for Pumping Lemma vælges $p$ til $p = b^{|V|} + 1$. Hvad er $|V|$ og hvorfor er det en god idé at vælge $p$ til denne værdi?
+\begin{svar}
+
+\end{svar}
+\item I beviset for Pumping Lemma vælger vi det parsetræ for strengen $s$, som har færrest knuder. Forklar, hvor i beviset dette bliver vigtigt.
+\begin{svar}
+
+\end{svar}
+\item I beviset for Pumping Lemma betragter vi den \emph{nederste} gentagelse af en variabel $R$. Forklar, hvor i beviset dette bliver vigtigt.
+\begin{svar}
+
+\end{svar}
+\item Her er et et forsøg på at bevise at sproget $L_1 = \setof{ww}{w \in \set{a,b}^*}$ ikke er kontekstfrit. Hvis beviset er korrekt, så forklart hvorfor. Hvis beviset er forkert, så forklar, præcis hvad der er galt med det.
+%
+  \begin{quote} 
+Hvis $L_1$ er kontekstfrit, er der en $p > 0$ og en $s \in L_1$ så $s$ kan opsplittes, så betingelserne 1-3 i Pumping Lemma er overholdt. Men vi kan vælge $s = a^pb^pa^pb^p$. Det er klart at $s \in L_1$. Opsplitningen $u = \varepsilon$, $v = a$, $x = a^{p-2}$, $y = a$ og $z = b^pa^pb^p$ overholder betingelserne 2 og 3, men $uv^2xy^2z \not\in L_1$. Derfor er $L_1$ ikke kontekstfrit.  
+\end{quote}
+%
+\begin{svar}
+
+\end{svar}
+\end{enumerate}\end{document}
+ 

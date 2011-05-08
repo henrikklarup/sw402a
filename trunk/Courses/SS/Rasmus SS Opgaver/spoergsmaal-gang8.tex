@@ -1,0 +1,78 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[danish]{babel}
+\usepackage[latin1]{inputenc}
+
+\input{standard}
+
+\title{Tekstspørgsmål til 8. kursusgang}
+\author{Rasmus Aaen}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item $x R y$ skal læses som `$x$ elsker $y$'. Forklar på almindeligt dansk, hvordan nedenstående logiske udsagn, der bruger kvantorer, skal læses.
+\begin{enumerate}
+\item $\exists x.  x R x$
+\begin{svar}
+Der findes mindst én $x$ hvor $x$ elsker $x$.
+\end{svar}
+\item $\forall x. \exists y. x R y$
+\begin{svar}
+For alle $x$ findes der mindst én $y$ hvor $x$ elsker $y$.
+\end{svar}
+\item $\forall x. \forall y. x R y$
+\begin{svar}
+For alle $x$ og for alle $y$, findes der en $x$ der elsker $y$.
+\end{svar}
+\end{enumerate}
+\item Lad $A$ og $B$ være mængder. Hvad betyder notationen $A
+  \ra B$ helt præcist? (`$A$ går over i $B$' er et meget dårligt svar.)
+\begin{svar}
+$A$ er domænet af en funktion, $B$ er rækkevidden.
+\end{svar}
+\item Lad $A$ og $B$ være mængder. Hvad betyder notationen $A
+  \rightharpoonup B$ helt præcist?  (`$A$ går over i $B$' er et meget dårligt svar.)
+\begin{svar}
+$A$ er demænet af en partiel funktion, $B$ er rækkevidden.
+\end{svar}
+\item Herunder er tre sprog-elementer fra {\bf Bims}. Angiv for
+  hvert af dem hvilken {\em syntaktisk kategori} det tilh{\o}rer og
+  hvad dets {\em umiddelbare bestanddele} er:
+\begin{itemize}
+\item $\underline{7} \mbox{\tt +($\underline{3}$*$\underline{5}$)}$
+\begin{svar}
+{\em Syntaktisk kategori} Aritmetisk udtryk, {\em ummidelbare bestanddele} $\underline{7}$ og $($\underline{3}$*$\underline{5}$)}$.
+\end{svar}
+\item $\mbox{\tt while}\; 0=0\; \mbox{\tt do skip}$
+\begin{svar}
+{\em Syntaktisk kategori} Kommando, {\em ummidelbare bestanddele} $0$ og $0$.
+\end{svar}
+\item $\mbox{\tt x}:=4;\mbox{\tt y}:=2$
+\begin{svar}
+{\em Syntaktisk kategori} Kommando, {\em ummidelbare bestanddele} $4$ og $2$.
+\end{svar}
+\end{itemize}
+\item Angiv de forskellige komponenter i et transitionssystem --
+  hvordan de noteres og hvad terminologien for dem er.
+\begin{svar}
+$\Gamma$ er mængden af konfigurationer, $\ra$ er transitions relationen, $T$ er slut konfigurationer.
+\end{svar}
+\item Er transitionsreglen
+\[ \infrule{a_{2} + a_{1} \ra v}{a_{1} + a_{2} \ra v} \]
+kompositionel? Hvis ja, så forklar hvorfor. Hvis nej, så forklar hvorfor ikke.
+\begin{svar}
+
+\end{svar}
+\item Er transitionsreglen
+\[ \condinfrule{a_{1} \ra v_1 \quad a_{2} \ra v_2}{a_{1} + a_{2} \ra v}{\text{hvor} \quad v = v_1 + v_2} \]
+kompositionel? Hvis ja, så forklar hvorfor. Hvis nej, så forklar hvorfor ikke.
+\begin{svar}
+
+\end{svar}
+\end{enumerate}
+\end{document}
+ 
