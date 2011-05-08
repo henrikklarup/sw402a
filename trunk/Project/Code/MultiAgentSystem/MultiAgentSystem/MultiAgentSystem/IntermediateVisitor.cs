@@ -140,7 +140,6 @@ namespace MultiAgentSystem
 
                     dummyInput.firstVar = dummyString1;
                     dummyInput.nextVar = new Input();
-                    dummyInput.nextVar.Mandatory = false;
                     dummyInput.nextVar.firstVar = dummyString2;
                     break;
                 case (int)Token.keywords.SQUAD:
@@ -286,50 +285,20 @@ namespace MultiAgentSystem
 
             int kind = IdentificationTable.retrieve(name);
 
-            List<MASMethod> Methods;
-
-            switch (kind)
+            List<MASMethod> Methods = MASMethodLibrary.FindMethod(method, kind);
+            if (Methods.Count < 1)
             {
-                case (int)Token.keywords.SQUAD:
-                    Methods = MASMethodLibrary.FindMethod(method, kind);
-                    if (Methods.Count < 1)
-                    {
-                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
-                    }
-                    else if (Methods.Count == 1)
-                    {
-                        dummyInput = Methods.ElementAt(0).ValidInput;
-                    }
-                    break;
-                case (int)Token.keywords.TEAM:
-                    Methods = MASMethodLibrary.FindMethod(method, kind);
-                    if (Methods.Count < 1)
-                    {
-                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
-                    }
-                    else if (Methods.Count == 1)
-                    {
-                        dummyInput = Methods.ElementAt(0).ValidInput;
-                    }
-                    break;
-                case (int)Token.keywords.ACTION_PATTERN:
-                    if (method != "add")
-                    {
-                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
-                    }
-                    else
-                    {
-                        dummyString1.token.spelling = "action (string)";
-                        dummyInput.firstVar = dummyString1;
-                    }
-                    break;
-                default:
-                    if (method != "add")
-                    {
-                        GenerateError(identifier.row, "'" + method + "' is not a valid method.");
-                    }
-                    dummyInput = null;
-                    break;
+                gException.containedExceptions.Add(new GrammarException(
+                    GenerateError(identifier.row, "'" + method + "' is not a valid method.")));
+                
+            }
+            else if (Methods.Count == 1)
+            {
+                dummyInput = Methods.ElementAt(0).ValidInput;
+            }
+            else
+            {
+                methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
             }
 
             if (methodCall.input != null)
@@ -407,8 +376,10 @@ namespace MultiAgentSystem
 
                 if (currentDummyInput.firstVar != null)
                 {
+                    string s = ((Token.keywords)firstVar.kind).ToString();
                     dummyVar = (Token)currentDummyInput.firstVar.visit(this, arg);
-                    if (firstVar.kind != dummyVar.kind && currentDummyInput.Mandatory)
+                    string t = ((Token.keywords)dummyVar.kind).ToString();
+                    if (firstVar.kind != dummyVar.kind)
                     {
                         gException.containedExceptions.Add(new GrammarException(
                             PrintErrorMessage(firstVar.row)));
@@ -427,6 +398,54 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
+        }
+
+        internal override Input visitOverload(Input input, List<Input> arg, int line)
+        {
+            Token firstVar, dummyVar;
+
+            if (input.firstVar != null)
+            {
+                firstVar = (Token)input.firstVar.visit(this, arg);
+                if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
+                {
+                    firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
+                }
+
+                for(int i = 0; i < arg.Count; i++)
+                {
+                    dummyVar = (Token)arg.ElementAt(i).firstVar.visit(this, arg);
+                    if (dummyVar == null || firstVar.kind != dummyVar.kind)
+                    {
+                        arg.RemoveAt(i);
+                    }
+                }
+            }
+            else if (input.firstVar == null)
+            {
+                for(int i = 0; i < arg.Count; i++)
+                {
+                    if (arg.ElementAt(i) != null)
+                    {
+                        arg.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (input.nextVar != null)
+            {
+                input.nextVar.visit(this, arg);
+            }
+
+            if (arg.Count != 1)
+            {
+                gException.containedExceptions.Add(new GrammarException(GenerateError(line, "No suited overload was found.")));
+                return null;
+            }
+            else
+            {
+                return arg.ElementAt(0);
+            }
         }
 
         internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)

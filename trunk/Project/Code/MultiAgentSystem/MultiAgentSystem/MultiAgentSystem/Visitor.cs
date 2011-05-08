@@ -102,6 +102,8 @@ namespace MultiAgentSystem
 
         internal abstract object visitInput(Input input, object arg);
 
+        internal abstract Input visitOverload(Input input, List<Input> arg, int line);
+
         internal abstract object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg);
 
         internal abstract object visitMASNumber(MASNumber mASNumber, object arg);

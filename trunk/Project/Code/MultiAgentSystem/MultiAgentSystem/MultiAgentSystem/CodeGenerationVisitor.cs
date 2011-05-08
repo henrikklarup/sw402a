@@ -486,6 +486,11 @@ namespace MultiAgentSystem
             return null;
         }
 
+        internal override Input visitOverload(Input input, List<Input> arg, int live)
+        {
+            return null;
+        }
+
         internal override object visitLinkedIdentifier(LinkedIdentifier linkedIdentifier, object arg)
         {
             Printer.WriteLine("Method Identifier");
