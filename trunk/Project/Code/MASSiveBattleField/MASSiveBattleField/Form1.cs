@@ -144,6 +144,7 @@ namespace MASSiveBattleField
 
                 //Destination point of agent
                 #region Despoint
+                int desPointCount = 0;
                 foreach (agent aa in Lists.moveagents)
                 {
                     if (aa.team.id == Lists.currentteam.id)
@@ -153,6 +154,8 @@ namespace MASSiveBattleField
                             Point desPoint = new Point(aa.posx, aa.posy);
                             desPoint = getGridPixelFromGrid(desPoint);
                             e.Graphics.DrawEllipse(Pens.LightBlue, new Rectangle(desPoint.X, desPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                            desPointCount++;
+                            e.Graphics.DrawString(desPointCount.ToString(), fnt, Brushes.Black, new PointF(desPoint.X, desPoint.Y));
                         }
                     }
                 }
@@ -412,8 +415,7 @@ namespace MASSiveBattleField
                 {
                     if (a.id == a2.id)
                     {
-                        agent removeagent = Lists.moveagents.Find(s => s.id == a.id);
-                        Lists.moveagents.Remove(removeagent);
+                        Lists.moveagents.RemoveAll(s => s.id == a.id);
                         Lists.agents.Remove(a);
                         break;
                     }
@@ -431,8 +433,7 @@ namespace MASSiveBattleField
                 {
                     if (a.id == a1.id)
                     {
-                        agent removeagent = Lists.moveagents.Find(s => s.id == a.id);
-                        Lists.moveagents.Remove(removeagent);
+                        Lists.moveagents.RemoveAll(s => s.id == a.id);
                         Lists.agents.Remove(a);
                         break;
                     }
