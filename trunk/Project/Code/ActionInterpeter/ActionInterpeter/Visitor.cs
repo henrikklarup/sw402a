@@ -46,6 +46,21 @@ namespace ActionInterpeter
         internal object visitSingle_Action(Single_Action single_Action, object arg)
         {
             object selection = single_Action.selection.visit(this, arg);
+            Token stance = single_Action.stance.stance;
+
+            #region move_option behaviour
+            switch (stance.kind)
+            { 
+                case (int)Token.keywords.MOVE:
+                    single_Action.move_option.stance = (int)Stance.Stances.MOVE;
+                    break;
+                case (int)Token.keywords.ENCOUNTER:
+                    single_Action.move_option.stance = (int)Stance.Stances.ENCOUNTER;
+                    break;
+            }
+            #endregion
+
+            // Gets the move option (e.g. coordinate) and stores it in the move_option variable.
             single_Action.move_option = (Move_Option)single_Action.move_option.visit(this, arg);
 
             #region Compare selection type
@@ -59,52 +74,42 @@ namespace ActionInterpeter
             else if (object.ReferenceEquals(
                 single_Action.selection.GetType(), new agentID().GetType()))
             {
-                single_Action.type = (int)Type.Types.AGENTID;
+                // set arg to null if its an id.
+                visitCodeGen_MoveAgent(single_Action, null);
             }
             // try with team.
             else if (object.ReferenceEquals(
                 single_Action.selection.GetType(), new teamID().GetType()))
             {
-                single_Action.type = (int)Type.Types.TEAMID;
+                // set arg to null if its an id.
+                visitCodeGen_MoveTeam(single_Action, null);
             }
             // and squad.
             else if (object.ReferenceEquals(
                 single_Action.selection.GetType(), new squadID().GetType()))
             {
-                single_Action.type = (int)Type.Types.SQUADID;
+                // set arg to null if its an id.
+                visitCodeGen_MoveSquad(single_Action, null);
             }
             else if (object.ReferenceEquals(
                 selection.GetType(), new agent().GetType()))
             {
-                single_Action.type = (int)Type.Types.AGENT;
-            }
-            else if (object.ReferenceEquals(
-                selection.GetType(), new squad().GetType()))
-            {
-                single_Action.type = (int)Type.Types.SQUAD;
+                // set arg to not null if its an identifier.
+                visitCodeGen_MoveAgent(single_Action, 1);
             }
             else if (object.ReferenceEquals(
                 selection.GetType(), new team().GetType()))
             {
-                single_Action.type = (int)Type.Types.TEAM;
+                // set arg to not null if its an identifier.
+                visitCodeGen_MoveTeam(single_Action, 1);
+            }
+            else if (object.ReferenceEquals(
+                selection.GetType(), new squad().GetType()))
+            {
+                // set arg to not null if its an identifier.
+                visitCodeGen_MoveSquad(single_Action, 1);
             }
             #endregion
-
-            switch (single_Action.type)
-            {
-                case (int)Type.Types.AGENTID:
-                case (int)Type.Types.AGENT:
-                    visitCodeGen_MoveAgent(single_Action, arg);
-                    break;
-                case (int)Type.Types.TEAMID:
-                case (int)Type.Types.TEAM:
-                    visitCodeGen_MoveTeam(single_Action, arg);
-                    break;
-                case (int)Type.Types.SQUADID:
-                case (int)Type.Types.SQUAD:
-                    visitCodeGen_MoveSquad(single_Action, arg);
-                    break;
-            }
             return null;
         }
 
@@ -116,7 +121,8 @@ namespace ActionInterpeter
         private void visitCodeGen_MoveAgent(Single_Action single_Action, object arg)
         {
             agent agent;
-            if (single_Action.type == (int)Type.Types.AGENTID)
+            // If arg is null, the selection is an ID.
+            if (arg == null)
             {
                 agentID select = (agentID)single_Action.selection;
                 Token selectToken = select.num;
@@ -135,7 +141,8 @@ namespace ActionInterpeter
         {
             List<agent> agents;
             team team;
-            if (single_Action.type == (int)Type.Types.TEAMID)
+            // If arg is null, the selection is an ID.
+            if (arg == null)
             {
                 teamID select = (teamID)single_Action.selection;
                 Token selectToken = select.num;
@@ -157,7 +164,8 @@ namespace ActionInterpeter
         private void visitCodeGen_MoveSquad(Single_Action single_Action, object arg)
         {
             squad squad;
-            if (single_Action.type == (int)Type.Types.SQUADID)
+            // If arg is null, the selection is an ID.
+            if (arg == null)
             {
                 squadID select = (squadID)single_Action.selection;
                 Token selectToken = select.num;
@@ -235,7 +243,16 @@ namespace ActionInterpeter
                     // No move has been matched!
                     throw new InvalidMoveOptionException("The move option was invalid!");
             }
-            Functions.moveagent(_agent, num1, num2);
+
+            switch (move_Option.stance)
+            { 
+                case (int)Stance.Stances.MOVE:
+                    Functions.moveagent(_agent, num1, num2);
+                    break;
+                case (int)Stance.Stances.ENCOUNTER:
+                    throw new NotImplementedException();
+                    break;
+            }
         }
 
 
@@ -263,6 +280,7 @@ namespace ActionInterpeter
             {
                 throw new GrammarException("An invalid move option was chosen.");
             }
+
             return move_Option;
         }
 

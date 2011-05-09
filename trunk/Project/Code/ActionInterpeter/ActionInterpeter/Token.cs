@@ -27,6 +27,7 @@ namespace ActionInterpeter
             T,
             SQUAD,
             S,
+            ENCOUNTER,
             MOVE,
             EOL,
             EOT,
@@ -37,7 +38,7 @@ namespace ActionInterpeter
         public static string[] spellings = 
         {
             "<identifier>", "<number>", ".", ",", "up", "down", "left", "right", "hold", 
-            "agent", "a", "team", "t", "squad", "s", "move", "<EOL>", "<EOT>", "<ERROR>"
+            "agent", "a", "team", "t", "squad", "s", "encounter", "move", "<EOL>", "<EOT>", "<ERROR>"
         };
 
         /// <summary>

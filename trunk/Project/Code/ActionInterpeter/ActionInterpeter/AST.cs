@@ -28,9 +28,8 @@ namespace ActionInterpeter
     class Single_Action : AST
     {
         public AST selection;
+        public Stance stance;
         public Move_Option move_option;
-
-        public int type;
 
         public override object visit(Visitor v, object arg)
         {
@@ -42,7 +41,8 @@ namespace ActionInterpeter
     {
         public AST dir_coord;
 
-        public int type;
+        public int type;        // Direction, coordinate or ActionPattern.
+        public int stance;      // Indicates which stance the unit has to be in to use the action.
 
         public override object visit(Visitor v, object arg)
         {
@@ -125,17 +125,22 @@ namespace ActionInterpeter
     {
         public enum Types
         {
-            AGENT,
-            TEAM,
-            SQUAD,
             ACTIONPATTERN,
-            AGENTID,
-            TEAMID,
-            SQUADID,
             DIR,
             COORD,
             IDENTIFIER,
             NUMBER,
+        }
+    }
+
+    class Stance
+    {
+        public Token stance;
+
+        public enum Stances
+        { 
+            MOVE,
+            ENCOUNTER,
         }
     }
 }

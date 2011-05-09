@@ -134,6 +134,10 @@ namespace ActionInterpeter
             Single_Action singleAction = new Single_Action();
             // Parse which unit it is going to select.
             singleAction.selection = parseSelection();
+
+            // Parse the units behaviour (e.g. move).
+            singleAction.stance = parseStance();
+
             // Parse which move option the selected unit is going to use.
             singleAction.move_option = parseMove_Option();
             return singleAction;
@@ -220,8 +224,7 @@ namespace ActionInterpeter
         /// <returns>move option containing a direction, coordinate or an actionpattern.</returns>
         private Move_Option parseMove_Option()
         {
-            Move_Option move_option;
-            accept(Token.keywords.MOVE);
+            Move_Option move_option = new Move_Option();
 
             switch(currentToken.kind)
             {
@@ -230,15 +233,12 @@ namespace ActionInterpeter
                 case (int)Token.keywords.LEFT:
                 case (int)Token.keywords.RIGHT:
                 case (int)Token.keywords.HOLD:
-                    move_option = new Move_Option();
                     move_option.dir_coord = parseDirection();
                     break;
                 case (int)Token.keywords.NUMBER:
-                    move_option = new Move_Option();
                     move_option.dir_coord = parseCoordinate();
                     break;
                 case (int)Token.keywords.IDENTIFIER:
-                    move_option = new Move_Option();
                     move_option.dir_coord = parseIdentifier();
                     break;
                 default:
@@ -249,6 +249,20 @@ namespace ActionInterpeter
                     return null;
             }
             return move_option;
+        }
+
+        private Stance parseStance()
+        {
+            Stance stance = new Stance();
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.MOVE:
+                case (int)Token.keywords.ENCOUNTER:
+                    stance.stance = currentToken;
+                    acceptIt();
+                    break;
+            }
+            return stance;
         }
 
         /// <summary>
