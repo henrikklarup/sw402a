@@ -6,8 +6,8 @@ using System.Text;
 namespace MultiAgentSystem
 {
     /* All these classes are used by the parser to create the Abstract Syntax Tree.
-     * The descriptions above the classes, in the AST file, is the function syntax.
-    */
+     * The descriptions above the classes, in the AST file, is the function syntax. */
+
     public abstract class AST
     {
         public abstract object visit(Visitor v, object arg);
@@ -64,12 +64,12 @@ namespace MultiAgentSystem
         public Object _object;
 
         // The name of the new object.
-        public Identifier identifier;
+        public LinkedIdentifier identifier;
 
         // The input the objectconstructor needs.
         public Input input;
 
-        public ObjectDeclaration(Object O, Identifier I, Input In)
+        public ObjectDeclaration(Object O, LinkedIdentifier I, Input In)
         {
             this._object = O;
             this.identifier = I;

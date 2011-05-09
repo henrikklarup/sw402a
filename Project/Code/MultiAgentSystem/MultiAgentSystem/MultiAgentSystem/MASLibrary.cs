@@ -229,6 +229,8 @@ namespace MultiAgentSystem
             return "(Line " + linenumber +
                 ") The given input was not legal. The legal input is: " + _printValidInput;
         }
+
+        public abstract string PrintGeneratedCode(string one);
     }
 
     /// <summary>
@@ -247,11 +249,11 @@ namespace MultiAgentSystem
         /// </summary>
         /// <param name="one">Name of the team.</param>
         /// <param name="two">Name of the agent.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>agent.team = </returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // agent.team = team;
-            return two + ".team = " + one + ";";
+            // agent.team = 
+            return one + ".team = ";
         }
     }
 
@@ -271,12 +273,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an agent to a team.
         /// </summary>
         /// <param name="one">Name of the squad.</param>
-        /// <param name="two">Name of the agent.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>one.agents.add</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // squad.agents.add(agent);
-            return one + ".agents.add(" + two + ");";
+            // squad.agents.add
+            return one + ".agents.add";
         }
     }
 
@@ -296,12 +297,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an action to an actionpattern.
         /// </summary>
         /// <param name="one">Name of the action pattern.</param>
-        /// <param name="two">String containing the action.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>actionpattern.add</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // actionpattern.add(string);
-            return one + ".add(" + two + ");";
+            // actionpattern.add
+            return one + ".add";
         }
     }
 
@@ -399,6 +399,8 @@ namespace MultiAgentSystem
             return "(Line " + linenumber +
                 ") The given input was not legal. The legal input is: " + _printValidInput;
         }
+
+        public abstract string PrintGeneratedCode(string name);
     }
 
     class agentConstructor : MASConstructor, ICodeTemplate
@@ -410,12 +412,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an agent to a team.
         /// </summary>
         /// <param name="one">Name of the agent.</param>
-        /// <param name="two">Input as string.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>agent one = new agent</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // agent one = new agent(two)
-            return "agent " + one + " = new agent(" + two + ")";
+            // agent one = new agent
+            return "agent " + one + " = new agent";
         }
     }
 
@@ -428,12 +429,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an agent to a team.
         /// </summary>
         /// <param name="one">Name of the squad.</param>
-        /// <param name="two">Input as string.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>squad one = new squad</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // agent one = new agent(two)
-            return "squad " + one + " = new squad(" + two + ")";
+            // squad one = new squad
+            return "squad " + one + " = new squad";
         }
     }
 
@@ -446,12 +446,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an agent to a team.
         /// </summary>
         /// <param name="one">Name of the agent.</param>
-        /// <param name="two">Input as string.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>team one = new team</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // agent one = new agent(two)
-            return "team " + one + " = new team(" + two + ")";
+            // team one = new team
+            return "team " + one + " = new team";
         }
     }
 
@@ -464,12 +463,11 @@ namespace MultiAgentSystem
         /// Generates C# code to add an agent to a team.
         /// </summary>
         /// <param name="one">Name of the agent.</param>
-        /// <param name="two">Input as string.</param>
-        /// <returns>A string containing the C# code.</returns>
-        public string PrintGeneratedCode(string one, string two)
+        /// <returns>actionpattern one = new actionpattern</returns>
+        public override string PrintGeneratedCode(string one)
         {
-            // actionpattern one = new actionpattern(two)
-            return "actionpattern " + one + " = new actionpattern(" + two + ")";
+            // actionpattern one = new actionpattern
+            return "actionpattern " + one + " = new actionpattern";
         }
     }
 
@@ -482,9 +480,8 @@ namespace MultiAgentSystem
         /// Prints the generated code.
         /// </summary>
         /// <param name="one"></param>
-        /// <param name="two"></param>
         /// <returns>A string with code.</returns>
-        string PrintGeneratedCode(string one, string two);
+        string PrintGeneratedCode(string one);
 
         /// <summary>
         /// A property that returns the valid input for the method.
