@@ -3,3 +3,10 @@ c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLaweso
 c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\ResolveAssemblyReference.cache
 c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\XMLawesome.dll
 c:\users\administrator\documents\visual studio 2010\Projects\XMLawesome\XMLawesome\obj\Debug\XMLawesome.pdb
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\bin\Debug\XMLawesome.dll
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\bin\Debug\XMLawesome.pdb
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\bin\Debug\MASClassLibrary.dll
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\bin\Debug\MASClassLibrary.pdb
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\obj\Debug\XMLawesome.dll
+C:\Users\Kristian\Desktop\UNI\SW4\Project - MAS\Project\Code\XMLawesome\XMLawesome\obj\Debug\XMLawesome.pdb
