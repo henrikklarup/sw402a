@@ -456,9 +456,9 @@ namespace MASSiveBattleField
             //Game Logic
             #region GameLogic
 
+            //Check if the list is empty
             if (!Lists.moveagents.Any())
                 return;
-
 
             //Update agent posistions
             #region Update agent posistion
@@ -523,6 +523,26 @@ namespace MASSiveBattleField
                             {
                                 outerAgent.posx = agentPoint.X;
                                 outerAgent.posy = agentPoint.Y;
+
+                                agent encounterAgent = Functions.encounter(outerAgent);
+                                if (encounterAgent != null)
+                                {
+                                    bool removed = false;
+                                    foreach (encounter en in Lists.encounters)
+                                    {
+                                        if (en.agentId == outerAgent.id)
+                                        {
+                                            ActionInterpet.input = en.action;
+                                            if (!removed)
+                                            {
+                                                Lists.moveagents.RemoveAll(s => s.id == outerAgent.id);
+                                                removed = true;
+                                            }
+                                            ActionInterpet.Compile();
+                                        }
+                                    }
+                                }
+
                             }
                             else
                             {
