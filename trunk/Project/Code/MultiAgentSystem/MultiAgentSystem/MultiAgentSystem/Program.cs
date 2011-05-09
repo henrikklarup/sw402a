@@ -296,7 +296,7 @@ namespace MultiAgentSystem
 
             try
             {
-                visitor.visitAST(newAst, true);
+                visitor.visitAST(newAst, null);
             }
             catch (GrammarException g)
             {

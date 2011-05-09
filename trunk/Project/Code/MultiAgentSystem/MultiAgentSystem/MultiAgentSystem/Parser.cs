@@ -199,13 +199,13 @@ namespace MultiAgentSystem
 
             accept(Token.keywords.NEW);
             Object obj = parseObject();
-            Identifier id = parseIdentifier();
+            LinkedIdentifier linked = parseLinkedIdentifier();
             accept(Token.keywords.LPAREN);
             Input input = (Input)parseInput();
             accept(Token.keywords.RPAREN);
 
             Printer.Collapse();
-            return new ObjectDeclaration(obj, id, input);
+            return new ObjectDeclaration(obj, linked, input);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace MultiAgentSystem
         /// forward to the method.
         /// </summary>
         /// <returns></returns>
-        private Terminal parseLinkedIdentifier()
+        private LinkedIdentifier parseLinkedIdentifier()
         {
             LinkedIdentifier Linked = new LinkedIdentifier();
             
@@ -454,11 +454,7 @@ namespace MultiAgentSystem
             if (currentToken.kind == (int)Token.keywords.PUNCTUATION)
             {
                 acceptIt();
-                Linked.NextLinkedIdentifier = (LinkedIdentifier)parseLinkedIdentifier();
-            }
-            else
-            {
-                Linked.NextLinkedIdentifier = null;
+                Linked.NextLinkedIdentifier = parseLinkedIdentifier();
             }
 
             Printer.Collapse();

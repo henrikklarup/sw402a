@@ -10,6 +10,8 @@ namespace MultiAgentSystem
     {
         private string CodeGenerationPath = Program.path + @"\MASSCode.cs";
 
+        private bool Print = true;
+
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
         /// visits the Main Block.
@@ -39,8 +41,10 @@ namespace MultiAgentSystem
         internal override object visitMainBlock(Mainblock block, object arg)
         {
             File.Delete(Program.path + @"\MASSCode.cs");
+
             string text = File.ReadAllText(
                 Environment.CurrentDirectory + @"\mainTextStart.txt");
+
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(text);
@@ -56,7 +60,7 @@ namespace MultiAgentSystem
              * Here arg is set to false, so visitBlock knows not to write the first "{",
              * as this has already been done manually for the mainblock. */
              
-            arg = false;
+            Print = false;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
@@ -88,10 +92,10 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // If arg is true, start a new block.
-            if (!(bool)arg)
+            if (!Print)
             {
                 // arg is reset to true, as the false state is not needed after this.
-                arg = true;
+                Print = true;
             }
             else
             {
@@ -134,13 +138,13 @@ namespace MultiAgentSystem
 
             // The object type and identifier in the objectdeclaration are saved.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
-            Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
+            string identifier = (string)objectDeclaration.identifier.visit(this, arg);
 
-            // Write the C# code for an objectdeclaration, with room for input.
+            List<MASConstructor> builders = MASLibrary.FindConstructor(_object.kind);
+
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(_object.spelling.ToLower() + " " +
-                    identifier.spelling.ToLower() + " = new " + _object.spelling.ToLower() + "(");
+                file.Write(builders.ElementAt(0).PrintGeneratedCode(identifier) + "(");
             }
 
             // Visit the input.
@@ -152,7 +156,15 @@ namespace MultiAgentSystem
             // Finish the objectdeclaration and add the object to the relevant list in C#.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.WriteLine("); ");
+                file.Write(")");
+            }
+
+            if (Print)
+            {
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine("; ");
+                }
             }
 
             Printer.Collapse();
@@ -206,7 +218,7 @@ namespace MultiAgentSystem
                 new Expression(null, null, null, null).GetType()))
             {
                 Token masVariable = (Token)becomes;
-                if ((bool)arg)
+                if (Print)
                 {
                     using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                     {
@@ -248,10 +260,10 @@ namespace MultiAgentSystem
             }
 
             // As no semicolon should be printed at the end of the expression, arg is marked false.
-            arg = false;
+            Print = false;
             // Visit and print the expression.
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
-            arg = true;
+            Print = true;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
@@ -300,9 +312,9 @@ namespace MultiAgentSystem
             forCommand.LoopExpression.visit(this, arg);
 
             // As no semicolon should be printed at the end of the expression, arg is marked false.
-            arg = false;
+            Print = false;
             forCommand.CounterExpression.visit(this, arg);
-            arg = true;
+            Print = true;
 
             // Finish printing the conditions for the loop.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -336,9 +348,9 @@ namespace MultiAgentSystem
             }
 
             // As no semicolon should be printed at the end of the expression, arg is marked false.
-            arg = false;
+            Print = false;
             whileCommand.LoopExpression.visit(this, arg);
-            arg = true;
+            Print = true;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
@@ -356,34 +368,43 @@ namespace MultiAgentSystem
         {
             Printer.WriteLine("Method Call");
 
+            Print = false;
             // The method identifiers are printed.
-            methodCall.linkedIdentifier.visit(this, arg);
+            string s = (string)methodCall.linkedIdentifier.visit(this, arg);
+            Print = true;
 
-            // A parenthesis for the input is printed.
+            // Find the name of the method called.
+            string[] names = s.Split('.');
+            string method = names[names.Length - 1];
+
+            // Name of the object the method is called on, and its kind.
+            string name = s.Remove(s.Length - (method.Length + 1));
+            int kind = IdentificationTable.retrieve(name);
+
+            List<MASMethod> methods = MASLibrary.FindMethod(name, kind);
+
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write("(");
+                file.Write(methods.ElementAt(0).PrintGeneratedCode(s) + "(");
             }
 
-            // The input is printed.
+            // Visit the input.
             if (methodCall.input != null)
             {
                 methodCall.input.visit(this, arg);
             }
 
-            // And the input is ended. If arg is false, then no semicolon should be set.
-            if ((bool)arg)
+            // Finish the objectdeclaration and add the object to the relevant list in C#.
+            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                {
-                    file.WriteLine("); ");
-                }
+                file.Write(")");
             }
-            else
+
+            if (Print)
             {
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
-                    file.WriteLine(")");
+                    file.WriteLine("; ");
                 }
             }
 
@@ -418,7 +439,7 @@ namespace MultiAgentSystem
                 Token _primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
 
                 // If arg is false, don't print the semicolon.
-                if ((bool)arg)
+                if (Print)
                 {
                     using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                     {
@@ -459,7 +480,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Input");
             Printer.Expand();
 
-            arg = false;
+            Print = false;
 
             // If the first input exists, print it.
             if (input.firstVar != null)
@@ -471,7 +492,7 @@ namespace MultiAgentSystem
                     file.Write(firstVar.spelling);
                 }
 
-                arg = true;
+                Print = true;
             }
 
             // If more input exists, print it.
@@ -500,24 +521,30 @@ namespace MultiAgentSystem
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
 
-            string identifier;
+            string identifier = (string)arg;
 
             // Save the first identifier and print it.
-            identifier = ((Token)linkedIdentifier.Identifier.visit(this, arg)).spelling;
+            identifier += ((Token)linkedIdentifier.Identifier.visit(this, arg)).spelling;
 
-            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+            if (Print)
             {
-                file.Write(identifier.ToLower());
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.Write(identifier.ToLower());
+                }
             }
 
             // If more identifiers exists, print them.
             if (linkedIdentifier.NextLinkedIdentifier != null)
             {
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                if (Print)
                 {
-                    file.Write(".");
+                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.Write(".");
+                    }
                 }
-                identifier += "." + linkedIdentifier.NextLinkedIdentifier.visit(this, arg);
+                identifier = (string)linkedIdentifier.NextLinkedIdentifier.visit(this, identifier + ".");
             }
 
             Printer.Collapse();
@@ -580,7 +607,7 @@ namespace MultiAgentSystem
             {
                 Token masVariable = (Token)becomes;
 
-                if ((bool)arg)
+                if (Print)
                 {
                     using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                     {

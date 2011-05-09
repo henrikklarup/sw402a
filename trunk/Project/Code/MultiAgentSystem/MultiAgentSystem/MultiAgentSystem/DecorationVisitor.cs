@@ -95,10 +95,9 @@ namespace MultiAgentSystem
 
             // Get the kind of Object and the spelling of the identifier.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
-            Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
+            string ident = (string)objectDeclaration.identifier.visit(this, arg);
 
             int kind = _object.kind;
-            string ident = identifier.spelling;
 
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
