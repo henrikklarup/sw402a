@@ -22,6 +22,7 @@ namespace ActionPatternCompiler
             RIGHT,
             HOLD,
             UNIT,
+            ENCOUNTER,
             MOVE,
             EOL,
             EOT,
@@ -32,7 +33,7 @@ namespace ActionPatternCompiler
         public static string[] spellings = 
         {
             "<identifier>", "<number>", ".", ",", "up", "down", "left", "right", "hold", 
-            "unit", "move", "<EOL>", "<EOT>", "<ERROR>"
+            "unit", "encounter", "move", "<EOL>", "<EOT>", "<ERROR>"
         };
 
         //Converting the string of the identifier to a token if any keyword matches the string
