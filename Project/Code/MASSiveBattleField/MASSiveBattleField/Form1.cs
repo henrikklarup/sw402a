@@ -465,6 +465,30 @@ namespace MASSiveBattleField
             #region Update agent posistion
             foreach (agent outerAgent in Lists.agents)
             {
+                #region CheckForEncounters
+                agent encounterAgent = Functions.encounter(outerAgent);
+                if (encounterAgent != null)
+                {
+                    bool removed = false;
+                    foreach (agent inneragent in Lists.agents)
+                    {
+                        foreach (encounter en in Lists.encounters)
+                        {
+                            if (en.agentId == inneragent.id)
+                            {
+                                ActionInterpet.input = en.action;
+                                if (!removed)
+                                {
+                                    Lists.moveagents.RemoveAll(s => s.id == inneragent.id);
+                                    removed = true;
+                                }
+                                ActionInterpet.Compile();
+                            }
+                        }
+                    }
+                }
+                #endregion
+
                 //Need to be current team to move
                 if (outerAgent.team.id == Lists.currentteam.id)
                 {
@@ -532,28 +556,6 @@ namespace MASSiveBattleField
                             {
                                 outerAgent.posx = agentPoint.X;
                                 outerAgent.posy = agentPoint.Y;
-
-                                #region CheckForEncounters
-                                agent encounterAgent = Functions.encounter(outerAgent);
-                                if (encounterAgent != null)
-                                {
-                                    bool removed = false;
-                                    foreach (encounter en in Lists.encounters)
-                                    {
-                                        if (en.agentId == outerAgent.id)
-                                        {
-                                            ActionInterpet.input = en.action;
-                                            if (!removed)
-                                            {
-                                                Lists.moveagents.RemoveAll(s => s.id == outerAgent.id);
-                                                removed = true;
-                                            }
-                                            ActionInterpet.Compile();
-                                        }
-                                    }
-                                }
-                                #endregion
-
                             }
                             else
                             {
