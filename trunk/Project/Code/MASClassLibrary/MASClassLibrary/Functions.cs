@@ -61,6 +61,7 @@ namespace MASClassLibrary
         /// </summary>
         /// <param name="checkAgent">Agent to check against</param>
         /// <returns>First agent encountered</returns>
+        #region Encounter
         public static agent encounter(agent checkAgent)
         {
             foreach (agent a in Lists.agents)
@@ -87,5 +88,21 @@ namespace MASClassLibrary
             }
             return null;
         }
+        #endregion
+
+        /// <summary>
+        /// Adds encounter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="command"></param>
+        #region addEncounter
+        public static void addEncounter(int id, string command)
+        {
+            encounter en = new encounter();
+            en.agentId = id;
+            en.action = command;
+            Lists.encounters.Add(en);
+        }
+        #endregion
     }
 }
