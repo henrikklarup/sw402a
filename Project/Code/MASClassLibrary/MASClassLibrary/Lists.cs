@@ -12,6 +12,7 @@ namespace MASClassLibrary
         public static List<squad> squads;                 //List of squads
         public static List<team> teams;                   //List of teams
         public static List<agent> moveagents;             //List of agents to move
+        public static List<encounter> encounters;         //List of encounters
         public static team currentteam;                   //Current team
 
         public static int Points;
@@ -245,5 +246,11 @@ namespace MASClassLibrary
             get { return teams.Count + 1; }
         }
         #endregion
+    }
+
+    public class encounter
+    {
+        public int agentId;
+        public string action;
     }
 }
