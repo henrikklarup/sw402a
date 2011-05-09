@@ -65,6 +65,14 @@ namespace ActionPatternCompiler
                     num2 = ActionPattern.thisAgent.posy;
 
                     Token token = dir.dir;
+
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(ActionPattern.thisAgent.id, ActionPattern.thisAgent.name + " move " + token.spelling);
+                        return;
+                    }
+
                     switch (token.spelling.ToLower())
                     {
                         case "up":
@@ -106,6 +114,13 @@ namespace ActionPatternCompiler
 
                     num1 = Convert.ToInt16(coord.num1.spelling);
                     num2 = Convert.ToInt16(coord.num2.spelling);
+
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(ActionPattern.thisAgent.id, ActionPattern.thisAgent.name + " move " + num1 + "," + num2);
+                        return;
+                    }
                     break;
                 case (int)Type.Types.ACTIONPATTERN:
                     object moveOption = move_Option.dir_coord.visit(this, null);
@@ -115,6 +130,13 @@ namespace ActionPatternCompiler
                         throw new InvalidMoveOptionException("The actionpattern was invalid!");
                     }
                     actionpattern ap = (actionpattern)moveOption;
+
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(ActionPattern.thisAgent.id, ActionPattern.thisAgent.name + " move " + ap.name);
+                        return;
+                    }
                     foreach (string s in ap.actions)
                     {
                         ActionPattern.Compile(s, ActionPattern.thisAgent);
