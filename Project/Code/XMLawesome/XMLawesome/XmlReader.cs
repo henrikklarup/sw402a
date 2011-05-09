@@ -16,29 +16,34 @@ namespace XMLawesome
         private List<XmlOrder> XML = new List<XmlOrder>();
         public char[] Split = { '@' };
 
+        //Function to return the XML list
         public List<XmlOrder> getXML()
         {
             return XML;
         }
 
+        //This function read and parse a xml file.
         public XmlReader(String file)
         {
 
             try
             {
+                //try to open the xml file
                 StreamReader streamReader = new StreamReader(file);
                 String XmlFile = streamReader.ReadToEnd();
             if (XmlFile.Contains("<?"))
             {
+                //check if the xml file got an encoding.
                 XmlFile = XmlFile.Replace("?>", "?>@");
                 String[] tempArray = XmlFile.Split(Split);
                 String encoding = tempArray[0];
                 XmlFile = tempArray[1];
             }
-            XmlFile = XmlFile.Replace("<", "@<");
-            XmlFile = XmlFile.Replace(">", ">@");
-            XmlFile = XmlFile.Replace(">@@<", ">@<");
-            temp = XmlFile.Split(Split);
+            //Splitting the xml file
+            XmlFile = XmlFile.Replace("<", "<@><");
+            XmlFile = XmlFile.Replace(">", "><@>");
+            XmlFile = XmlFile.Replace("><@><@><", "><@><");
+            temp = XmlFile.Split(new string[] { "" }, StringSplitOptions.None);
             streamReader.Close();
             }
             catch (Exception e)

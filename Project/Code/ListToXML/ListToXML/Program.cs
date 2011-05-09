@@ -84,19 +84,21 @@ namespace ListToXML
             //Generate the xml file with <MAS> as root and default encoding
             //aXML.GenerateThisShizzle("MAS", null, @"C:\Users\Kristian\Desktop\XML\WarGame.xml");
 
-            Generate.XML(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml", Lists.actionPatterns, Lists.teams, Lists.agents, Lists.squads);
+            Generate.XML(@"C:\Users\Kristian\Desktop\XML\WarGame.xml", Lists.actionPatterns, Lists.teams, Lists.agents, Lists.squads);
             //Create instance of the XmlReader with a path to the xml file
-            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGameR.xml");
+            XmlReader Reader = new XmlReader(@"C:\Users\Kristian\Desktop\XML\WarGame.xml");
 
 
             Reader.Mount();
 
             //Add null filter
             //Search virker ikke mere, aner ikke hvorfor :(
+
             foreach (XmlType item in Reader.XmlSearch("MAS>Squads>Squad"))
             {
                 Console.WriteLine(item.Tag + " @ " + item.Value + " @ " + item.Order);
             }
+
             ListOfMas newLists = new ListOfMas();
             newLists.Init(@"C:\Users\Kristian\Desktop\XML\WarGame.xml",false);
             Console.ReadKey();
