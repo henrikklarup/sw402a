@@ -1,0 +1,5 @@
+C:\Users\Lasse\Documents\A A U\SW4F11\Project\Code\MASClassLibrary\MASClassLibrary\bin\Debug\MASClassLibrary.dll
+C:\Users\Lasse\Documents\A A U\SW4F11\Project\Code\MASClassLibrary\MASClassLibrary\bin\Debug\MASClassLibrary.pdb
+C:\Users\Lasse\Documents\A A U\SW4F11\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lasse\Documents\A A U\SW4F11\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\MASClassLibrary.dll
+C:\Users\Lasse\Documents\A A U\SW4F11\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\MASClassLibrary.pdb

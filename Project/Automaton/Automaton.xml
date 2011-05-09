@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AUTOMATON>
+    <TYPE value="NEA"/>
+    <ALPHABET>
+        <ITEM value="("/>
+        <ITEM value=")"/>
+        <ITEM value="*"/>
+        <ITEM value="+"/>
+        <ITEM value=","/>
+        <ITEM value="-"/>
+        <ITEM value="."/>
+        <ITEM value="/"/>
+        <ITEM value="0"/>
+        <ITEM value="1"/>
+        <ITEM value="2"/>
+        <ITEM value="3"/>
+        <ITEM value="4"/>
+        <ITEM value="5"/>
+        <ITEM value="6"/>
+        <ITEM value="7"/>
+        <ITEM value="8"/>
+        <ITEM value="9"/>
+        <ITEM value=":"/>
+        <ITEM value=";"/>
+        <ITEM value="="/>
+        <ITEM value="a"/>
+        <ITEM value="actionpattern"/>
+        <ITEM value="agent"/>
+        <ITEM value="b"/>
+        <ITEM value="bool"/>
+        <ITEM value="c"/>
+        <ITEM value="coord"/>
+        <ITEM value="d"/>
+        <ITEM value="e"/>
+        <ITEM value="else"/>
+        <ITEM value="f"/>
+        <ITEM value="false"/>
+        <ITEM value="for"/>
+        <ITEM value="g"/>
+        <ITEM value="h"/>
+        <ITEM value="i"/>
+        <ITEM value="if"/>
+        <ITEM value="j"/>
+        <ITEM value="k"/>
+        <ITEM value="l"/>
+        <ITEM value="m"/>
+        <ITEM value="main"/>
+        <ITEM value="n"/>
+        <ITEM value="new"/>
+        <ITEM value="num"/>
+        <ITEM value="o"/>
+        <ITEM value="p"/>
+        <ITEM value="q"/>
+        <ITEM value="r"/>
+        <ITEM value="s"/>
+        <ITEM value="squad"/>
+        <ITEM value="string"/>
+        <ITEM value="t"/>
+        <ITEM value="team"/>
+        <ITEM value="true"/>
+        <ITEM value="u"/>
+        <ITEM value="v"/>
+        <ITEM value="void"/>
+        <ITEM value="w"/>
+        <ITEM value="while"/>
+        <ITEM value="x"/>
+        <ITEM value="y"/>
+        <ITEM value="z"/>
+        <ITEM value="{"/>
+        <ITEM value="}"/>
+    </ALPHABET>
+    <STATE name="q_0" finalstate="false">
+        <TRANSITION target="q_2">
+            <LABEL read="a"/>
+            <LABEL read="b"/>
+            <LABEL read="c"/>
+            <LABEL read="d"/>
+            <LABEL read="e"/>
+            <LABEL read="f"/>
+            <LABEL read="g"/>
+            <LABEL read="h"/>
+            <LABEL read="i"/>
+            <LABEL read="j"/>
+            <LABEL read="k"/>
+            <LABEL read="l"/>
+            <LABEL read="m"/>
+            <LABEL read="n"/>
+            <LABEL read="o"/>
+            <LABEL read="p"/>
+            <LABEL read="q"/>
+            <LABEL read="r"/>
+            <LABEL read="s"/>
+            <LABEL read="t"/>
+            <LABEL read="u"/>
+            <LABEL read="v"/>
+            <LABEL read="w"/>
+            <LABEL read="x"/>
+            <LABEL read="y"/>
+            <LABEL read="z"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="q_1" finalstate="true"/>
+    <STATE name="q_2" finalstate="true">
+        <TRANSITION target="q_2">
+            <LABEL read="0"/>
+            <LABEL read="1"/>
+            <LABEL read="2"/>
+            <LABEL read="3"/>
+            <LABEL read="4"/>
+            <LABEL read="5"/>
+            <LABEL read="6"/>
+            <LABEL read="7"/>
+            <LABEL read="8"/>
+            <LABEL read="9"/>
+            <LABEL read="a"/>
+            <LABEL read="b"/>
+            <LABEL read="c"/>
+            <LABEL read="d"/>
+            <LABEL read="e"/>
+            <LABEL read="f"/>
+            <LABEL read="g"/>
+            <LABEL read="h"/>
+            <LABEL read="i"/>
+            <LABEL read="j"/>
+            <LABEL read="k"/>
+            <LABEL read="l"/>
+            <LABEL read="m"/>
+            <LABEL read="n"/>
+            <LABEL read="o"/>
+            <LABEL read="p"/>
+            <LABEL read="q"/>
+            <LABEL read="r"/>
+            <LABEL read="s"/>
+            <LABEL read="t"/>
+            <LABEL read="u"/>
+            <LABEL read="v"/>
+            <LABEL read="w"/>
+            <LABEL read="x"/>
+            <LABEL read="y"/>
+            <LABEL read="z"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="q_3" finalstate="false"/>
+    <INITIALSTATE value="q_0"/>
+    <LAYOUT>
+        <STATELAYOUT name="q_0">
+            <LEFT value="100"/>
+            <TOP value="100"/>
+            <TRANSITIONLAYOUT target="q_2" drawvertical="false"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="q_1">
+            <LEFT value="825"/>
+            <TOP value="142"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="q_2">
+            <LEFT value="505"/>
+            <TOP value="60"/>
+            <TRANSITIONLAYOUT target="q_2" drawvertical="false">
+                <TOP value="-120"/>
+            </TRANSITIONLAYOUT>
+        </STATELAYOUT>
+        <STATELAYOUT name="q_3">
+            <LEFT value="239"/>
+            <TOP value="293"/>
+        </STATELAYOUT>
+        <NOTEPAD>
+            {\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+\viewkind4\uc1\pard\lang1030\fs20 
+\par }
+
+        </NOTEPAD>
+    </LAYOUT>
+</AUTOMATON>
