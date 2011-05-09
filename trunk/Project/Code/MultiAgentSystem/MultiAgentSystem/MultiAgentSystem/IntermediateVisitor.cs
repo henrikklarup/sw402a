@@ -139,18 +139,23 @@ namespace MultiAgentSystem
             else
             {
                 // If several overloads are found, use OverloadVisit to find the best match for the input.
+                List<Input> list = new List<Input>();
+                foreach (MASConstructor c in Constructors)
+                {
+                    list.Add(c.ValidInput);
+                }
                 if (objectDeclaration.input != null)
                 {
                     ValidInput = objectDeclaration.input.OverloadVisit(
-                        this, new List<Input>(), identifier.row);
+                        this, list, identifier.row);
                 }
             }
 
             if (objectDeclaration.input != null)
             {
-                objectDeclaration.input.visit(this, dummyInput);
+                objectDeclaration.input.visit(this, ValidInput);
             }
-            else if (objectDeclaration.input == null && dummyInput != null)
+            else if (objectDeclaration.input == null && ValidInput != null)
             {
                 gException.containedExceptions.Add(new GrammarException(
                         "heu - object declaration"));
@@ -300,9 +305,14 @@ namespace MultiAgentSystem
             else
             {
                 // If several overloads are found, use OverloadVisit to find the best match for the input.
+                List<Input> list = new List<Input>();
+                foreach (MASMethod m in Methods)
+                {
+                    list.Add(m.ValidInput);
+                }
                 if (methodCall.input != null)
                 {
-                    ValidInput = methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
+                    ValidInput = methodCall.input.OverloadVisit(this, list, identifier.row);
                 }
             }
 
@@ -381,6 +391,13 @@ namespace MultiAgentSystem
                 }
 
                 firstVar = (Token)input.firstVar.visit(this, arg);
+
+                if (currentValidInput.nextVar != null && input.nextVar == null)
+                {
+                    gException.containedExceptions.Add(new GrammarException(
+                        GenerateError(firstVar.row, "The given input was not legal.")));
+                }
+
                 /* If firstVar turns out to be an identifier, 
                  * look it up in the ID table to get the real kind. */
                 if (firstVar.kind == (int)Token.keywords.IDENTIFIER)

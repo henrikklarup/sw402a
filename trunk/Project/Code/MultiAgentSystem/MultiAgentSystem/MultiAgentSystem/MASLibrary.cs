@@ -78,7 +78,7 @@ namespace MultiAgentSystem
 
             // Methods and overloads that only take a string as input:
             Input stringInput = new Input();
-            Token stringToken = new Token((int)Token.keywords.STRING, "string", -1, -1);
+            Token stringToken = new Token((int)Token.keywords.ACTUAL_STRING, "string", -1, -1);
             stringInput.firstVar = new Identifier(stringToken);
 
             // Add an action to an actionpattern:
@@ -90,6 +90,9 @@ namespace MultiAgentSystem
             // Team constructor:
             teamConstructor teamConstructor1 = new teamConstructor(
                 stringInput, (int)Token.keywords.TEAM);
+            // Action pattern constructor:
+            actionPatternConstructor apConstructor1 = new actionPatternConstructor(
+                stringInput, (int)Token.keywords.ACTION_PATTERN);
 
             // Methods and overloads that take a string and number as input:
             Input stringNumberInput = new Input();
@@ -101,6 +104,12 @@ namespace MultiAgentSystem
             // Agent constructor:
             agentConstructor agentConstructor1 = new agentConstructor(
                 stringNumberInput, (int)Token.keywords.AGENT);
+
+            // Methods and overloads that take two strings as input:
+            Input stringStringInput = new Input();
+            stringStringInput.firstVar = new Identifier(stringToken);
+            stringStringInput.nextVar = new Input();
+            stringStringInput.nextVar.firstVar = new Identifier(stringToken);
         }
     }
 
