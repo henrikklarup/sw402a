@@ -31,10 +31,5 @@ namespace MASClassLibrary
         {
             this.Agents = list;
         }
-
-        public void add(agent agent)
-        {
-            Agents.Add(agent);
-        }
     }
 }
