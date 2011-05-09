@@ -105,11 +105,16 @@ namespace MultiAgentSystem
                 }
             }
 
-            // Every command in the block is visited.
+            // Everytime a block is visited the block opens 
+            // a new scope in the identification table.
+            IdentificationTable.openScope();
             foreach (Command c in block.commands)
             {
                 c.visit(this, arg);
             }
+            // When all commands in the block have been visited
+            // the scope is closed in the identification table.
+            IdentificationTable.closeScope();
 
             // Finish the block.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -138,9 +143,13 @@ namespace MultiAgentSystem
 
             // The object type and identifier in the objectdeclaration are saved.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
-            string identifier = (string)objectDeclaration.identifier.visit(this, arg);
+            string identifier = ((Token)objectDeclaration.identifier.visit(this, arg)).spelling;
+
+            // Puts the kind and spelling into the Identification Table.
+            IdentificationTable.enter(_object.kind, identifier);
 
             List<MASConstructor> builders = MASLibrary.FindConstructor(_object.kind);
+            builders.ElementAt(0).InstantiateProperties(identifier);
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
@@ -369,23 +378,22 @@ namespace MultiAgentSystem
             Printer.WriteLine("Method Call");
 
             Print = false;
-            // The method identifiers are printed.
-            string s = (string)methodCall.linkedIdentifier.visit(this, arg);
+            Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
             Print = true;
 
             // Find the name of the method called.
-            string[] names = s.Split('.');
+            string[] names = identifier.spelling.Split('.');
             string method = names[names.Length - 1];
 
             // Name of the object the method is called on, and its kind.
-            string name = s.Remove(s.Length - (method.Length + 1));
+            string name = identifier.spelling.Remove(identifier.spelling.Length - (method.Length + 1));
             int kind = IdentificationTable.retrieve(name);
 
             List<MASMethod> methods = MASLibrary.FindMethod(name, kind);
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(methods.ElementAt(0).PrintGeneratedCode(s) + "(");
+                file.Write(methods.ElementAt(0).PrintGeneratedCode(name) + "(");
             }
 
             // Visit the input.
@@ -521,30 +529,14 @@ namespace MultiAgentSystem
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
 
-            string identifier = (string)arg;
+            Token t = (Token)linkedIdentifier.Identifier.visit(this, arg);
 
-            // Save the first identifier and print it.
-            identifier += ((Token)linkedIdentifier.Identifier.visit(this, arg)).spelling;
+            Token identifier = new Token(t.kind, t.spelling, t.row, t.col);
 
-            if (Print)
-            {
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                {
-                    file.Write(identifier.ToLower());
-                }
-            }
-
-            // If more identifiers exists, print them.
             if (linkedIdentifier.NextLinkedIdentifier != null)
             {
-                if (Print)
-                {
-                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                    {
-                        file.Write(".");
-                    }
-                }
-                identifier = (string)linkedIdentifier.NextLinkedIdentifier.visit(this, identifier + ".");
+                identifier.spelling += "." +
+                    ((Token)linkedIdentifier.NextLinkedIdentifier.visit(this, arg)).spelling;
             }
 
             Printer.Collapse();
@@ -592,7 +584,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Assign Command");
             Printer.Expand();
 
-            string ident = (string)assignCommand.ident.visit(this, arg);
+            string ident = ((Token)assignCommand.ident.visit(this, arg)).spelling;
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {

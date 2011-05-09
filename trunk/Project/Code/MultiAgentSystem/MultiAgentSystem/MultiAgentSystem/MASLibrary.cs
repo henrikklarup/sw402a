@@ -64,6 +64,8 @@ namespace MultiAgentSystem
         {
             MASLibrary.MethodLibrary = new List<MASMethod>();
             MASLibrary.ConstructorLibrary = new List<MASConstructor>();
+
+            List<Attributes> props = new List<Attributes>();
             
             // Methods and overloads that only take an agent as input:
             Input agentInput = new Input();
@@ -85,14 +87,35 @@ namespace MultiAgentSystem
             AddActionToActionPattern addActionToAP1 = new AddActionToActionPattern(
                 stringInput, "add", (int)Token.keywords.ACTION_PATTERN);
             // Squad constructor:
+            Attributes squadProp = new Attributes();
+            squadProp.ident = "name";
+            squadProp.kind = (int)Token.keywords.STRING;
+            props.Add(squadProp);
+
             squadConstructor squadConstructor1 = new squadConstructor(
-                stringInput, (int)Token.keywords.SQUAD);
+                stringInput, (int)Token.keywords.SQUAD, new List<Attributes>(props));
+            props.Clear();
             // Team constructor:
+            Attributes teamProp1 = new Attributes();
+            teamProp1.ident = "name";
+            teamProp1.kind = (int)Token.keywords.STRING;
+            props.Add(teamProp1);
+            Attributes teamProp2 = new Attributes();
+            teamProp2.ident = "color";
+            teamProp2.kind = (int)Token.keywords.STRING;
+
             teamConstructor teamConstructor1 = new teamConstructor(
-                stringInput, (int)Token.keywords.TEAM);
+                stringInput, (int)Token.keywords.TEAM, new List<Attributes>(props));
+            props.Clear();
             // Action pattern constructor:
+            Attributes actionPatternProp = new Attributes();
+            actionPatternProp.ident = "name";
+            actionPatternProp.kind = (int)Token.keywords.STRING;
+            props.Add(actionPatternProp);
+
             actionPatternConstructor apConstructor1 = new actionPatternConstructor(
-                stringInput, (int)Token.keywords.ACTION_PATTERN);
+                stringInput, (int)Token.keywords.ACTION_PATTERN, new List<Attributes>(props));
+            props.Clear();
 
             // Methods and overloads that take a string and number as input:
             Input stringNumberInput = new Input();
@@ -102,8 +125,14 @@ namespace MultiAgentSystem
             stringNumberInput.nextVar.firstVar = new Identifier(numberToken);
 
             // Agent constructor:
+            Attributes agentProp = new Attributes();
+            agentProp.ident = "name";
+            agentProp.kind = (int)Token.keywords.STRING;
+            props.Add(agentProp);
+
             agentConstructor agentConstructor1 = new agentConstructor(
-                stringNumberInput, (int)Token.keywords.AGENT);
+                stringNumberInput, (int)Token.keywords.AGENT, new List<Attributes>(props));
+            props.Clear();
 
             // Methods and overloads that take two strings as input:
             Input stringStringInput = new Input();
@@ -358,6 +387,13 @@ namespace MultiAgentSystem
             get { return _printValidInput; }
         }
 
+        protected List<Attributes> _properties = new List<Attributes>();
+
+        public List<Attributes> Properties
+        {
+            get { return _properties; }
+        }
+
         public MASConstructor(Input input, int objectKind)
         {
             this._objectKind = objectKind;
@@ -389,6 +425,12 @@ namespace MultiAgentSystem
             MASLibrary.ConstructorLibrary.Add(this);
         }
 
+        public MASConstructor(Input input, int objectKind, List<Attributes> properties) 
+            : this(input, objectKind)
+        {
+            this._properties = properties;
+        }
+
         /// <summary>
         /// A method that prints an errormessage for when the object isn't used correctly, 
         /// and specifies how it should be used.
@@ -400,12 +442,25 @@ namespace MultiAgentSystem
                 ") The given input was not legal. The legal input is: " + _printValidInput;
         }
 
+        public void InstantiateProperties(string name)
+        {
+            foreach (Attributes a in _properties)
+            {
+                IdentificationTable.enter(a.kind, name + "." + a.ident);
+            }
+        }
+
         public abstract string PrintGeneratedCode(string name);
     }
 
     class agentConstructor : MASConstructor, ICodeTemplate
     {
-        public agentConstructor(Input input, int useWith) : base(input, useWith)
+        public agentConstructor(Input input, int useWith) 
+            : base(input, useWith)
+        { }
+
+        public agentConstructor(Input input, int useWith, List<Attributes> properties)
+            : base(input, useWith, properties)
         { }
 
         /// <summary>
@@ -425,6 +480,10 @@ namespace MultiAgentSystem
         public squadConstructor(Input input, int useWith) : base(input, useWith)
         { }
 
+        public squadConstructor(Input input, int useWith, List<Attributes> properties)
+            : base(input, useWith, properties)
+        { }
+
         /// <summary>
         /// Generates C# code to add an agent to a team.
         /// </summary>
@@ -439,8 +498,15 @@ namespace MultiAgentSystem
 
     class teamConstructor : MASConstructor, ICodeTemplate
     {
-        public teamConstructor(Input input, int useWith) : base(input, useWith)
+        public teamConstructor(Input input, int useWith) 
+            : base(input, useWith)
         { }
+
+        public teamConstructor(Input input, int useWith, List<Attributes> properties)
+            : base(input, useWith, properties)
+        { }
+
+        
 
         /// <summary>
         /// Generates C# code to add an agent to a team.
@@ -456,7 +522,12 @@ namespace MultiAgentSystem
 
     class actionPatternConstructor : MASConstructor, ICodeTemplate
     {
-        public actionPatternConstructor(Input input, int useWith) : base(input, useWith)
+        public actionPatternConstructor(Input input, int useWith) 
+            : base(input, useWith)
+        { }
+
+        public actionPatternConstructor(Input input, int useWith, List<Attributes> properties)
+            : base(input, useWith, properties)
         { }
 
         /// <summary>

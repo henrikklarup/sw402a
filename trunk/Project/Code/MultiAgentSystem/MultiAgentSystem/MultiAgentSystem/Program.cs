@@ -34,6 +34,8 @@ namespace MultiAgentSystem
             Printer.printLogo();
             Printer.CompilationMarker("Options");
 
+            Methods methodsAndCons = new Methods();
+
             /* Gives the user, the option to choose to write all errors and actions in the console, or just leave it. */
             while (true)
             {
@@ -267,8 +269,7 @@ namespace MultiAgentSystem
             Console.Title = "MASS Compiler: Intermediate";
 
             IntermediateVisitor visitor = new IntermediateVisitor();
-            Methods methodsAndCons = new Methods();
-
+            
             try
             {
                 visitor.visitAST(newAst, null);
