@@ -44,6 +44,7 @@ namespace XMLawesome
             XmlFile = XmlFile.Replace(">", "><@>");
             XmlFile = XmlFile.Replace("><@><@><", "><@><");
             temp = XmlFile.Split(new string[] { "<@>" }, StringSplitOptions.None);
+            Console.WriteLine("wjjjjat" + temp);
             streamReader.Close();
             }
             catch (Exception e)
