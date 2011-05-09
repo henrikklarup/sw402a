@@ -82,8 +82,6 @@ namespace MASClassLibrary
                         return a;
                     else if (a.posy == checkAgent.posy + 3 && (a.posx == checkAgent.posx))
                         return a;
-                    else
-                        return null;
                 }
             }
             return null;
