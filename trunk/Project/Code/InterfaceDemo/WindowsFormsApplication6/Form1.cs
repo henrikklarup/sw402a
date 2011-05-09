@@ -14,7 +14,7 @@ using MASClassLibrary;
 using System.Threading;
 using System.Runtime.InteropServices;
 
-namespace WindowsFormsApplication6
+namespace MASSiveBattleField
 {
     public partial class WarGame : Form
     {
