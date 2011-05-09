@@ -610,6 +610,7 @@ namespace MASSiveBattleField
         #region SwitchTurn
         private void switchTurn()
         {
+            #region Agent count
             int agentsOnteam1 = 0;
             int agentsOnteam2 = 0;
             int agentsOnteam3 = 0;
@@ -625,7 +626,9 @@ namespace MASSiveBattleField
                 if (a.team.id == 4)
                     agentsOnteam4++;
             }
+            #endregion
 
+            #region WIN
             if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
             {
                 MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam1.ToString() + " left");
@@ -642,8 +645,10 @@ namespace MASSiveBattleField
             {
                 MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam4.ToString() + " left");
             }
+            #endregion
 
             //Switch turn
+            #region Turn switch
             if (turn < Lists.teams.Count + 1)
                 turn++;
             if (turn > Lists.teams.Count)
@@ -657,7 +662,9 @@ namespace MASSiveBattleField
                 switchTurn();
             if (Lists.currentteam.id == 4 && agentsOnteam4 == 0)
                 switchTurn();
+            #endregion
 
+            //Update Label6
             label6.BeginInvoke(new UpdateTextCallback(UpdateLabel6), "Team " + turn);
         }
         #endregion
