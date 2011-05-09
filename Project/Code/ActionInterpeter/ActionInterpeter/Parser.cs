@@ -261,6 +261,8 @@ namespace ActionInterpeter
                     stance.stance = currentToken;
                     acceptIt();
                     break;
+                default:
+                    throw new InvalidOperationException("The operation " + currentToken.spelling + " was invalid");
             }
             return stance;
         }
