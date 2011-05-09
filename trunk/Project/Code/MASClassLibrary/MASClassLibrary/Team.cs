@@ -50,10 +50,5 @@ namespace MASClassLibrary
             this.color = ColorTranslator.FromHtml(color);
             this.colorStr = color;
         }
-
-        public void add(agent Agent)
-        {
-            Agent.team = this;
-        }
     }
 }

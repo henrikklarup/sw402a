@@ -7,13 +7,6 @@ namespace MASClassLibrary
 {
     public class agent
     {
-        //public int ID;
-        //public int posX;
-        //public int posY;
-        //public string name;
-        //public int rank;
-        //public team team;
-
         private int _iD;
         public string name;
         public team team;
@@ -70,11 +63,6 @@ namespace MASClassLibrary
             this.team = team;
             this._iD = Lists.NextAgentID;
             Lists.agents.Add(this);
-        }
-
-        public agent(int id)
-        {
-            this._iD = id;
         }
     }
 }
