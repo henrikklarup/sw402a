@@ -36,7 +36,8 @@ namespace MultiAgentSystem
 
             Methods methodsAndCons = new Methods();
 
-            /* Gives the user, the option to choose to write all errors and actions in the console, or just leave it. */
+            /* Gives the user, the option to choose to write all errors and actions in the console, 
+             * or just leave it. */
             while (true)
             {
                 Console.WriteLine();
