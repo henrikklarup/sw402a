@@ -457,16 +457,10 @@ namespace MASSiveBattleField
             //Game Logic
             #region GameLogic
 
-            //Check if the list is empty
-            if (!Lists.moveagents.Any())
-                return;
-
-            //Update agent posistions
-            #region Update agent posistion
-            foreach (agent outerAgent in Lists.agents)
+            #region CheckForEncounters
+            foreach (agent testagent in Lists.agents)
             {
-                #region CheckForEncounters
-                agent encounterAgent = Functions.encounter(outerAgent);
+                agent encounterAgent = Functions.encounter(testagent);
                 if (encounterAgent != null)
                 {
                     bool removed = false;
@@ -487,8 +481,17 @@ namespace MASSiveBattleField
                         }
                     }
                 }
-                #endregion
+            }
+            #endregion
 
+            //Check if the list is empty
+            if (!Lists.moveagents.Any())
+                return;
+
+            //Update agent posistions
+            #region Update agent posistion
+            foreach (agent outerAgent in Lists.agents)
+            {
                 //Need to be current team to move
                 if (outerAgent.team.id == Lists.currentteam.id)
                 {
@@ -514,17 +517,23 @@ namespace MASSiveBattleField
                             #region Calculate next Position
                             Point agentPoint = new Point(outerAgent.posx, outerAgent.posy);
                             //Move "Down", keep in bounds
-                            if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids)
+                            if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y+1)) == null))
                                 agentPoint.Y++;
                             //Move "Up", keep in bounds
-                            else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1)
+                            else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y-1)) == null))
                                 agentPoint.Y--;
                             //Move "Right", keep in bounds
-                            else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids)
+                            else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X+1, agentPoint.Y)) == null))
                                 agentPoint.X++;
                             //Move "Left", keep in bounds
-                            else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)
+                            else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
                                 agentPoint.X--;
+                            else
+                            {
+                                Lists.moveagents.Remove(a);
+                                string sendtext = Environment.NewLine + a.name + "couldn't move this round";
+                                textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                            }
                             #endregion
 
                             /*
@@ -532,36 +541,28 @@ namespace MASSiveBattleField
                             */
 
                             //Check if move is valid, check if anyother agent is on the position where the agent is gonna move
+                            /*
                             bool validMove = true;
-                            #region StandingAgent
-                            foreach (agent standingAgent in Lists.agents)
+                            agent bumpingAgent = bumpingIntoAgent(outerAgent, agentPoint);
+                            if (bumpingAgent != null)
                             {
-                                if (standingAgent.team.id == outerAgent.team.id && standingAgent.id != outerAgent.id)
-                                {
-                                    Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
-                                    if (agentPoint == standingAgentPoint)
-                                    {
-                                        validMove = false;
-                                        string sendtext = Environment.NewLine + a.name + " bumped into " + standingAgent.name;
-                                        textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
-                                        //textBox4.AppendText(Environment.NewLine + "Invalid move!");
-                                        break;
-                                    }
-                                }
+                                validMove = false;
+                                string sendtext = Environment.NewLine + a.name + " bumped into " + bumpingAgent.name;
+                                textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
                             }
-                            #endregion
+                            */
 
                             //Move is valid, move agent
-                            if (validMove)
-                            {
+                            //if (validMove)
+                            //{
                                 outerAgent.posx = agentPoint.X;
                                 outerAgent.posy = agentPoint.Y;
-                            }
-                            else
-                            {
-                                Lists.moveagents.Remove(a);
-                                break;
-                            }
+                            //}
+                            //else
+                            //{
+                            //    Lists.moveagents.Remove(a);
+                            //    break;
+                            //}
 
                             //Move valid, or agent at distination, remove from moveAgents list
                             if (a.posx == outerAgent.posx && a.posy == outerAgent.posy)
@@ -669,6 +670,32 @@ namespace MASSiveBattleField
 
             //Update Label6
             label6.BeginInvoke(new UpdateTextCallback(UpdateLabel6), "Team " + turn);
+        }
+        #endregion
+
+        /// <summary>
+        /// Checking for bumping into another agent
+        /// </summary>
+        /// <param name="outerAgent">Agent to check with the other agents</param>
+        /// <param name="agentPoint">The point the agent is gonna be at</param>
+        /// <returns>Agent is returned if found, null for no bump</returns>
+        #region BumpintIntoAgent
+        public agent bumpingIntoAgent(agent outerAgent, Point agentPoint)
+        {
+            #region StandingAgent
+            foreach (agent standingAgent in Lists.agents)
+            {
+                if (standingAgent.team.id == outerAgent.team.id && standingAgent.id != outerAgent.id)
+                {
+                    Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
+                    if (agentPoint == standingAgentPoint)
+                    {
+                        return standingAgent;
+                    }
+                }
+            }
+            #endregion
+            return null;
         }
         #endregion
 
