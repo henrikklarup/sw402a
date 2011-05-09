@@ -17,11 +17,11 @@ namespace MASClassLibrary
         #region Moveagent
         public static void moveagent(agent agent, int xchord, int ychord)
         {
+            if (agent.team.id != Lists.currentteam.id)
+                throw new WrongTeamException("Wrong team");
+
             foreach (agent a in Lists.agents)
             {
-                if (agent.team.id != Lists.currentteam.id)
-                    throw new WrongTeamException("Wrong team");
-
                 if (a.id == agent.id)
                 {
                     #region ifValid
