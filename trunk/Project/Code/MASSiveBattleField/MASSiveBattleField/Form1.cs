@@ -472,20 +472,23 @@ namespace MASSiveBattleField
                 agent encounterAgent = Functions.encounter(testagent);
                 if (encounterAgent != null)
                 {
+                    encounterAgent = null;
                     bool removed = false;
                     foreach (agent inneragent in Lists.agents)
                     {
                         foreach (encounter en in Lists.encounters)
                         {
-                            if (en.agentId == inneragent.id)
+                            if (en.agentId == testagent.id)
                             {
                                 ActionInterpet.input = en.action;
                                 if (!removed)
                                 {
-                                    Lists.moveagents.RemoveAll(s => s.id == inneragent.id);
+                                    Lists.moveagents.RemoveAll(s => s.id == testagent.id);
+                                    Lists.encounters.Remove(en);
                                     removed = true;
                                 }
                                 ActionInterpet.Compile();
+                                break;
                             }
                         }
                     }
@@ -547,10 +550,11 @@ namespace MASSiveBattleField
                                 else
                                 {
                                     Lists.moveagents.Remove(a);
-                                    string sendtext = Environment.NewLine + a.name + "couldn't move this round";
+                                    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
                                     textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
                                 }
                                 #endregion
+                                
                             }
 
                             if (randomNumber == 2)
@@ -571,11 +575,12 @@ namespace MASSiveBattleField
                                 else
                                 {
                                     Lists.moveagents.Remove(a);
-                                    string sendtext = Environment.NewLine + a.name + "couldn't move this round";
+                                    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
                                     textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
                                 }
                                 #endregion
                             }
+                            
                             #endregion
 
                             /*
