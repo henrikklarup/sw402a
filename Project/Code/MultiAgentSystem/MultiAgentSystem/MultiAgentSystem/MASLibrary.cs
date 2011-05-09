@@ -389,10 +389,10 @@ namespace MultiAgentSystem
         }
     }
 
-    class agentConstructor : MASConstructor, ICodeTemplate
-    {
+    //class agentConstructor : MASConstructor, ICodeTemplate
+    //{
 
-    }
+    //}
 
     /// <summary>
     /// Interface to be used with every method and constructor class in the compiler.
