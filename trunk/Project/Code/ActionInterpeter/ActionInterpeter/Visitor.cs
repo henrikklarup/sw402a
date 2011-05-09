@@ -50,7 +50,7 @@ namespace ActionInterpeter
 
             #region move_option behaviour
             switch (stance.kind)
-            { 
+            {
                 case (int)Token.keywords.MOVE:
                     single_Action.move_option.stance = (int)Stance.Stances.MOVE;
                     break;
@@ -203,6 +203,13 @@ namespace ActionInterpeter
 
                     Token token = dir.dir;
 
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(_agent.id, _agent.name + " move " + token.spelling);
+                        return;
+                    }
+
                     switch (token.spelling.ToLower())
                     {
                         case "up":
@@ -244,15 +251,31 @@ namespace ActionInterpeter
 
                     num1 = Convert.ToInt16(coord.num1.spelling);
                     num2 = Convert.ToInt16(coord.num2.spelling);
+
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(_agent.id, _agent.name + " move " + num1 + "," + num2);
+                        return;
+                    }
                     break;
                 case (int)Type.Types.ACTIONPATTERN:
                     object moveOption = move_Option.dir_coord.visit(this, null);
+
                     // If there was no actionpattern with this name, Exception.
                     if (moveOption == null || !object.ReferenceEquals(moveOption.GetType(), new actionpattern().GetType()))
                     {
                         throw new InvalidMoveOptionException("The actionpattern was invalid!");
                     }
                     actionpattern ap = (actionpattern)moveOption;
+
+                    // If the stance is an encounter call the add encounter function.
+                    if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+                    {
+                        Functions.addEncounter(_agent.id, _agent.name + " move " + ap.name);
+                        return;
+                    }
+
                     foreach (string s in ap.actions)
                     {
                         ActionPattern.Compile(s, _agent);
@@ -263,15 +286,8 @@ namespace ActionInterpeter
                     throw new InvalidMoveOptionException("The move option was invalid!");
             }
 
-            switch (move_Option.stance)
-            { 
-                case (int)Stance.Stances.MOVE:
-                    Functions.moveagent(_agent, num1, num2);
-                    break;
-                case (int)Stance.Stances.ENCOUNTER:
-                    throw new NotImplementedException();
-                    break;
-            }
+            // If the method haven't returned yet, this is a move option.
+            Functions.moveagent(_agent, num1, num2);
         }
 
 

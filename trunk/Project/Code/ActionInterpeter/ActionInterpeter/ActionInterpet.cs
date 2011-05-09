@@ -58,7 +58,7 @@ namespace ActionInterpeter
                     Printer.WriteLine(s);
                 }
             }
-            catch (Exception e)
+            catch (InvalidOperationException e)
             {
                 Printer.WriteLine(e.Message);
             }
