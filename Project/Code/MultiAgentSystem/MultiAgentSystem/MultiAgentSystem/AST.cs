@@ -326,6 +326,8 @@ namespace MultiAgentSystem
     /// </summary>
     public class Input : AST
     {
+        public int OverloadID = 0;
+
         // The first input variable.
         public AST firstVar = null;
 
@@ -343,6 +345,27 @@ namespace MultiAgentSystem
         public Input OverloadVisit(Visitor v, List<Input> arg, int line)
         {
             return v.visitOverload(this, arg, line);
+        }
+
+        public string PrintInput()
+        {
+            Token temp;
+            Input current = this;
+            string input = "";
+            IntermediateVisitor i = new IntermediateVisitor();
+
+            while (current != null)
+            {
+                temp = (Token)current.firstVar.visit(i, null);
+                input += temp.spelling;
+                if (current.nextVar != null)
+                {
+                    input += ", ";
+                }
+                current = current.nextVar;
+            }
+
+            return input;
         }
     }
 

@@ -40,15 +40,15 @@ namespace MultiAgentSystem
         /// <param name="name">Name of the constructor to find.</param>
         /// <param name="type">Type of the object the constructor builds.</param>
         /// <returns>A list containing every overload for the matching constructor.</returns>
-        public static List<MASConstructor> FindConstructor(string name, int objectKind)
+        public static List<MASConstructor> FindConstructor(int objectKind)
         {
             // Find the method that matches the name.
             List<MASConstructor> list = new List<MASConstructor>();
-            foreach (MASConstructor m in ConstructorLibrary)
+            foreach (MASConstructor c in ConstructorLibrary)
             {
-                if (m.Name.ToLower() == name.ToLower() && m.ObjectKind == objectKind)
+                if (c.ObjectKind == objectKind)
                 {
-                    list.Add(m);
+                    list.Add(c);
                 }
             }
             return list;
@@ -66,27 +66,41 @@ namespace MultiAgentSystem
             MASLibrary.ConstructorLibrary = new List<MASConstructor>();
             
             // Methods and overloads that only take an agent as input:
-            Input i1 = new Input();
-            Token t1 = new Token((int)Token.keywords.AGENT, "agent", -1, -1);
-            i1.firstVar = new Identifier(t1);
+            Input agentInput = new Input();
+            Token agentToken = new Token((int)Token.keywords.AGENT, "agent", -1, -1);
+            agentInput.firstVar = new Identifier(agentToken);
             // Add an agent to a team:
-            AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(i1, "add", (int)Token.keywords.TEAM);
+            AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(
+                agentInput, "add", (int)Token.keywords.TEAM);
             // Add an agent to a squad:
-            AddAgentToSquad addAgentToSquad1 = new AddAgentToSquad(i1, "add", (int)Token.keywords.SQUAD);
+            AddAgentToSquad addAgentToSquad1 = new AddAgentToSquad(
+                agentInput, "add", (int)Token.keywords.SQUAD);
 
             // Methods and overloads that only take a string as input:
-            Input i2 = new Input();
-            Token t2 = new Token((int)Token.keywords.STRING, "string", -1, -1);
-            i2.firstVar = new Identifier(t2);
+            Input stringInput = new Input();
+            Token stringToken = new Token((int)Token.keywords.STRING, "string", -1, -1);
+            stringInput.firstVar = new Identifier(stringToken);
+
             // Add an action to an actionpattern:
             AddActionToActionPattern addActionToAP1 = new AddActionToActionPattern(
-                i2, "add", (int)Token.keywords.ACTION_PATTERN);
+                stringInput, "add", (int)Token.keywords.ACTION_PATTERN);
+            // Squad constructor:
+            squadConstructor squadConstructor1 = new squadConstructor(
+                stringInput, (int)Token.keywords.SQUAD);
+            // Team constructor:
+            teamConstructor teamConstructor1 = new teamConstructor(
+                stringInput, (int)Token.keywords.TEAM);
 
-            //Input i3 = new Input();
-            //i3.firstVar = new Identifier(t1);
-            //i3.nextVar = new Input();
-            //i3.nextVar.firstVar = new Identifier(t2);
-            //AddAgentToTeam addAgentToTeam2 = new AddAgentToTeam(i3, "add", (int)Token.keywords.TEAM);
+            // Methods and overloads that take a string and number as input:
+            Input stringNumberInput = new Input();
+            Token numberToken = new Token((int)Token.keywords.NUMBER, "number", -1, -1);
+            stringNumberInput.firstVar = new Identifier(stringToken);
+            stringNumberInput.nextVar = new Input();
+            stringNumberInput.nextVar.firstVar = new Identifier(numberToken);
+
+            // Agent constructor:
+            agentConstructor agentConstructor1 = new agentConstructor(
+                stringNumberInput, (int)Token.keywords.AGENT);
         }
     }
 
@@ -284,16 +298,6 @@ namespace MultiAgentSystem
 
     public abstract class MASConstructor
     {
-        protected string _name;
-
-        /// <summary>
-        /// The name/spelling of the method.
-        /// </summary>
-        public string Name
-        {
-            get { return _name; }
-        }
-
         protected int _id;
 
         /// <summary>
@@ -345,12 +349,11 @@ namespace MultiAgentSystem
             get { return _printValidInput; }
         }
 
-        public MASConstructor(Input input, string name, int objectKind)
+        public MASConstructor(Input input, int objectKind)
         {
-            this._name = name;
             this._objectKind = objectKind;
             // ID and overloadID are found by going through the list of constructors.
-            this._overloadID = MASLibrary.FindConstructor(name, objectKind).Count;
+            this._overloadID = MASLibrary.FindConstructor(objectKind).Count;
             this._id = MASLibrary.ConstructorLibrary.Count;
             this._validInput = input;
 
@@ -389,10 +392,77 @@ namespace MultiAgentSystem
         }
     }
 
-    //class agentConstructor : MASConstructor, ICodeTemplate
-    //{
+    class agentConstructor : MASConstructor, ICodeTemplate
+    {
+        public agentConstructor(Input input, int useWith) : base(input, useWith)
+        { }
 
-    //}
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the agent.</param>
+        /// <param name="two">Input as string.</param>
+        /// <returns>A string containing the C# code.</returns>
+        public string PrintGeneratedCode(string one, string two)
+        {
+            // agent one = new agent(two)
+            return "agent " + one + " = new agent(" + two + ")";
+        }
+    }
+
+    class squadConstructor : MASConstructor, ICodeTemplate
+    {
+        public squadConstructor(Input input, int useWith) : base(input, useWith)
+        { }
+
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the squad.</param>
+        /// <param name="two">Input as string.</param>
+        /// <returns>A string containing the C# code.</returns>
+        public string PrintGeneratedCode(string one, string two)
+        {
+            // agent one = new agent(two)
+            return "squad " + one + " = new squad(" + two + ")";
+        }
+    }
+
+    class teamConstructor : MASConstructor, ICodeTemplate
+    {
+        public teamConstructor(Input input, int useWith) : base(input, useWith)
+        { }
+
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the agent.</param>
+        /// <param name="two">Input as string.</param>
+        /// <returns>A string containing the C# code.</returns>
+        public string PrintGeneratedCode(string one, string two)
+        {
+            // agent one = new agent(two)
+            return "team " + one + " = new team(" + two + ")";
+        }
+    }
+
+    class actionPatternConstructor : MASConstructor, ICodeTemplate
+    {
+        public actionPatternConstructor(Input input, int useWith) : base(input, useWith)
+        { }
+
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the agent.</param>
+        /// <param name="two">Input as string.</param>
+        /// <returns>A string containing the C# code.</returns>
+        public string PrintGeneratedCode(string one, string two)
+        {
+            // actionpattern one = new actionpattern(two)
+            return "actionpattern " + one + " = new actionpattern(" + two + ")";
+        }
+    }
 
     /// <summary>
     /// Interface to be used with every method and constructor class in the compiler.
