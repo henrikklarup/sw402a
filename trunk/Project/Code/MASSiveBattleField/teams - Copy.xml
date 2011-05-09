@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTeam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Team>
+    <ID>1</ID>
+    <name>Team one</name>
+    <color>Red</color>
+  </Team>
+  <Team>
+    <ID>2</ID>
+    <name>Team two</name>
+    <color>Blue</color>
+  </Team>
+  <Team>
+    <ID>3</ID>
+    <name>Team three</name>
+    <color>Yellow</color>
+  </Team>
+  <Team>
+    <ID>4</ID>
+    <name>Team four</name>
+    <color>Pink</color>
+  </Team>
+</ArrayOfTeam>
