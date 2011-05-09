@@ -15,7 +15,7 @@ namespace MASClassLibrary
         public static List<encounter> encounters;         //List of encounters
         public static team currentteam;                   //Current team
 
-        public static int Points;
+        public static int Points;                         //Points to spend
 
         #region RetrieveAgent
         /// <summary>
@@ -248,9 +248,11 @@ namespace MASClassLibrary
         #endregion
     }
 
+    #region Encounter-Class
     public class encounter
     {
         public int agentId;
         public string action;
     }
+    #endregion
 }
