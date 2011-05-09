@@ -403,7 +403,7 @@ namespace MultiAgentSystem
             Token _operator = (Token)expression._operator.visit(this, arg);
 
             // The second part of the expression can be both a new expression or a single variable.
-            object primExpr2 = expression.primaryExpression_2.visit(this, arg);
+            object primExpr2 = expression.primaryExpression_2;
 
             // Print the first part of the expression.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -415,7 +415,7 @@ namespace MultiAgentSystem
             if (!Expression.ReferenceEquals(primExpr2.GetType(),
                 new Expression(null, null, null, null).GetType()))
             {
-                Token _primExpr2 = (Token)primExpr2;
+                Token _primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
 
                 // If arg is false, don't print the semicolon.
                 if ((bool)arg)
@@ -432,6 +432,10 @@ namespace MultiAgentSystem
                         file.Write(_primExpr2.spelling.ToLower());
                     }
                 }
+            }
+            else
+            { 
+                expression.primaryExpression_2.visit(this, arg);
             }
 
             Printer.Collapse();
