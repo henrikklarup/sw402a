@@ -12,17 +12,6 @@ namespace MultiAgentSystem
         private GrammarException gException =
             new GrammarException("These inputs and methods were illegal:");
 
-        private MASNumber dummyNumber = new MASNumber(
-            new Token((int)Token.keywords.NUMBER, "", -1, -1));
-        private MASString dummyString1 = new MASString(
-            new Token((int)Token.keywords.ACTUAL_STRING, "", -1, -1));
-        private MASString dummyString2 = new MASString(
-            new Token((int)Token.keywords.ACTUAL_STRING, "", -1, -1));
-        private Identifier dummyAgent = new Identifier(
-            new Token((int)Token.keywords.AGENT, "", -1, -1));
-
-        private Input dummyInput = new Input();
-
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
         /// visits the Main Block.
@@ -132,12 +121,13 @@ namespace MultiAgentSystem
             }
             else if (Constructors.Count == 1)
             {
-                Constructors.ElementAt(0);
+                Constructors.ElementAt(0).InstantiateProperties(ident);
                 // If only one method is found, use its valid input to test against.
                 ValidInput = Constructors.ElementAt(0).ValidInput;
             }
             else
             {
+                Constructors.ElementAt(0).InstantiateProperties(ident);
                 // If several overloads are found, use OverloadVisit to find the best match for the input.
                 List<Input> list = new List<Input>();
                 foreach (MASConstructor c in Constructors)
@@ -289,7 +279,7 @@ namespace MultiAgentSystem
             Input ValidInput = null;
 
             // The list of overloads for the method.
-            List<MASMethod> Methods = MASLibrary.FindMethod(method, kind);
+            List<MASMethod> Methods = new List<MASMethod>(MASLibrary.FindMethod(method, kind));
 
             if (Methods.Count < 1)
             {
@@ -482,9 +472,9 @@ namespace MultiAgentSystem
             Printer.WriteLine("Method Identifier");
             Printer.Expand();
 
-            Token identifier;
+            Token t = (Token)LinkedIdentifier.Identifier.visit(this, arg);
 
-            identifier = (Token)LinkedIdentifier.Identifier.visit(this, arg);
+            Token identifier = new Token(t.kind, t.spelling, t.row, t.col);
 
             if (LinkedIdentifier.NextLinkedIdentifier != null)
             {

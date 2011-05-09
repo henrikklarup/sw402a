@@ -101,10 +101,11 @@ namespace MultiAgentSystem
 
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
-            IdentificationTable.enter((int)Token.keywords.STRING, ident + ".name");
-            if (kind == (int)Token.keywords.TEAM)
+
+            List<MASConstructor> builder = MASLibrary.FindConstructor(kind);
+            if (builder != null)
             {
-                IdentificationTable.enter((int)Token.keywords.STRING, ident + ".color");
+                builder.ElementAt(0).InstantiateProperties(ident);
             }
 
             // visit the input and check the spelling.

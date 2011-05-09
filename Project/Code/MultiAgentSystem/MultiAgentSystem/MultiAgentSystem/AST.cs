@@ -326,8 +326,6 @@ namespace MultiAgentSystem
     /// </summary>
     public class Input : AST
     {
-        public int OverloadID = 0;
-
         // The first input variable.
         public AST firstVar = null;
 
