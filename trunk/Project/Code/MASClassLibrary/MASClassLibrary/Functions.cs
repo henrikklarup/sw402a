@@ -91,10 +91,10 @@ namespace MASClassLibrary
         #endregion
 
         /// <summary>
-        /// Adds encounter
+        /// Adds encounter to list
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="command"></param>
+        /// <param name="id">Agent id</param>
+        /// <param name="command">Action command</param>
         #region addEncounter
         public static void addEncounter(int id, string command)
         {
