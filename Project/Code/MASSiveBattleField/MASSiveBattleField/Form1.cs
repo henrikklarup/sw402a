@@ -467,6 +467,7 @@ namespace MASSiveBattleField
                 //Need to be current team to move
                 if (outerAgent.team.id == Lists.currentteam.id)
                 {
+                    #region Agents to move
                     agent a = null;
 
                     foreach (agent moveAgent in Lists.moveagents)
@@ -477,11 +478,15 @@ namespace MASSiveBattleField
                             break;
                         }
                     }
+                    #endregion
+
+                    //If there is no agents to move, move on
                     if(a != null)
                      {
                         //Checking for agents to move in moveagents
                         if (outerAgent.id == a.id)
                         {
+                            #region Calculate next Position
                             Point agentPoint = new Point(outerAgent.posx, outerAgent.posy);
                             //Move "Down", keep in bounds
                             if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids)
@@ -495,6 +500,7 @@ namespace MASSiveBattleField
                             //Move "Left", keep in bounds
                             else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)
                                 agentPoint.X--;
+                            #endregion
 
                             /*
                                 Moving after id, don't move right if somebody is on your right!
@@ -502,6 +508,7 @@ namespace MASSiveBattleField
 
                             //Check if move is valid, check if anyother agent is on the position where the agent is gonna move
                             bool validMove = true;
+                            #region StandingAgent
                             foreach (agent standingAgent in Lists.agents)
                             {
                                 if (standingAgent.team.id == outerAgent.team.id && standingAgent.id != outerAgent.id)
@@ -517,6 +524,7 @@ namespace MASSiveBattleField
                                     }
                                 }
                             }
+                            #endregion
 
                             //Move is valid, move agent
                             if (validMove)
@@ -524,6 +532,7 @@ namespace MASSiveBattleField
                                 outerAgent.posx = agentPoint.X;
                                 outerAgent.posy = agentPoint.Y;
 
+                                #region CheckForEncounters
                                 agent encounterAgent = Functions.encounter(outerAgent);
                                 if (encounterAgent != null)
                                 {
@@ -542,6 +551,7 @@ namespace MASSiveBattleField
                                         }
                                     }
                                 }
+                                #endregion
 
                             }
                             else
@@ -618,7 +628,7 @@ namespace MASSiveBattleField
 
             if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
             {
-                MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
+                MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam1.ToString() + " left");
             }
             else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 1)
             {
@@ -626,11 +636,11 @@ namespace MASSiveBattleField
             }
             else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 2)
             {
-                MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
+                MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam3.ToString() + " left");
             }
             else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0 && Lists.teams.Count > 3)
             {
-                MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
+                MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam4.ToString() + " left");
             }
 
             //Switch turn
@@ -655,61 +665,6 @@ namespace MASSiveBattleField
         #endregion
 
         #region Lists
-        ///// <summary>
-        ///// Get xml data from files in folder, and puts it into the various lists
-        ///// </summary>
-        ///// <param name="path">Folder containing the xmlfiles</param>
-        //#region GetXMLData
-        //public void getXmlData(string path)
-        //{
-        //    using (var sr = new StreamReader(path + @"\agents.xml"))
-        //    {
-        //        var deserializer = new XmlSerializer(typeof(List<agent>));
-        //        Lists.agents = (List<agent>)deserializer.Deserialize(sr);
-        //    }
-
-        //    using (var sr = new StreamReader(path + @"\teams.xml"))
-        //    {
-        //        var deserializer = new XmlSerializer(typeof(List<team>));
-        //        Lists.teams = (List<team>)deserializer.Deserialize(sr);
-        //    }
-
-        //    using (var sr = new StreamReader(path + @"\squads.xml"))
-        //    {
-        //        var deserializer = new XmlSerializer(typeof(List<oldSquad>));
-        //        List<oldSquad> oldsquad = (List<oldSquad>)deserializer.Deserialize(sr);
-        //        foreach (oldSquad old in oldsquad)
-        //        {
-        //            List<agent> agents = new List<agent>();
-        //            foreach (int i in old.agents)
-        //            {
-        //                agents.Add(Lists.Retrieveagent(i));
-        //            }
-        //            squad newsquad = new squad(old.name);
-        //            newsquad.Agents = agents;
-        //            Lists.squads.Add(newsquad);
-        //        }
-        //    }
-
-        //    using (var sr = new StreamReader(path + @"\actionPatterns.xml"))
-        //    {
-        //        var deserializer = new XmlSerializer(typeof(List<oldActionPattern>));
-        //        List<oldActionPattern> oldaction= (List<oldActionPattern>)deserializer.Deserialize(sr);
-        //        foreach (oldActionPattern old in oldaction)
-        //        {
-        //            List<string> actions = new List<string>();
-        //            foreach (string i in old.actions)
-        //            {
-        //                 actions.Add(i);
-        //            }
-        //            actionpattern newactionpattern = new actionpattern(old.ID, old.actions);
-        //            newactionpattern.name = old.name;
-        //            Lists.actionPatterns.Add(newactionpattern);
-        //        }
-        //    }
-        //}
-        //#endregion
-
         /// <summary>
         /// Place teams on the gamearea
         /// </summary>
