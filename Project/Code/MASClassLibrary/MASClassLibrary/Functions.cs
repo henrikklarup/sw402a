@@ -33,6 +33,7 @@ namespace MASClassLibrary
                     moveagent.posx = newPoint.X;
                     moveagent.posy = newPoint.Y;
 
+                    /*
                     foreach (agent doubleAgent in Lists.moveagents)
                     {
                         if (moveagent.id == doubleAgent.id)
@@ -41,6 +42,7 @@ namespace MASClassLibrary
                             break;
                         }
                     }
+                    */
 
                     Lists.moveagents.Add(moveagent);
 
