@@ -117,39 +117,33 @@ namespace MultiAgentSystem
 
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
-            IdentificationTable.enter((int)Token.keywords.STRING, ident + ".name");
 
-            dummyInput = new Input();
+            // The input to test against.
+            Input ValidInput = null;
 
-            switch (kind)
+            // The list of overloads for the method.
+            List<MASConstructor> Constructors = MASLibrary.FindConstructor(kind);
+
+            if (Constructors.Count < 1)
             {
-                case (int)Token.keywords.AGENT:
-                    dummyNumber.token.spelling = "rank";
-                    dummyString1.token.spelling = "name";
-
-                    dummyInput.firstVar = dummyString1;
-                    dummyInput.nextVar = new Input();
-                    dummyInput.nextVar.firstVar = dummyNumber;
-                    break;
-                case (int)Token.keywords.TEAM:
-                    IdentificationTable.enter((int)Token.keywords.STRING, ident + ".color");
-
-                    dummyString1.token.spelling = "name";
-                    dummyString2.token.spelling = "color";
-
-                    dummyInput.firstVar = dummyString1;
-                    dummyInput.nextVar = new Input();
-                    dummyInput.nextVar.firstVar = dummyString2;
-                    break;
-                case (int)Token.keywords.SQUAD:
-                case (int)Token.keywords.ACTION_PATTERN:
-                    dummyString1.token.spelling = "name";
-
-                    dummyInput.firstVar = dummyString1;
-                    break;
-                default:
-                    dummyInput = null;
-                    break;
+                // If no methods were found, the method name isn't correct.
+                gException.containedExceptions.Add(new GrammarException(
+                    GenerateError(identifier.row, "This is not a valid object.")));
+            }
+            else if (Constructors.Count == 1)
+            {
+                Constructors.ElementAt(0);
+                // If only one method is found, use its valid input to test against.
+                ValidInput = Constructors.ElementAt(0).ValidInput;
+            }
+            else
+            {
+                // If several overloads are found, use OverloadVisit to find the best match for the input.
+                if (objectDeclaration.input != null)
+                {
+                    ValidInput = objectDeclaration.input.OverloadVisit(
+                        this, new List<Input>(), identifier.row);
+                }
             }
 
             if (objectDeclaration.input != null)
@@ -306,7 +300,10 @@ namespace MultiAgentSystem
             else
             {
                 // If several overloads are found, use OverloadVisit to find the best match for the input.
-                ValidInput = methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
+                if (methodCall.input != null)
+                {
+                    ValidInput = methodCall.input.OverloadVisit(this, new List<Input>(), identifier.row);
+                }
             }
 
             // Visit the input if it exists.
@@ -399,18 +396,14 @@ namespace MultiAgentSystem
                     if (firstVar.kind != dummyVar.kind)
                     {
                         gException.containedExceptions.Add(new GrammarException(
-                            /*PrintErrorMessage(firstVar.row)*/firstVar.row + "iubhuhy"));
-                        throwException = true;
-                        Printer.ErrorMarker();
+                            GenerateError(firstVar.row, "The given input was not legal.")));
                     }
                 }
-                // If the given input is different from null, but the valid input is not, give error.
+                // If the given input is different from null, but the valid input is not, set error.
                 else
                 {
                     gException.containedExceptions.Add(new GrammarException(
-                        /*PrintErrorMessage(firstVar.row)*/firstVar.row + "iubhuhy"));
-                    throwException = true;
-                    Printer.ErrorMarker();
+                        GenerateError(firstVar.row, "The given input was not legal.")));
                 }
             }
 

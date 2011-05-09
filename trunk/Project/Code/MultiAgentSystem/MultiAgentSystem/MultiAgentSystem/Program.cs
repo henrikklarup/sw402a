@@ -267,7 +267,7 @@ namespace MultiAgentSystem
             Console.Title = "MASS Compiler: Intermediate";
 
             IntermediateVisitor visitor = new IntermediateVisitor();
-            Methods methods = new Methods();
+            Methods methodsAndCons = new Methods();
 
             try
             {
