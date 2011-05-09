@@ -67,6 +67,7 @@ namespace MASSiveBattleField
             Lists.agents = new List<agent>();
             Lists.actionPatterns = new List<actionpattern>();
             Lists.squads = new List<squad>();
+            Lists.encounters = new List<encounter>();
             #endregion
 
             #region Folder Browser Dialog
