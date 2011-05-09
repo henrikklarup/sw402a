@@ -455,30 +455,44 @@ namespace MASSiveBattleField
             //Game Logic
             #region GameLogic
 
+            if (!Lists.moveagents.Any())
+                return;
+
+
             //Update agent posistions
             #region Update agent posistion
-            foreach (agent aa in Lists.agents)
+            foreach (agent outerAgent in Lists.agents)
             {
                 //Need to be current team to move
-                if (aa.team.id == Lists.currentteam.id)
+                if (outerAgent.team.id == Lists.currentteam.id)
                 {
-                    foreach (agent a in Lists.moveagents)
+                    agent a = null;
+
+                    foreach (agent moveAgent in Lists.moveagents)
                     {
-                        //Checking for agents to move in moveagents
-                        if (aa.id == a.id)
+                        if (moveAgent.id == outerAgent.id)
                         {
-                            Point agentPoint = new Point(aa.posx, aa.posy);
+                            a = moveAgent;
+                            break;
+                        }
+                    }
+                    if(a != null)
+                     {
+                        //Checking for agents to move in moveagents
+                        if (outerAgent.id == a.id)
+                        {
+                            Point agentPoint = new Point(outerAgent.posx, outerAgent.posy);
                             //Move "Down", keep in bounds
-                            if (a.posy > aa.posy && aa.posy + 1 < Grids)
+                            if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids)
                                 agentPoint.Y++;
                             //Move "Up", keep in bounds
-                            else if (a.posy < aa.posy && aa.posy - 1 > -1)
+                            else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1)
                                 agentPoint.Y--;
                             //Move "Right", keep in bounds
-                            else if (a.posx > aa.posx && aa.posx + 1 < Grids)
+                            else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids)
                                 agentPoint.X++;
                             //Move "Left", keep in bounds
-                            else if (a.posx < aa.posx && aa.posx - 1 > -1)
+                            else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)
                                 agentPoint.X--;
 
                             /*
@@ -489,7 +503,7 @@ namespace MASSiveBattleField
                             bool validMove = true;
                             foreach (agent standingAgent in Lists.agents)
                             {
-                                if (standingAgent.team.id == aa.team.id && standingAgent.id != aa.id)
+                                if (standingAgent.team.id == outerAgent.team.id && standingAgent.id != outerAgent.id)
                                 {
                                     Point standingAgentPoint = new Point(standingAgent.posx, standingAgent.posy);
                                     if (agentPoint == standingAgentPoint)
@@ -506,8 +520,8 @@ namespace MASSiveBattleField
                             //Move is valid, move agent
                             if (validMove)
                             {
-                                aa.posx = agentPoint.X;
-                                aa.posy = agentPoint.Y;
+                                outerAgent.posx = agentPoint.X;
+                                outerAgent.posy = agentPoint.Y;
                             }
                             else
                             {
@@ -515,8 +529,8 @@ namespace MASSiveBattleField
                                 break;
                             }
 
-                            //Move not valid, or agent at distination, remove from moveAgents list
-                            if(a.posx == aa.posx && a.posy == aa.posy)
+                            //Move valid, or agent at distination, remove from moveAgents list
+                            if (a.posx == outerAgent.posx && a.posy == outerAgent.posy)
                             {
                                 Lists.moveagents.Remove(a);
                                 break;
