@@ -55,5 +55,37 @@ namespace MASClassLibrary
             }
         }
         #endregion
+
+        /// <summary>
+        /// Check if any other agents are within next move
+        /// </summary>
+        /// <param name="checkAgent">Agent to check against</param>
+        /// <returns>First agent encountered</returns>
+        public static agent encounter(agent checkAgent)
+        {
+            foreach (agent a in Lists.agents)
+            {
+                if (a.team.id != checkAgent.team.id)
+                {
+                    if (a.posy == checkAgent.posy - 3 && (a.posx == checkAgent.posx))
+                        return a;
+                    else if (a.posy == checkAgent.posy - 2 && (a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1))
+                        return a;
+                    else if (a.posy == checkAgent.posy - 1 && (a.posx == checkAgent.posx - 2 || a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1 || a.posx == checkAgent.posx + 2))
+                        return a;
+                    else if (a.posy == checkAgent.posy && (a.posx == checkAgent.posy - 3 || a.posx == checkAgent.posx - 2 || a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1 || a.posx == checkAgent.posx + 2 || a.posx == checkAgent.posx + 3))
+                        return a;
+                    else if (a.posy == checkAgent.posy + 1 && (a.posx == checkAgent.posx - 2 || a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1 || a.posx == checkAgent.posx + 2))
+                        return a;
+                    else if (a.posy == checkAgent.posy + 2 && (a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1))
+                        return a;
+                    else if (a.posy == checkAgent.posy + 3 && (a.posx == checkAgent.posx))
+                        return a;
+                    else
+                        return null;
+                }
+            }
+            return null;
+        }
     }
 }
