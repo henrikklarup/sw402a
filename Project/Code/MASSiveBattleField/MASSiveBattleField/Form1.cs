@@ -238,8 +238,13 @@ namespace MASSiveBattleField
         #region Endturn
         private void button1_Click(object sender, EventArgs e)
         {
+            EndTurn();
+        }
+
+        private void EndTurn()
+        {
             //Run the game frame
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
                 gameFrame();
 
             switchTurn();
@@ -291,6 +296,7 @@ namespace MASSiveBattleField
 
         private void Execute()
         {
+            #region Compile whatever is in textBox1
             if (textBox1.Text != string.Empty)
             {
                 // Takes the text from the textbox and stores it as a string.
@@ -311,6 +317,11 @@ namespace MASSiveBattleField
                 //textBox4.AppendText(output);
 
                 textBox1.Clear();
+            }
+            #endregion
+            else
+            {
+                EndTurn();
             }
         }
 
