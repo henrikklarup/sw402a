@@ -202,6 +202,24 @@ namespace ActionInterpeter
                     num2 = _agent.posy;
 
                     Token token = dir.dir;
+
+                    switch (token.spelling.ToLower())
+                    {
+                        case "up":
+                        case "down":
+                        case "left":
+                        case "right":
+                            foreach (agent a in Lists.moveagents)
+                            {
+                                if (a.id == _agent.id)
+                                {
+                                    num1 = a.posx;
+                                    num2 = a.posy;
+                                }
+                            }
+                            break;
+                    }
+
                     switch (token.spelling.ToLower())
                     {
                         case "up":
@@ -217,6 +235,7 @@ namespace ActionInterpeter
                             num1++;
                             break;
                         case "hold":
+                            Lists.moveagents.RemoveAll(s => s.id == _agent.id);
                             break;
                     }
                     break;
