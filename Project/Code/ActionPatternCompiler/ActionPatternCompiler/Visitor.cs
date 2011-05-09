@@ -20,6 +20,34 @@ namespace ActionPatternCompiler
         }
         
         /// <summary>
+        /// Vists a single action
+        /// </summary>
+        /// <param name="single_Action">Any Single Action</param>
+        /// <param name="arg">Any object</param>
+        /// <returns>null</returns>
+        internal object visitSingle_Action(Single_Action single_Action, object arg)
+        {
+            Token stance = single_Action.stance.stance;
+
+            #region move_option behaviour
+            switch (stance.kind)
+            {
+                case (int)Token.keywords.MOVE:
+                    single_Action.move_option.stance = (int)Stance.Stances.MOVE;
+                    break;
+                case (int)Token.keywords.ENCOUNTER:
+                    single_Action.move_option.stance = (int)Stance.Stances.ENCOUNTER;
+                    break;
+            }
+            #endregion
+
+            // Gets the move option (e.g. coordinate) and stores it in the move_option variable.
+            single_Action.move_option = (Move_Option)single_Action.move_option.visit(this, arg);
+
+            return null;
+        }
+        
+        /// <summary>
         /// Execute the moveagent method.
         /// </summary>
         /// <param name="agent">The agent which is being moved.</param>
@@ -77,7 +105,16 @@ namespace ActionPatternCompiler
                 default:
                     throw new InvalidMoveOptionException("The move Option was invalid!");
             }
-            Functions.moveagent(ActionPattern.thisAgent, num1, num2);
+
+            switch (move_Option.stance)
+            {
+                case (int)Stance.Stances.MOVE:
+                    Functions.moveagent(ActionPattern.thisAgent, num1, num2);
+                    break;
+                case (int)Stance.Stances.ENCOUNTER:
+                    throw new NotImplementedException();
+                    break;
+            }
         }
 
 

@@ -12,12 +12,24 @@ namespace ActionPatternCompiler
 
     abstract class Terminal : AST
     { }
-        
+
+    class Single_Action : AST
+    {
+        public Stance stance;
+        public Move_Option move_option;
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitSingle_Action(this, arg);
+        }
+    }
+
     class Move_Option : AST
     {
         public AST dir_coord;
 
-        public int type;
+        public int type;        // Direction, coordinate or ActionPattern.
+        public int stance;      // Indicates which stance the unit has to be in to use the action.
 
         public override object visit(Visitor v, object arg)
         {
@@ -74,6 +86,17 @@ namespace ActionPatternCompiler
             COORD,
             NUMBER,
             ACTIONPATTERN,
+        }
+    }
+
+    class Stance
+    {
+        public Token stance;
+
+        public enum Stances
+        {
+            MOVE,
+            ENCOUNTER,
         }
     }
 }

@@ -56,17 +56,47 @@ namespace ActionPatternCompiler
         {
             currentToken = scanner.scan();
             
-            // the first token in an actionpattern should always be "unit".
-            accept(Token.keywords.UNIT);
-
-            AST ast = parseMove_Option();
+            AST ast = parseSingle_Action();
             
             if (throwException)
             { throw gException; }
             
             return ast;
         }
-        
+
+        /// <summary>
+        /// Parse a single action, parse the selection and the move option.
+        /// </summary>
+        /// <returns>A single action, containing selection and move option.</returns>
+        private Single_Action parseSingle_Action()
+        {
+            Single_Action singleAction = new Single_Action();
+
+            // the first token in an actionpattern should always be "unit".
+            accept(Token.keywords.UNIT);
+
+            // Parse the units behaviour (e.g. move).
+            singleAction.stance = parseStance();
+
+            // Parse which move option the selected unit is going to use.
+            singleAction.move_option = parseMove_Option();
+            return singleAction;
+        }
+
+        private Stance parseStance()
+        {
+            Stance stance = new Stance();
+            switch (currentToken.kind)
+            {
+                case (int)Token.keywords.MOVE:
+                case (int)Token.keywords.ENCOUNTER:
+                    stance.stance = currentToken;
+                    acceptIt();
+                    break;
+            }
+            return stance;
+        }
+
         private MASNumber parseMASNumber()
         { 
             MASNumber num;
@@ -90,7 +120,6 @@ namespace ActionPatternCompiler
         private Move_Option parseMove_Option()
         {
             Move_Option move_option;
-            accept(Token.keywords.MOVE);
 
             switch(currentToken.kind)
             {
@@ -180,8 +209,6 @@ namespace ActionPatternCompiler
                         (Token.keywords)currentToken.kind + " is not a valid coordinate.", currentToken));
                     return null;
             }
-
-            
         }
     }
 }

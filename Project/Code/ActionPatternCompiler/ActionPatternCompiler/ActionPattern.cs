@@ -27,7 +27,7 @@ namespace ActionPatternCompiler
                     continue;
                 try
                 {
-                    Parse();
+                    Compile(input, Lists.agents.FirstOrDefault());
                 }
                 catch (GrammarException e)
                 {
