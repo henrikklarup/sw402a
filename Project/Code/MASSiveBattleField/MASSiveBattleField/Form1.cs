@@ -84,7 +84,7 @@ namespace MASSiveBattleField
 
             //Turnswitch set to random
             Random rnd = new Random();
-            turn = rnd.Next(1,Lists.teams.Count);
+            turn = rnd.Next(1,Lists.teams.Count+1);
             Lists.currentteam = Lists.RetrieveTeam(turn);
             label6.Text = "Team " + turn;
 
@@ -266,13 +266,16 @@ namespace MASSiveBattleField
         #endregion
 
         #region Execute
+        #region ExecuteButtonClick
         private void button4_Click(object sender, EventArgs e)
         {
             ThreadStart ts1 = new ThreadStart(doGameFrame);
             Thread workThread = new Thread(ts1);
             workThread.Start();
         }
+        #endregion
 
+        #region ExecuteButtonFrame
         private void doGameFrame()
         {
             if (Lists.moveagents.Count > 0 && Lists.currentteam.id == turn)
@@ -288,16 +291,21 @@ namespace MASSiveBattleField
                 Thread.CurrentThread.Abort();
             }
         }
+        #endregion
 
+        #region Keypress
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             // char 13 = the enter key.
             if (e.KeyChar == (char)13)
             {
                 Execute();
+                e.Handled = true;
             }
         }
+        #endregion
 
+        #region ExecuteFunction
         private void Execute()
         {
             #region Compile whatever is in textBox1
@@ -328,6 +336,7 @@ namespace MASSiveBattleField
                 EndTurn();
             }
         }
+        #endregion
 
         #endregion
         #endregion
@@ -516,23 +525,56 @@ namespace MASSiveBattleField
                         {
                             #region Calculate next Position
                             Point agentPoint = new Point(outerAgent.posx, outerAgent.posy);
-                            //Move "Down", keep in bounds
-                            if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y+1)) == null))
-                                agentPoint.Y++;
-                            //Move "Up", keep in bounds
-                            else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y-1)) == null))
-                                agentPoint.Y--;
-                            //Move "Right", keep in bounds
-                            else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X+1, agentPoint.Y)) == null))
-                                agentPoint.X++;
-                            //Move "Left", keep in bounds
-                            else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
-                                agentPoint.X--;
-                            else
+                            Random rnd = new Random();
+                            int randomNumber = rnd.Next(1, 3);
+
+                            if (randomNumber == 1)
                             {
-                                Lists.moveagents.Remove(a);
-                                string sendtext = Environment.NewLine + a.name + "couldn't move this round";
-                                textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                #region Left/Right First
+                                //Move "Right", keep in bounds
+                                if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
+                                    agentPoint.X++;
+                                //Move "Left", keep in bounds
+                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
+                                    agentPoint.X--;
+                                //Move "Down", keep in bounds
+                                else if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
+                                    agentPoint.Y++;
+                                //Move "Up", keep in bounds
+                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
+                                    agentPoint.Y--;
+
+                                else
+                                {
+                                    Lists.moveagents.Remove(a);
+                                    string sendtext = Environment.NewLine + a.name + "couldn't move this round";
+                                    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                }
+                                #endregion
+                            }
+
+                            if (randomNumber == 2)
+                            {
+                                #region Up/Down First
+                                //Move "Down", keep in bounds
+                                if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
+                                    agentPoint.Y++;
+                                //Move "Up", keep in bounds
+                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
+                                    agentPoint.Y--;
+                                //Move "Right", keep in bounds
+                                else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
+                                    agentPoint.X++;
+                                //Move "Left", keep in bounds
+                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
+                                    agentPoint.X--;
+                                else
+                                {
+                                    Lists.moveagents.Remove(a);
+                                    string sendtext = Environment.NewLine + a.name + "couldn't move this round";
+                                    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                }
+                                #endregion
                             }
                             #endregion
 
