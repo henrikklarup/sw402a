@@ -68,6 +68,23 @@ namespace ActionPatternCompiler
                     switch (token.spelling.ToLower())
                     {
                         case "up":
+                        case "down":
+                        case "left":
+                        case "right":
+                            foreach (agent a in Lists.moveagents)
+                            {
+                                if (a.id == ActionPattern.thisAgent.id)
+                                {
+                                    num1 = a.posx;
+                                    num2 = a.posy;
+                                }
+                            }
+                            break;
+                    }
+
+                    switch (token.spelling.ToLower())
+                    {
+                        case "up":
                             num2--;
                             break;
                         case "down":
@@ -80,6 +97,7 @@ namespace ActionPatternCompiler
                             num1++;
                             break;
                         case "hold":
+                            Lists.moveagents.RemoveAll(s => s.id == ActionPattern.thisAgent.id);
                             break;
                     }
                     break;
