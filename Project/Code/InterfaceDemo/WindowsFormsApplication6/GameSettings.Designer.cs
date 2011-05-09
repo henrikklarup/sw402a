@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication6
+﻿namespace MASSiveBattleField
 {
     partial class GameSettings
     {

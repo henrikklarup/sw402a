@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication6
+﻿namespace MASSiveBattleField
 {
     partial class WarGame
     {
@@ -50,7 +50,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.dbPanel1 = new WindowsFormsApplication6.DBPanel();
+            this.dbPanel1 = new MASSiveBattleField.DBPanel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();

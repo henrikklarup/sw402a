@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication6
+namespace MASSiveBattleField
 {
     public partial class GameSettings : Form
     {
