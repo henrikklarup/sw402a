@@ -58,6 +58,10 @@ namespace ActionInterpeter
                     Printer.WriteLine(s);
                 }
             }
+            catch (Exception e)
+            {
+                Printer.WriteLine(e.Message);
+            }
             return output.ToString();
         }
 
