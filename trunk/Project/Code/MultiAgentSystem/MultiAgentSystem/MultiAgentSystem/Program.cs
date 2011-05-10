@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
+using MASClassLibrary;
 
 namespace MultiAgentSystem
 {
