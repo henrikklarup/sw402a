@@ -70,7 +70,7 @@ namespace MASSiveBattleField
             #region Folder Browser Dialog
             //Xml-path choosen
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-
+            fbd.SelectedPath = Environment.CurrentDirectory;
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //Generate xml data
