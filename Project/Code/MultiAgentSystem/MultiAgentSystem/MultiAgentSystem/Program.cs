@@ -64,7 +64,7 @@ namespace MultiAgentSystem
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("Would you like to use the standard file (desktop/mass.txt)? y/n");
+                Console.WriteLine("Would you like to use the standard file (mass.txt)? y/n");
 
                 ConsoleKeyInfo cki = Console.ReadKey();
 

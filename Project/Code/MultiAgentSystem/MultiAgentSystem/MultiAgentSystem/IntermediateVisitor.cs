@@ -153,7 +153,7 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "These inputs are valid for this constructor: \n" + valids)));
+                        "These inputs are valid: \n" + valids)));
                 }
                 else
                 {
@@ -171,14 +171,14 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "These inputs are valid for this constructor: \n" + valids)));
+                        "These inputs are valid: \n" + valids)));
                 }
             }
             else if (objectDeclaration.input == null && ValidInput != null)
             {
                 gException.containedExceptions.Add(new GrammarException(
                     GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                    "These inputs are valid for this constructor: \n" + valids)));
+                    "These inputs are valid: \n" + valids)));
             }
 
             Printer.Collapse();
@@ -200,9 +200,11 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // Stores the type and the identifier of the declaration
-            typeDeclaration.Type.visit(this, arg);
-            typeDeclaration.VarName.visit(this, arg);
+            Token kind = (Token)typeDeclaration.Type.visit(this, arg);
+            Token name = (Token)typeDeclaration.VarName.visit(this, arg);
             typeDeclaration.Becomes.visit(this, arg);
+
+            IdentificationTable.enter(kind.kind, name.spelling);
 
             Printer.Collapse();
             return null;
