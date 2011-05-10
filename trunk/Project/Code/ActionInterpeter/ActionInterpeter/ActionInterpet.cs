@@ -75,21 +75,7 @@ namespace ActionInterpeter
             {
                 Parse();
             }
-            catch (InvalidMoveOptionException e)
-            {
-                foreach (string s in e.PrintExceptions())
-                {
-                    Printer.WriteLine(s);
-                }
-            }
-            catch (WrongTeamException e)
-            {
-                foreach (string s in e.PrintExceptions())
-                {
-                    Printer.WriteLine(s);
-                }
-            }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
                 Printer.WriteLine(e.Message);
             }
