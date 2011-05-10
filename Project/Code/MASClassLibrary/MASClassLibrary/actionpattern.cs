@@ -28,7 +28,14 @@ namespace MASClassLibrary
 
         public actionpattern(string name)
         {
-            this.name = name;
+            if (Lists.RetrieveSquad(name) != null)
+            {
+                this.name = name + Lists.actionPatterns.Count;
+            }
+            else
+            {
+                this.name = name;
+            }
             this.actions = new List<string>();
             Lists.actionPatterns.Add(this);
         }

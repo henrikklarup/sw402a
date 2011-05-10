@@ -21,9 +21,16 @@ namespace MASClassLibrary
 
         public squad(string name)
         {
-            this.name = name;
-            this.Agents = new List<agent>();
             this._iD = Lists.NextSquadID;
+            if (Lists.RetrieveSquad(name) != null)
+            {
+                this.name = name + this._iD;
+            }
+            else
+            {
+                this.name = name;
+            }
+            this.Agents = new List<agent>();
             Lists.squads.Add(this);
         }
 

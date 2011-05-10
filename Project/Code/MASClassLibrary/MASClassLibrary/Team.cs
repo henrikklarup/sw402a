@@ -37,7 +37,14 @@ namespace MASClassLibrary
         public team(string name, string color)
         {
             this._iD = Lists.NextTeamID;
-            this.name = name;
+            if (Lists.RetrieveTeam(name) != null)
+            {
+                this.name = name + this._iD;
+            }
+            else
+            {
+                this.name = name;
+            }
             this.color = ColorTranslator.FromHtml(color);
             this.colorStr = color;
             Lists.teams.Add(this);
