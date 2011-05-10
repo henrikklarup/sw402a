@@ -316,7 +316,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // one.agents.add(two)
-            return one + ".agents.add(" + two + ")";
+            return one + ".Agents.Add(" + two + ")";
         }
     }
 
@@ -341,7 +341,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // actionpattern.add(two)
-            return one + ".add(" + two + ")";
+            return one + ".Add(" + two + ")";
         }
     }
 
