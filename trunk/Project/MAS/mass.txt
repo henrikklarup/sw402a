@@ -1,0 +1,79 @@
+/* Initializes the game with the properties
+Maximum Units = 400
+*/
+Main(400)
+{	
+	/* Creates two teams with the properties
+	Name = Aliens / Team Rocket
+	Color = Hex code of the colors Red and Green */
+	new Team teamAliens("Aliens", "#FF0000");
+	new Team teamRocket("Team Rocket", "#00CC00");
+	
+	new Agent agentJohn("John", 5);
+	new Agent agentJane("Jane", 5);
+	new Agent agentBob("Bob", 5);
+	new Agent agentAlice("Alice", 5);
+	teamAliens.add(agentJohn);
+	teamAliens.add(agentJane);
+	teamAliens.add(agentBob);
+	teamAliens.add(agentAlice);
+
+	/* Creates a squad with the properties
+	Name = Squad Aliens*/
+	new squad squadAliens("Squad Aliens");	
+	new squad squadPredator("Squad Predator");
+	new squad squadA("Alfa");
+	new squad squadB("Beta");
+	new squad squadC("Gamma");
+	new squad squadD("Delta");
+	
+	squadAliens.add(agentJohn);
+	squadAliens.add(agentJane);
+
+	squadPredator.add(agentBob);
+	squadPredator.add(agentAlice);
+
+	if(1 != 1)
+	{}
+
+	for(num i = 0; i < 20; i = i + 1)
+	{
+		/* Creates a new agent with the properties
+		Name = unit
+		Rank = 1
+		Team = teamRocket
+		If there is more units with the same name, 
+		the new unit will get a unique name */
+		new Agent newAgent("theUnit", 1);
+		teamRocket.add(newAgent);
+		
+		if(i < 20/4)
+		{
+			squadA.add(newAgent);
+		}
+		if(i < (20/4)*2)
+		{
+			squadB.add(newAgent);
+		}
+		if(i < (20/4)*3)
+		{
+			squadC.add(newAgent);
+		}
+		else
+		{
+			squadD.add(newAgent);
+		}
+	}
+		
+	new actionPattern circle("ap1");
+
+	circle.add("unit move left");
+	circle.add("unit move down");
+	circle.Add("unit move down");
+	circle.add("unit move Right");
+	circle.add("unit move Right");
+	circle.add("unit move up");
+	circle.add("unit move up");
+	circle.add("unit move left");
+
+}
