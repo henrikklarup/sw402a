@@ -78,6 +78,7 @@ namespace MASSiveBattleField
             //    placeteams();
             //}
             XML.returnLists(Environment.CurrentDirectory);
+            placeteams();
             #endregion
 
             //Turnswitch set to random
