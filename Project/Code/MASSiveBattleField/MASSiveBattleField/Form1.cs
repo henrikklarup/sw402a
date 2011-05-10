@@ -436,9 +436,9 @@ namespace MASSiveBattleField
 
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
-            int agent1Value = a1.rank * rnd.Next(100);
+            int agent1Value = (int)a1.rank * rnd.Next(100);
             Random rnd1 = new Random(agent1Value);
-            int agent2Value = a2.rank * rnd1.Next(100);
+            int agent2Value = (int)a2.rank * rnd1.Next(100);
 
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
