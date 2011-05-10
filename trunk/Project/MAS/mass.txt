@@ -1,6 +1,5 @@
 /* Initializes the game with the properties
-Maximum Units = 400
-*/
+Maximum Units = 400 */
 Main ( 400 )
 {	
 	/* Creates two teams with the properties
@@ -172,7 +171,7 @@ Main ( 400 )
 	patrolRight.add("unit move 23,0");
 	patrolRight.add(moveRight);
 	
-	// Creates the action pattern Patrol LEft.
+	// Creates the action pattern Patrol Left.
 	// Patrols the Left part of the game area.
 	new actionpattern patrolLeft("PatrolLeft");
 	patrolRight.add(moveRight);
