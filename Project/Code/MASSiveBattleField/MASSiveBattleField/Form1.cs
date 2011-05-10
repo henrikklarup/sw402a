@@ -61,7 +61,7 @@ namespace MASSiveBattleField
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
-            selectedagent = new agent();
+            //selectedagent = new agent();
 
             //InitializeLists
             XML.initLists();
@@ -740,7 +740,8 @@ namespace MASSiveBattleField
                 switchTurn();
             #endregion
 
-            updateStatsField();
+            if(selectedagent != null)
+                updateStatsField();
 
             //Update Label6
             label6.BeginInvoke(new UpdateTextCallback(UpdateLabel6), "Team " + turn);
