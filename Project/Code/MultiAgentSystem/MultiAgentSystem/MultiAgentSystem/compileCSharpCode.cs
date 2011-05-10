@@ -51,7 +51,7 @@ namespace MultiAgentSystem
             CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp", provOptions);
             System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
             
-            //Make sure we generate an EXE, not a DLL
+            // Make sure we generate an EXE, not a DLL
             parameters.GenerateExecutable = true;
             /// Determines where the output file is going to be placed.
             /// In this case it will be placed in our standard "path" Directory. Look above.
