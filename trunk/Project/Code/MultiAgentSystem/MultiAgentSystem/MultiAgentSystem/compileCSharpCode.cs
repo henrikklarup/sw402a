@@ -59,13 +59,10 @@ namespace MultiAgentSystem
             /// assemblies we are going to use in the code it's supposed to compile
             /// so that it can compile the necessary functions with it.
             parameters.ReferencedAssemblies.Add("System.Drawing.dll");
-            parameters.ReferencedAssemblies.Add("System.Collections.Generic.dll");
-            parameters.ReferencedAssemblies.Add("System.Linq.dll");
-            parameters.ReferencedAssemblies.Add("System.Text.dll");
-            parameters.ReferencedAssemblies.Add("System.IO.dll");
-            parameters.ReferencedAssemblies.Add(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\System.XML.dll");
+            parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Runtime.Serialization.dll");
-            parameters.ReferencedAssemblies.Add(CustomLibraryPath);
+            parameters.ReferencedAssemblies.Add("MASClassLibrary.dll");
+            //parameters.ReferencedAssemblies.Add(CustomLibraryPath);
 
             // This class gathers all the results from the compilation and accepts the source code.
             CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, inputfil);
