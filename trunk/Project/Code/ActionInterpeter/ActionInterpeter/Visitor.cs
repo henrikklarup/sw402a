@@ -209,7 +209,7 @@ namespace ActionInterpeter
                     // If the stance is an encounter call the add encounter function.
                     if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
                     {
-                        Functions.addEncounter(_agent.id, _agent.name + " move " + token.spelling);
+                        Functions.addEncounter(_agent, _agent.name + " move " + token.spelling);
                         return;
                     }
 
@@ -258,7 +258,7 @@ namespace ActionInterpeter
                     // If the stance is an encounter call the add encounter function.
                     if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
                     {
-                        Functions.addEncounter(_agent.id, _agent.name + " move " + num1 + "," + num2);
+                        Functions.addEncounter(_agent, _agent.name + " move " + num1 + "," + num2);
                         return;
                     }
                     break;
@@ -275,7 +275,7 @@ namespace ActionInterpeter
                     // If the stance is an encounter call the add encounter function.
                     if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
                     {
-                        Functions.addEncounter(_agent.id, _agent.name + " move " + ap.name);
+                        Functions.addEncounter(_agent, _agent.name + " move " + ap.name);
                         return;
                     }
 
