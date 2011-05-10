@@ -499,7 +499,7 @@ namespace MultiAgentSystem
             {
                 s += ", ";
                 Printer.Collapse();
-                object nextVar = input.nextVar.visit(this, arg);
+                s = (string)input.nextVar.visit(this, s);
                 Printer.Expand();
             }
 

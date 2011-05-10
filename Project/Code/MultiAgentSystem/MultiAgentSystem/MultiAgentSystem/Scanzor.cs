@@ -8,7 +8,6 @@ namespace MultiAgentSystem
 {
     class Scanzor
     {
-
         public string[] fileLines;                  // The input file being read
         public int fileCounter = 0;                 // Counts which line currently being looked at        
         public char[] charLine;                     // Holds the current line as an array of chars
