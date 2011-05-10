@@ -1,7 +1,0 @@
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\bin\Debug\MultiAgentSystem.exe
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\bin\Debug\MultiAgentSystem.pdb
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\obj\x86\Debug\MultiAgentSystem.exe
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\obj\x86\Debug\MultiAgentSystem.pdb
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\bin\Debug\MASClassLibrary.dll
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MultiAgentSystem\MultiAgentSystem\MultiAgentSystem\bin\Debug\MASClassLibrary.pdb
