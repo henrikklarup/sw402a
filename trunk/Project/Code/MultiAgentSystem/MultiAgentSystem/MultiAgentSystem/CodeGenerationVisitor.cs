@@ -11,6 +11,7 @@ namespace MultiAgentSystem
         private string CodeGenerationPath = Program.path + @"\MASSCode.cs";
 
         private bool Print = true;
+        private int blockCount = 0;
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
@@ -95,6 +96,8 @@ namespace MultiAgentSystem
             Printer.WriteLine("Block");
             Printer.Expand();
 
+            blockCount++;
+
             // If arg is true, start a new block.
             if (!Print)
             {
@@ -122,11 +125,21 @@ namespace MultiAgentSystem
             IdentificationTable.closeScope();
 
             // Finish the block.
+            if (blockCount == 1)
+            {
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine("XML.generateXML(@\"" + Program.path + "\");");
+                    file.Close();
+                }
+            }
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("}");
                 file.Close();
             }
+
+            blockCount--;
 
             Printer.Collapse();
             return null;

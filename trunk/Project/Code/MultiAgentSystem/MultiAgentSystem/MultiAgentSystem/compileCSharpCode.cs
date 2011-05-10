@@ -18,23 +18,23 @@ namespace MultiAgentSystem
 
             /// Gives the directory of our custom XML-file in the SVN Repository.
             /// Hopefully it exists.
-            CustomLibraryPath = (Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString()).ToString()).ToString()).ToString()).ToString() + "\\MASClassLibrary\\MASClassLibrary\\bin\\Debug\\MASClassLibrary.dll";
+            //CustomLibraryPath = (Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString()).ToString()).ToString()).ToString()).ToString() + "\\MASClassLibrary\\MASClassLibrary\\bin\\Debug\\MASClassLibrary.dll";
             string Output = Path.ChangeExtension(path, ".exe");
 
             /// Checks whether or not the path for our custom XML-file is correct
             /// and asks for a new one if necessary.
-            if (File.Exists(CustomLibraryPath) == false)
-            {
+            //if (File.Exists(CustomLibraryPath) == false)
+            //{
 
-                Printer.ErrorLine("Cannot locate MASlibrary at location " + CustomLibraryPath);
+            //    Printer.ErrorLine("Cannot locate MASlibrary at location " + CustomLibraryPath);
 
-                while (File.Exists(CustomLibraryPath) == false)
-                {
-                    Console.WriteLine("Please enter a path");
-                    CustomLibraryPath = Console.ReadLine();
-                }
+            //    while (File.Exists(CustomLibraryPath) == false)
+            //    {
+            //        Console.WriteLine("Please enter a path");
+            //        CustomLibraryPath = Console.ReadLine();
+            //    }
 
-            }
+            //}
 
             // Creates a dictionary containing options for the compiler.
             Dictionary<string, string> provOptions = new Dictionary<string, string>();
@@ -60,9 +60,9 @@ namespace MultiAgentSystem
             /// so that it can compile the necessary functions with it.
             parameters.ReferencedAssemblies.Add("System.Drawing.dll");
             parameters.ReferencedAssemblies.Add("System.dll");
+            parameters.ReferencedAssemblies.Add("System.XML.dll");
             parameters.ReferencedAssemblies.Add("System.Runtime.Serialization.dll");
             parameters.ReferencedAssemblies.Add("MASClassLibrary.dll");
-            //parameters.ReferencedAssemblies.Add(CustomLibraryPath);
 
             // This class gathers all the results from the compilation and accepts the source code.
             CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, inputfil);
