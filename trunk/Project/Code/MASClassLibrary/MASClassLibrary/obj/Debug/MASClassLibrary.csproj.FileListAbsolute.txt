@@ -1,5 +1,0 @@
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MASClassLibrary\MASClassLibrary\bin\Debug\MASClassLibrary.dll
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MASClassLibrary\MASClassLibrary\bin\Debug\MASClassLibrary.pdb
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\MASClassLibrary.dll
-C:\Users\Rasmus\Documents\Studier\P4 - Multi Agent System\Project\Code\MASClassLibrary\MASClassLibrary\obj\Debug\MASClassLibrary.pdb
