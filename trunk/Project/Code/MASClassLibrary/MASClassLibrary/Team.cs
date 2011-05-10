@@ -30,7 +30,7 @@ namespace MASClassLibrary
         {
             this._iD = Lists.NextTeamID;
             this.name = name;
-            this.color = Color.Green;
+            this.color = ColorTranslator.FromHtml("#00ff00");
             Lists.teams.Add(this);
         }
 
