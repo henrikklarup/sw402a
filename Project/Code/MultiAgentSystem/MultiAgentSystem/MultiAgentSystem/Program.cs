@@ -70,7 +70,7 @@ namespace MultiAgentSystem
                 if (cki.Key == ConsoleKey.Y)
                 {
                     Console.WriteLine("");
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\mass.txt";
+                    path = Environment.CurrentDirectory + @"\mass.txt";
                     // Checks whether the file exists or not.
                     while (File.Exists(Program.path) == false)
                     {
