@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<ArrayOfOldActionPattern xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <oldActionPattern>
+    <ID>1</ID>
+    <actions>
+		<string>unit move up</string>
+		<string>unit move left</string>
+		<string>unit move down</string>
+		<string>unit move right</string>
+	</actions>
+    <name>ap1</name>
+  </oldActionPattern>
+  <oldActionPattern>
+    <ID>2</ID>
+    <actions>
+		<string>unit move 0,0</string>
+		<string>unit move 25,0</string>
+		<string>unit move 25,25</string>
+		<string>unit move 0,25</string>
+	</actions>
+    <name>ap2</name>
+  </oldActionPattern>
+  <oldActionPattern>
+    <ID>3</ID>
+    <actions>
+		<string>unit move ap1</string>
+		<string>unit move ap2</string>
+		<string>unit move ap2</string>
+		<string>unit move ap1</string>
+	</actions>
+    <name>ap3</name>
+  </oldActionPattern>
+  <oldActionPattern>
+    <ID>4</ID>
+    <actions>
+		<string>unit move 12,13</string>
+		<string>unit move 0,0</string>
+	</actions>
+    <name>ap4</name>
+  </oldActionPattern>
+</ArrayOfOldActionPattern>

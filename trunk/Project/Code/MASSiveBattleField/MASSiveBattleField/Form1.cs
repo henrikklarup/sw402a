@@ -314,8 +314,7 @@ namespace MASSiveBattleField
                 // Takes the text from the textbox and stores it as a string.
                 string text = textBox1.Text;
 
-                ActionInterpet.input = text;
-                string output = ActionInterpet.Compile();
+                string output = ActionInterpet.Compile(text);
 
                 //If there were no errors, write success!
                 if (output == "")
@@ -480,14 +479,14 @@ namespace MASSiveBattleField
                         {
                             if (en.agentId == testagent.id)
                             {
-                                ActionInterpet.input = en.action;
+                                string input = en.action;
                                 if (!removed)
                                 {
                                     Lists.moveagents.RemoveAll(s => s.id == testagent.id);
                                     Lists.encounters.Remove(en);
                                     removed = true;
                                 }
-                                ActionInterpet.Compile();
+                                ActionInterpet.Compile(input);
                                 break;
                             }
                         }

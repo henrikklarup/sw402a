@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MASClassLibrary;
 
 namespace ActionInterpeter
 {
@@ -84,21 +85,17 @@ namespace ActionInterpeter
         private Identifier parseIdentifier()
         {
             Identifier ident;
-            if (currentToken.kind == (int)Token.keywords.IDENTIFIER)
+
+            switch(currentToken.kind)
             {
-                ident = new Identifier();
-                ident.name = currentToken;
-                acceptIt();
-                return ident;
+                case (int)Token.keywords.IDENTIFIER:
+                    ident = new Identifier();
+                    ident.name = currentToken;
+                    acceptIt();
+                    return ident;
+                default:
+                    throw new GrammarException("Token " + (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken);
             }
-            else
-            {
-                throwException = true;
-                gException.containedExceptions.Add(new GrammarException(
-                    "Token " +
-                    (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken));
-            }
-            return null;
         }
 
         /// <summary>
@@ -177,9 +174,24 @@ namespace ActionInterpeter
                     // If the selection is an identifier, treat it as one.
                     Identifier ident = parseIdentifier();
                     return ident;
+                case (int)Token.keywords.UNIT:
+                    acceptIt();
+                    // If there havn't been stored an agent, this must be an invalid call.
+                    if (ActionInterpet.thisAgent == null)
+                        throw new GrammarException("Token " + (Token.keywords)currentToken.kind +
+                            " is not a valid selection.", currentToken);
+                    else
+                    {
+                        // If the agent exists, create a "fake" token, to be able to use it later.
+                        Identifier agentUnit = new Identifier();
+                        agentUnit.name = new Token((int)Token.keywords.IDENTIFIER, ActionInterpet.thisAgent.name);
+                        return agentUnit;
+                    }
+                default:
+                    throw new GrammarException("Token " + (Token.keywords)currentToken.kind +
+                            " is not a valid selection.", currentToken);
 
             }
-            return null;
         }
 
         /// <summary>
