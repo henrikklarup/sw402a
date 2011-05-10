@@ -80,7 +80,6 @@
             // 
             // textBox5
             // 
-            this.textBox5.Enabled = false;
             this.textBox5.Location = new System.Drawing.Point(0, 0);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
@@ -108,9 +107,7 @@
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(203, 266);
             this.textBox6.TabIndex = 0;
-            this.textBox6.Text = "Move agents:\r\n[agentIdentifier] move [destination]\r\n\r\nagentIdentifiers:\r\n- Agent " +
-                "id\r\n- Agent name\r\n\r\ndestinations:\r\n- x and y coordinates. I.e. 2,3\r\n- up, down, " +
-                "left, right";
+            this.textBox6.Text = resources.GetString("textBox6.Text");
             // 
             // textBox1
             // 
