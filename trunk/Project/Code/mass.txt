@@ -1,0 +1,51 @@
+/*Main() 
+{
+	num i = 0;
+	string text = "lolololol";
+	bool test = 2;
+
+	if (0 > 1)
+	{
+		
+	}
+
+	string lol = "lol";
+	num u = 1;
+	i = 2 + lol;
+
+	id.method(num z = 0);
+}*/
+
+Main(400)
+{
+	// The total number of agents created.
+	num totalAgents = 10;
+	
+	/* Creates two teams */
+	new Team team1("First Team", "#97f5c8");
+	new Team team2("Second Team");
+	
+	// Creates a squad.
+	new squad theSquad("tove");
+
+	num n = 1 +2;
+	
+	// Creates all agents.
+	for(num i = 0; i < totalAgents; i = i + 1)
+	{
+		new Agent newAgent("tove", 2);
+		newAgent.name = "name";
+		
+		// Adds an agent to the squad and team1.
+		theSquad.add(newAgent);
+		team1.add(newAgent);
+	}
+	
+	new team t2("name");
+	
+	for(num i = 0; i < totalAgents; i = i + 1)
+	{
+		new Agent newAgent("g", 2);
+		team2.add(newAgent);
+	}
+}
