@@ -10,9 +10,10 @@ namespace ActionInterpeter
     {
         private static List<Token> Tokens = new List<Token>();      // All tokens found by the scanner.
         private static AST newAst;                                  // The ast created by the parser.
-        public static string input;                                 // The input from the GUI console.
-        public static StringBuilder output;                         // The output from the interpeter, errors etc.
         private static Visitor visitor;                             // The instance of the visitor class used to decorate and call commands.
+        internal static string input;                               // The input from the GUI console.
+        internal static StringBuilder output;                       // The output from the interpeter, errors etc.
+        internal static agent thisAgent;                            // Agent used by the visitor to determine the placeholder "unit".
 
         #region Main
         /// <summary>
@@ -34,12 +35,42 @@ namespace ActionInterpeter
 
         #region The compiler
         /// <summary>
+        /// Starts the compilation of an action.
+        /// </summary>
+        /// <param name="_input">The input to the compiler (e.g. "agent 1 move up")</param>
+        /// <returns>Errors</returns>
+        public static string Compile(string _input)
+        {
+            input = _input;
+            output = new StringBuilder("");
+
+            StartCompile();
+
+            return output.ToString();
+        }
+        /// <summary>
+        /// Starts the compilation of an action.
+        /// </summary>
+        /// <param name="_input">The input to the compiler (e.g. "agent 1 move up")</param>
+        /// <param name="_agent">The agent, the keyword "unit" represents</param>
+        /// <returns>Errors</returns>
+        public static string Compile(string _input, agent _agent)
+        {
+            input = _input;
+            output = new StringBuilder("");
+            thisAgent = _agent;
+
+            StartCompile();
+
+            return output.ToString();
+        }
+
+        /// <summary>
         /// Starts the compiler.
         /// </summary>
         /// <returns>Errors and Exceptions</returns>
-        public static string Compile()
+        private static void StartCompile()
         {
-            output = new StringBuilder("");
             try
             {
                 Parse();
@@ -62,7 +93,6 @@ namespace ActionInterpeter
             {
                 Printer.WriteLine(e.Message);
             }
-            return output.ToString();
         }
 
         /// <summary>

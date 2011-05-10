@@ -185,7 +185,7 @@ namespace MASClassLibrary
             Lists.actionPatterns = new List<actionpattern>();
         }
     }
-
+    #region placeholder classes
     public class oldActionPattern
     {
         public int ID;
@@ -215,4 +215,5 @@ namespace MASClassLibrary
         public oldTeam()
         { }
     }
+    #endregion
 }

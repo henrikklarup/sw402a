@@ -161,12 +161,8 @@ namespace ActionPatternCompiler
             }
             else
             {
-                throwException = true;
-                gException.containedExceptions.Add(new GrammarException(
-                    "Token " +
-                    (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken));
+                throw new GrammarException( "Token " + (Token.keywords)currentToken.kind + " is not a valid identifier.", currentToken);
             }
-            return null;
         }
 
         private Direction parseDirection()
@@ -203,11 +199,7 @@ namespace ActionPatternCompiler
                     coord.num2 = num2;
                     return coord;
                 default:
-                   throwException = true;
-                    gException.containedExceptions.Add(new GrammarException(
-                        "Token " + 
-                        (Token.keywords)currentToken.kind + " is not a valid coordinate.", currentToken));
-                    return null;
+                    throw new GrammarException( "Token " + (Token.keywords)currentToken.kind + " is not a valid coordinate.", currentToken);
             }
         }
     }

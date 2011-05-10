@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MASClassLibrary;
-using ActionPatternCompiler;
 
 namespace ActionInterpeter
 {
@@ -108,6 +107,10 @@ namespace ActionInterpeter
             {
                 // set arg to not null if its an identifier.
                 visitCodeGen_MoveSquad(single_Action, 1);
+            }
+            else
+            {
+                throw new GrammarException("Couldn't match the selected unit.");
             }
             #endregion
             return null;
@@ -278,7 +281,7 @@ namespace ActionInterpeter
 
                     foreach (string s in ap.actions)
                     {
-                        ActionPattern.Compile(s, _agent);
+                        ActionInterpet.Compile(s, _agent);
                     }
                     return;
                 default:
