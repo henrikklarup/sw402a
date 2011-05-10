@@ -18,7 +18,7 @@ namespace MultiAgentSystem
 
             /// Gives the directory of our custom XML-file in the SVN Repository.
             /// Hopefully it exists.
-            CustomLibraryPath = (Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString()).ToString()).ToString()).ToString()).ToString() + "\\MASClassLibrary\\MASClassLibrary\\bin\\Deb55555555ug\\MASClassLibrary.dll";
+            CustomLibraryPath = (Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString()).ToString()).ToString()).ToString()).ToString() + "\\MASClassLibrary\\MASClassLibrary\\bin\\Debug\\MASClassLibrary.dll";
             string Output = Path.ChangeExtension(path, ".exe");
 
             /// Checks whether or not the path for our custom XML-file is correct
