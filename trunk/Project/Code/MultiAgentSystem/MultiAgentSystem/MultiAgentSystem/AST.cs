@@ -340,7 +340,7 @@ namespace MultiAgentSystem
             return v.visitInput(this, arg);
         }
 
-        public Input OverloadVisit(Visitor v, List<Input> arg, int line)
+        public List<Input> OverloadVisit(Visitor v, List<Input> arg, int line)
         {
             return v.visitOverload(this, arg, line);
         }

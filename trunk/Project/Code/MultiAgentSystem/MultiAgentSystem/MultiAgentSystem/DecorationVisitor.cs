@@ -585,7 +585,7 @@ namespace MultiAgentSystem
             return null;
         }
 
-        internal override Input visitOverload(Input input, List<Input> arg, int line)
+        internal override List<Input> visitOverload(Input input, List<Input> arg, int line)
         {
             return null;
         }

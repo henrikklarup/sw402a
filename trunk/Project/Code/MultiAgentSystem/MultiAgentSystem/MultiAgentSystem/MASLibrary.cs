@@ -103,6 +103,7 @@ namespace MultiAgentSystem
             Attributes teamProp2 = new Attributes();
             teamProp2.ident = "color";
             teamProp2.kind = (int)Token.keywords.STRING;
+            props.Add(teamProp2);
 
             teamConstructor teamConstructor1 = new teamConstructor(
                 stringInput, (int)Token.keywords.TEAM, new List<Attributes>(props));
@@ -139,6 +140,14 @@ namespace MultiAgentSystem
             stringStringInput.firstVar = new Identifier(stringToken);
             stringStringInput.nextVar = new Input();
             stringStringInput.nextVar.firstVar = new Identifier(stringToken);
+
+            // Team constructor:
+            props.Add(teamProp1);
+            props.Add(teamProp2);
+
+            teamConstructor teamConstructor2 = new teamConstructor(
+                stringStringInput, (int)Token.keywords.TEAM, new List<Attributes>(props));
+            props.Clear();
         }
     }
 

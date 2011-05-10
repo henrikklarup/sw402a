@@ -26,6 +26,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("}");
+                file.Close();
             }
 
             return null;
@@ -48,6 +49,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(text);
+                file.Close();
             }
 
             Printer.WriteLine("Main Block");
@@ -65,6 +67,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine(input + "; ");
+                file.Close();
             }
 
             block.block.visit(this, arg);
@@ -72,6 +75,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("}");
+                file.Close();
             }
 
             Printer.Collapse();
@@ -102,6 +106,7 @@ namespace MultiAgentSystem
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
                     file.WriteLine("{");
+                    file.Close();
                 }
             }
 
@@ -120,6 +125,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.WriteLine("}");
+                file.Close();
             }
 
             Printer.Collapse();
@@ -162,6 +168,7 @@ namespace MultiAgentSystem
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(builders.ElementAt(0).PrintGeneratedCode(identifier, input));
+                file.Close();
             }
 
             if (Print)
@@ -169,6 +176,7 @@ namespace MultiAgentSystem
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
                     file.WriteLine("; ");
+                    file.Close();
                 }
             }
 
@@ -507,7 +515,7 @@ namespace MultiAgentSystem
             return s;
         }
 
-        internal override Input visitOverload(Input input, List<Input> arg, int live)
+        internal override List<Input> visitOverload(Input input, List<Input> arg, int live)
         {
             return null;
         }

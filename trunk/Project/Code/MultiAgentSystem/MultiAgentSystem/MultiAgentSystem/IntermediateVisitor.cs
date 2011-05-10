@@ -128,6 +128,7 @@ namespace MultiAgentSystem
             else
             {
                 Constructors.ElementAt(0).InstantiateProperties(ident);
+
                 // If several overloads are found, use OverloadVisit to find the best match for the input.
                 List<Input> list = new List<Input>();
                 foreach (MASConstructor c in Constructors)
@@ -136,8 +137,19 @@ namespace MultiAgentSystem
                 }
                 if (objectDeclaration.input != null)
                 {
-                    ValidInput = objectDeclaration.input.OverloadVisit(
-                        this, list, identifier.row);
+                    list = objectDeclaration.input.OverloadVisit(this, list, identifier.row);
+                }
+
+                // React to the overloads.
+                if (list.Count != 1)
+                {
+                    gException.containedExceptions.Add(new GrammarException(
+                        GenerateError(identifier.row, 
+                        "No correct overload was found for this constructor.")));
+                }
+                else
+                {
+                    ValidInput = list.ElementAt(0);
                 }
             }
 
@@ -302,7 +314,17 @@ namespace MultiAgentSystem
                 }
                 if (methodCall.input != null)
                 {
-                    ValidInput = methodCall.input.OverloadVisit(this, list, identifier.row);
+                    list = methodCall.input.OverloadVisit(this, list, identifier.row);
+                }
+
+                if (list.Count != 1)
+                {
+                    gException.containedExceptions.Add(new GrammarException(
+                        GenerateError(identifier.row, "No correct overload was found for this method.")));
+                }
+                else
+                {
+                    ValidInput = list.ElementAt(0);
                 }
             }
 
@@ -367,7 +389,14 @@ namespace MultiAgentSystem
             if (arg != null)
             {
                 // If a new input was given, use it.
-                currentValidInput = (Input)arg;
+                try
+                {
+                    currentValidInput = (Input)arg;
+                }
+                catch (InvalidCastException)
+                {
+                    currentValidInput = ((List<Input>)arg).ElementAt(0);
+                }
             }
 
             Token firstVar, dummyVar;
@@ -418,53 +447,44 @@ namespace MultiAgentSystem
             return null;
         }
 
-        internal override Input visitOverload(Input input, List<Input> arg, int line)
+        internal override List<Input> visitOverload(Input input, List<Input> arg, int line)
         {
             Token firstVar, dummyVar;
 
-            if (input.firstVar != null)
-            {
-                firstVar = (Token)input.firstVar.visit(this, arg);
-                if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
-                {
-                    firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
-                }
+            Input temp1, temp2;
 
-                for(int i = 0; i < arg.Count; i++)
+            List<Input> list = new List<Input>(arg);
+
+            for (int i = 0; i < arg.Count; i++)
+            {
+                temp1 = list.ElementAt(i);
+                temp2 = input;
+                while (temp1 != null && temp2 != null)
                 {
-                    dummyVar = (Token)arg.ElementAt(i).firstVar.visit(this, arg);
-                    if (dummyVar == null || firstVar.kind != dummyVar.kind)
+                    firstVar = (Token)input.firstVar.visit(this, null);
+                    if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
                     {
-                        arg.RemoveAt(i);
+                        firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
                     }
-                }
-            }
-            else if (input.firstVar == null)
-            {
-                for(int i = 0; i < arg.Count; i++)
-                {
-                    if (arg.ElementAt(i) != null)
+                    dummyVar = (Token)temp1.firstVar.visit(this, null);
+                    if (firstVar.kind != dummyVar.kind)
                     {
-                        arg.RemoveAt(i);
+                        arg.Remove(list.ElementAt(i));
                     }
+                    temp1 = temp1.nextVar;
+                    temp2 = temp2.nextVar;
+                }
+                if (temp1 != null && temp2 == null)
+                {
+                    arg.Remove(list.ElementAt(i));
+                }
+                else if (temp1 == null && temp2 != null)
+                {
+                    arg.Remove(list.ElementAt(i));
                 }
             }
 
-            if (input.nextVar != null)
-            {
-                input.nextVar.visit(this, arg);
-            }
-
-            if (arg.Count != 1)
-            {
-                gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(line, "No correct overload was found for this method.")));
-                return null;
-            }
-            else
-            {
-                return arg.ElementAt(0);
-            }
+            return arg;
         }
 
         internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)
