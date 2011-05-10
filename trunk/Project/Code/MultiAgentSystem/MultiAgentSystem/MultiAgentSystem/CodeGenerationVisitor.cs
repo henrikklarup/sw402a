@@ -44,8 +44,11 @@ namespace MultiAgentSystem
         {
             File.Delete(Program.path + @"\MASSCode.cs");
 
-            string text = File.ReadAllText(
-                Environment.CurrentDirectory + @"\mainTextStart.txt");
+            string text = "using System; using System.Drawing; using System.Collections.Generic; " +
+                "using MASClassLibrary; namespace MultiAgentSystem { class Program { " + 
+		        "static void Main(string[] args) { Lists.agents = new List<agent>(); " + 
+			    "Lists.squads = new List<squad>(); Lists.teams = new List<team>(); " +
+                "Lists.actionPatterns = new List<actionpattern>(); Lists.Points = ";
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
