@@ -61,13 +61,10 @@ namespace MASSiveBattleField
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
-            Lists.moveagents = new List<agent>();
             selectedagent = new agent();
-            Lists.teams = new List<team>();
-            Lists.agents = new List<agent>();
-            Lists.actionPatterns = new List<actionpattern>();
-            Lists.squads = new List<squad>();
-            Lists.encounters = new List<encounter>();
+
+            //InitializeLists
+            XML.initLists();
             #endregion
 
             #region Folder Browser Dialog
@@ -228,11 +225,20 @@ namespace MASSiveBattleField
                 if (agentPoint == mousePointGrid)
                 {
                     selectedagent = a;
+
                     //Write agent stats
                     textBox2.Text = "Name: " + a.name +  " (" + a.id + ")" + Environment.NewLine
                         + "Rank: " + a.rank + Environment.NewLine
                         + "Team: " + a.team.name + " (" + a.team.id + ")" + Environment.NewLine
                         + "Position: " + a.posx + "," + a.posy + Environment.NewLine;
+
+                    foreach (encounter en in Lists.encounters)
+                    {
+                        if (en.agentId == a.id)
+                        {
+                            textBox2.Text += "Encounter: " + en.action;
+                        }
+                    }
                     break;
                 }
             }
