@@ -14,6 +14,7 @@ namespace MASClassLibrary
         /// Generates the XML documents from the lists.
         /// </summary>
         /// <param name="path">The path the files should be stored to.</param>
+        #region generateXML
         public static void generateXML(string path)
         {
             // Initialize the lists.
@@ -100,11 +101,13 @@ namespace MASClassLibrary
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// Loads the XML documents to the lists.
         /// </summary>
-        /// /// <param name="path">The path the files should be loaded from.</param>
+        /// <param name="path">The path the files should be loaded from.</param>
+        #region returnLists
         public static void returnLists(string path)
         {
             List<oldTeam> oldTeams = new List<oldTeam>();
@@ -173,18 +176,24 @@ namespace MASClassLibrary
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// Initializes the four lists.
         /// </summary>
+        #region iniLists
         public static void initLists()
         {
+            Lists.moveagents = new List<agent>();
             Lists.teams = new List<team>();
             Lists.agents = new List<agent>();
-            Lists.squads = new List<squad>();
             Lists.actionPatterns = new List<actionpattern>();
+            Lists.squads = new List<squad>();
+            Lists.encounters = new List<encounter>();
         }
+        #endregion
     }
+
     #region placeholder classes
     public class oldActionPattern
     {
