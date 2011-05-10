@@ -307,6 +307,7 @@ namespace MultiAgentSystem
                 // Checking if the operator is an "expanded" version
                 case '<':
                 case '>':
+                case '!':
                     Printer.WriteLine("Operator");
                     takeIt();
                     if (currentChar == '=')

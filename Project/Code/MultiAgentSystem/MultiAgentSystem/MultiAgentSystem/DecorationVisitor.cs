@@ -379,6 +379,7 @@ namespace MultiAgentSystem
                 case "=>":
                 case "=<":
                 case "==":
+                case "!=":
                     // If the operator is a boolean operator,
                     // Save the type as BOOL, since boolean types are of type TRUE or FALSE.
                     expression.type = (int)Token.keywords.BOOL;
