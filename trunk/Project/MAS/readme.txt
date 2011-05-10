@@ -14,3 +14,24 @@ How to use the MASSiveBattleField:
 
 - Commands can be typed in, in the command center in the bottom of the screen.
 - All Commands can be found in the Command List on the right, tabbed with the Combat Log.
+- To run a command type it into the field below the WarGame Console and press enter.
+	- Press either End Turn or enter (with an empty textfield) to execute the commands.
+	- Only one team can move each Turn.
+	- Execute, executes all moves untill there is no more moves stored.
+
+Examples:
+The default file (mass.txt)
+- Compiles without errors
+- Contains 4 teams, with agents.
+- Contains 5 actionpatterns
+	- SearchAndDestroy, searches the area around the unit, best used with "encounter" instead of "move"
+	- PatrolHigh, patrols the upper part of the medium battlefield
+	- PatrolLow, patrols the lower part of the medium battlefield
+	- PatrolLeft, patrols the left part of the medium battlefield
+	- PatrolRight, patrols the right part of the medium battlefield
+	
+The other file (INSERTFILENAME.txt)
+Can be runned by choosing no when asked if you want to run the default file, and write INSERTFILENAME.txt
+- Compiles with errors
+- Can be compiled again by pressing "y" when asked if you want to compile again, after the errors have been found.
+- Best used, by correcting the found error and press "y".
