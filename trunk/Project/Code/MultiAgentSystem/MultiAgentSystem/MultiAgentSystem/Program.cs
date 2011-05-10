@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using MASClassLibrary;
 
 namespace MultiAgentSystem
@@ -97,6 +98,10 @@ namespace MultiAgentSystem
 
             // Starts the compilation of the choosen file.
             Compile();
+
+            Process battlefield = new Process();
+            battlefield.StartInfo.FileName = Environment.CurrentDirectory + @"\MASSiveBattleField.exe";
+            battlefield.Start();
         }
 
         /// <summary>
