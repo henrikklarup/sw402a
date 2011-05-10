@@ -355,7 +355,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // two.team = one
-            return two + ".team = " + one;
+            return two.ToLower() + ".team = " + one.ToLower();
         }
     }
 
@@ -380,7 +380,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // one.agents.add(two)
-            return one + ".Agents.Add(" + two + ")";
+            return one.ToLower() + ".Agents.Add(" + two.ToLower() + ")";
         }
     }
 
@@ -405,7 +405,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // actionpattern.add(two)
-            return one + ".Add(" + two + ")";
+            return one.ToLower() + ".actions.Add(" + two.ToLower() + ")";
         }
     }
 
@@ -547,7 +547,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // agent one = new agent(two)
-            return "agent " + one + " = new agent(" + two + ")";
+            return "agent " + one.ToLower() + " = new agent(" + two.ToLower() + ")";
         }
     }
 
@@ -568,7 +568,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // squad one = new squad(two)
-            return "squad " + one + " = new squad(" + two + ")";
+            return "squad " + one.ToLower() + " = new squad(" + two.ToLower() + ")";
         }
     }
 
@@ -582,8 +582,6 @@ namespace MultiAgentSystem
             : base(input, useWith, properties)
         { }
 
-        
-
         /// <summary>
         /// Generates C# code to add an agent to a team.
         /// </summary>
@@ -593,7 +591,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // team one = new team
-            return "team " + one + " = new team(" + two + ")";
+            return "team " + one.ToLower() + " = new team(" + two.ToLower() + ")";
         }
     }
 
@@ -616,7 +614,7 @@ namespace MultiAgentSystem
         public override string PrintGeneratedCode(string one, string two)
         {
             // actionpattern one = new actionpattern
-            return "actionpattern " + one + " = new actionpattern(" + two + ")";
+            return "actionpattern " + one.ToLower() + " = new actionpattern(" + two.ToLower() + ")";
         }
     }
 

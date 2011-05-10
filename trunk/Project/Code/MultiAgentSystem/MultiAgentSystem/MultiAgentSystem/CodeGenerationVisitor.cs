@@ -494,6 +494,15 @@ namespace MultiAgentSystem
         internal override object visitOperator(Operator p, object arg)
         {
             Printer.WriteLine("Operator: " + p.token.spelling);
+            switch (p.token.spelling)
+            {
+                case "=<":
+                    p.token.spelling = "<=";
+                    break;
+                case "=>":
+                    p.token.spelling = ">=";
+                    break;
+            }
             return p.token;
         }
 
