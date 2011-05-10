@@ -53,7 +53,7 @@ namespace MultiAgentSystem
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            block.input.visit(this, arg);
+            string input = (string)block.input.visit(this, arg);
 
             /* arg will always have boolean values in here. 
              * True is the default state, and false signals a special condition.
@@ -64,7 +64,7 @@ namespace MultiAgentSystem
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.WriteLine("; ");
+                file.WriteLine(input + "; ");
             }
 
             block.block.visit(this, arg);
@@ -151,21 +151,17 @@ namespace MultiAgentSystem
             List<MASConstructor> builders = MASLibrary.FindConstructor(_object.kind);
             builders.ElementAt(0).InstantiateProperties(identifier);
 
-            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-            {
-                file.Write(builders.ElementAt(0).PrintGeneratedCode(identifier) + "(");
-            }
+            string input = "";
 
             // Visit the input.
             if (objectDeclaration.input != null)
             {
-                objectDeclaration.input.visit(this, arg);
+                input = (string)objectDeclaration.input.visit(this, arg);
             }
 
-            // Finish the objectdeclaration and add the object to the relevant list in C#.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(")");
+                file.Write(builders.ElementAt(0).PrintGeneratedCode(identifier, input));
             }
 
             if (Print)
@@ -381,6 +377,8 @@ namespace MultiAgentSystem
             Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
             Print = true;
 
+            string input = "";
+
             // Find the name of the method called.
             string[] names = identifier.spelling.Split('.');
             string method = names[names.Length - 1];
@@ -389,23 +387,17 @@ namespace MultiAgentSystem
             string name = identifier.spelling.Remove(identifier.spelling.Length - (method.Length + 1));
             int kind = IdentificationTable.retrieve(name);
 
-            List<MASMethod> methods = MASLibrary.FindMethod(name, kind);
-
-            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-            {
-                file.Write(methods.ElementAt(0).PrintGeneratedCode(name) + "(");
-            }
+            List<MASMethod> methods = MASLibrary.FindMethod(method, kind);
 
             // Visit the input.
             if (methodCall.input != null)
             {
-                methodCall.input.visit(this, arg);
+                input = (string)methodCall.input.visit(this, arg);
             }
 
-            // Finish the objectdeclaration and add the object to the relevant list in C#.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(")");
+                file.Write(methods.ElementAt(0).PrintGeneratedCode(name, input));
             }
 
             if (Print)
@@ -490,15 +482,14 @@ namespace MultiAgentSystem
 
             Print = false;
 
+            string s = (string)arg;
+
             // If the first input exists, print it.
             if (input.firstVar != null)
             {
                 Token firstVar = (Token)input.firstVar.visit(this, arg);
 
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                {
-                    file.Write(firstVar.spelling);
-                }
+                s += firstVar.spelling;
 
                 Print = true;
             }
@@ -506,17 +497,14 @@ namespace MultiAgentSystem
             // If more input exists, print it.
             if (input.nextVar != null)
             {
-                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                {
-                    file.Write(", ");
-                }
+                s += ", ";
                 Printer.Collapse();
-                object nextVar = (Input)input.nextVar.visit(this, arg);
+                object nextVar = input.nextVar.visit(this, arg);
                 Printer.Expand();
             }
 
             Printer.Collapse();
-            return null;
+            return s;
         }
 
         internal override Input visitOverload(Input input, List<Input> arg, int live)
@@ -588,7 +576,7 @@ namespace MultiAgentSystem
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
-                file.Write(" = ");
+                file.Write(ident + " = ");
             }
 
             object becomes = assignCommand.becomes.visit(this, arg);
