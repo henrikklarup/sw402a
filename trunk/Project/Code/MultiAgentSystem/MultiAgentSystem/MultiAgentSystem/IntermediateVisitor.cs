@@ -109,6 +109,7 @@ namespace MultiAgentSystem
 
             // The input to test against.
             Input ValidInput = null;
+            string valids = "";
 
             // The list of overloads for the method.
             List<MASConstructor> Constructors = MASLibrary.FindConstructor(kind);
@@ -117,13 +118,14 @@ namespace MultiAgentSystem
             {
                 // If no methods were found, the method name isn't correct.
                 gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(identifier.row, "This is not a valid object.")));
+                    GenerateError(identifier.row, "'" + ident + "' is not a valid object.")));
             }
             else if (Constructors.Count == 1)
             {
                 Constructors.ElementAt(0).InstantiateProperties(ident);
                 // If only one method is found, use its valid input to test against.
                 ValidInput = Constructors.ElementAt(0).ValidInput;
+                valids = ValidInput.PrintInput();
             }
             else
             {
@@ -135,6 +137,12 @@ namespace MultiAgentSystem
                 {
                     list.Add(c.ValidInput);
                 }
+
+                foreach (Input i in list)
+                {
+                    valids += i.PrintInput() + "\n";
+                }
+
                 if (objectDeclaration.input != null)
                 {
                     list = objectDeclaration.input.OverloadVisit(this, list, identifier.row);
@@ -144,8 +152,8 @@ namespace MultiAgentSystem
                 if (list.Count != 1)
                 {
                     gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, 
-                        "No correct overload was found for this constructor.")));
+                        GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
+                        "These inputs are valid for this constructor: \n" + valids)));
                 }
                 else
                 {
@@ -155,13 +163,22 @@ namespace MultiAgentSystem
 
             if (objectDeclaration.input != null)
             {
-                objectDeclaration.input.visit(this, ValidInput);
+                try
+                {
+                    objectDeclaration.input.visit(this, ValidInput);
+                }
+                catch (GrammarException)
+                {
+                    gException.containedExceptions.Add(new GrammarException(
+                        GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
+                        "These inputs are valid for this constructor: \n" + valids)));
+                }
             }
             else if (objectDeclaration.input == null && ValidInput != null)
             {
                 gException.containedExceptions.Add(new GrammarException(
-                        "heu - object declaration"));
-                GenerateError();
+                    GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
+                    "These inputs are valid for this constructor: \n" + valids)));
             }
 
             Printer.Collapse();
@@ -289,6 +306,7 @@ namespace MultiAgentSystem
 
             // The input to test against.
             Input ValidInput = null;
+            string valids = "";
 
             // The list of overloads for the method.
             List<MASMethod> Methods = new List<MASMethod>(MASLibrary.FindMethod(method, kind));
@@ -303,6 +321,7 @@ namespace MultiAgentSystem
             {
                 // If only one method is found, use its valid input to test against.
                 ValidInput = Methods.ElementAt(0).ValidInput;
+                valids = ValidInput.PrintInput();
             }
             else
             {
@@ -312,6 +331,12 @@ namespace MultiAgentSystem
                 {
                     list.Add(m.ValidInput);
                 }
+
+                foreach (Input i in list)
+                {
+                    valids += i.PrintInput() + "\n";
+                }
+
                 if (methodCall.input != null)
                 {
                     list = methodCall.input.OverloadVisit(this, list, identifier.row);
@@ -320,7 +345,8 @@ namespace MultiAgentSystem
                 if (list.Count != 1)
                 {
                     gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, "No correct overload was found for this method.")));
+                        GenerateError(identifier.row, "No correct overload was found for this method. \n" +
+                        "These inputs are valid for this method: \n" + valids)));
                 }
                 else
                 {
@@ -331,14 +357,23 @@ namespace MultiAgentSystem
             // Visit the input if it exists.
             if (methodCall.input != null)
             {
-                methodCall.input.visit(this, ValidInput);
+                try
+                {
+                    methodCall.input.visit(this, ValidInput);
+                }
+                catch (GrammarException)
+                {
+                    gException.containedExceptions.Add(new GrammarException(
+                        GenerateError(identifier.row, "No correct overload was found for this method. \n" +
+                        "These inputs are valid for this method: \n" + valids)));
+                }
             }
             else if (methodCall.input == null && ValidInput != null)
             {
                 // If the two are different, but the input doesn't exist, give an error.
                 gException.containedExceptions.Add(new GrammarException(
-                    Methods.ElementAt(0).PrintInvalidErrorMessage(identifier.row)));
-                GenerateError();
+                    GenerateError(identifier.row, "No correct overload was found for this method. \n" +
+                    "These inputs are valid for this method: \n" + valids)));
             }
             
             return null;
@@ -381,22 +416,13 @@ namespace MultiAgentSystem
             Printer.WriteLine("Input");
             Printer.Expand();
 
-            /*  */
-
             // The current valid input is reset.
             Input currentValidInput = new Input();
 
             if (arg != null)
             {
                 // If a new input was given, use it.
-                try
-                {
-                    currentValidInput = (Input)arg;
-                }
-                catch (InvalidCastException)
-                {
-                    currentValidInput = ((List<Input>)arg).ElementAt(0);
-                }
+                currentValidInput = (Input)arg;
             }
 
             Token firstVar, dummyVar;
@@ -413,8 +439,7 @@ namespace MultiAgentSystem
 
                 if (currentValidInput.nextVar != null && input.nextVar == null)
                 {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(firstVar.row, "The given input was not legal.")));
+                    throw new GrammarException();
                 }
 
                 /* If firstVar turns out to be an identifier, 
@@ -429,17 +454,15 @@ namespace MultiAgentSystem
                     dummyVar = (Token)currentValidInput.firstVar.visit(this, arg);
                     /* So far in the proces, the valid input matches the given input
                      * and if the kinds match too, then they match perfectly. If not, give an error. */
-                    if (firstVar.kind != dummyVar.kind)
+                    if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
                     {
-                        gException.containedExceptions.Add(new GrammarException(
-                            GenerateError(firstVar.row, "The given input was not legal.")));
+                        throw new GrammarException();
                     }
                 }
                 // If the given input is different from null, but the valid input is not, set error.
                 else
                 {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(firstVar.row, "The given input was not legal.")));
+                    throw new GrammarException();
                 }
             }
 
@@ -453,12 +476,16 @@ namespace MultiAgentSystem
 
             Input temp1, temp2;
 
+            // Make a copy of arg.
             List<Input> list = new List<Input>(arg);
 
+            // For each element in arg, the element is tested against the given input.
             for (int i = 0; i < arg.Count; i++)
             {
                 temp1 = list.ElementAt(i);
                 temp2 = input;
+
+                // Test through the input.
                 while (temp1 != null && temp2 != null)
                 {
                     firstVar = (Token)input.firstVar.visit(this, null);
@@ -466,14 +493,20 @@ namespace MultiAgentSystem
                     {
                         firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
                     }
+
                     dummyVar = (Token)temp1.firstVar.visit(this, null);
-                    if (firstVar.kind != dummyVar.kind)
+
+                    // If the inputs don't match, remove it from the list of potential valid inputs.
+                    if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
                     {
                         arg.Remove(list.ElementAt(i));
                     }
+
+                    // Update the variables for the next round of testing.
                     temp1 = temp1.nextVar;
                     temp2 = temp2.nextVar;
                 }
+
                 if (temp1 != null && temp2 == null)
                 {
                     arg.Remove(list.ElementAt(i));
@@ -489,7 +522,7 @@ namespace MultiAgentSystem
 
         internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)
         {
-            Printer.WriteLine("Method Identifier");
+            Printer.WriteLine("Linked Identifier");
             Printer.Expand();
 
             Token t = (Token)LinkedIdentifier.Identifier.visit(this, arg);

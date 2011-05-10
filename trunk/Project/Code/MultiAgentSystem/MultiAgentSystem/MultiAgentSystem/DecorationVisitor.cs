@@ -592,7 +592,7 @@ namespace MultiAgentSystem
 
         internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)
         {
-            Printer.WriteLine("Method Identifier");
+            Printer.WriteLine("Linked Identifier");
             Printer.Expand();
 
             Token identifier;

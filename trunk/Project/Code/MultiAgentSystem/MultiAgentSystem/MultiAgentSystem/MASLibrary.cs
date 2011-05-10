@@ -53,6 +53,70 @@ namespace MultiAgentSystem
             }
             return list;
         }
+
+        /// <summary>
+        /// Tests two types to see if they match within certain rules.
+        /// </summary>
+        /// <param name="kind1">The first kind.</param>
+        /// <param name="kind2">The second kind.</param>
+        /// <returns>True if they are a match, false if not.</returns>
+        public static bool MatchingTypes(int kind1, int kind2)
+        {
+            int textKind = -1;
+            int numberKind = -2;
+            int boolKind = -3;
+
+            int test1, test2;
+
+            switch (kind1)
+            {
+                case (int)Token.keywords.STRING:
+                case (int)Token.keywords.ACTUAL_STRING:
+                    test1 = textKind;
+                    break;
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.NUMBER:
+                    test1 = numberKind;
+                    break;
+                case (int)Token.keywords.BOOL:
+                case (int)Token.keywords.TRUE:
+                case (int)Token.keywords.FALSE:
+                    test1 = boolKind;
+                    break;
+                default:
+                    test1 = kind1;
+                    break;
+            }
+
+            switch (kind2)
+            {
+                case (int)Token.keywords.STRING:
+                case (int)Token.keywords.ACTUAL_STRING:
+                    test2 = textKind;
+                    break;
+                case (int)Token.keywords.NUM:
+                case (int)Token.keywords.NUMBER:
+                    test2 = numberKind;
+                    break;
+                case (int)Token.keywords.BOOL:
+                case (int)Token.keywords.TRUE:
+                case (int)Token.keywords.FALSE:
+                    test2 = boolKind;
+                    break;
+                default:
+                    test2 = kind2;
+                    break;
+            }
+
+            if (test1 == test2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     /// <summary>
