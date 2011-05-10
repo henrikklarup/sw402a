@@ -160,7 +160,9 @@ Agent ID ::= num | \textit{AGENT} num | \textit{A} num\\
 Squad ID ::= \textit{SQUAD} num | \textit{S} num\\
 Team ID ::= \textit{TEAM} num | \textit{T} num\\
 \\
-single-action ::= selection \textit{MOVE} move-option \\
+single-action ::= selection action-option move-option \\
+\\
+action-option ::= \textit{MOVE} | \textit{ENCOUNTER}\\
 \\
 move-option ::= \textit{UP} | \textit{DOWN} | \textit{LEFT} | \textit{RIGHT} | \textit{HOLD} | coordinate | ActionPattern Name\\
 coordinate ::= num , num\\
@@ -171,4 +173,4 @@ digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9\\
 \\
 identifier ::= letter | identifier letter | identifier digit\\
 \\
-token ::= \textit{IDENTIFIER} | \textit{MOVE} | \textit{HOLD} | \textit{UP} | \textit{DOWN} | \textit{LEFT} | \textit{RIGHT} | \textit{EOL}
+token ::= \textit{IDENTIFIER} | \textit{MOVE} | \textit{ENCOUNTER} | \textit{HOLD} | \textit{UP} | \textit{DOWN} | \textit{LEFT} | \textit{RIGHT} | \textit{EOL}
