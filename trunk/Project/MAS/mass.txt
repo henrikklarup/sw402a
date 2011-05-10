@@ -1,7 +1,7 @@
 /* Initializes the game with the properties
 Maximum Units = 400
 */
-Main(400)
+Main ( 400 )
 {	
 	/* Creates two teams with the properties
 	Name = Aliens / Team Rocket
@@ -13,49 +13,50 @@ Main(400)
 	new Agent agentJane("Jane", 5);
 	new Agent agentBob("Bob", 5);
 	new Agent agentAlice("Alice", 5);
+	
+	// Adds the four agents to the aliens team.
 	teamAliens.add(agentJohn);
 	teamAliens.add(agentJane);
 	teamAliens.add(agentBob);
 	teamAliens.add(agentAlice);
 
 	/* Creates a squad with the properties
-	Name = Squad Aliens*/
+	Name = Squad Aliens */
 	new squad squadAliens("Squad Aliens");	
 	new squad squadPredator("Squad Predator");
-	new squad squadA("Alfa");
-	new squad squadB("Beta");
-	new squad squadC("Gamma");
-	new squad squadD("Delta");
-	
+
 	squadAliens.add(agentJohn);
 	squadAliens.add(agentJane);
 
 	squadPredator.add(agentBob);
 	squadPredator.add(agentAlice);
+	
+	// Creates squads used by team 2.
+	new squad squadA("Alfa");
+	new squad squadB("Beta");
+	new squad squadC("Gamma");
+	new squad squadD("Delta");
 
-	if(1 != 1)
-	{}
-
-	for(num i = 0; i < 20; i = i + 1)
+	for ( num i = 0; i < 20; i = i + 1)
 	{
 		/* Creates a new agent with the properties
-		Name = unit
+		Name = theUnit
 		Rank = 1
-		Team = teamRocket
 		If there is more units with the same name, 
 		the new unit will get a unique name */
 		new Agent newAgent("theUnit", 1);
 		teamRocket.add(newAgent);
 		
-		if(i < 20/4)
+		// Adds the newly created unit to one of the squads.
+		if (i < 20/4)
 		{
 			squadA.add(newAgent);
 		}
-		if(i < (20/4)*2)
+		if (i < (20/4)*2)
 		{
 			squadB.add(newAgent);
 		}
-		if(i < (20/4)*3)
+		if (i < (20/4)*3)
 		{
 			squadC.add(newAgent);
 		}
@@ -64,16 +65,119 @@ Main(400)
 			squadD.add(newAgent);
 		}
 	}
+	
+	// Creates team Disco.
+	new team teamDisco("Disco", "#FF6600");
+	num totalDiscos = 10;
+	for ( num i = 0; i < totalDiscos; i = i + 1)
+	{
+		num a = 0;
+		if ( i < totalDiscos-1 )
+		{
+			a = 1;
+		}
+		else
+		{
+			a = 21-totalDiscos;
+		}
 		
-	new actionPattern circle("ap1");
+		new Agent newAgent("Stue", a);
+		teamDisco.add(newAgent);
+	}
+	
+	new team teamKman("Kman", "#660000");
+	new squad squadNabs("noobs");
+	new squad squadRevo("Revolution");
+	
+	for ( num 1 = 0; i < 4; i = i + 1)
+	{
+		num a = 0;
+		if(i =< 1)
+		{
+			a = 2;
+		}
+		if(i >= 2)
+		{
+			a = 8
+		}
+		
+		new Agent newAgent("Kman", a);
+		teamKman.add(newAgent);
+		
+		if (i <= 1)
+		{
+			squadNabs.add(newAgent);
+		}
+		if (i => 2)
+		{
+			squadRevo.add(newAgent);
+		}
+	}
+	
+	// Moves used in the actionPatterns.
+	string moveUp = "unit move up";
+	string moveDown = "unit move down";
+	string moveLeft = "unit move left";
+	string moveRight = "unit move right";
 
-	circle.add("unit move left");
-	circle.add("unit move down");
-	circle.Add("unit move down");
-	circle.add("unit move Right");
-	circle.add("unit move Right");
-	circle.add("unit move up");
-	circle.add("unit move up");
-	circle.add("unit move left");
-
+	// Creates the action pattern Search and Destroy.
+	// Searches the area around the unit.
+	new actionPattern searchAndDestroy("SearchAndDestroy");
+	
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveDown);
+	searchAndDestroy.add(moveDown);
+	searchAndDestroy.add(moveRight);
+	searchAndDestroy.add(moveRight);
+	searchAndDestroy.add(moveRight);
+	searchAndDestroy.add(moveRight);
+	searchAndDestroy.add(moveUp);
+	searchAndDestroy.add(moveUp);
+	searchAndDestroy.add(moveUp);
+	searchAndDestroy.add(moveUp);
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveLeft);
+	searchAndDestroy.add(moveDown);
+	searchAndDestroy.add(moveDown);
+	searchAndDestroy.add(moveRight);
+	searchAndDestroy.add(moveRight);
+	
+	// Creates the action pattern Patrol Low.
+	// Patrols the lower part of the game area.
+	new actionpattern patrolLow("PatrolLow");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 25,24");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 0,23");
+	patrolLow.add(moveDown);
+	
+	// Creates the action pattern Patrol Horisontal High.
+	// Patrols the higher part of the game area.
+	new actionpattern patrolHigh("PatrolHigh");
+	patrolHigh.add(moveDown);
+	patrolHigh.add("unit move 25,1");
+	patrolHigh.add(moveDown);
+	patrolHigh.add("unit move 0,2");
+	patrolHigh.add(moveUp);
+	
+	// Creates the action pattern Patrol Right.
+	// Patrols the Right part of the game area.
+	new actionpattern patrolRight("PatrolRight");
+	patrolRight.add(moveLeft);
+	patrolRight.add("unit move 24,25");
+	patrolRight.add(moveLeft);
+	patrolRight.add("unit move 23,0");
+	patrolRight.add(moveRight);
+	
+	// Creates the action pattern Patrol LEft.
+	// Patrols the Left part of the game area.
+	new actionpattern patrolLeft("PatrolLeft");
+	patrolRight.add(moveRight);
+	patrolLeft.add("unit move 1,0");
+	patrolRight.add(moveRight);
+	patrolLeft.add("unit move 2,25");
+	patrolRight.add(moveLeft);
 }
