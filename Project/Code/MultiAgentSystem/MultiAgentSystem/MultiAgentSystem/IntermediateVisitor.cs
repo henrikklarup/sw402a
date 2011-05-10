@@ -153,7 +153,7 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "These inputs are valid: \n" + valids)));
+                        "\tThese inputs are valid: \n" + valids)));
                 }
                 else
                 {
@@ -171,14 +171,14 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "These inputs are valid: \n" + valids)));
+                        "\tThese inputs are valid: \n" + valids)));
                 }
             }
             else if (objectDeclaration.input == null && ValidInput != null)
             {
                 gException.containedExceptions.Add(new GrammarException(
                     GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                    "These inputs are valid: \n" + valids)));
+                    "\tThese inputs are valid: \n" + valids)));
             }
 
             Printer.Collapse();
@@ -348,7 +348,7 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                        "These inputs are valid for this method: \n" + valids)));
+                        "\tThese inputs are valid for this method: \n" + valids)));
                 }
                 else
                 {
@@ -367,7 +367,7 @@ namespace MultiAgentSystem
                 {
                     gException.containedExceptions.Add(new GrammarException(
                         GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                        "These inputs are valid for this method: \n" + valids)));
+                        "\tThese inputs are valid for this method: \n" + valids)));
                 }
             }
             else if (methodCall.input == null && ValidInput != null)
@@ -375,7 +375,7 @@ namespace MultiAgentSystem
                 // If the two are different, but the input doesn't exist, give an error.
                 gException.containedExceptions.Add(new GrammarException(
                     GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                    "These inputs are valid for this method: \n" + valids)));
+                    "\tThese inputs are valid for this method: \n" + valids)));
             }
             
             return null;
