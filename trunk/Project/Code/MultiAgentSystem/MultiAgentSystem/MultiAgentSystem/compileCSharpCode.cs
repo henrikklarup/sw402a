@@ -67,10 +67,9 @@ namespace MultiAgentSystem
             // If there is more than 0 errors they are printet to the user.
             if (results.Errors.Count > 0)
             {
-                Console.BackgroundColor = ConsoleColor.Red;
                 foreach (CompilerError CompErr in results.Errors)
                 {
-                    Console.WriteLine("Line number " + CompErr.Line +", Error Number: " + CompErr.ErrorNumber +", '" + CompErr.ErrorText + ";");
+                    Printer.ErrorLine("Line number " + CompErr.Line +", Error Number: " + CompErr.ErrorNumber +", '" + CompErr.ErrorText + ";");
                 }
             }
                 // Otherwise the Console tell the users the compilation succeeded and runs the compiled code.
@@ -78,6 +77,7 @@ namespace MultiAgentSystem
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.WriteLine("Success!");
+                Console.BackgroundColor = ConsoleColor.Black;
                 Process.Start(Output);
             }
         }
