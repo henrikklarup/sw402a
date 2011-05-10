@@ -68,15 +68,16 @@ namespace MASSiveBattleField
             #endregion
 
             #region Folder Browser Dialog
-            //Xml-path choosen
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = Environment.CurrentDirectory;
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                //Generate xml data
-                XML.returnLists(fbd.SelectedPath);
-                placeteams();
-            }
+            ////Xml-path choosen
+            //FolderBrowserDialog fbd = new FolderBrowserDialog();
+            //fbd.SelectedPath = Environment.CurrentDirectory;
+            //if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    //Generate xml data
+            //    XML.returnLists(fbd.SelectedPath);
+            //    placeteams();
+            //}
+            XML.returnLists(Environment.CurrentDirectory);
             #endregion
 
             //Turnswitch set to random
