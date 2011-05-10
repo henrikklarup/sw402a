@@ -7,14 +7,14 @@ namespace MASClassLibrary
 {
     public class agent
     {
-        private int _iD;
+        private double _iD;
         public string name;
         public team team;
         private int _posX;
         private int _posY;
         public int rank;
 
-        public int id
+        public double id
         {
             get { return _iD; }
         }
@@ -34,7 +34,7 @@ namespace MASClassLibrary
         public agent()
         { }
 
-        public agent(string name, int rank)
+        public agent(string name, double rank)
         {
             this._iD = Lists.NextAgentID;
             if (Lists.RetrieveAgent(name) != null)
