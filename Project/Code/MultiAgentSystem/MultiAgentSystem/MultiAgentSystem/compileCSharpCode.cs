@@ -13,8 +13,10 @@ namespace MultiAgentSystem
     {
         public static void compile(string path)
         {
+            Console.WriteLine("Compiling Started...");
+
             string inputfil = @"";
-            string CustomLibraryPath = "";
+            //string CustomLibraryPath = "";
 
             /// Gives the directory of our custom XML-file in the SVN Repository.
             /// Hopefully it exists.
@@ -83,6 +85,8 @@ namespace MultiAgentSystem
                 Console.BackgroundColor = ConsoleColor.Black;
                 Process.Start(Output);
             }
+
+            Console.WriteLine("Compile complete.");
         }
     }
 }
