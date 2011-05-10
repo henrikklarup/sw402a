@@ -130,6 +130,7 @@ namespace MultiAgentSystem
                 using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
                 {
                     file.WriteLine("XML.generateXML(@\"" + Program.path + "\");");
+                    file.WriteLine("Console.WriteLine(\"XML generation complete.\");");
                     file.Close();
                 }
             }

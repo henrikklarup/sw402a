@@ -322,28 +322,7 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Compilation has completed");
             Console.Title = "MASS Compiler: Compilation has completed";
 
-            ConsoleKeyInfo cki;
-            while (true)
-            {
-                Console.WriteLine("Would you like to compile the newly compiled *.cs file.? y/n");
-                cki = Console.ReadKey();
-
-                if (cki.Key == ConsoleKey.Y)
-                {
-                    // Compiles the output file with the C# compiler.
-                    GenerateCSharp();
-                    break;
-                }
-                if (cki.Key == ConsoleKey.N)
-                {
-                    /* Gives the user the option to compile the source file again,
-                     * if the user has made any changes to it. */
-                    Recompile();
-                    break;
-                }
-
-                Console.WriteLine(" is not an option.");
-            }
+            GenerateCSharp();
         }
 
         /// <summary>
@@ -354,9 +333,6 @@ namespace MultiAgentSystem
             string CSharpPath = path + @"\MASSCode.cs";
 
             CompileCSharpCode.compile(CSharpPath);
-            /* Gives the user the option to compile the source file again,
-            * if the user has made any changes to it. */
-            Recompile();
         }
 
         /// <summary>
