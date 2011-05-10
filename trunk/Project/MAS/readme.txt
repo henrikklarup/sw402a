@@ -30,8 +30,13 @@ The default file (mass.txt)
 	- PatrolLeft, patrols the left part of the medium battlefield
 	- PatrolRight, patrols the right part of the medium battlefield
 	
-The other file (INSERTFILENAME.txt)
-Can be runned by choosing no when asked if you want to run the default file, and write INSERTFILENAME.txt
+The other file (fail-example.txt)
+Can be runned by choosing no when asked if you want to run the default file, and write fail-example.txt
 - Compiles with errors
 - Can be compiled again by pressing "y" when asked if you want to compile again, after the errors have been found.
 - Best used, by correcting the found error and press "y".
+How to fix the errors:
+- "agen" should be "agent".
+- "int" should be "num".
+- Change "i" to an unused variable name.
+- Only one agent can be added at a time.
