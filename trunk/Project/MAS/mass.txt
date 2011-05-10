@@ -89,7 +89,7 @@ Main ( 400 )
 	new squad squadNabs("noobs");
 	new squad squadRevo("Revolution");
 	
-	for ( num 1 = 0; i < 4; i = i + 1)
+	for(num i = 0; i < 4; i = i + 1)
 	{
 		num a = 0;
 		if(i =< 1)
@@ -98,7 +98,7 @@ Main ( 400 )
 		}
 		if(i >= 2)
 		{
-			a = 8
+			a = 8;
 		}
 		
 		new Agent newAgent("Kman", a);
