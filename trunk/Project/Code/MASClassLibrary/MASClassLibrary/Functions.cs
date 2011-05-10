@@ -94,10 +94,13 @@ namespace MASClassLibrary
         /// <param name="id">Agent id</param>
         /// <param name="command">Action command</param>
         #region addEncounter
-        public static void addEncounter(int id, string command)
+        public static void addEncounter(agent agent, string command)
         {
+            if (agent.team.id != Lists.currentteam.id)
+                throw new WrongTeamException("Wrong team");
+
             encounter en = new encounter();
-            en.agentId = id;
+            en.agentId = agent.id;
             en.action = command;
             Lists.encounters.Add(en);
         }
