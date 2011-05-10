@@ -8,8 +8,8 @@
     <ProjectGuid>{0DD36C59-DA53-4F65-8743-EEAD02784F28}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsApplication6</RootNamespace>
-    <AssemblyName>WindowsFormsApplication6</AssemblyName>
+    <RootNamespace>MASSiveBattleField</RootNamespace>
+    <AssemblyName>MASSiveBattleField</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -84,6 +84,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
