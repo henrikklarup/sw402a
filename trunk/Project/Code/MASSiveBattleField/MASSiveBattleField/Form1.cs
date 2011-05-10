@@ -139,7 +139,7 @@ namespace MASSiveBattleField
                 //Font rankFont = new System.Drawing.Font(e.Graphics.MeasureString(a.rank.ToString(),new Font(Font,FontStyle.Regular)), FontStyle.Regular);
                 e.Graphics.FillEllipse(new SolidBrush(a.team.color), drawRect);
                 e.Graphics.DrawEllipse(Pens.White, new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
-                e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(drawPoint.X, drawPoint.Y));
+                //e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(drawPoint.X, drawPoint.Y));
 
 
                 //Destination point of agent
@@ -228,20 +228,38 @@ namespace MASSiveBattleField
                 {
                     selectedagent = a;
 
-                    //Write agent stats
-                    textBox2.Text = "Name: " + a.name +  " (" + a.id + ")" + Environment.NewLine
-                        + "Rank: " + a.rank + Environment.NewLine
-                        + "Team: " + a.team.name + " (" + a.team.id + ")" + Environment.NewLine
-                        + "Position: " + a.posx + "," + a.posy + Environment.NewLine;
-
-                    foreach (encounter en in Lists.encounters)
-                    {
-                        if (en.agentId == a.id)
-                        {
-                            textBox2.Text += "Encounter: " + en.action;
-                        }
-                    }
+                    updateStatsField();
                     break;
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// UpdateStatsfield method
+        /// </summary>
+        #region UpdateStatsField
+        private void updateStatsField()
+        {
+            //Write agent stats
+            textBox2.Text = "Name: " + selectedagent.name + " (" + selectedagent.id + ")" + Environment.NewLine;
+            if (selectedagent.team.id == Lists.currentteam.id)
+            {
+                textBox2.Text += "Rank: " + selectedagent.rank + Environment.NewLine;
+            }
+            else
+            {
+                textBox2.Text += "Rank: -" + Environment.NewLine;
+            }
+
+            textBox2.Text += "Team: " + selectedagent.team.name + " (" + selectedagent.team.id + ")" + Environment.NewLine
+            + "Position: " + selectedagent.posx + "," + selectedagent.posy + Environment.NewLine;
+
+            foreach (encounter en in Lists.encounters)
+            {
+                if (en.agentId == selectedagent.id)
+                {
+                    textBox2.Text += "Encounter: " + en.action + " ";
                 }
             }
         }
@@ -721,6 +739,8 @@ namespace MASSiveBattleField
             if (Lists.currentteam.id == 4 && agentsOnteam4 == 0)
                 switchTurn();
             #endregion
+
+            updateStatsField();
 
             //Update Label6
             label6.BeginInvoke(new UpdateTextCallback(UpdateLabel6), "Team " + turn);
