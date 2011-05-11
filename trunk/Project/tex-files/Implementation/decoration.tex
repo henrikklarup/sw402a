@@ -1,1 +1,23 @@
 \subsection{Decoration}
+The decoration of the abstract syntax tree can be a large task, depending on how many checks that need to be done. 
+Therefor, instead of having just one visitor do all the decoration, we have several. \newline
+The first one is the TypeAndScopeVisitor, which visits every node of the abstract syntax tree, and checks if the types and scopes of variables in the code are correct.\newline
+Therefor, this is where type safety is enforced in the compiler. 
+This works simply by taking the type of the variable's token and comparing it to the values it is being used with. \newline
+The scope checking is a little more complex. 
+We want to make sure that variables are not used outside of their scopes, which is done with the IdentificationTable class. 
+This class contains a list of declared variables, the current scope and methods for entering and retrieving variables and methods for changing the scope.\newline
+Every time a scope is exited, every variable that was declared inside that scope is deleted from the list. 
+This way, the list will only contain the variables that are accessible from the current scope, so long as the scopes are updated correctly.
+\newline
+\begin{source}{A block is visited, and the scope is opened and closed respectively.}{}
+internal override object visitBlock(Block block, object arg)
+		{
+        IdentificationTable.openScope();
+        ...
+        IdentificationTable.closeScope();
+
+        return null;
+     }
+\end{source}
+\newline

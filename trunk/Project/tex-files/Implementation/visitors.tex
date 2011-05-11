@@ -1,7 +1,6 @@
 \section{Visitors}
-Once the parser has created the abstract syntax tree, there are still many things that need to be checked. 
-The scanner and parser only check for grammatical correctness, meaning there is no such thing as type safety and input validation at this point. \newline
-To do all these checks, the abstract syntax tree must be traversed and methods for checking the right values must be created. 
+Once the parser has created the abstract syntax tree, there are still many checks that need to be done, such as type checks and input validation. 
+This process is known as decoration, and refers to decorating the abstract syntax tree. \newline
 To do this, we utilize the visitor pattern, a design pattern specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand. \newline
 Using the visitor pattern is advantageous because we do not need to know the structure of the tree when it is traversed.
 For example, every block contains a number of commands. 
@@ -9,7 +8,7 @@ We do not know what type of each command is though, we only know that there is a
 When that object is "`visited"', the code is automatically redirected to the correct function based on the type of the object that is visited. \newline\newline
 As an example, say we are running through all the commands in a block.
 \newline
-\begin{source}{Here is the function that is redirected to if the visited object is a block.}{}
+\begin{source}{Here is the code that makes sure every command in a block is visited.}{}
 foreach (Command c in block.commands)
   {
 		c.visit(this, arg);
@@ -50,3 +49,5 @@ internal override object visitForCommand(ForCommand forCommand, object arg)
         return null;
     }
 \end{source}
+
+\InputIfFileExists{Implementation/decoration}{}{}
