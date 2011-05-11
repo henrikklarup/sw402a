@@ -1,4 +1,52 @@
-\section{Code Generation}
+\section{Visitors}
+Once the parser has created the abstract syntax tree, there are still many things that need to be checked. 
+The scanner and parser only check for grammatical correctness, meaning there is no such thing as type safety and input validation at this point. \newline
+To do all these checks, the abstract syntax tree must be traversed and methods for checking the right values must be created. 
+To do this, we utilize the visitor pattern, a design pattern specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand. \newline
+Using the visitor pattern is advantageous because we do not need to know the structure of the tree when it is traversed.
+For example, every block contains a number of commands. 
+We do not know what type of each command is though, we only know that there is a command object. 
+When that object is "`visited"', the code is automatically redirected to the correct function based on the type of the object that is visited. \newline\newline
+As an example, say we are running through all the commands in a block.
+\newline
+\begin{source}{Here is the function that is redirected to if the visited object is a block.}{}
+foreach (Command c in block.commands)
+  {
+		c.visit(this, arg);
+	}
+\end{source}
+\newline
+This is done from within a visitor class, so "`this"' refers to an instance of the visitor. 
+The reason the visitor is sent as input, is so all the visit functions can be kept in that visitor, and multiple visitors with different functionality can be used.
+If then say that the next command is a for-loop (which inherits from the Command class), the visit command will lead to the visitForCommand function being called.
+\newline
+\begin{source}{The ForCommand class from the AST.}{}
+public class ForCommand : Command
+    {
+        ...
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitForCommand(this, arg);
+        }
+    }
+\end{source}
+\newline
+And the visitForCommand function will then visit all the objects in the for-loop as they come.
+\newline
+\begin{source}{The visitForCommand function.}{}
+internal override object visitForCommand(ForCommand forCommand, object arg)
+		{
+				IdentificationTable.openScope();
 
+        // visit the declaration, the two expressions and the block.
+        forCommand.CounterDeclaration.visit(this, arg);
+        forCommand.LoopExpression.visit(this, arg);
+        forCommand.CounterExpression.visit(this, arg);
 
-\section{Decoration}
+        forCommand.ForBlock.visit(this, arg);
+
+        IdentificationTable.closeScope();
+						
+        return null;
+    }
+\end{source}
