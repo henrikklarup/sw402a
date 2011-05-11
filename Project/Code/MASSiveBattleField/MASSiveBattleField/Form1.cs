@@ -61,7 +61,7 @@ namespace MASSiveBattleField
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
-            //selectedagent = new agent();
+            selectedagent = null;
 
             //InitializeLists
             XML.initLists();
@@ -82,8 +82,10 @@ namespace MASSiveBattleField
             #endregion
 
             //Turnswitch set to random
-            Random rnd = new Random();
-            turn = rnd.Next(1,Lists.teams.Count+1);
+            //Random rnd = new Random();
+            //turn = rnd.Next(1,Lists.teams.Count+1);
+
+            turn = 1;
             Lists.currentteam = Lists.RetrieveTeam(turn);
             label6.Text = "Team " + turn;
 
@@ -144,18 +146,21 @@ namespace MASSiveBattleField
 
                 //Destination point of agent
                 #region Despoint
-                int desPointCount = 0;
-                foreach (agent aa in Lists.moveagents)
+                if (selectedagent != null)
                 {
-                    if (aa.team.id == Lists.currentteam.id)
+                    int desPointCount = 0;
+                    foreach (agent aa in Lists.moveagents)
                     {
-                        if (aa.id == selectedagent.id)
+                        if (aa.team.id == Lists.currentteam.id)
                         {
-                            Point desPoint = new Point(aa.posx, aa.posy);
-                            desPoint = getGridPixelFromGrid(desPoint);
-                            e.Graphics.DrawEllipse(Pens.LightBlue, new Rectangle(desPoint.X, desPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
-                            desPointCount++;
-                            e.Graphics.DrawString(desPointCount.ToString(), fnt, Brushes.Black, new PointF(desPoint.X, desPoint.Y));
+                            if (aa.id == selectedagent.id)
+                            {
+                                Point desPoint = new Point(aa.posx, aa.posy);
+                                desPoint = getGridPixelFromGrid(desPoint);
+                                e.Graphics.DrawEllipse(Pens.LightBlue, new Rectangle(desPoint.X, desPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                                desPointCount++;
+                                e.Graphics.DrawString(desPointCount.ToString(), fnt, Brushes.Black, new PointF(desPoint.X, desPoint.Y));
+                            }
                         }
                     }
                 }
@@ -207,7 +212,6 @@ namespace MASSiveBattleField
 
             //Update GameArea
             dbPanel1.Invalidate();
-
         }
         #endregion
 
@@ -436,9 +440,9 @@ namespace MASSiveBattleField
 
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
-            int agent1Value = (int)a1.rank * rnd.Next(100);
+            int agent1Value = (int)(a1.rank * rnd.Next(100));
             Random rnd1 = new Random(agent1Value);
-            int agent2Value = (int)a2.rank * rnd1.Next(100);
+            int agent2Value = (int)(a2.rank * rnd1.Next(100));
 
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
@@ -640,7 +644,7 @@ namespace MASSiveBattleField
                             if (a.posx == outerAgent.posx && a.posy == outerAgent.posy)
                             {
                                 Lists.moveagents.Remove(a);
-                                break;
+                                //break;
                             }
                         }
                     }
