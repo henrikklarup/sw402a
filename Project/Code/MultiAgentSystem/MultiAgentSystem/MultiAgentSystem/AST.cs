@@ -333,6 +333,8 @@ namespace MultiAgentSystem
     {
         public Expression expr;
 
+        public int type;
+
         public ParentExpression(Expression expr)
         {
             this.expr = expr;

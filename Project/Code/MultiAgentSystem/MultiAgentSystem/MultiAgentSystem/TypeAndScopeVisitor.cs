@@ -337,6 +337,24 @@ namespace MultiAgentSystem
             Printer.WriteLine("Expression");
             Printer.Expand();
 
+            // If the parent expression is not null, visit it.
+            if (expression.parentExpr != null)
+            {
+                ParentExpression parentExpr =
+                    (ParentExpression)expression.parentExpr.visit(this, arg);
+                expression.type = parentExpr.type;
+            }
+            else
+            {
+                throw new NotImplementedException();
+                /* xpression.primExpr1;
+                expression.opr;
+                expression.primExpr2;
+                 */
+            }
+
+            #region oldExpression
+            /*
             // Always a Token of kind number, boolean or identifier.
             Token primExpr1 = (Token)expression.primExpr1.visit(this, arg);
 
@@ -506,6 +524,8 @@ namespace MultiAgentSystem
                     expression.type = (int)Token.keywords.BOOL;
                 }
             }
+             */
+            #endregion
 
             Printer.Collapse();
             return expression;
