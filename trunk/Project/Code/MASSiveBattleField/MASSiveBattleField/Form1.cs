@@ -247,6 +247,7 @@ namespace MASSiveBattleField
         {
             //Write agent stats
             textBox2.Text = "Name: " + selectedagent.name + " (" + selectedagent.id + ")" + Environment.NewLine;
+
             if (selectedagent.team.id == Lists.currentteam.id)
             {
                 textBox2.Text += "Rank: " + selectedagent.rank + Environment.NewLine;
@@ -564,16 +565,16 @@ namespace MASSiveBattleField
                             {
                                 #region Left/Right First
                                 //Move "Right", keep in bounds
-                                if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
+                                if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
                                     agentPoint.X++;
                                 //Move "Left", keep in bounds
-                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
+                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
                                     agentPoint.X--;
                                 //Move "Down", keep in bounds
-                                else if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
+                                else if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
                                     agentPoint.Y++;
                                 //Move "Up", keep in bounds
-                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
+                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
                                     agentPoint.Y--;
 
                                 else
@@ -590,16 +591,16 @@ namespace MASSiveBattleField
                             {
                                 #region Up/Down First
                                 //Move "Down", keep in bounds
-                                if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
+                                if (a.posy > outerAgent.posy && outerAgent.posy + 1 < Grids)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y + 1)) == null))
                                     agentPoint.Y++;
                                 //Move "Up", keep in bounds
-                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
+                                else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
                                     agentPoint.Y--;
                                 //Move "Right", keep in bounds
-                                else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
+                                else if (a.posx > outerAgent.posx && outerAgent.posx + 1 < Grids)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X + 1, agentPoint.Y)) == null))
                                     agentPoint.X++;
                                 //Move "Left", keep in bounds
-                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1 && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
+                                else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
                                     agentPoint.X--;
                                 else
                                 {
@@ -880,6 +881,11 @@ namespace MASSiveBattleField
 
         #region Delegates
         public delegate void UpdateTextCallback(string message);
+
+        private void UpdateTextbox2(string message)
+        {
+            textBox2.AppendText(message);
+        }
 
         private void UpdateTextbox4(string message)
         {
