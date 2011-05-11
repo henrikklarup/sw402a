@@ -246,7 +246,7 @@ namespace ActionInterpeter
                             break;
                         case "hold":
                             Lists.moveagents.RemoveAll(s => s.id == _agent.id);
-                            break;
+                            return;
                     }
                     break;
                 case (int)Type.Types.COORD:
