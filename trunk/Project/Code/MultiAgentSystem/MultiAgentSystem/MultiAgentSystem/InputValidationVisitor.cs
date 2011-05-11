@@ -388,14 +388,14 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // Always a Token of kind number, boolean or identifier.
-            expression.primaryExpression_1.visit(this, arg);
+            expression.primExpr1.visit(this, arg);
 
             // Always a Token of kind, operator, if this doesn't exists, 
             // visit the primaryExpression and return null.
-            expression._operator.visit(this, arg);
+            expression.opr.visit(this, arg);
 
             // 2nd Primary expression can be both an expression or a token.
-            expression.primaryExpression_2.visit(this, arg);
+            expression.primExpr2.visit(this, arg);
 
             Printer.Collapse();
             return null;
@@ -587,6 +587,16 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
+        }
+
+        internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override object visitParentExpression(ParentExpression parentExpression, object arg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

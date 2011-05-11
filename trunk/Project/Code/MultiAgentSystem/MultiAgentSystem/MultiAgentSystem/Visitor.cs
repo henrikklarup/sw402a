@@ -120,6 +120,10 @@ namespace MultiAgentSystem
 
         internal abstract object visitAssignCommand(AssignCommand assignCommand, object arg);
 
+        internal abstract object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg);
+
+        internal abstract object visitParentExpression(ParentExpression parentExpression, object arg);
+
         /// <summary>
         /// Returns a given error message with line number and the proper error markings.
         /// </summary>

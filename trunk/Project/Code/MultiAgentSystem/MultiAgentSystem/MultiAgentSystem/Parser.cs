@@ -92,8 +92,7 @@ namespace MultiAgentSystem
                 if (c != null)
                     block.commands.Add(c);
             }
-            if(currentToken.kind != (int)Token.keywords.EOT)
-                acceptIt();
+            accept(Token.keywords.RBRACKET);
 
             Printer.Collapse();
             return block;
@@ -144,6 +143,11 @@ namespace MultiAgentSystem
                     {
                         returnObject = (Expression)parseExpression();
                     }
+                    else if (currentToken.kind ==
+                        (int)Token.keywords.LPAREN)
+                    {
+                        returnObject = (Expression)parseExpression();
+                    }
                     else
                     {
                         returnObject = (TypeDeclaration)parseTypeDeclaration();
@@ -158,6 +162,11 @@ namespace MultiAgentSystem
                         (int)Token.keywords.OPERATOR)
                     {
                         returnObject = (Expression)parseExpression();
+                    }
+                    else if (tokenList.ElementAt(listCount + 1).kind ==
+                    (int)Token.keywords.LPAREN)
+                    {
+                        returnObject = (ParentExpression)parseParentExpression();
                     }
                     else
                     {
@@ -371,6 +380,11 @@ namespace MultiAgentSystem
             {
                 typeDeclaration.Becomes = (Expression)parseExpression();
             }
+            else if (currentToken.kind ==
+                    (int)Token.keywords.LPAREN)
+            {
+                typeDeclaration.Becomes = (ParentExpression)parseParentExpression();
+            }
             else
             {
                 typeDeclaration.Becomes = (MASVariable)parseVariable();
@@ -493,6 +507,11 @@ namespace MultiAgentSystem
             {
                 becomes = parseExpression();
             }
+            else if (currentToken.kind ==
+                    (int)Token.keywords.LPAREN)
+            {
+                becomes = (ParentExpression)parseParentExpression();
+            }
             else
             {
                 becomes = parseVariable();
@@ -502,9 +521,8 @@ namespace MultiAgentSystem
             return new AssignCommand(ident, becomes);
         }
 
-        private int parent = 0;
         /// <summary>
-        /// Method for parsing an expression (unfinished).
+        /// Method for parsing an expression.
         /// Syntax: primary-expression operator primary-expression
         /// </summary>
         private Expression parseExpression()
@@ -512,49 +530,54 @@ namespace MultiAgentSystem
             Printer.WriteLine("Expression");
             Printer.Expand();
 
-            AST primaryExpression_1;
-            Operator _operator;
-            AST primaryExpression_2;
+            PrimaryExpression primExpr1;
 
-            if (currentToken.kind == (int)Token.keywords.LPAREN)
+            // Parse the first Expression.
+            primExpr1 = parsePrimaryExpression();
+
+            return parseExpression(primExpr1);
+        }
+
+        /// <summary>
+        /// Extended method for parsing an expression
+        /// </summary>
+        /// <param name="primExpr1">Any Primary Expression</param>
+        private Expression parseExpression(PrimaryExpression primExpr1)
+        {
+            Printer.WriteLine("Expression");
+            Printer.Expand();
+
+            Operator _operator;
+            PrimaryExpression primExpr2;
+
+            // Parse the operator.
+            _operator = parseOperator();
+
+            primExpr2 = parsePrimaryExpression();
+
+            if (currentToken.kind == (int)Token.keywords.OPERATOR)
             {
-                acceptIt();
-                tokenList.ElementAt(listCount).spelling = "(" + currentToken.spelling;
-                parent++;
-                primaryExpression_1 = parsePrimaryExpression();
-            }
-            else if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.RPAREN && parent > 0)
-            {
-                tokenList.ElementAt(listCount).spelling = currentToken.spelling + ")";
-                primaryExpression_1 = parsePrimaryExpression();
-                acceptIt();
-                parent--;
-            }
-            else
-                primaryExpression_1 = parsePrimaryExpression();
-            _operator = (Operator)parseOperator();
-            // If the next token is an operator, parse an expression.
-            if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.OPERATOR)
-            {
-                primaryExpression_2 = parseExpression();
-            }
-            else if (currentToken.kind == (int)Token.keywords.LPAREN)
-            {
-                primaryExpression_2 = parseExpression();
-            }
-            else if (tokenList.ElementAt(listCount + 1).kind == (int)Token.keywords.RPAREN
-                && tokenList.ElementAt(listCount + 2).kind == (int)Token.keywords.OPERATOR)
-            {
-                primaryExpression_2 = parseExpression();
-            }
-            else
-            {
-                primaryExpression_2 = parsePrimaryExpression();
+                Expression expr = parseExpression(primExpr2);
+                primExpr2 = new PrimaryExpression(expr);
             }
 
             Printer.Collapse();
-            return new Expression(primaryExpression_1, _operator, primaryExpression_2, 
-                tokenList.ElementAt(listCount - 3));
+            return new Expression(primExpr1, _operator, primExpr2);
+
+        }
+
+        private ParentExpression parseParentExpression()
+        {
+            Printer.WriteLine("Parent Expression");
+            Printer.Expand();
+
+            Expression expr;
+            accept(Token.keywords.LPAREN);
+            expr = parseExpression();
+            accept(Token.keywords.RPAREN);
+
+            Printer.Collapse();
+            return new ParentExpression(expr);
         }
 
         /// <summary>
@@ -562,10 +585,8 @@ namespace MultiAgentSystem
         /// Syntax: number | identifier | expression | ( expression ) | boolean
         /// </summary>
         /// <returns></returns>
-        private AST parsePrimaryExpression()
-        {
-            AST returnObject = null;
-            
+        private PrimaryExpression parsePrimaryExpression()
+        {            
             Printer.WriteLine("Primary Expression");
             Printer.Expand();
 
@@ -573,15 +594,22 @@ namespace MultiAgentSystem
             switch (currentToken.kind)
             { 
                 case (int)Token.keywords.NUMBER:
-                    returnObject = parseMASNumber();
-                    break;
+                    MASNumber masnumber = parseMASNumber();
+                    Printer.Collapse();
+                    return new PrimaryExpression(masnumber);
                 case (int)Token.keywords.TRUE:
                 case (int)Token.keywords.FALSE:
-                    returnObject = parseMASBool();
-                    break;
+                    MASBool masbool = parseMASBool();
+                    Printer.Collapse();
+                    return new PrimaryExpression(masbool);
                 case (int)Token.keywords.IDENTIFIER:
-                    returnObject = parseIdentifier();
-                    break;
+                    Identifier ident = parseIdentifier();
+                    Printer.Collapse();
+                    return new PrimaryExpression(ident);
+                case (int)Token.keywords.LPAREN:
+                    ParentExpression parentExpr = parseParentExpression();
+                    Printer.Collapse();
+                    return new PrimaryExpression(parentExpr);
                 default:
                     Printer.ErrorMarker();
                     throwException = true;
@@ -594,8 +622,7 @@ namespace MultiAgentSystem
                     break;
             }
 
-            Printer.Collapse();
-            return returnObject;
+            return null;
         }
 
         /// <summary>
@@ -614,7 +641,7 @@ namespace MultiAgentSystem
         /// <summary>
         /// Method for parsing an operator.
         /// </summary>
-        private Terminal parseOperator()
+        private Operator parseOperator()
         {
             Printer.WriteLine("Operator: " + currentToken.spelling);
             Printer.Expand();
@@ -681,6 +708,20 @@ namespace MultiAgentSystem
             accept(Token.keywords.NUMBER);
 
             return num;
+        }
+
+        /// <summary>
+        /// Method for parsing a number.
+        /// </summary>
+        /// <returns></returns>
+        private MASString parseMASString()
+        {
+            Printer.WriteLine("String: " + currentToken.spelling);
+
+            MASString masstring = new MASString(currentToken);
+            accept(Token.keywords.ACTUAL_STRING);
+
+            return masstring;
         }
 
         /// <summary>

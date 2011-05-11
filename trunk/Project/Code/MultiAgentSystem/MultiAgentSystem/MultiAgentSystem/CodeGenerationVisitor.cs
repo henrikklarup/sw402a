@@ -245,7 +245,7 @@ namespace MultiAgentSystem
             /* If the declaration becomes an expression, then it was printed when "becomes" was visited.
              * If that isn't the case, then simply take what the declaration becomes and print it. */
             if (!Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),
-                new Expression(null, null, null, null).GetType()))
+                new Expression(null).GetType()))
             {
                 Token masVariable = (Token)becomes;
                 if (Print)
@@ -443,13 +443,13 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // Put the first part of the expression in a token.
-            Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
+            Token primExpr1 = (Token)expression.primExpr1.visit(this, arg);
 
             // Put the operator in a token.
-            Token _operator = (Token)expression._operator.visit(this, arg);
+            Token _operator = (Token)expression.opr.visit(this, arg);
 
             // The second part of the expression can be both a new expression or a single variable.
-            object primExpr2 = expression.primaryExpression_2;
+            object primExpr2 = expression.primExpr2;
 
             // Print the first part of the expression.
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
@@ -459,9 +459,9 @@ namespace MultiAgentSystem
 
             // If the second part of the expression is not a new expression, print it as it is. 
             if (!Expression.ReferenceEquals(primExpr2.GetType(),
-                new Expression(null, null, null, null).GetType()))
+                new Expression(null).GetType()))
             {
-                Token _primExpr2 = (Token)expression.primaryExpression_2.visit(this, arg);
+                Token _primExpr2 = (Token)expression.primExpr2.visit(this, arg);
 
                 // If arg is false, don't print the semicolon.
                 if (Print)
@@ -481,7 +481,7 @@ namespace MultiAgentSystem
             }
             else
             { 
-                expression.primaryExpression_2.visit(this, arg);
+                expression.primExpr2.visit(this, arg);
             }
 
             Printer.Collapse();
@@ -617,7 +617,7 @@ namespace MultiAgentSystem
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
-            if (!Expression.Equals(becomes.GetType(), new Expression(null, null, null, null).GetType()))
+            if (!Expression.Equals(becomes.GetType(), new Expression(null).GetType()))
             {
                 Token masVariable = (Token)becomes;
 
@@ -639,6 +639,16 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
+        }
+
+        internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override object visitParentExpression(ParentExpression parentExpression, object arg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

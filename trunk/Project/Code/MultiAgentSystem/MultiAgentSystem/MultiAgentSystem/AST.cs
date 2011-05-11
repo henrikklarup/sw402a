@@ -267,25 +267,80 @@ namespace MultiAgentSystem
     /// </summary>
     public class Expression : ExpressionAST
     {
-        public Token basicToken = null;
-        public AST primaryExpression_1;
-        public Operator _operator;
-        public AST primaryExpression_2;
+        public PrimaryExpression primExpr1;
+        public Operator opr;
+        public PrimaryExpression primExpr2;
+        public ParentExpression parentExpr;
 
+        public Token basicToken;
         public int type;
-
-        public Expression(AST primaryExpression_1, 
-            Operator _operator, AST primaryExpression_2, Token token)
+        public Expression(PrimaryExpression primExpr1, Operator _operator, PrimaryExpression primExpr2)
         {
-            this.primaryExpression_1 = primaryExpression_1;
-            this._operator = _operator;
-            this.primaryExpression_2 = primaryExpression_2;
-            this.basicToken = token;
+            this.primExpr1 = primExpr1;
+            this.opr = _operator;
+            this.primExpr2 = primExpr2;
+            this.parentExpr = null;
+        }
+
+        public Expression(ParentExpression parentExpr)
+        {
+            this.primExpr1 = null;
+            this.opr = null;
+            this.primExpr2 = null;
+            this.parentExpr = parentExpr;
         }
 
         public override object visit(Visitor v, object arg)
         {
             return v.visitExpression(this, arg);
+        }
+    }
+
+    public class PrimaryExpression : ExpressionAST
+    {
+        public Terminal var;
+        public Expression expression;
+        public ParentExpression parentExpression;
+
+        public PrimaryExpression(Terminal var)
+        {
+            this.var = var;
+            this.expression = null;
+            this.parentExpression = null;
+        }
+
+        public PrimaryExpression(Expression expr)
+        {
+            this.var = null;
+            this.expression = expr;
+            this.parentExpression = null;
+        }
+
+        public PrimaryExpression(ParentExpression pexpr)
+        {
+            this.var = null;
+            this.expression = null;
+            this.parentExpression = pexpr;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitPrimaryExpression(this, arg);
+        }
+    }
+
+    public class ParentExpression : ExpressionAST
+    {
+        public Expression expr;
+
+        public ParentExpression(Expression expr)
+        {
+            this.expr = expr;
+        }
+
+        public override object visit(Visitor v, object arg)
+        {
+            return v.visitParentExpression(this, arg);
         }
     }
 
