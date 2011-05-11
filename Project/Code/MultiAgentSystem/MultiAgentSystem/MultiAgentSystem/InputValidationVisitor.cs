@@ -6,7 +6,7 @@ using System.IO;
 
 namespace MultiAgentSystem
 {
-    public class InputVisitor : Visitor
+    public class InputValidationVisitor : Visitor
     {
         // Exception for catching errors.
         private GrammarException gException =
