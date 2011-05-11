@@ -142,7 +142,7 @@ namespace MultiAgentSystem
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
             if (Expression.ReferenceEquals(typeDeclaration.Becomes.GetType(),
-                new Expression(null, null, null, null).GetType()))
+                new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
                 kind = expression.type;
@@ -338,7 +338,7 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // Always a Token of kind number, boolean or identifier.
-            Token primExpr1 = (Token)expression.primaryExpression_1.visit(this, arg);
+            Token primExpr1 = (Token)expression.primExpr1.visit(this, arg);
 
             if (primExpr1.kind == (int)Token.keywords.IDENTIFIER)
             {
@@ -356,10 +356,10 @@ namespace MultiAgentSystem
 
             // Always a Token of kind, operator, if this doesn't exists, 
             // visit the primaryExpression and return null.
-            Token _operator = (Token)expression._operator.visit(this, arg);
+            Token _operator = (Token)expression.opr.visit(this, arg);
 
             // 2nd Primary expression can be both an expression or a token.
-            object primExpr2 = expression.primaryExpression_2.visit(this, arg);
+            object primExpr2 = expression.primExpr1.visit(this, arg);
 
             // Check which kind of expression this is, according to the operator.
             switch (_operator.spelling)
@@ -484,7 +484,7 @@ namespace MultiAgentSystem
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + primExpr1.row +
                                 ") The types in the expression " + primExpr1.spelling + " " +
-                                _primExpr2._operator.token.spelling + "... do not match."));
+                                _primExpr2.opr.token.spelling + "... do not match."));
                     }
 
                 // If any sub-expression is bool, the entire expression is bool
@@ -498,7 +498,7 @@ namespace MultiAgentSystem
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + primExpr1.row +
                                 ") The types in the expression " + primExpr1.spelling + " " +
-                                _primExpr2._operator.token.spelling + "... do not match."));
+                                _primExpr2.opr.token.spelling + "... do not match."));
                     }
 
                     // If any of the expressions are of type boolean
@@ -665,7 +665,7 @@ namespace MultiAgentSystem
 
             // If the declaration becomes an expression, visit the expression.
             // Else check if it becomes the right type.
-            if (Expression.Equals(becomes.GetType(), new Expression(null, null, null, null).GetType()))
+            if (Expression.Equals(becomes.GetType(), new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
                 kind = expression.type;
@@ -734,6 +734,16 @@ namespace MultiAgentSystem
 
             Printer.Collapse();
             return null;
+        }
+
+        internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override object visitParentExpression(ParentExpression parentExpression, object arg)
+        {
+            throw new NotImplementedException();
         }
 
         private LinkedIdentifier CreateLinkedIdentifier(Token t)
