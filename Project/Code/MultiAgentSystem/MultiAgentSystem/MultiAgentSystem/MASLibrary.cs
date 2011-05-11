@@ -135,9 +135,11 @@ namespace MultiAgentSystem
             Input agentInput = new Input();
             Token agentToken = new Token((int)Token.keywords.AGENT, "agent", -1, -1);
             agentInput.firstVar = new Identifier(agentToken);
+
             // Add an agent to a team:
             AddAgentToTeam addAgentToTeam1 = new AddAgentToTeam(
                 agentInput, "add", (int)Token.keywords.TEAM);
+
             // Add an agent to a squad:
             AddAgentToSquad addAgentToSquad1 = new AddAgentToSquad(
                 agentInput, "add", (int)Token.keywords.SQUAD);
@@ -145,20 +147,25 @@ namespace MultiAgentSystem
             // Methods and overloads that only take a string as input:
             Input stringInput = new Input();
             Token stringToken = new Token((int)Token.keywords.ACTUAL_STRING, "string", -1, -1);
-            stringInput.firstVar = new Identifier(stringToken);
-
+            
             // Add an action to an actionpattern:
+            stringToken.spelling = "action (string)";
+            stringInput.firstVar = new Identifier(stringToken);
             AddActionToActionPattern addActionToAP1 = new AddActionToActionPattern(
                 stringInput, "add", (int)Token.keywords.ACTION_PATTERN);
+
             // Squad constructor:
             Attributes squadProp = new Attributes();
             squadProp.ident = "name";
             squadProp.kind = (int)Token.keywords.STRING;
             props.Add(squadProp);
 
+            stringToken.spelling = "name (string)";
+            stringInput.firstVar = new Identifier(stringToken);
             squadConstructor squadConstructor1 = new squadConstructor(
                 stringInput, (int)Token.keywords.SQUAD, new List<Attributes>(props));
             props.Clear();
+
             // Team constructor:
             Attributes teamProp1 = new Attributes();
             teamProp1.ident = "name";
@@ -169,15 +176,20 @@ namespace MultiAgentSystem
             teamProp2.kind = (int)Token.keywords.STRING;
             props.Add(teamProp2);
 
+            stringToken.spelling = "name (string)";
+            stringInput.firstVar = new Identifier(stringToken);
             teamConstructor teamConstructor1 = new teamConstructor(
                 stringInput, (int)Token.keywords.TEAM, new List<Attributes>(props));
             props.Clear();
+
             // Action pattern constructor:
             Attributes actionPatternProp = new Attributes();
             actionPatternProp.ident = "name";
             actionPatternProp.kind = (int)Token.keywords.STRING;
             props.Add(actionPatternProp);
 
+            stringToken.spelling = "name (string)";
+            stringInput.firstVar = new Identifier(stringToken);
             actionPatternConstructor apConstructor1 = new actionPatternConstructor(
                 stringInput, (int)Token.keywords.ACTION_PATTERN, new List<Attributes>(props));
             props.Clear();
@@ -185,32 +197,54 @@ namespace MultiAgentSystem
             // Methods and overloads that take a string and number as input:
             Input stringNumberInput = new Input();
             Token numberToken = new Token((int)Token.keywords.NUMBER, "number", -1, -1);
-            stringNumberInput.firstVar = new Identifier(stringToken);
             stringNumberInput.nextVar = new Input();
-            stringNumberInput.nextVar.firstVar = new Identifier(numberToken);
-
+            
             // Agent constructor:
             Attributes agentProp = new Attributes();
             agentProp.ident = "name";
             agentProp.kind = (int)Token.keywords.STRING;
             props.Add(agentProp);
 
-            agentConstructor agentConstructor1 = new agentConstructor(
+            stringToken.spelling = "name (string)";
+            stringNumberInput.firstVar = new Identifier(stringToken);
+            numberToken.spelling = "rank (number)";
+            stringNumberInput.nextVar.firstVar = new Identifier(numberToken);
+            agentStringConstructor agentConstructor1 = new agentStringConstructor(
                 stringNumberInput, (int)Token.keywords.AGENT, new List<Attributes>(props));
             props.Clear();
 
             // Methods and overloads that take two strings as input:
             Input stringStringInput = new Input();
-            stringStringInput.firstVar = new Identifier(stringToken);
             stringStringInput.nextVar = new Input();
-            stringStringInput.nextVar.firstVar = new Identifier(stringToken);
-
+            
             // Team constructor:
             props.Add(teamProp1);
             props.Add(teamProp2);
 
+            stringToken.spelling = "name (string)";
+            stringStringInput.firstVar = new Identifier(stringToken);
+            stringToken.spelling = "color (string - hex)";
+            stringStringInput.nextVar.firstVar = new Identifier(stringToken);
             teamConstructor teamConstructor2 = new teamConstructor(
                 stringStringInput, (int)Token.keywords.TEAM, new List<Attributes>(props));
+            props.Clear();
+
+            // Methods and overloads that take a string, a number and a team as input:
+            Input stringNumTeamInput = new Input();
+            stringNumTeamInput.nextVar = new Input();
+            stringNumTeamInput.nextVar.nextVar = new Input();
+            Token teamToken = new Token((int)Token.keywords.TEAM, "team", -1, -1);
+
+            // Agent constructor:
+            props.Add(agentProp);
+
+            stringToken.spelling = "name (string)";
+            stringNumTeamInput.firstVar = new Identifier(stringToken);
+            numberToken.spelling = "rank (number)";
+            stringNumTeamInput.nextVar.firstVar = new Identifier(numberToken);
+            stringNumTeamInput.nextVar.nextVar.firstVar = new Identifier(teamToken);
+            agentStringTeamConstructor agentConstructor2 = new agentStringTeamConstructor(
+                stringNumberInput, (int)Token.keywords.AGENT, new List<Attributes>(props));
             props.Clear();
         }
     }
@@ -528,13 +562,13 @@ namespace MultiAgentSystem
         public abstract string PrintGeneratedCode(string name, string input);
     }
 
-    class agentConstructor : MASConstructor, ICodeTemplate
+    class agentStringConstructor : MASConstructor, ICodeTemplate
     {
-        public agentConstructor(Input input, int useWith) 
+        public agentStringConstructor(Input input, int useWith) 
             : base(input, useWith)
         { }
 
-        public agentConstructor(Input input, int useWith, List<Attributes> properties)
+        public agentStringConstructor(Input input, int useWith, List<Attributes> properties)
             : base(input, useWith, properties)
         { }
 
@@ -548,6 +582,33 @@ namespace MultiAgentSystem
         {
             // agent one = new agent(two)
             return "agent " + one.ToLower() + " = new agent(" + two.ToLower() + ")";
+        }
+    }
+
+    class agentStringTeamConstructor : MASConstructor, ICodeTemplate
+    {
+        public agentStringTeamConstructor(Input input, int useWith)
+            : base(input, useWith)
+        { }
+
+        public agentStringTeamConstructor(Input input, int useWith, List<Attributes> properties)
+            : base(input, useWith, properties)
+        { }
+
+        /// <summary>
+        /// Generates C# code to add an agent to a team.
+        /// </summary>
+        /// <param name="one">Name of the agent.</param>
+        /// <param name="one">Input.</param>
+        /// <returns>agent one = new agent(two)</returns>
+        public override string PrintGeneratedCode(string one, string two)
+        {
+            string[] input = two.Split(',');
+            // agent one = new agent(two);
+            // one.team = two
+            return "agent " + one.ToLower() + " = new agent(" +
+                input[0].ToLower() + ", " + input[1].ToLower() + ");\n" + 
+                one + ".team = " + input[2].ToLower();
         }
     }
 
