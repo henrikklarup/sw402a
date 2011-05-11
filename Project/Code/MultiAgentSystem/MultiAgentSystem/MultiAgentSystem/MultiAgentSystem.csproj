@@ -52,7 +52,7 @@
     <Compile Include="CompileCSharpCode.cs" />
     <Compile Include="GrammarException.cs" />
     <Compile Include="IdentificationTable.cs" />
-    <Compile Include="IntermediateVisitor.cs" />
+    <Compile Include="InputVisitor.cs" />
     <Compile Include="MASLibrary.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Printer.cs" />

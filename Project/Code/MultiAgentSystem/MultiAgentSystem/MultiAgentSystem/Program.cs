@@ -275,7 +275,7 @@ namespace MultiAgentSystem
             Printer.CompilationMarker("@Intermediate");
             Console.Title = "MASS Compiler: Intermediate";
 
-            IntermediateVisitor visitor = new IntermediateVisitor();
+            InputVisitor visitor = new InputVisitor();
             
             try
             {

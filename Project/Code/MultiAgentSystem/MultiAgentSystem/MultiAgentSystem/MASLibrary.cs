@@ -301,7 +301,7 @@ namespace MultiAgentSystem
             // The printValidInput string is generated from the given input.
             Token temp;
             Input current = input;
-            IntermediateVisitor i = new IntermediateVisitor();
+            InputVisitor i = new InputVisitor();
             while (current != null)
             {
                 temp = (Token)current.firstVar.visit(i, null);
@@ -480,7 +480,7 @@ namespace MultiAgentSystem
             // The printValidInput string is generated from the given input.
             Token temp;
             Input current = input;
-            IntermediateVisitor i = new IntermediateVisitor();
+            InputVisitor i = new InputVisitor();
             while (current != null)
             {
                 temp = (Token)current.firstVar.visit(i, null);
