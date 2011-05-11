@@ -6,7 +6,7 @@ using System.IO;
 
 namespace MultiAgentSystem
 {
-    class DecorationVisitor : Visitor
+    class TypeAndScopeVisitor : Visitor
     {
         // Exception for catching errors.
         private GrammarException gException = 
