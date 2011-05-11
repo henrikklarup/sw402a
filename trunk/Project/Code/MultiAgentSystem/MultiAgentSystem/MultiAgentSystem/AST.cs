@@ -350,7 +350,7 @@ namespace MultiAgentSystem
             Token temp;
             Input current = this;
             string input = "";
-            InputVisitor i = new InputVisitor();
+            InputValidationVisitor i = new InputValidationVisitor();
 
             while (current != null)
             {
