@@ -48,6 +48,7 @@
 
 \part{Introduction to MAS}
 \InputIfFileExists{Introduction/introduction}{}{}
+\InputIfFileExists{Wargame/wargame}{}{}
 \InputIfFileExists{Problem/problem}{}{}
 
 \part{Tools}
@@ -55,16 +56,18 @@
 \InputIfFileExists{Compiler_Components/compiler_components}{}{}
 
 \part{Implementation}
-\InputIfFileExists{Wargame/wargame}{}{}
+\InputIfFileExists{GUI/gui}{}{}
 \InputIfFileExists{Implementation/implementation}{}{}
 
-\part{Epilogue}
+\part{Discussion}
 \InputIfFileExists{Discussion/discussion}{}{}
+
+\part{Epilogue}
 \InputIfFileExists{Epilogue/epilogue}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
 
-\appendix
+\part{Appendix}
 \InputIfFileExists{Appendix/appendix}{}{}
 
 \clearpage{\thispagestyle{empty}\cleardoublepage}
