@@ -145,20 +145,44 @@ namespace MultiAgentSystem
                 new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
-                kind = expression.type.type;
+                int expressionKind = expression.type.type;
+
+                switch (kind)
+                { 
+                    case (int)Token.keywords.BOOL:
+                        if(expressionKind != (int)Type.types.BOOL)
+                        Printer.ErrorMarker();
+                        throw new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                            " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                    case (int)Token.keywords.NUM:
+                        if(expressionKind != (int)Type.types.NUM)
+                        Printer.ErrorMarker();
+                        throw new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                            " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                    case (int)Token.keywords.STRING:
+                        if(expressionKind != (int)Type.types.STRING)
+                        Printer.ErrorMarker();
+                        throw new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                            " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                    default:
+                        Printer.ErrorMarker();
+                        throw new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) + 
+                            " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                }
             }
             else
             {
+                #region not expression
                 Token masVariable = (Token)becomes;
 
                 // Checks that the type matches the variable, that the identifier becomes.
                 switch (kind)
                 {
-                    case (int)Type.types.STRING:
+                    case (int)Token.keywords.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.STRING)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -169,12 +193,12 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Type.types.BOOL:
+                    case (int)Token.keywords.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE 
                             && masVariable.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.BOOL)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -185,11 +209,11 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Type.types.NUM:
+                    case (int)Token.keywords.NUM:
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
-                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
-                                && IdentificationTable.retrieve(masVariable.spelling) != kind)
+                            if (masVariable.kind == (int)Token.keywords.IDENTIFIER
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.NUM)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -209,6 +233,7 @@ namespace MultiAgentSystem
                                 "The types in the type declaration do not match.", masVariable));
                         break;
                 }
+                #endregion
             }
             if (IdentificationTable.retrieve(VarName.spelling) == (int)Token.keywords.ERROR)
                 IdentificationTable.enter(kind, ident);
@@ -609,6 +634,7 @@ namespace MultiAgentSystem
              */
             #endregion
 
+            Printer.Write(" " + Enum.GetName(typeof(Type.types), expression.type.type));
             Printer.Collapse();
             return expression;
         }
@@ -858,17 +884,17 @@ namespace MultiAgentSystem
                         primaryExpression.type = new Type(Type.types.STRING);
                         break;
                     case (int)Token.keywords.IDENTIFIER:
+                        int kind = IdentificationTable.retrieve(var.spelling);
                         // Make a switch according to which kind the ID table retrieves.
-                        switch (IdentificationTable.retrieve(var.spelling))
+                        switch (kind)
                         { 
-                            case (int)Token.keywords.NUMBER:
+                            case (int)Token.keywords.NUM:
                                 primaryExpression.type = new Type(Type.types.NUM);
                                 break;
-                            case (int)Token.keywords.TRUE:
-                            case (int)Token.keywords.FALSE:
+                            case (int)Token.keywords.BOOL:
                                 primaryExpression.type = new Type(Type.types.BOOL);
                                 break;
-                            case (int)Token.keywords.ACTUAL_STRING:
+                            case (int)Token.keywords.STRING:
                                 primaryExpression.type = new Type(Type.types.STRING);
                                 break;
                         }
