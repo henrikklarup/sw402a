@@ -64,14 +64,14 @@ namespace MultiAgentSystem
             while (true)
             {
                 Console.WriteLine();
-                Console.WriteLine("Would you like to use the standard file (mass.txt)? y/n");
+                Console.WriteLine("Would you like to use the standard file (massive.txt)? y/n");
 
                 ConsoleKeyInfo cki = Console.ReadKey();
 
                 if (cki.Key == ConsoleKey.Y)
                 {
                     Console.WriteLine("");
-                    path = Environment.CurrentDirectory + @"\mass.txt";
+                    path = Environment.CurrentDirectory + @"\massive.txt";
                     // Checks whether the file exists or not.
                     while (File.Exists(Program.path) == false)
                     {
@@ -100,7 +100,7 @@ namespace MultiAgentSystem
             Compile();
 
             Process battlefield = new Process();
-            battlefield.StartInfo.FileName = Environment.CurrentDirectory + @"\MASSiveBattleField.exe";
+            battlefield.StartInfo.FileName = Environment.CurrentDirectory + @"\MASSIVEBattleField.exe";
             battlefield.Start();
         }
 
@@ -171,7 +171,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Scanning");
-            Console.Title = "MASS Compiler: Scanning";
+            Console.Title = "MASSIVE Compiler: Scanning";
             // Scans the source file, untill the scanner returns an "end of transmission" token.
             while (true)
             {
@@ -222,7 +222,7 @@ namespace MultiAgentSystem
             Console.WriteLine();            
             Console.CursorLeft = 0; 
             Printer.CompilationMarker("@Parsing");
-            Console.Title = "MASS Compiler: Parsing";
+            Console.Title = "MASSIVE Compiler: Parsing";
 
             Parser parser = new Parser(Tokens);
 
@@ -250,7 +250,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Decorating");
-            Console.Title = "MASS Compiler: Decorating";
+            Console.Title = "MASSIVE Compiler: Decorating";
 
             TypeAndScopeVisitor visitor = new TypeAndScopeVisitor();
             try
@@ -273,7 +273,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Intermediate");
-            Console.Title = "MASS Compiler: Intermediate";
+            Console.Title = "MASSIVE Compiler: Intermediate";
 
             InputValidationVisitor visitor = new InputValidationVisitor();
             
@@ -297,7 +297,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Code Generation");
-            Console.Title = "MASS Compiler: Code Generation";
+            Console.Title = "MASSIVE Compiler: Code Generation";
 
             path = Path.GetDirectoryName(path);
             CodeGenerationVisitor visitor = new CodeGenerationVisitor();
@@ -325,7 +325,7 @@ namespace MultiAgentSystem
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Compilation has completed");
-            Console.Title = "MASS Compiler: Compilation has completed";
+            Console.Title = "MASSIVE Compiler: Compilation has completed";
 
             GenerateCSharp();
         }
