@@ -16,7 +16,6 @@ using System.Threading;
 using System.Runtime.InteropServices;
 #endregion
 
-
 namespace MASSiveBattleField
 {
     public partial class WarGame : Form
