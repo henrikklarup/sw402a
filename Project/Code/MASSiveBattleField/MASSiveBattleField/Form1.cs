@@ -997,12 +997,40 @@ namespace MASSiveBattleField
         }
         #endregion
 
-
         #region Execute
         int counter = 0;
         private void executeTimer_Tick(object sender, EventArgs e)
         {
-            if (counter == 5)
+            //Count agents on each team
+            #region Agent count
+            int agentsOnteam1 = 0;
+            int agentsOnteam2 = 0;
+            int agentsOnteam3 = 0;
+            int agentsOnteam4 = 0;
+            foreach (agent a in Lists.agents)
+            {
+                if (a.team.id == 1)
+                    agentsOnteam1++;
+                if (a.team.id == 2)
+                    agentsOnteam2++;
+                if (a.team.id == 3)
+                    agentsOnteam3++;
+                if (a.team.id == 4)
+                    agentsOnteam4++;
+            }
+            #endregion
+
+            int teamCount = 0;
+            if (agentsOnteam1 > 0)
+                teamCount++;
+            if (agentsOnteam2 > 0)
+                teamCount++;
+            if (agentsOnteam3 > 0)
+                teamCount++;
+            if (agentsOnteam4 > 0)
+                teamCount++;
+
+            if (counter >= 5 * teamCount)
                 executeTimer.Stop();
 
             EndTurn();
