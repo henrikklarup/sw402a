@@ -10,7 +10,7 @@ namespace MASSIVE
     {
         // Exception for catching errors.
         private GrammarException gException =
-            new GrammarException("These inputs did not pass validation:");
+            new GrammarException("These errors where found while VALIDATING INPUT:");
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
