@@ -37,11 +37,13 @@ namespace MASSiveBattleField
 
             #region Initi props
 
+            //Show Gamesettings form
             #region GameSettings Dialog
             GameSettings gms = new GameSettings();
             gms.ShowDialog();
             #endregion
 
+            //Get input from gamesettings form and set grids
             #region Grids
             //Small = 13
             //Medium = 26
@@ -51,40 +53,32 @@ namespace MASSiveBattleField
 
             //Linewidth default 2
             LineWidth = 2;
+
             //Empty mousepoint
             mousePointGrid = new Point(0, 0);
+
             //Line color default black
             LineColor = Color.Black;
+
             //Background color default army green
             backGroundColor = Color.FromArgb(102,153,102);
 
             //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
             GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
 
+            //Set selectedagent to null
             selectedagent = null;
 
             //InitializeLists
             XML.initLists();
             #endregion
 
-            #region Folder Browser Dialog
-            ////Xml-path choosen
-            //FolderBrowserDialog fbd = new FolderBrowserDialog();
-            //fbd.SelectedPath = Environment.CurrentDirectory;
-            //if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    //Generate xml data
-            //    XML.returnLists(fbd.SelectedPath);
-            //    placeteams();
-            //}
+            #region Get lists from XML and place teams
             XML.returnLists(Environment.CurrentDirectory);
             placeteams();
             #endregion
 
-            //Turnswitch set to random
-            //Random rnd = new Random();
-            //turn = rnd.Next(1,Lists.teams.Count+1);
-
+            //Make team 1 start
             turn = 1;
             Lists.currentteam = Lists.RetrieveTeam(turn);
             label6.Text = "Team " + turn;
@@ -103,15 +97,15 @@ namespace MASSiveBattleField
 
             //Draw Grid
             #region DrawGrid
+
+            //Draw outer grid
+            #region Outer grid
             e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(0, LineWidth / 2), new Point(dbPanel1.Width, LineWidth / 2));
             e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth / 2, 0), new Point(LineWidth / 2, dbPanel1.Height));
+            #endregion
 
-
-            //((GridSize.Width+LineWidth)*Grids) + (GridSize.Width + 2*LineWidth)
-            //eller
-            //dbPanel1.Width
-
-
+            //Draw Inner grid
+            #region Inner grid
             for (int i = GridSize.Width + LineWidth; i < dbPanel1.Width; i += GridSize.Width + LineWidth)
             {
                 e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(i + (LineWidth / 2), LineWidth), new Point(i + (LineWidth / 2), dbPanel1.Height));
@@ -121,9 +115,10 @@ namespace MASSiveBattleField
                 e.Graphics.DrawLine(new Pen(LineColor, LineWidth), new Point(LineWidth, i + (LineWidth / 2)), new Point(dbPanel1.Width, i + (LineWidth / 2)));
             }
             #endregion
+            #endregion
 
             //Draw Figure
-            #region Draw Soldiers
+            #region Draw Agents
             foreach (agent a in Lists.agents)
             {
                 //Calculate the pixels of the x,y from the agent
@@ -138,27 +133,36 @@ namespace MASSiveBattleField
                 float fontSizePixel = drawRect.Width;
                 Font fnt = new System.Drawing.Font(ff, fontSizePixel, FontStyle.Regular, GraphicsUnit.Pixel);
 
-                //Font rankFont = new System.Drawing.Font(e.Graphics.MeasureString(a.rank.ToString(),new Font(Font,FontStyle.Regular)), FontStyle.Regular);
+                //Draw Agents
                 e.Graphics.FillEllipse(new SolidBrush(a.team.color), drawRect);
                 e.Graphics.DrawEllipse(Pens.White, new Rectangle(drawPoint.X, drawPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
-                //e.Graphics.DrawString(a.rank.ToString(), fnt, Brushes.Black, new PointF(drawPoint.X, drawPoint.Y));
-
 
                 //Destination point of agent
                 #region Despoint
+                //No agent is selected - No DesPoints need to be drawed
                 if (selectedagent != null)
                 {
+                    //Int for keeping count
                     int desPointCount = 0;
+
+                    //Loop agents
                     foreach (agent aa in Lists.moveagents)
                     {
+                        //Check team
                         if (aa.team.id == Lists.currentteam.id)
                         {
+                            //Check id
                             if (aa.id == selectedagent.id)
                             {
+                                //Calculate new despoint in pixels
                                 Point desPoint = new Point(aa.posx, aa.posy);
                                 desPoint = getGridPixelFromGrid(desPoint);
+
+                                //Draw despoint
                                 e.Graphics.DrawEllipse(Pens.LightBlue, new Rectangle(desPoint.X, desPoint.Y, GridSize.Width - LineWidth + 1, GridSize.Height - LineWidth + 1));
+                                //Add to count
                                 desPointCount++;
+                                //Draw number on the despoint
                                 e.Graphics.DrawString(desPointCount.ToString(), fnt, Brushes.Black, new PointF(desPoint.X, desPoint.Y));
                             }
                         }
@@ -177,6 +181,9 @@ namespace MASSiveBattleField
         {
             //Update progress
             #region Progress
+
+            //Count agents
+            #region Count agents on teams
             int agentsOnteam1 = 0;
             int agentsOnteam2 = 0;
             int agentsOnteam3 = 0;
@@ -192,8 +199,11 @@ namespace MASSiveBattleField
                 if (a.team.id == 4)
                     agentsOnteam4++;
             }
+            #endregion
 
             //Generate gameStats
+            #region Generate gamestats
+            //Clear String
             string gameStats = string.Empty;
             if (Lists.teams.Count >= 1)
                 gameStats += "Team 1: " + agentsOnteam1;
@@ -203,11 +213,13 @@ namespace MASSiveBattleField
                 gameStats += Environment.NewLine + "Team 3: " + agentsOnteam3;
             if (Lists.teams.Count == 4)
                 gameStats += Environment.NewLine + "Team 4: " + agentsOnteam4;
-
+            #endregion
 
             //If Text changed, update textbox
+            #region Update Gamestats field
             if (textBox3.Text != gameStats)
                 textBox3.Text = gameStats;
+            #endregion
             #endregion
 
             //Update GameArea
@@ -227,12 +239,18 @@ namespace MASSiveBattleField
             //Getagent on mouseClick
             foreach (agent a in Lists.agents)
             {
+                //Create new point
                 Point agentPoint = new Point(a.posx, a.posy);
+                //Check points equal eachother
                 if (agentPoint == mousePointGrid)
                 {
+                    //Set selected agent
                     selectedagent = a;
 
+                    //Update Stats Field
                     updateStatsField();
+
+                    //Break Out
                     break;
                 }
             }
@@ -245,9 +263,11 @@ namespace MASSiveBattleField
         #region UpdateStatsField
         private void updateStatsField()
         {
-            //Write agent stats
+            //Agent name & id
             textBox2.Text = "Name: " + selectedagent.name + " (" + selectedagent.id + ")" + Environment.NewLine;
 
+            //Agent Rank
+            #region Rank
             if (selectedagent.team.id == Lists.currentteam.id)
             {
                 textBox2.Text += "Rank: " + selectedagent.rank + Environment.NewLine;
@@ -256,26 +276,56 @@ namespace MASSiveBattleField
             {
                 textBox2.Text += "Rank: -" + Environment.NewLine;
             }
+            #endregion
 
+            //Team Name, team id, agent position
             textBox2.Text += "Team: " + selectedagent.team.name + " (" + selectedagent.team.id + ")" + Environment.NewLine
             + "Position: " + selectedagent.posx + "," + selectedagent.posy + Environment.NewLine;
 
-            foreach (encounter en in Lists.encounters)
+            //Squad
+            #region Squad
+            //Loop squads
+            foreach (squad sq in Lists.squads)
             {
-                if (en.agentId == selectedagent.id)
+                //Loop agents in squad
+                foreach (agent a in sq.Agents)
                 {
-                    textBox2.Text += "Encounter: " + en.action + " ";
+                    //Check Id
+                    if (a.id == selectedagent.id)
+                    {
+                        //Add text for each squad
+                        textBox2.Text +="Squad: " + sq.name + Environment.NewLine;
+                    }
                 }
             }
+            #endregion
+
+            //Encounter
+            #region Encounter
+            //Loop encounters
+            foreach (encounter en in Lists.encounters)
+            {
+                //Check id
+                if (en.agentId == selectedagent.id)
+                {
+                    //Add encounter to textbox
+                    textBox2.Text += "Encounter: " + en.action + " " + Environment.NewLine;
+                }
+            }
+            #endregion
         }
         #endregion
 
         #region Endturn
         private void button1_Click(object sender, EventArgs e)
         {
+            //Run EndTurn Function
             EndTurn();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void EndTurn()
         {
             //Run the game frame
@@ -297,6 +347,7 @@ namespace MASSiveBattleField
         #endregion
 
         #region Execute
+        #region Unused
         #region ExecuteButtonClick
         private void button4_Click(object sender, EventArgs e)
         {
@@ -322,6 +373,7 @@ namespace MASSiveBattleField
                 Thread.CurrentThread.Abort();
             }
         }
+        #endregion
         #endregion
 
         #region Keypress
@@ -356,13 +408,13 @@ namespace MASSiveBattleField
                     output = newOutput.ToString();
                 }
                 textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), output);
-                //textBox4.AppendText(output);
 
                 textBox1.Clear();
             }
             #endregion
             else
             {
+                //Endturn
                 EndTurn();
             }
         }
@@ -436,9 +488,6 @@ namespace MASSiveBattleField
         #region CombatCompareagents
         private void CombatCompareagents(agent a1, agent a2)
         {
-            //Stop the tiemr, so we don't manulipulate the data while executing this
-            //DrawTimer.Stop();
-
             //Generate random values, value = rank * (1..100)
             Random rnd = new Random();
             int agent1Value = (int)(a1.rank * rnd.Next(100));
@@ -448,14 +497,19 @@ namespace MASSiveBattleField
             //If agent 1 wins, remove agent 2
             if (agent1Value > agent2Value)
             {
+                //Send text to "console"
                 string sendtext = a1.name + " beats " + a2.name + Environment.NewLine;
                 textBox5.BeginInvoke(new UpdateTextCallback(UpdateTextbox5), sendtext);
-                //textBox5.Text += a1.name + " beats " + a2.name + Environment.NewLine;
+
+                //Loop all agents
                 foreach (agent a in Lists.agents)
                 {
+                    //Check id
                     if (a.id == a2.id)
                     {
+                        //Remove agent from moveagents
                         Lists.moveagents.RemoveAll(s => s.id == a.id);
+                        //Remove agent
                         Lists.agents.Remove(a);
                         break;
                     }
@@ -466,23 +520,25 @@ namespace MASSiveBattleField
             //If agent 2 wins, remove agent 1
             else
             {
+                //Send text to "console"
                 string sendtext = a2.name + " beats " + a1.name + Environment.NewLine;
                 textBox5.BeginInvoke(new UpdateTextCallback(UpdateTextbox5), sendtext);
-                //textBox5.Text += a2.name + " beats " + a1.name + Environment.NewLine;
+
+                //Loop all agents
                 foreach (agent a in Lists.agents)
                 {
+                    //Check id
                     if (a.id == a1.id)
                     {
+                        //Remove agent from moveagents
                         Lists.moveagents.RemoveAll(s => s.id == a.id);
+                        //Remove agent
                         Lists.agents.Remove(a);
                         break;
                     }
 
                 }
             }
-
-            //Start the timer, and let the game continue
-            //DrawTimer.Start();
         }
         #endregion
 
@@ -492,7 +548,6 @@ namespace MASSiveBattleField
         #region gameFrame
         private void gameFrame()
         {
-            //DrawTimer.Stop();
             //Game Logic
             #region GameLogic
 
@@ -532,6 +587,7 @@ namespace MASSiveBattleField
 
             //Update agent posistions
             #region Update agent posistion
+            //Loop all agents
             foreach (agent outerAgent in Lists.agents)
             {
                 //Need to be current team to move
@@ -540,10 +596,13 @@ namespace MASSiveBattleField
                     #region Agents to move
                     agent a = null;
 
+                    //Loop agents in moveagents
                     foreach (agent moveAgent in Lists.moveagents)
                     {
+                        //Check Id
                         if (moveAgent.id == outerAgent.id)
                         {
+                            //Set agent
                             a = moveAgent;
                             break;
                         }
@@ -557,7 +616,10 @@ namespace MASSiveBattleField
                         if (outerAgent.id == a.id)
                         {
                             #region Calculate next Position
+                            //Make agent point
                             Point agentPoint = new Point(outerAgent.posx, outerAgent.posy);
+
+                            //Make random for left/right first or up/down first
                             Random rnd = new Random();
                             int randomNumber = rnd.Next(1, 3);
 
@@ -612,40 +674,15 @@ namespace MASSiveBattleField
                             }
                             
                             #endregion
-
-                            /*
-                                Moving after id, don't move right if somebody is on your right!
-                            */
-
-                            //Check if move is valid, check if anyother agent is on the position where the agent is gonna move
-                            /*
-                            bool validMove = true;
-                            agent bumpingAgent = bumpingIntoAgent(outerAgent, agentPoint);
-                            if (bumpingAgent != null)
-                            {
-                                validMove = false;
-                                string sendtext = Environment.NewLine + a.name + " bumped into " + bumpingAgent.name;
-                                textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
-                            }
-                            */
-
-                            //Move is valid, move agent
-                            //if (validMove)
-                            //{
-                                outerAgent.posx = agentPoint.X;
-                                outerAgent.posy = agentPoint.Y;
-                            //}
-                            //else
-                            //{
-                            //    Lists.moveagents.Remove(a);
-                            //    break;
-                            //}
+                            //Set position
+                            outerAgent.posx = agentPoint.X;
+                            outerAgent.posy = agentPoint.Y;
 
                             //Move valid, or agent at distination, remove from moveAgents list
                             if (a.posx == outerAgent.posx && a.posy == outerAgent.posy)
                             {
+                                //Remove agent
                                 Lists.moveagents.Remove(a);
-                                //break;
                             }
                         }
                     }
@@ -655,12 +692,16 @@ namespace MASSiveBattleField
 
             //Check agents
             #region Checkagent
+            //Agent count
             int agentCount = Lists.agents.Count;
             for (int i = 0; i < agentCount; i++)
             {
+                //Used for double break
                 bool breakValue = false;
+                //Loop all agents
                 foreach (agent aa in Lists.agents)
                 {
+                    //Loop all agents
                     foreach (agent a in Lists.agents)
                     {
                         //Same team doesn't count
@@ -671,19 +712,19 @@ namespace MASSiveBattleField
                             {
                                 //Some Logic
                                 CombatCompareagents(a, aa);
-                                breakValue = !breakValue;
+                                breakValue = !breakValue;   //Double break
                                 DrawTimer.Start();
                                 break;
                             }
                         }
                     }
+                    //Double break
                     if (breakValue)
                         break;
                 }
             }
             #endregion
             #endregion
-            //DrawTimer.Start();
         }
         #endregion
 
@@ -691,6 +732,7 @@ namespace MASSiveBattleField
         #region SwitchTurn
         private void switchTurn()
         {
+            //Count agents on each team
             #region Agent count
             int agentsOnteam1 = 0;
             int agentsOnteam2 = 0;
@@ -709,6 +751,7 @@ namespace MASSiveBattleField
             }
             #endregion
 
+            //Check if any team is last standing
             #region WIN
             if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
             {
@@ -745,6 +788,7 @@ namespace MASSiveBattleField
                 switchTurn();
             #endregion
 
+            //Update statsfield, unless selected agent is null
             if(selectedagent != null)
                 updateStatsField();
 
@@ -753,6 +797,7 @@ namespace MASSiveBattleField
         }
         #endregion
 
+        #region Unused
         /// <summary>
         /// Checking for bumping into another agent
         /// </summary>
@@ -778,6 +823,7 @@ namespace MASSiveBattleField
             return null;
         }
         #endregion
+        #endregion
 
         #endregion
 
@@ -788,6 +834,8 @@ namespace MASSiveBattleField
         #region Placeteams
         public void placeteams()
         {
+            //Count agents on each team
+            #region Count agents
             int agentsOnteam1 = 0;
             int agentsOnteam2 = 0;
             int agentsOnteam3 = 0;
@@ -803,11 +851,18 @@ namespace MASSiveBattleField
                 if (a.team.id == 4)
                     agentsOnteam4++;
             }
+            #endregion
 
+            //Calc stat center pos of each team
+            #region CenterPos
             int it1 = (Grids / 2) - (agentsOnteam1 / 2);
             int it2 = (Grids / 2) - (agentsOnteam2 / 2);
             int it3 = (Grids / 2) - (agentsOnteam3 / 2);
             int it4 = (Grids / 2) - (agentsOnteam4 / 2);
+            #endregion
+
+            //Loop all agents and place them on the field
+            #region Place Agents
             foreach (agent a in Lists.agents)
             {
                 Point p = new Point();
@@ -848,6 +903,7 @@ namespace MASSiveBattleField
                     it4++;
                 }
             }
+            #endregion
         }
         #endregion
         #endregion
@@ -855,48 +911,58 @@ namespace MASSiveBattleField
         #region GameHandlers
         private void button2_Click(object sender, EventArgs e)
         {
+            //Restart App
             Application.Restart();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //Exit App, close all threads
             Environment.Exit(0);
         }
 
         private void WarGame_Load(object sender, EventArgs e)
         {
+            //Set App to forground
             SetForegroundWindow(Handle.ToInt32());
         }
 
         private void WarGame_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //Exit App, close all threads
             Environment.Exit(0);
         }
         #endregion
 
         #region DllImport
+        //SetForegroundWindow
         [DllImport("User32.dll")]
         public static extern Int32 SetForegroundWindow(int hWnd);
         #endregion
 
         #region Delegates
+        //Delegate for multi-threading
         public delegate void UpdateTextCallback(string message);
 
+        //Textbox 2
         private void UpdateTextbox2(string message)
         {
             textBox2.AppendText(message);
         }
 
+        //Textbox 4
         private void UpdateTextbox4(string message)
         {
             textBox4.AppendText(message);
         }
 
+        //Textbox 5
         private void UpdateTextbox5(string message)
         {
             textBox5.AppendText(message);
         }
 
+        //Label 6
         private void UpdateLabel6(string message)
         {
             label6.Text = message;
