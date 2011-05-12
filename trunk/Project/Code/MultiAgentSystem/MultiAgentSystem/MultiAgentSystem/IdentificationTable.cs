@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     // Class used to hold all the data, stored about the identifier.
     // Which scope it was declared in, how its recognized, and which kind it is.

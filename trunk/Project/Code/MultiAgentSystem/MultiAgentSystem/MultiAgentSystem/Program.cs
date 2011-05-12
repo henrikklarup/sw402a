@@ -9,7 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using MASClassLibrary;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     class Program
     {
@@ -335,7 +335,7 @@ namespace MultiAgentSystem
         /// </summary>
         private static void GenerateCSharp()
         {
-            string CSharpPath = path + @"\MASSCode.cs";
+            string CSharpPath = path + @"\MASSIVECode.cs";
 
             CompileCSharpCode.compile(CSharpPath);
         }

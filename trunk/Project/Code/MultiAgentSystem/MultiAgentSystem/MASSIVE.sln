@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiAgentSystem", "MultiAgentSystem\MultiAgentSystem.csproj", "{9E2E5141-6BD6-451B-8841-227A13DB67DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASSIVE", "MultiAgentSystem\MASSIVE.csproj", "{9E2E5141-6BD6-451B-8841-227A13DB67DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MASClassLibrary", "..\..\MASClassLibrary\MASClassLibrary\MASClassLibrary.csproj", "{B6B9134A-DCB1-47F0-9677-ED65A055E588}"
 EndProject

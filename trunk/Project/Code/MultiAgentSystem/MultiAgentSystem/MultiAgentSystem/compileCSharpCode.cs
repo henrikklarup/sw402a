@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.CSharp;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     class CompileCSharpCode
     {

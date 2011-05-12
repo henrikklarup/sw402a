@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     [Serializable]
     class GrammarException : System.Exception
