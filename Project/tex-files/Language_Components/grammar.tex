@@ -31,8 +31,7 @@ Here is a few examples of the use of REs: \\
 
 
 \subsection*{Left Factorization}
-
-
+Given that we have choises on the form $A B$ | $A C$, where $A$, $B$ and $C$ are arbitrary extended REs, then we can replace these alternatives by the corresponding extended RE: $A (B | C)$. These to expressions are said to be equivalent because they generate the exact same languages.
 
 \subsection*{Elimination of Left Recursion}
 Here is an example of how left recursion can be eliminated with EBNF. If we have a BNF production rule $N ::= X | N Y$, where $N$ is a nonterminal symbol, and $X$ and $Y$ are arbitrary extended REs, the we can replace this with an equivalent EBNF production rule: $N ::= X (Y)^*$. These two rules is said to be equivalent because they generate the exact same language.
