@@ -15,26 +15,20 @@ namespace MultiAgentSystem
         /// </summary>
         public static void printLogo()
         {
-            // Used to place the cursor in the Console.
-            int col = 10;
-            int row = 0;
             ConsoleColor tmpColor = Console.ForegroundColor;
 
             // Draw the MASS icon in the console.
             Console.Clear();
-            Console.Title = "MASS Compiler: ";
-            Console.SetCursorPosition(col, row++);
+            Console.Title = "MASSIVE Compiler: ";
+            Console.SetCursorPosition(8, Console.CursorTop++);
             Console.WriteLine("Multi Agent System");
-            Console.SetCursorPosition(col, row++);
+            Console.SetCursorPosition(8, Console.CursorTop++);
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine(" _______ _______ _______ _______");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|   |   |   _   |     __|     __|");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|       |       |__     |__     |");
-            Console.SetCursorPosition(col, row++);
-            Console.WriteLine("|__|_|__|___|___|_______|_______|");
-            Console.SetCursorPosition(col + 25, row++);
+            Console.WriteLine(@" _______ _______ _______ _______ _______ ___ ___ _______ 
+        |   |   |   _   |     __|     __|_     _|   |   |    ___|
+        |       |       |__     |__     |_|   |_|   |   |    ___|
+        |__|_|__|___|___|_______|_______|_______|\_____/|_______|");
+            Console.SetCursorPosition(8, Console.CursorTop++);
             Console.WriteLine("Compiler");
             Console.ForegroundColor = tmpColor;
         }
