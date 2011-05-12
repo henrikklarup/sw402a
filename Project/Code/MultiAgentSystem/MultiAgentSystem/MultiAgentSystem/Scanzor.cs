@@ -257,12 +257,12 @@ namespace MASSIVE
             while (true)
             {
                 lastChar = currentChar;
-                takeIt();
                 if (currentChar == '"' && lastChar != '\\')
                 {
                     takeIt();
                     break;
                 }
+                takeIt();
             }
         }
 
