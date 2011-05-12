@@ -5,13 +5,14 @@ using System.Text;
 
 namespace MultiAgentSystem
 {
-    class Type
+    public class Type
     {
         public int kind;    // Which kind (e.g. Strings in an expression)
         public int type;    // Which type (e.g. Numeric expression)
 
         public enum types
         { 
+            NULL,
             NUM,
             BOOL,
             STRING,
