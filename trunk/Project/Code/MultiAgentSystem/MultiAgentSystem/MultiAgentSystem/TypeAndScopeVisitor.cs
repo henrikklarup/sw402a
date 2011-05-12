@@ -145,37 +145,37 @@ namespace MASSIVE
                 new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
-                int expressionKind = expression.type.type;
+                int expressionKind = expression.type;
 
                 switch (kind)
                 { 
                     case (int)Token.keywords.BOOL:
-                        if(expressionKind != (int)Type.types.BOOL)
+                        if(!MASLibrary.MatchingTypes(expressionKind, (int)Token.keywords.BOOL))
                         {
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Token.keywords), expressionKind) +
                                     " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
                     case (int)Token.keywords.NUM:
-                        if(expressionKind != (int)Type.types.NUM)
+                        if (!MASLibrary.MatchingTypes(expressionKind, (int)Token.keywords.NUM))
                         {
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Token.keywords), expressionKind) +
                                     " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
                     case (int)Token.keywords.STRING:
-                        if(expressionKind != (int)Type.types.STRING)
+                        if(!MASLibrary.MatchingTypes(expressionKind, (int)Token.keywords.STRING))
                         {
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Token.keywords), expressionKind) +
                                     " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
@@ -183,7 +183,7 @@ namespace MASSIVE
                         Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
-                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) + 
+                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Token.keywords), expressionKind) + 
                                 " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         break;
                 }
@@ -200,7 +200,7 @@ namespace MASSIVE
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.STRING)
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Token.keywords.STRING)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -216,7 +216,7 @@ namespace MASSIVE
                             && masVariable.kind != (int)Token.keywords.FALSE)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.BOOL)
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Token.keywords.BOOL)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -231,7 +231,7 @@ namespace MASSIVE
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
-                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Type.types.NUM)
+                                && IdentificationTable.retrieve(masVariable.spelling) != (int)Token.keywords.NUM)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -286,7 +286,7 @@ namespace MASSIVE
 
             // visit the expression, if the expression isn't boolean, report and error.
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
-            if (expr.type.type != (int)Type.types.BOOL)
+            if (expr.type != (int)Token.keywords.BOOL)
             {
                 Printer.ErrorMarker();
                 throwException = true;
@@ -386,6 +386,7 @@ namespace MASSIVE
                 ParentExpression parentExpr =
                     (ParentExpression)expression.parentExpr.visit(this, arg);
                 expression.type = parentExpr.type;
+                expression.kind = parentExpr.kind;
             }
             else
             {
@@ -401,7 +402,7 @@ namespace MASSIVE
                     case "/":
                         // If the operator is a mathematic operator,
                         // Save the type as a NUM, since numbers are of type NUMBER.
-                        expression.type = new Type(Type.types.NULL, Type.types.NUM);
+                        expression.type = (int)Token.keywords.NUM;
                         break;
                     case "<":
                     case ">":
@@ -413,7 +414,7 @@ namespace MASSIVE
                     case "!=":
                         // If the operator is a boolean operator,
                         // Save the type as BOOL, since boolean types are of type TRUE or FALSE.
-                        expression.type = new Type(Type.types.NULL, Type.types.BOOL);
+                        expression.type = (int)Token.keywords.BOOL;
                         break;
                     default:
                         Printer.ErrorMarker();
@@ -426,16 +427,16 @@ namespace MASSIVE
                 }
 
                 // If the types are equal this expression should be correct if the operator matches the type.
-                if (primExpr1.type.kind == primExpr2.type.kind)
+                if (primExpr1.kind == primExpr2.kind)
                 {
                     // The primary expressions are of equal kind.
                     // Check if the primary expressions matches the operator.
-                    switch (primExpr1.type.kind)
+                    switch (primExpr1.kind)
                     { 
-                        case (int)Type.types.NUM:
-                            if (expression.type.type == (int)Type.types.NUM)
+                        case (int)Token.keywords.NUM:
+                            if (expression.type == (int)Token.keywords.NUM)
                                 break;
-                            else if (expression.type.type == (int)Type.types.BOOL)
+                            else if (expression.type == (int)Token.keywords.BOOL)
                             {
                                 break;
                             }
@@ -445,9 +446,9 @@ namespace MASSIVE
                             new GrammarException("(Line " + opr.row +
                                 ") The variable expression is invalid."));
                             break;
-                        case (int)Type.types.BOOL:
-                        case (int)Type.types.STRING:
-                            if (expression.type.type != (int)Type.types.BOOL)
+                        case (int)Token.keywords.BOOL:
+                        case (int)Token.keywords.STRING:
+                            if (expression.type != (int)Token.keywords.BOOL)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
@@ -466,7 +467,7 @@ namespace MASSIVE
                             break;
                     }
 
-                    expression.type.kind = primExpr1.type.kind;
+                    expression.kind = primExpr1.kind;
                 }
                 else 
                 {
@@ -639,7 +640,7 @@ namespace MASSIVE
             if (Expression.Equals(becomes.GetType(), new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
-                kind = expression.type.type;
+                kind = expression.type;
             }
             else
             {
@@ -647,7 +648,7 @@ namespace MASSIVE
 
                 switch (kind)
                 {
-                    case (int)Type.types.STRING:
+                    case (int)Token.keywords.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
@@ -659,7 +660,7 @@ namespace MASSIVE
                             }
                         }
                         break;
-                    case (int)Type.types.BOOL:
+                    case (int)Token.keywords.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE || 
                             masVariable.kind != (int)Token.keywords.FALSE)
                         {
@@ -672,7 +673,7 @@ namespace MASSIVE
                             }
                         }
                         break;
-                    case (int)Type.types.NUM:
+                    case (int)Token.keywords.NUM:
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
@@ -706,14 +707,14 @@ namespace MASSIVE
                 switch (var.kind)
                 { 
                     case (int)Token.keywords.NUMBER:
-                        primaryExpression.type = new Type(Type.types.NUM);
+                        primaryExpression.kind = (int)Token.keywords.NUM;
                         break;
                     case (int)Token.keywords.TRUE:
                     case (int)Token.keywords.FALSE:
-                        primaryExpression.type = new Type(Type.types.BOOL);
+                        primaryExpression.kind = (int)Token.keywords.BOOL;
                         break;
                     case (int)Token.keywords.ACTUAL_STRING:
-                        primaryExpression.type = new Type(Type.types.STRING);
+                        primaryExpression.kind = (int)Token.keywords.STRING;
                         break;
                     case (int)Token.keywords.IDENTIFIER:
                         int kind = IdentificationTable.retrieve(var.spelling);
@@ -721,13 +722,13 @@ namespace MASSIVE
                         switch (kind)
                         { 
                             case (int)Token.keywords.NUM:
-                                primaryExpression.type = new Type(Type.types.NUM);
+                                primaryExpression.kind = (int)Token.keywords.NUM;
                                 break;
                             case (int)Token.keywords.BOOL:
-                                primaryExpression.type = new Type(Type.types.BOOL);
+                                primaryExpression.kind = (int)Token.keywords.BOOL;
                                 break;
                             case (int)Token.keywords.STRING:
-                                primaryExpression.type = new Type(Type.types.STRING);
+                                primaryExpression.kind = (int)Token.keywords.STRING;
                                 break;
                         }
                         break;
@@ -739,14 +740,14 @@ namespace MASSIVE
                 // Set the type to the same type as in its expression.
                 ParentExpression parentExpression = 
                     (ParentExpression)primaryExpression.parentExpression.visit(this, arg);
-                primaryExpression.type = parentExpression.type;
+                primaryExpression.kind = parentExpression.kind;
             }
             // If the expression is not null, the primary expression is a new expression.
             else if (primaryExpression.expression != null)
             {
                 // Set the type to the same type as in the expression.
                 Expression expr = (Expression)primaryExpression.expression.visit(this, arg);
-                primaryExpression.type = expr.type;
+                primaryExpression.kind = expr.kind;
             }
 
             return primaryExpression;

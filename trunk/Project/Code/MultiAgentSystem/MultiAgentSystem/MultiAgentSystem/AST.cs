@@ -274,7 +274,8 @@ namespace MASSIVE
 
         public Token basicToken;
 
-        public Type type;
+        public int kind;
+        public int type;
         public Expression(PrimaryExpression primExpr1, Operator _operator, PrimaryExpression primExpr2)
         {
             this.primExpr1 = primExpr1;
@@ -303,7 +304,7 @@ namespace MASSIVE
         public Expression expression;
         public ParentExpression parentExpression;
 
-        public Type type;
+        public int kind;
 
         public PrimaryExpression(Terminal var)
         {
@@ -336,7 +337,8 @@ namespace MASSIVE
     {
         public Expression expr;
 
-        public Type type;
+        public int type;
+        public int kind;
 
         public ParentExpression(Expression expr)
         {

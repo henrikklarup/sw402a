@@ -61,7 +61,6 @@
     <Compile Include="Scanzor.cs" />
     <Compile Include="StartUp.cs" />
     <Compile Include="Token.cs" />
-    <Compile Include="Type.cs" />
     <Compile Include="TypeAndScopeVisitor.cs" />
     <Compile Include="Visitor.cs" />
   </ItemGroup>
