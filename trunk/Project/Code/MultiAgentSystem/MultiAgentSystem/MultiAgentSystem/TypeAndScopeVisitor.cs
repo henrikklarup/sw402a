@@ -131,10 +131,10 @@ namespace MultiAgentSystem
             Printer.Expand();
 
             // Stores the type and the identifier of the declaration
-            Token Type = (Token)typeDeclaration.Type.visit(this, arg);
+            Token objectType = (Token)typeDeclaration.Type.visit(this, arg);
             Token VarName = (Token)typeDeclaration.VarName.visit(this, arg);
 
-            int kind = Type.kind;
+            int kind = objectType.kind;
             string ident = VarName.spelling;
 
             object becomes = typeDeclaration.Becomes.visit(this, arg);
@@ -145,7 +145,7 @@ namespace MultiAgentSystem
                 new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
-                kind = expression.type;
+                kind = expression.type.type;
             }
             else
             {
@@ -154,7 +154,7 @@ namespace MultiAgentSystem
                 // Checks that the type matches the variable, that the identifier becomes.
                 switch (kind)
                 {
-                    case (int)Token.keywords.STRING:
+                    case (int)Type.types.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER
@@ -169,7 +169,7 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Token.keywords.BOOL:
+                    case (int)Type.types.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE 
                             && masVariable.kind != (int)Token.keywords.FALSE)
                         {
@@ -185,7 +185,7 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Token.keywords.NUM:
+                    case (int)Type.types.NUM:
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER 
@@ -218,7 +218,7 @@ namespace MultiAgentSystem
                 throwException = true;
                 gException.containedExceptions.Add(
                     new GrammarException(
-                        "(Line " + Type.row + ") Identifier " + ident +
+                        "(Line " + objectType.row + ") Identifier " + ident +
                         " has already been declared.", VarName));
             }
 
@@ -243,7 +243,7 @@ namespace MultiAgentSystem
 
             // visit the expression, if the expression isn't boolean, report and error.
             Expression expr = (Expression)ifCommand.Expression.visit(this, arg);
-            if (expr.type != (int)Token.keywords.BOOL)
+            if (expr.type.type != (int)Type.types.BOOL)
             {
                 Printer.ErrorMarker();
                 throwException = true;
@@ -346,11 +346,93 @@ namespace MultiAgentSystem
             }
             else
             {
-                throw new NotImplementedException();
-                /* xpression.primExpr1;
-                expression.opr;
-                expression.primExpr2;
-                 */
+                PrimaryExpression primExpr1 = (PrimaryExpression)expression.primExpr1.visit(this, arg);
+                Token opr = (Token)expression.opr.visit(this, arg);
+                PrimaryExpression primExpr2 = (PrimaryExpression)expression.primExpr2.visit(this, arg);
+
+                switch (opr.spelling)
+                {
+                    case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                        // If the operator is a mathematic operator,
+                        // Save the type as a NUM, since numbers are of type NUMBER.
+                        expression.type = new Type(Type.types.NULL, Type.types.NUM);
+                        break;
+                    case "<":
+                    case ">":
+                    case "<=":
+                    case ">=":
+                    case "=>":
+                    case "=<":
+                    case "==":
+                    case "!=":
+                        // If the operator is a boolean operator,
+                        // Save the type as BOOL, since boolean types are of type TRUE or FALSE.
+                        expression.type = new Type(Type.types.NULL, Type.types.BOOL);
+                        break;
+                    default:
+                        Printer.ErrorMarker();
+                        throwException = true;
+                        gException.containedExceptions.Add(
+                            new GrammarException(
+                                "(Line " + opr.row + ") Failed to identify \"" +
+                                opr.spelling + "\" as an operator."));
+                        break;
+                }
+
+                // If the types are equal this expression should be correct if the operator matches the type.
+                if (primExpr1.type.kind == primExpr2.type.kind)
+                {
+                    // The primary expressions are of equal kind.
+                    // Check if the primary expressions matches the operator.
+                    switch (primExpr1.type.kind)
+                    { 
+                        case (int)Type.types.NUM:
+                            if (expression.type.type == (int)Type.types.NUM)
+                                break;
+                            else if (expression.type.type == (int)Type.types.BOOL)
+                            {
+                                break;
+                            }
+                            Printer.ErrorMarker();
+                            throwException = true;
+                            gException.containedExceptions.Add(
+                            new GrammarException("(Line " + opr.row +
+                                ") The variable expression is invalid."));
+                            break;
+                        case (int)Type.types.BOOL:
+                        case (int)Type.types.STRING:
+                            if (expression.type.type != (int)Type.types.BOOL)
+                            {
+                                Printer.ErrorMarker();
+                                throwException = true;
+                                gException.containedExceptions.Add(
+                                new GrammarException("(Line " + opr.row +
+                                    ") The expression is invalid."));
+                                break;
+                            }
+                            break;
+                        default:
+                            Printer.ErrorMarker();
+                            throwException = true;
+                            gException.containedExceptions.Add(
+                            new GrammarException("(Line " + opr.row +
+                                ") The expression is invalid."));
+                            break;
+                    }
+
+                    expression.type.kind = primExpr1.type.kind;
+                }
+                else 
+                {
+                    Printer.ErrorMarker();
+                    throwException = true;
+                    gException.containedExceptions.Add(
+                    new GrammarException("(Line " + opr.row +
+                            ") The expression is invalid."));
+                }
             }
 
             #region oldExpression
@@ -590,7 +672,7 @@ namespace MultiAgentSystem
                         throwException = true;
                         gException.containedExceptions.Add(
                             new GrammarException("(Line " + firstVar.row +
-                                ") The variable " + firstVar.spelling + "is undeclared."));
+                                ") The variable " + firstVar.spelling + " is undeclared."));
                     }
                 }
                 if (input.nextVar != null)
@@ -688,7 +770,7 @@ namespace MultiAgentSystem
             if (Expression.Equals(becomes.GetType(), new Expression(null).GetType()))
             {
                 Expression expression = (Expression)becomes;
-                kind = expression.type;
+                kind = expression.type.type;
             }
             else
             {
@@ -696,7 +778,7 @@ namespace MultiAgentSystem
 
                 switch (kind)
                 {
-                    case (int)Token.keywords.STRING:
+                    case (int)Type.types.STRING:
                         if (masVariable.kind != (int)Token.keywords.ACTUAL_STRING)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
@@ -711,7 +793,7 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Token.keywords.BOOL:
+                    case (int)Type.types.BOOL:
                         if (masVariable.kind != (int)Token.keywords.TRUE || 
                             masVariable.kind != (int)Token.keywords.FALSE)
                         {
@@ -727,7 +809,7 @@ namespace MultiAgentSystem
                             }
                         }
                         break;
-                    case (int)Token.keywords.NUM:
+                    case (int)Type.types.NUM:
                         if (masVariable.kind != (int)Token.keywords.NUMBER)
                         {
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
@@ -758,12 +840,66 @@ namespace MultiAgentSystem
 
         internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
         {
-            throw new NotImplementedException();
+            // If var is not null, the primary expression is a variable.
+            if (primaryExpression.var != null)
+            {
+                Token var = (Token)primaryExpression.var.visit(this, arg);
+
+                switch (var.kind)
+                { 
+                    case (int)Token.keywords.NUMBER:
+                        primaryExpression.type = new Type(Type.types.NUM);
+                        break;
+                    case (int)Token.keywords.TRUE:
+                    case (int)Token.keywords.FALSE:
+                        primaryExpression.type = new Type(Type.types.BOOL);
+                        break;
+                    case (int)Token.keywords.ACTUAL_STRING:
+                        primaryExpression.type = new Type(Type.types.STRING);
+                        break;
+                    case (int)Token.keywords.IDENTIFIER:
+                        // Make a switch according to which kind the ID table retrieves.
+                        switch (IdentificationTable.retrieve(var.spelling))
+                        { 
+                            case (int)Token.keywords.NUMBER:
+                                primaryExpression.type = new Type(Type.types.NUM);
+                                break;
+                            case (int)Token.keywords.TRUE:
+                            case (int)Token.keywords.FALSE:
+                                primaryExpression.type = new Type(Type.types.BOOL);
+                                break;
+                            case (int)Token.keywords.ACTUAL_STRING:
+                                primaryExpression.type = new Type(Type.types.STRING);
+                                break;
+                        }
+                        break;
+                }
+            }
+            // If parentExpression is not null, the primary expression is a parentExpression.
+            else if (primaryExpression.parentExpression != null)
+            {
+                // Set the type to the same type as in its expression.
+                ParentExpression parentExpression = 
+                    (ParentExpression)primaryExpression.parentExpression.visit(this, arg);
+                primaryExpression.type = parentExpression.type;
+            }
+            // If the expression is not null, the primary expression is a new expression.
+            else if (primaryExpression.expression != null)
+            {
+                // Set the type to the same type as in the expression.
+                Expression expr = (Expression)primaryExpression.expression.visit(this, arg);
+                primaryExpression.type = expr.type;
+            }
+
+            return primaryExpression;
         }
 
         internal override object visitParentExpression(ParentExpression parentExpression, object arg)
         {
-            throw new NotImplementedException();
+            Expression expr = (Expression)parentExpression.expr.visit(this, arg);
+            parentExpression.type = expr.type;
+
+            return parentExpression;
         }
 
         private LinkedIdentifier CreateLinkedIdentifier(Token t)

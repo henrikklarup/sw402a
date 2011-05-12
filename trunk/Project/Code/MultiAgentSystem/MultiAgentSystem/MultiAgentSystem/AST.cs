@@ -273,7 +273,8 @@ namespace MultiAgentSystem
         public ParentExpression parentExpr;
 
         public Token basicToken;
-        public int type;
+
+        public Type type;
         public Expression(PrimaryExpression primExpr1, Operator _operator, PrimaryExpression primExpr2)
         {
             this.primExpr1 = primExpr1;
@@ -301,6 +302,8 @@ namespace MultiAgentSystem
         public Terminal var;
         public Expression expression;
         public ParentExpression parentExpression;
+
+        public Type type;
 
         public PrimaryExpression(Terminal var)
         {
@@ -333,7 +336,7 @@ namespace MultiAgentSystem
     {
         public Expression expr;
 
-        public int type;
+        public Type type;
 
         public ParentExpression(Expression expr)
         {

@@ -606,6 +606,10 @@ namespace MultiAgentSystem
                     Identifier ident = parseIdentifier();
                     Printer.Collapse();
                     return new PrimaryExpression(ident);
+                case (int)Token.keywords.ACTUAL_STRING:
+                    MASString masstring = parseMASString();
+                    Printer.Collapse();
+                    return new PrimaryExpression(masstring);
                 case (int)Token.keywords.LPAREN:
                     ParentExpression parentExpr = parseParentExpression();
                     Printer.Collapse();
