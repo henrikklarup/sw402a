@@ -15,8 +15,6 @@ namespace MASClassLibrary
         public static List<encounter> encounters;         //List of encounters
         public static team currentteam;                   //Current team
 
-        public static int Points;                         //Points to spend
-
         #region RetrieveAgent
         /// <summary>
         /// Finds an agent by its name.
