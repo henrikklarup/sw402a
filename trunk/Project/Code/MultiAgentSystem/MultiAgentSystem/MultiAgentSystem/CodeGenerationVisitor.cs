@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     class CodeGenerationVisitor : Visitor
     {
-        private string CodeGenerationPath = Program.path + @"\MASCode.cs";
+        private string CodeGenerationPath = Program.path + @"\MASSIVECode.cs";
 
         private bool Print = true;
         private int blockCount = 0;
@@ -42,7 +42,7 @@ namespace MultiAgentSystem
         /// <returns></returns>
         internal override object visitMainBlock(Mainblock block, object arg)
         {
-            File.Delete(Program.path + @"\MASCode.cs");
+            File.Delete(Program.path + @"\MASSIVECode.cs");
 
             string text = "using System; using System.Drawing; using System.Collections.Generic; " +
                 "using MASClassLibrary; namespace MultiAgentSystem { class Program { " + 
