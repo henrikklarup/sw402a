@@ -94,6 +94,8 @@ namespace MASClassLibrary
             if (agent.team.id != Lists.currentteam.id)
                 throw new WrongTeamException("Wrong team");
 
+            Lists.encounters.RemoveAll(s => s.agentId == agent.id);
+
             //New encounter
             encounter en = new encounter();
             //Set encounter agent id
