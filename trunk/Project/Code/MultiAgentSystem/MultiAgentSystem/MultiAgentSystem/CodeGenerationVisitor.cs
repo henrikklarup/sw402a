@@ -494,11 +494,11 @@ namespace MASSIVE
             switch (p.token.spelling)
             {
                 case "=<":
-                    p.token.spelling = "<=";
-                    break;
+                    return new Token(p.token.kind, "<=", p.token.row, p.token.col);
                 case "=>":
-                    p.token.spelling = ">=";
-                    break;
+                    return new Token(p.token.kind, ">=", p.token.row, p.token.col);
+                case "=!":
+                    return new Token(p.token.kind, "!=", p.token.row, p.token.col);
             }
             return p.token;
         }

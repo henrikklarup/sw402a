@@ -19,7 +19,6 @@ namespace MASSIVE
 
             // Draw the MASS icon in the console.
             Console.Clear();
-            Console.Title = "MASSIVE Compiler: ";
             Console.SetCursorPosition(8, Console.CursorTop++);
             Console.WriteLine("Multi Agent System");
             Console.SetCursorPosition(8, Console.CursorTop++);
