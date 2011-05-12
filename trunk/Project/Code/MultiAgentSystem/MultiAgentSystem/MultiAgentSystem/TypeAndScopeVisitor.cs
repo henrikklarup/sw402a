@@ -434,6 +434,7 @@ namespace MASSIVE
                     switch (primExpr1.kind)
                     { 
                         case (int)Token.keywords.NUM:
+                        case (int)Token.keywords.NUMBER:
                             if (expression.type == (int)Token.keywords.NUM)
                                 break;
                             else if (expression.type == (int)Token.keywords.BOOL)
@@ -443,18 +444,21 @@ namespace MASSIVE
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                            new GrammarException("(Line " + opr.row +
-                                ") The variable expression is invalid."));
+                            new GrammarException("(Line " + expression.basicToken.row +
+                                ") The variable in the expression is not invalid."));
                             break;
+                        case (int)Token.keywords.TRUE:
+                        case (int)Token.keywords.FALSE:
                         case (int)Token.keywords.BOOL:
+                        case (int)Token.keywords.ACTUAL_STRING:
                         case (int)Token.keywords.STRING:
                             if (expression.type != (int)Token.keywords.BOOL)
                             {
                                 Printer.ErrorMarker();
                                 throwException = true;
                                 gException.containedExceptions.Add(
-                                new GrammarException("(Line " + opr.row +
-                                    ") The expression is invalid."));
+                                new GrammarException("(Line " + expression.basicToken.row +
+                                    ") The variable in the expression is not of boolean type."));
                                 break;
                             }
                             break;
@@ -462,7 +466,7 @@ namespace MASSIVE
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                            new GrammarException("(Line " + opr.row +
+                            new GrammarException("(Line " + expression.basicToken.row +
                                 ") The expression is invalid."));
                             break;
                     }
@@ -757,6 +761,7 @@ namespace MASSIVE
         {
             Expression expr = (Expression)parentExpression.expr.visit(this, arg);
             parentExpression.type = expr.type;
+            parentExpression.kind = expr.kind;
 
             return parentExpression;
         }
