@@ -20,11 +20,6 @@ namespace MASClassLibrary
         {
             get { return _iD; }
         }
-
-        public int AvailableRank
-        {
-            get { return Lists.Points / Lists.teams.Count; }
-        }
         #endregion
 
         /// <summary>
