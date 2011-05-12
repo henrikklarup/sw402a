@@ -155,8 +155,8 @@ namespace MASSIVE
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
-                                " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                    " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
                     case (int)Token.keywords.NUM:
@@ -165,8 +165,8 @@ namespace MASSIVE
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
-                                " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                    " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
                     case (int)Token.keywords.STRING:
@@ -175,16 +175,16 @@ namespace MASSIVE
                             Printer.ErrorMarker();
                             throwException = true;
                             gException.containedExceptions.Add(
-                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
-                                " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                                new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) +
+                                    " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         }
                         break;
                     default:
                         Printer.ErrorMarker();
                         throwException = true;
                         gException.containedExceptions.Add(
-                        new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) + 
-                            " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " .");
+                            new GrammarException("(Line " + objectType.row + ") a " + Enum.GetName(typeof(Type.types), expressionKind) + 
+                                " expression is not a valid input for the type " + Enum.GetName(typeof(Token.keywords), kind) + " ."));
                         break;
                 }
             }
