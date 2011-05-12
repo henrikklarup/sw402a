@@ -16,13 +16,16 @@ namespace MASSiveBattleField
         //Medium = 26
         //Large = 46
 
+        //Default Gridsize
         public int gridSize = 26;
 
+        //Constructor
         public GameSettings()
         {
             InitializeComponent();
         }
 
+        //Set gridsize
         private void button1_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -34,6 +37,7 @@ namespace MASSiveBattleField
                 gridSize = 46;
         }
 
+        //Default
         private void GameSettings_Load(object sender, EventArgs e)
         {
             radioButton2.Checked = true;
