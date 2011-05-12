@@ -8,11 +8,14 @@ namespace MASClassLibrary
 {
     public class team
     {
+        #region Properties
         private int _iD;
         public string name;
         public Color color;
         public String colorStr;
+        #endregion
 
+        #region Get/Set
         public int id
         {
             get { return _iD; }
@@ -22,10 +25,18 @@ namespace MASClassLibrary
         {
             get { return Lists.Points / Lists.teams.Count; }
         }
+        #endregion
 
+        /// <summary>
+        /// Default constructor for team
+        /// </summary>
         public team()
         { }
 
+        /// <summary>
+        /// Constructor for team
+        /// </summary>
+        /// <param name="name">Name of team</param>
         public team(string name)
         {
             this._iD = Lists.NextTeamID;
@@ -34,6 +45,11 @@ namespace MASClassLibrary
             Lists.teams.Add(this);
         }
 
+        /// <summary>
+        /// Constructor for team
+        /// </summary>
+        /// <param name="name">Name of team</param>
+        /// <param name="color">Color of team</param>
         public team(string name, string color)
         {
             this._iD = Lists.NextTeamID;
@@ -50,6 +66,12 @@ namespace MASClassLibrary
             Lists.teams.Add(this);
         }
 
+        /// <summary>
+        /// Constructor for team
+        /// </summary>
+        /// <param name="ID">Id of team</param>
+        /// <param name="name">Name of team</param>
+        /// <param name="color">Color of team</param>
         public team(int ID, string name, string color)
         {
             this._iD = ID;

@@ -7,13 +7,16 @@ namespace MASClassLibrary
 {
     public class agent
     {
+        #region Properties
         private int _iD;
         public string name;
         public team team;
         private int _posX;
         private int _posY;
         public double rank;
+        #endregion
 
+        #region Get/Set
         public int id
         {
             get { return _iD; }
@@ -30,10 +33,19 @@ namespace MASClassLibrary
             get { return _posY; }
             set { _posY = value; }
         }
+        #endregion
 
+        /// <summary>
+        /// Constructor for agent
+        /// </summary>
         public agent()
         { }
 
+        /// <summary>
+        /// Constructor for agent
+        /// </summary>
+        /// <param name="name">Name of agent</param>
+        /// <param name="rank">Rank of agent</param>
         public agent(string name, double rank)
         {
             this._iD = Lists.NextAgentID;
@@ -51,6 +63,13 @@ namespace MASClassLibrary
             Lists.agents.Add(this);
         }
 
+        /// <summary>
+        /// Constructor for agent
+        /// </summary>
+        /// <param name="id">Id of agent</param>
+        /// <param name="name">Name of agent</param>
+        /// <param name="rank">Rank of agent</param>
+        /// <param name="team">Team of agent</param>
         public agent(int id, string name, double rank, team team)
         {
             this.name = name;
@@ -61,6 +80,12 @@ namespace MASClassLibrary
             this._iD = id;
         }
 
+        /// <summary>
+        /// Constructor for agent
+        /// </summary>
+        /// <param name="name">Name of agent</param>
+        /// <param name="rank">Rank of agent</param>
+        /// <param name="team">Team of agent</param>
         public agent(string name, double rank, team team)
         {
             this.name = name;

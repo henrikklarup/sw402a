@@ -7,18 +7,29 @@ namespace MASClassLibrary
 {
     public class squad
     {
+        #region Properties
         private int _iD;
         public string name;
         public List<agent> Agents;
+        #endregion
 
+        #region Get/Set
         public int id
         {
             get { return _iD; }
         }
+        #endregion
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public squad()
         { }
 
+        /// <summary>
+        /// Constructor for squad
+        /// </summary>
+        /// <param name="name">Name of squad</param>
         public squad(string name)
         {
             this._iD = Lists.NextSquadID;
@@ -34,6 +45,11 @@ namespace MASClassLibrary
             Lists.squads.Add(this);
         }
 
+        /// <summary>
+        /// Constructor for squad
+        /// </summary>
+        /// <param name="name">Name of squad</param>
+        /// <param name="list">List of agents</param>
         public squad(string name, List<agent> list) : this(name)
         {
             this.Agents = list;
