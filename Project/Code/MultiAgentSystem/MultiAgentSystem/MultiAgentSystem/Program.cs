@@ -206,7 +206,6 @@ namespace MASSIVE
             }
             if (scanningError)
             {
-                Console.Write("Errors were found while SCANNING.");
                 Recompile();
             }
 
@@ -232,7 +231,6 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while PARSING.");
                 Recompile();
                 return;
             }
@@ -258,7 +256,6 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while CHECKING TYPE AND SCOPE.");
                 Recompile();
                 return;
             }
@@ -281,7 +278,6 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while VALIDATING INPUT.");
                 Recompile();
                 return;
             }
@@ -305,7 +301,6 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while GENERATING CODE.");
                 Recompile();
                 return;
             }
@@ -345,7 +340,7 @@ namespace MASSIVE
 
             while (true)
             {
-                Console.WriteLine(" Would you like to compile again? y/n");
+                Console.WriteLine("Would you like to compile again? y/n");
                 cki = Console.ReadKey();
 
                 if (cki.Key == ConsoleKey.Y)
