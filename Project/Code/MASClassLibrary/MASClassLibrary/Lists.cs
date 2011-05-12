@@ -14,6 +14,7 @@ namespace MASClassLibrary
         public static List<agent> moveagents;             //List of agents to move
         public static List<encounter> encounters;         //List of encounters
         public static team currentteam;                   //Current team
+        public static int Points;                         //Points
 
         #region RetrieveAgent
         /// <summary>
@@ -26,6 +27,7 @@ namespace MASClassLibrary
             List<agent> results;
             agent agent;
 
+            //Find agent in list
             results = agents.FindAll(delegate(agent a) { return a.name.ToLower() == ident.ToLower(); });
             if (results.Count != 1)
             {
@@ -35,7 +37,7 @@ namespace MASClassLibrary
             {
                 agent = results.FirstOrDefault();
             }
-
+            //return agent
             return agent;
         }
 
@@ -79,6 +81,7 @@ namespace MASClassLibrary
             List<team> results;
             team team;
 
+            //Find team in list
             results = teams.FindAll(delegate(team t)
             {
                 if (t.name == null)
@@ -94,6 +97,7 @@ namespace MASClassLibrary
                 team = results.FirstOrDefault();
             }
 
+            //return team
             return team;
         }
 
@@ -142,6 +146,7 @@ namespace MASClassLibrary
             List<squad> results;
             squad squad;
 
+            //Find squad in list
             results = squads.FindAll(delegate(squad s)
             {
                 if (s.name == null)
@@ -156,7 +161,8 @@ namespace MASClassLibrary
             {
                 squad = results.FirstOrDefault();
             }
-
+            
+            //Return squad
             return squad;
         }
 
@@ -199,6 +205,8 @@ namespace MASClassLibrary
         {
             List<actionpattern> results;
             actionpattern actionPattern;
+            
+            //Find actionpattern in list
             results = actionPatterns.FindAll(delegate(actionpattern ap)
             {
                 if (ap.name == null)
@@ -214,6 +222,7 @@ namespace MASClassLibrary
                 actionPattern = results.FirstOrDefault();
             }
 
+            //Return actionpattern
             return actionPattern;
         }
         #endregion

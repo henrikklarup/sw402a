@@ -17,11 +17,14 @@ namespace MASClassLibrary
         #region Moveagent
         public static void moveagent(agent agent, int xchord, int ychord)
         {
+            //Check if team match else throw exeption
             if (agent.team.id != Lists.currentteam.id)
                 throw new WrongTeamException("Wrong team");
 
+            //Loop all agents
             foreach (agent a in Lists.agents)
             {
+                //Check id
                 if (a.id == agent.id)
                 {
                     #region ifValid
@@ -33,22 +36,8 @@ namespace MASClassLibrary
                     moveagent.posx = newPoint.X;
                     moveagent.posy = newPoint.Y;
 
-                    /*
-                    foreach (agent doubleAgent in Lists.moveagents)
-                    {
-                        if (moveagent.id == doubleAgent.id)
-                        {
-                            Lists.moveagents.Remove(doubleAgent);
-                            break;
-                        }
-                    }
-                    */
-
+                    //Add to moveagents
                     Lists.moveagents.Add(moveagent);
-
-                    //OLD SHIT
-                    //a.posX = newPoint.X;
-                    //a.posY = newPoint.Y;
 
                     #endregion
                 }
@@ -64,10 +53,14 @@ namespace MASClassLibrary
         #region Encounter
         public static agent encounter(agent checkAgent)
         {
+            //Loop all agents
             foreach (agent a in Lists.agents)
             {
+                //Check team id doesn't match
                 if (a.team.id != checkAgent.team.id)
                 {
+                    //Check logic
+                    #region Some Logic
                     if (a.posy == checkAgent.posy - 3 && (a.posx == checkAgent.posx))
                         return a;
                     else if (a.posy == checkAgent.posy - 2 && (a.posx == checkAgent.posx - 1 || a.posx == checkAgent.posx + 1))
@@ -82,6 +75,7 @@ namespace MASClassLibrary
                         return a;
                     else if (a.posy == checkAgent.posy + 3 && (a.posx == checkAgent.posx))
                         return a;
+                    #endregion
                 }
             }
             return null;
@@ -96,12 +90,17 @@ namespace MASClassLibrary
         #region addEncounter
         public static void addEncounter(agent agent, string command)
         {
+            //Check same team, else throw exeption
             if (agent.team.id != Lists.currentteam.id)
                 throw new WrongTeamException("Wrong team");
 
+            //New encounter
             encounter en = new encounter();
+            //Set encounter agent id
             en.agentId = agent.id;
+            //Set encounter action
             en.action = command;
+            //Add to encounters
             Lists.encounters.Add(en);
         }
         #endregion
