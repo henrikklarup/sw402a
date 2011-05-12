@@ -14,7 +14,6 @@ namespace MASClassLibrary
         public static List<agent> moveagents;             //List of agents to move
         public static List<encounter> encounters;         //List of encounters
         public static team currentteam;                   //Current team
-        public static int Points;                         //Points
 
         #region RetrieveAgent
         /// <summary>
