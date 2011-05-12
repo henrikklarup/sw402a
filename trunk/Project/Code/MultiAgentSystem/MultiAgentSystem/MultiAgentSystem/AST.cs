@@ -276,11 +276,12 @@ namespace MASSIVE
 
         public int kind;
         public int type;
-        public Expression(PrimaryExpression primExpr1, Operator _operator, PrimaryExpression primExpr2)
+        public Expression(PrimaryExpression primExpr1, Operator _operator, PrimaryExpression primExpr2, Token basicToken)
         {
             this.primExpr1 = primExpr1;
             this.opr = _operator;
             this.primExpr2 = primExpr2;
+            this.basicToken = basicToken;
             this.parentExpr = null;
         }
 

@@ -534,15 +534,15 @@ namespace MASSIVE
 
             // Parse the first Expression.
             primExpr1 = parsePrimaryExpression();
-
-            return parseExpression(primExpr1);
+            Token basicToken = currentToken;
+            return parseExpression(primExpr1, basicToken);
         }
 
         /// <summary>
         /// Extended method for parsing an expression
         /// </summary>
         /// <param name="primExpr1">Any Primary Expression</param>
-        private Expression parseExpression(PrimaryExpression primExpr1)
+        private Expression parseExpression(PrimaryExpression primExpr1, Token basicToken)
         {
             Printer.WriteLine("Expression");
             Printer.Expand();
@@ -557,12 +557,12 @@ namespace MASSIVE
 
             if (currentToken.kind == (int)Token.keywords.OPERATOR)
             {
-                Expression expr = parseExpression(primExpr2);
+                Expression expr = parseExpression(primExpr2, basicToken);
                 primExpr2 = new PrimaryExpression(expr);
             }
 
             Printer.Collapse();
-            return new Expression(primExpr1, _operator, primExpr2);
+            return new Expression(primExpr1, _operator, primExpr2, basicToken);
 
         }
 
