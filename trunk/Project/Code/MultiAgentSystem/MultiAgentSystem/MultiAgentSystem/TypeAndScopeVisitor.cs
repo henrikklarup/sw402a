@@ -653,12 +653,9 @@ namespace MASSIVE
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
                                 IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
-                                Printer.ErrorMarker();
-                                throwException = true;
                                 gException.containedExceptions.Add(
-                                    new GrammarException("(Line " + masVariable.row +
-                                        ") The types in the assignment of " +
-                                        ident + " do not match."));
+                                    new GrammarException(GenerateError(masVariable.row,
+                                        "The types in the assignment of '" + ident + "' do not match.")));
                             }
                         }
                         break;
@@ -669,12 +666,9 @@ namespace MASSIVE
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER &&
                                 IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
-                                Printer.ErrorMarker();
-                                throwException = true;
                                 gException.containedExceptions.Add(
-                                    new GrammarException("(Line " + masVariable.row +
-                                        ") The types in the assignment of " +
-                                        ident + " do not match."));
+                                    new GrammarException(GenerateError(masVariable.row, 
+                                        "The types in the assignment of '" + ident + "' do not match.")));
                             }
                         }
                         break;
@@ -684,21 +678,16 @@ namespace MASSIVE
                             if (masVariable.kind == (int)Token.keywords.IDENTIFIER && 
                                 IdentificationTable.retrieve(masVariable.spelling) != kind)
                             {
-                                Printer.ErrorMarker();
-                                throwException = true;
                                 gException.containedExceptions.Add(
-                                    new GrammarException("(Line " + masVariable.row +
-                                        ") The types in the assignment of " +
-                                        ident + " do not match."));
+                                    new GrammarException(GenerateError(masVariable.row,
+                                        "The types in the assignment of '" + ident + "' do not match.")));
                             }
                         }
                         break;
                     default:
-                        Printer.ErrorMarker();
-                        throwException = true;
                         gException.containedExceptions.Add(
-                            new GrammarException("(Line " + masVariable.row +
-                                ") The types in the assignment of " + ident + " do not match."));
+                            new GrammarException(GenerateError(masVariable.row,
+                                "The types in the assignment of '" + ident + "' do not match.")));
                         break;
                 }
             }
