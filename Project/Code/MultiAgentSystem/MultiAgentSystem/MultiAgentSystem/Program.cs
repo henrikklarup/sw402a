@@ -162,7 +162,7 @@ namespace MASSIVE
         {
             // Exception for errors found in the scanner.
             GrammarException scanException = new GrammarException(
-                "These errors were found by the scanner:");
+                "These errors were found while SCANNING:");
             bool scanningError = false;
 
             // The class is called Scanzor, because the class scanner is already in use in the C-language.
