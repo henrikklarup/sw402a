@@ -10,7 +10,7 @@ namespace MASSIVE
     {
         // Exception for catching errors.
         private GrammarException gException = 
-            new GrammarException("These errors were found during decoration:");
+            new GrammarException("These errors were found during type and scope checking:");
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
