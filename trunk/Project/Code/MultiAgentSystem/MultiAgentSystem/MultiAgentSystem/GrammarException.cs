@@ -74,7 +74,7 @@ namespace MASSIVE
 
         public void PrintExceptions()
         {
-            Printer.ErrorLine("\n" + this.Message);
+            Console.WriteLine("\n" + this.Message);
             foreach (GrammarException exc in this.containedExceptions)
             {
                 Printer.Error(exc.Message + "\n");
