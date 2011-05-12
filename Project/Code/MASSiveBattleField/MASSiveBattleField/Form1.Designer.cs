@@ -48,6 +48,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.executeTimer = new System.Windows.Forms.Timer(this.components);
+            this.button4 = new System.Windows.Forms.Button();
             this.dbPanel1 = new MASSiveBattleField.DBPanel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -236,6 +238,21 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "team 1";
             // 
+            // executeTimer
+            // 
+            this.executeTimer.Interval = 200;
+            this.executeTimer.Tick += new System.EventHandler(this.executeTimer_Tick);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(619, 634);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 68);
+            this.button4.TabIndex = 18;
+            this.button4.Text = "Execute x5";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
             // dbPanel1
             // 
             this.dbPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -256,6 +273,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 708);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
@@ -311,6 +329,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Timer executeTimer;
+        private System.Windows.Forms.Button button4;
     }
 }
 

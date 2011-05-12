@@ -30,6 +30,7 @@ namespace MASSiveBattleField
         int Grids;                          //Number of grids. I.e. 13 = 13 x 13 grid
         int turn;                           //Turnswitch
         agent selectedagent;                //Selected agent
+        bool win;                           //Win?
         #endregion
 
         #region Constructor
@@ -772,24 +773,31 @@ namespace MASSiveBattleField
             #endregion
 
             //Check if any team is last standing
-            #region WIN
-            if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
+            if (win == false)
             {
-                MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam1.ToString() + " left");
+                #region WIN
+                if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
+                {
+                    win = true;
+                    MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam1.ToString() + " left");
+                }
+                else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 1)
+                {
+                    win = true;
+                    MessageBox.Show("Team 2 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
+                }
+                else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 2)
+                {
+                    win = true;
+                    MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam3.ToString() + " left");
+                }
+                else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0 && Lists.teams.Count > 3)
+                {
+                    win = true;
+                    MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam4.ToString() + " left");
+                }
+                #endregion
             }
-            else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 1)
-            {
-                MessageBox.Show("Team 2 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
-            }
-            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 2)
-            {
-                MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam3.ToString() + " left");
-            }
-            else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0 && Lists.teams.Count > 3)
-            {
-                MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam4.ToString() + " left");
-            }
-            #endregion
 
             //Switch turn
             #region Turn switch
@@ -986,6 +994,26 @@ namespace MASSiveBattleField
         private void UpdateLabel6(string message)
         {
             label6.Text = message;
+        }
+        #endregion
+
+
+        #region Execute
+        int counter = 0;
+        private void executeTimer_Tick(object sender, EventArgs e)
+        {
+            if (counter == 5)
+                executeTimer.Stop();
+
+            EndTurn();
+            counter++;
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            executeTimer.Enabled = true;
+            counter = 0;
+            executeTimer.Start();
         }
         #endregion
     }
