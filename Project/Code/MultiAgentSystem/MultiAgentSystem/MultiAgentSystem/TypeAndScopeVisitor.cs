@@ -10,7 +10,7 @@ namespace MASSIVE
     {
         // Exception for catching errors.
         private GrammarException gException = 
-            new GrammarException("These errors were found during type and scope checking:");
+            new GrammarException("These errors were found during SCOPE AND TYPE CHECKING:");
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
