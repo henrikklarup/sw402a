@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     /* All these classes are used by the parser to create the Abstract Syntax Tree.
      * The descriptions above the classes, in the AST file, is the function syntax. */

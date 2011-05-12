@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MASClassLibrary;
 
-namespace MultiAgentSystem
+namespace MASSIVE
 {
     public static class MASLibrary
     {
