@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Usings
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ using ActionInterpeter;
 using MASClassLibrary;
 using System.Threading;
 using System.Runtime.InteropServices;
+#endregion
 
 namespace MASSiveBattleField
 {
