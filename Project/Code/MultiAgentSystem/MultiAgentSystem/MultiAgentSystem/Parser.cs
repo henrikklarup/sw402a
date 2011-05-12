@@ -17,7 +17,7 @@ namespace MASSIVE
         private int listCount;
 
         // Exception for catching errors.
-        private GrammarException gException = new GrammarException("These errors were found by the parser:");
+        private GrammarException gException = new GrammarException("These errors were found while PARSING:");
         private bool throwException = false;
 
         /// <summary>
