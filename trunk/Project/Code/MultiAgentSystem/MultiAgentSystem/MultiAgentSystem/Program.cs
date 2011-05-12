@@ -172,7 +172,6 @@ namespace MASSIVE
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Scanning");
-            //Console.Title = "MASSIVE Compiler: Scanning";
             // Scans the source file, untill the scanner returns an "end of transmission" token.
             while (true)
             {
@@ -223,7 +222,6 @@ namespace MASSIVE
             Console.WriteLine();            
             Console.CursorLeft = 0; 
             Printer.CompilationMarker("@Parsing");
-            //Console.Title = "MASSIVE Compiler: Parsing";
 
             Parser parser = new Parser(Tokens);
 
@@ -251,7 +249,6 @@ namespace MASSIVE
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Type and scope checking");
-            //Console.Title = "MASSIVE Compiler: Decorating";
 
             TypeAndScopeVisitor visitor = new TypeAndScopeVisitor();
             try
@@ -261,7 +258,7 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while DECORATING.");
+                Console.Write("Errors were found while CHECKING TYPE AND SCOPE.");
                 Recompile();
                 return;
             }
@@ -274,7 +271,6 @@ namespace MASSIVE
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Input validation");
-            // Console.Title = "MASSIVE Compiler: Intermediate";
 
             InputValidationVisitor visitor = new InputValidationVisitor();
             
@@ -285,7 +281,7 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Console.Write("Errors were found while checking methods and input.");
+                Console.Write("Errors were found while VALIDATING INPUT.");
                 Recompile();
                 return;
             }
@@ -298,7 +294,6 @@ namespace MASSIVE
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Code Generation");
-            //Console.Title = "MASSIVE Compiler: Code Generation";
 
             path = Path.GetDirectoryName(path);
             CodeGenerationVisitor visitor = new CodeGenerationVisitor();
@@ -326,7 +321,6 @@ namespace MASSIVE
             Console.WriteLine();
             Console.CursorLeft = 0;
             Printer.CompilationMarker("@Compilation has completed");
-            //Console.Title = "MASSIVE Compiler: Compilation has completed";
 
             GenerateCSharp();
         }
