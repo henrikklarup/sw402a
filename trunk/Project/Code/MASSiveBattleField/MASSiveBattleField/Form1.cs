@@ -16,6 +16,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 #endregion
 
+
 namespace MASSiveBattleField
 {
     public partial class WarGame : Form
@@ -578,6 +579,23 @@ namespace MASSiveBattleField
                                 break;
                             }
                         }
+                    }
+                }
+            }
+            #endregion
+
+            #region MoveAgentsRandom-ish
+            Random random = new Random();
+            foreach (agent NonMovingAgent in Lists.agents)
+            {
+                if (NonMovingAgent.team.id == Lists.currentteam.id)
+                {
+                    agent testagent = Lists.moveagents.Find(s => s.id == NonMovingAgent.id);
+                    if (testagent == null)
+                    {
+                        agent moveToAgent = Functions.getRandomAgent(NonMovingAgent, random.Next(1337));
+                        if(moveToAgent != null)
+                            Functions.moveagent(NonMovingAgent, moveToAgent.posx, moveToAgent.posy);
                     }
                 }
             }
