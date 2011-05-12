@@ -6,4 +6,24 @@ section{Net-Logo}
 NetLogo is a popular and widespread MAS, ..... Udfyld gerne! ......\\
 \indent NetLogo features a very easy programming language for creating both Agents and Environments, and also provides reletively easy ways of manipulating the cosmetics of the MAS-simulation. NetLogo has the advantages that even though the programming language is very easy to learn and write, it is also very feature rich, and can create MAS's that can simulate almost any possible scenario, right from advanced traffic scenarios to how many tadpoles will survive the first week of their lives.
 
-$One example of a MAS is the NetLogo application \cite{misc:netlogo}.\\
+\begin{NetLogo}{This is a NetLogo sorce code example}{}
+to setup
+  clear-all
+  ask patches
+    [ set pcolor (random colors) * 10 + 5
+        if pcolor = 75  ;; 75 is too close to another color so change it to 125
+          [ set pcolor 125 ] ]
+  reset-ticks
+end
+
+to go
+  ask patches [ set pcolor [pcolor] of one-of patches ]
+  tick
+end
+
+
+; Copyright 1997 Uri Wilensky. All rights reserved.
+; The full copyright notice is in the Information tab.
+\end{NetLogo}
+
+%One example of a MAS is the NetLogo application \cite{misc:netlogo}.\\

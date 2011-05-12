@@ -14,11 +14,11 @@ foreach (Command c in block.commands)
 		c.visit(this, arg);
 	}
 \end{source}
-\newline
+
 This is done from within a visitor class, so "`this"' refers to an instance of the visitor. 
 The reason the visitor is sent as input, is so all the visit functions can be kept in that visitor, and multiple visitors with different functionality can be used.
 If then say that the next command is a for-loop (which inherits from the Command class), the visit command will lead to the visitForCommand function being called.
-\newline
+
 \begin{source}{The ForCommand class from the AST.}{}
 public class ForCommand : Command
     {
@@ -29,7 +29,7 @@ public class ForCommand : Command
         }
     }
 \end{source}
-\newline
+
 And the visitForCommand function will then visit all the objects in the for-loop as they come.
 \newline
 \begin{source}{The visitForCommand function.}{}
