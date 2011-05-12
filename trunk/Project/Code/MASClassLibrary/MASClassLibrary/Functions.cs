@@ -104,5 +104,29 @@ namespace MASClassLibrary
             Lists.encounters.Add(en);
         }
         #endregion
+
+        /// <summary>
+        /// Get a random agent
+        /// </summary>
+        /// <param name="testagent">Test agent</param>
+        /// <param name="seed">Random seed</param>
+        /// <returns>Agent</returns>
+        #region getRandomAgent
+        public static agent getRandomAgent(agent testagent, int seed)
+        {
+            Random random = new Random(seed);
+
+            for (int i = 0; i < Lists.agents.Count * 1000; i++)
+            {
+                agent returnAgent = Lists.agents[random.Next(0, Lists.agents.Count)];
+                if (returnAgent.team.id != testagent.team.id)
+                {
+                    return returnAgent;
+                }
+                
+            }
+            return null;
+        }
+        #endregion
     }
 }
