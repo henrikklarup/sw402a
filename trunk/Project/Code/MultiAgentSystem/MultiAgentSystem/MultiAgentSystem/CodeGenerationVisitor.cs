@@ -8,7 +8,7 @@ namespace MultiAgentSystem
 {
     class CodeGenerationVisitor : Visitor
     {
-        private string CodeGenerationPath = Program.path + @"\MASSCode.cs";
+        private string CodeGenerationPath = Program.path + @"\MASCode.cs";
 
         private bool Print = true;
         private int blockCount = 0;
@@ -42,13 +42,13 @@ namespace MultiAgentSystem
         /// <returns></returns>
         internal override object visitMainBlock(Mainblock block, object arg)
         {
-            File.Delete(Program.path + @"\MASSCode.cs");
+            File.Delete(Program.path + @"\MASCode.cs");
 
             string text = "using System; using System.Drawing; using System.Collections.Generic; " +
                 "using MASClassLibrary; namespace MultiAgentSystem { class Program { " + 
 		        "static void Main(string[] args) { Lists.agents = new List<agent>(); " + 
 			    "Lists.squads = new List<squad>(); Lists.teams = new List<team>(); " +
-                "Lists.actionPatterns = new List<actionpattern>(); Lists.Points = ";
+                "Lists.actionPatterns = new List<actionpattern>();";
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
@@ -67,12 +67,6 @@ namespace MultiAgentSystem
              * as this has already been done manually for the mainblock. */
              
             Print = false;
-
-            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-            {
-                file.WriteLine(input + "; ");
-                file.Close();
-            }
 
             block.block.visit(this, arg);
 
