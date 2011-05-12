@@ -21,6 +21,7 @@ namespace MASSiveBattleField
             ControlStyles.AllPaintingInWmPaint,
             true);
 
+            //Update style
             this.UpdateStyles();
         }
 
