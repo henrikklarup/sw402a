@@ -36,60 +36,9 @@ namespace MASSiveBattleField
         #region Constructor
         public WarGame()
         {
-
             InitializeComponent();      //Initialize Components
 
-            #region Initi props
-
-            //Show Gamesettings form
-            #region GameSettings Dialog
-            GameSettings gms = new GameSettings();
-            gms.ShowDialog();
-            #endregion
-
-            //Get input from gamesettings form and set grids
-            #region Grids
-            //Small = 13
-            //Medium = 26
-            //Large = 46
-            Grids = gms.gridSize;
-            #endregion
-
-            //Linewidth default 2
-            LineWidth = 2;
-
-            //Empty mousepoint
-            mousePointGrid = new Point(0, 0);
-
-            //Line color default black
-            LineColor = Color.Black;
-
-            //Background color default army green
-            backGroundColor = Color.FromArgb(102,153,102);
-
-            //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
-            GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
-
-            //Set selectedagent to null
-            selectedagent = null;
-
-            //InitializeLists
-            XML.initLists();
-            #endregion
-
-            #region Get lists from XML and place teams
-            XML.returnLists(Environment.CurrentDirectory);
-            placeteams();
-            #endregion
-
-            //Make team 1 start
-            turn = 1;
-            Lists.currentteam = Lists.RetrieveTeam(turn);
-            label6.Text = "Team " + turn;
-
-            textBox4.AppendText("WarGame Console");
-
-            DrawTimer.Enabled = true;       //Enable the timer
+            InitProperties();
         }
         #endregion
 
@@ -558,24 +507,23 @@ namespace MASSiveBattleField
             #region CheckForEncounters
             foreach (agent testagent in Lists.agents)
             {
+                //Check for encounter!
                 agent encounterAgent = Functions.encounter(testagent);
                 if (encounterAgent != null)
                 {
                     encounterAgent = null;
                     bool removed = false;
-                    foreach (agent inneragent in Lists.agents)
+
+                    foreach (encounter en in Lists.encounters)
                     {
-                        foreach (encounter en in Lists.encounters)
+                        if (en.agentId == testagent.id)
                         {
-                            if (en.agentId == testagent.id)
+                            if (!removed)
                             {
                                 string input = en.action;
-                                if (!removed)
-                                {
-                                    Lists.moveagents.RemoveAll(s => s.id == testagent.id);
-                                    Lists.encounters.Remove(en);
-                                    removed = true;
-                                }
+                                Lists.moveagents.RemoveAll(s => s.id == testagent.id);
+                                //Lists.encounters.Remove(en);
+                                removed = true;
                                 ActionInterpet.Compile(input);
                                 break;
                             }
@@ -779,21 +727,25 @@ namespace MASSiveBattleField
                 if (agentsOnteam2 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 0)
                 {
                     win = true;
+                    executeTimer.Stop();
                     MessageBox.Show("Team 1 wins" + Environment.NewLine + "with " + agentsOnteam1.ToString() + " left");
                 }
                 else if (agentsOnteam1 == 0 && agentsOnteam3 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 1)
                 {
                     win = true;
+                    executeTimer.Stop();
                     MessageBox.Show("Team 2 wins" + Environment.NewLine + "with " + agentsOnteam2.ToString() + " left");
                 }
                 else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam4 == 0 && Lists.teams.Count > 2)
                 {
                     win = true;
+                    executeTimer.Stop();
                     MessageBox.Show("Team 3 wins" + Environment.NewLine + "with " + agentsOnteam3.ToString() + " left");
                 }
                 else if (agentsOnteam1 == 0 && agentsOnteam2 == 0 && agentsOnteam3 == 0 && Lists.teams.Count > 3)
                 {
                     win = true;
+                    executeTimer.Stop();
                     MessageBox.Show("Team 4 wins" + Environment.NewLine + "with " + agentsOnteam4.ToString() + " left");
                 }
                 #endregion
@@ -940,7 +892,7 @@ namespace MASSiveBattleField
         private void button2_Click(object sender, EventArgs e)
         {
             //Restart App
-            Application.Restart();
+            InitProperties();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -959,6 +911,62 @@ namespace MASSiveBattleField
         {
             //Exit App, close all threads
             Environment.Exit(0);
+        }
+
+        private void InitProperties()
+        {
+            #region Initi props
+
+            //Show Gamesettings form
+            #region GameSettings Dialog
+            GameSettings gms = new GameSettings();
+            gms.ShowDialog();
+            #endregion
+
+            //Get input from gamesettings form and set grids
+            #region Grids
+            //Small = 13
+            //Medium = 26
+            //Large = 46
+            Grids = gms.gridSize;
+            #endregion
+
+            //Linewidth default 2
+            LineWidth = 2;
+
+            //Empty mousepoint
+            mousePointGrid = new Point(0, 0);
+
+            //Line color default black
+            LineColor = Color.Black;
+
+            //Background color default army green
+            backGroundColor = Color.FromArgb(102, 153, 102);
+
+            //GridSize x,y: (((Width - (2*Lw)) - ((Grids - 1) * lw)) / Grids)
+            GridSize = new Size((((dbPanel1.Width - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids), (((dbPanel1.Height - (2 * LineWidth)) - ((Grids - 1) * LineWidth)) / Grids));
+
+            //Set selectedagent to null
+            selectedagent = null;
+
+            //InitializeLists
+            XML.initLists();
+            #endregion
+
+            #region Get lists from XML and place teams
+            XML.returnLists(Environment.CurrentDirectory);
+            placeteams();
+            #endregion
+
+            //Make team 1 start
+            turn = 1;
+            Lists.currentteam = Lists.RetrieveTeam(turn);
+            label6.Text = "Team " + turn;
+
+            textBox4.Clear();
+            textBox4.AppendText("WarGame Console");
+
+            DrawTimer.Enabled = true;       //Enable the timer
         }
         #endregion
 
@@ -999,48 +1007,65 @@ namespace MASSiveBattleField
 
         #region Execute
         int counter = 0;
+        bool simulate = false;
         private void executeTimer_Tick(object sender, EventArgs e)
         {
-            //Count agents on each team
-            #region Agent count
-            int agentsOnteam1 = 0;
-            int agentsOnteam2 = 0;
-            int agentsOnteam3 = 0;
-            int agentsOnteam4 = 0;
-            foreach (agent a in Lists.agents)
+            if (!simulate)
             {
-                if (a.team.id == 1)
-                    agentsOnteam1++;
-                if (a.team.id == 2)
-                    agentsOnteam2++;
-                if (a.team.id == 3)
-                    agentsOnteam3++;
-                if (a.team.id == 4)
-                    agentsOnteam4++;
+                //Count agents on each team
+                #region Agent count
+                int agentsOnteam1 = 0;
+                int agentsOnteam2 = 0;
+                int agentsOnteam3 = 0;
+                int agentsOnteam4 = 0;
+                foreach (agent a in Lists.agents)
+                {
+                    if (a.team.id == 1)
+                        agentsOnteam1++;
+                    if (a.team.id == 2)
+                        agentsOnteam2++;
+                    if (a.team.id == 3)
+                        agentsOnteam3++;
+                    if (a.team.id == 4)
+                        agentsOnteam4++;
+                }
+                #endregion
+
+                int teamCount = 0;
+                if (agentsOnteam1 > 0)
+                    teamCount++;
+                if (agentsOnteam2 > 0)
+                    teamCount++;
+                if (agentsOnteam3 > 0)
+                    teamCount++;
+                if (agentsOnteam4 > 0)
+                    teamCount++;
+
+                if (counter >= 5 * teamCount)
+                    executeTimer.Stop();
+
+                EndTurn();
+                counter++;
             }
-            #endregion
-
-            int teamCount = 0;
-            if (agentsOnteam1 > 0)
-                teamCount++;
-            if (agentsOnteam2 > 0)
-                teamCount++;
-            if (agentsOnteam3 > 0)
-                teamCount++;
-            if (agentsOnteam4 > 0)
-                teamCount++;
-
-            if (counter >= 5 * teamCount)
-                executeTimer.Stop();
-
-            EndTurn();
-            counter++;
+            else
+            {
+                EndTurn();
+            }
         }
 
         private void button4_Click_1(object sender, EventArgs e)
         {
             executeTimer.Enabled = true;
             counter = 0;
+            executeTimer.Start();
+        }
+        #endregion
+
+        #region Simulate
+        private void button5_Click(object sender, EventArgs e)
+        {
+            executeTimer.Enabled = true;
+            simulate = true;
             executeTimer.Start();
         }
         #endregion
