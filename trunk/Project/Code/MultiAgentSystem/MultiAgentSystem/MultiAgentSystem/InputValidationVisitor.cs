@@ -490,7 +490,7 @@ namespace MASSIVE
                 // Test through the input.
                 while (temp1 != null && temp2 != null)
                 {
-                    firstVar = (Token)input.firstVar.visit(this, null);
+                    firstVar = (Token)temp2.firstVar.visit(this, null);
                     if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
                     {
                         firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
@@ -591,12 +591,12 @@ namespace MASSIVE
 
         internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
         {
-            throw new NotImplementedException();
+            return primaryExpression.var;
         }
 
         internal override object visitParentExpression(ParentExpression parentExpression, object arg)
         {
-            throw new NotImplementedException();
+            return parentExpression.expr;
         }
     }
 }

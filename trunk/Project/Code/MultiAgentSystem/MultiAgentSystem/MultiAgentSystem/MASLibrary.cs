@@ -244,7 +244,7 @@ namespace MASSIVE
             stringNumTeamInput.nextVar.firstVar = new Identifier(numberToken);
             stringNumTeamInput.nextVar.nextVar.firstVar = new Identifier(teamToken);
             agentStringTeamConstructor agentConstructor2 = new agentStringTeamConstructor(
-                stringNumberInput, (int)Token.keywords.AGENT, new List<Attributes>(props));
+                stringNumTeamInput, (int)Token.keywords.AGENT, new List<Attributes>(props));
             props.Clear();
         }
     }
