@@ -436,46 +436,36 @@ namespace MASSIVE
             Printer.WriteLine("Expression");
             Printer.Expand();
 
-            // Put the first part of the expression in a token.
-            Token primExpr1 = (Token)expression.primExpr1.visit(this, arg);
-
-            // Put the operator in a token.
-            Token _operator = (Token)expression.opr.visit(this, arg);
-
-            // The second part of the expression can be both a new expression or a single variable.
-            object primExpr2 = expression.primExpr2;
-
-            // Print the first part of the expression.
-            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+            // If the parent expression is not null, visit it.
+            if (expression.parentExpr != null)
             {
-                file.Write(primExpr1.spelling.ToLower() + " " + _operator.spelling + " ");
-            }
-
-            // If the second part of the expression is not a new expression, print it as it is. 
-            if (!Expression.ReferenceEquals(primExpr2.GetType(),
-                new Expression(null).GetType()))
-            {
-                Token _primExpr2 = (Token)expression.primExpr2.visit(this, arg);
-
-                // If arg is false, don't print the semicolon.
-                if (Print)
-                {
-                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                    {
-                        file.WriteLine(_primExpr2.spelling.ToLower() + "; ");
-                    }
-                }
-                else
-                {
-                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
-                    {
-                        file.Write(_primExpr2.spelling.ToLower());
-                    }
-                }
+                ParentExpression parentExpr =
+                    (ParentExpression)expression.parentExpr.visit(this, true);
             }
             else
-            { 
-                expression.primExpr2.visit(this, arg);
+            {
+                expression.primExpr1.visit(this, true);
+
+                Token opr = (Token)expression.opr.visit(this, arg);
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.WriteLine(opr.spelling);
+                    file.Close();
+                }
+
+                expression.primExpr2.visit(this, true);
+            }
+
+            if (Print)
+            {
+                if (arg == null)
+                {
+                    using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                    {
+                        file.WriteLine("; ");
+                        file.Close();
+                    }
+                }
             }
 
             Printer.Collapse();
@@ -635,12 +625,47 @@ namespace MASSIVE
 
         internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
         {
-            throw new NotImplementedException();
+            // If var is not null, the primary expression is a variable.
+            if (primaryExpression.var != null)
+            {
+                Token var = (Token)primaryExpression.var.visit(this, arg);
+                using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+                {
+                    file.Write(var.spelling.ToLower());
+                }
+            }
+            // If parentExpression is not null, the primary expression is a parentExpression.
+            else if (primaryExpression.parentExpression != null)
+            {
+                // Set the type to the same type as in its expression.
+                ParentExpression parentExpression =
+                    (ParentExpression)primaryExpression.parentExpression.visit(this, arg);
+            }
+            // If the expression is not null, the primary expression is a new expression.
+            else if (primaryExpression.expression != null)
+            {
+                // Set the type to the same type as in the expression.
+                Expression expr = (Expression)primaryExpression.expression.visit(this, arg);
+            }
+
+            return primaryExpression;
         }
 
         internal override object visitParentExpression(ParentExpression parentExpression, object arg)
         {
-            throw new NotImplementedException();
+            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+            {
+                file.WriteLine("(");
+            }
+
+            parentExpression.expr.visit(this, arg);
+
+            using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
+            {
+                file.WriteLine(")");
+            }
+
+            return parentExpression;
         }
     }
 }
