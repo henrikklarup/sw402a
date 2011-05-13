@@ -497,8 +497,6 @@ namespace MASSIVE
                     return new Token(p.token.kind, "<=", p.token.row, p.token.col);
                 case "=>":
                     return new Token(p.token.kind, ">=", p.token.row, p.token.col);
-                case "=!":
-                    return new Token(p.token.kind, "!=", p.token.row, p.token.col);
             }
             return p.token;
         }
