@@ -83,9 +83,11 @@ namespace MASSIVE
                 // Otherwise the Console tell the users the compilation succeeded and runs the compiled code.
             else
             {
+                ConsoleColor tmpBackground;
+                tmpBackground = Console.BackgroundColor;
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.WriteLine("Success!");
-                Console.BackgroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = tmpBackground;
                 Process.Start(Output);
             }
 
