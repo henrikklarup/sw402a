@@ -99,10 +99,6 @@ namespace MASSIVE
 
             // Starts the compilation of the choosen file.
             Compile();
-
-            Process battlefield = new Process();
-            battlefield.StartInfo.FileName = Environment.CurrentDirectory + @"\MASSIVEBattleField.exe";
-            battlefield.Start();
         }
 
         /// <summary>
@@ -328,13 +324,17 @@ namespace MASSIVE
             string CSharpPath = path + @"\MASSIVECode.cs";
 
             CompileCSharpCode.compile(CSharpPath);
+
+            Process battlefield = new Process();
+            battlefield.StartInfo.FileName = Environment.CurrentDirectory + @"\MASSIVEBattleField.exe";
+            battlefield.Start();
         }
 
         /// <summary>
         /// User option to compile the source file again,
         /// in case any changes have been made to the source file.
         /// </summary>
-        private static void Recompile()
+        internal static void Recompile()
         {
             ConsoleKeyInfo cki;
 
