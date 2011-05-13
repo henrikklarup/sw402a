@@ -251,6 +251,7 @@ namespace ActionInterpeter
                             Lists.moveagents.RemoveAll(s => s.id == _agent.id);
                             Functions.moveagent(_agent, num1, num2);
                             Functions.moveagent(_agent, num1, num2);
+                            Functions.moveagent(_agent, num1, num2);
                             return;
                     }
                     break;

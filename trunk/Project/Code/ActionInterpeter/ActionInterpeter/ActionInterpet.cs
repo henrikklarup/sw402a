@@ -77,15 +77,14 @@ namespace ActionInterpeter
         /// <returns>Errors and Exceptions</returns>
         private static void StartCompile()
         {
-            Parse();
-            //try
-            //{
-            //    Parse();
-            //}
-            //catch (Exception e)
-            //{
-            //    Printer.WriteLine(e.Message);
-            //}
+            try
+            {
+                Parse();
+            }
+            catch (Exception e)
+            {
+                Printer.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -95,16 +94,15 @@ namespace ActionInterpeter
         {
             Parser parser = new Parser();
 
-            newAst = parser.parse();
-            //try
-            //{
-            //    newAst = parser.parse();
-            //}
-            //catch (GrammarException g)
-            //{
-            //    g.PrintExceptions();
-            //    return;
-            //}
+            try
+            {
+                newAst = parser.parse();
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                return;
+            }
             Decorate();
         }
 
@@ -114,16 +112,15 @@ namespace ActionInterpeter
         private static void Decorate()
         {
             visitor = new Visitor();
-            visitor.visitAST(newAst, null);
-            //try
-            //{
-            //    visitor.visitAST(newAst, null);
-            //}
-            //catch (GrammarException g)
-            //{
-            //    g.PrintExceptions();
-            //    return;
-            //}
+            try
+            {
+                visitor.visitAST(newAst, null);
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                return;
+            }
         }
         #endregion
     }

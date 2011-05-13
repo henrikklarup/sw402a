@@ -606,13 +606,12 @@ namespace MASSiveBattleField
                                 //Move "Up", keep in bounds
                                 else if (a.posy < outerAgent.posy && outerAgent.posy - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X, agentPoint.Y - 1)) == null))
                                     agentPoint.Y--;
-
-                                else
-                                {
-                                    Lists.moveagents.Remove(a);
-                                    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
-                                    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
-                                }
+                                //else
+                                //{
+                                //    Lists.moveagents.Remove(a);
+                                //    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
+                                //    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                //}
                                 #endregion
                                 
                             }
@@ -632,16 +631,17 @@ namespace MASSiveBattleField
                                 //Move "Left", keep in bounds
                                 else if (a.posx < outerAgent.posx && outerAgent.posx - 1 > -1)// && (bumpingIntoAgent(outerAgent, new Point(agentPoint.X - 1, agentPoint.Y)) == null))
                                     agentPoint.X--;
-                                else
-                                {
-                                    Lists.moveagents.Remove(a);
-                                    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
-                                    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
-                                }
+                                //else
+                                //{
+                                //    Lists.moveagents.Remove(a);
+                                //    string sendtext = Environment.NewLine + a.name + " couldn't move this round";
+                                //    textBox4.BeginInvoke(new UpdateTextCallback(UpdateTextbox4), sendtext);
+                                //}
                                 #endregion
                             }
                             
                             #endregion
+
                             //Set position
                             outerAgent.posx = agentPoint.X;
                             outerAgent.posy = agentPoint.Y;
