@@ -1,8 +1,9 @@
 \section{Grammar}
 When defining the grammar of a programming language, one defines every component in the language. It is important that the language is not ambiguous, as this could lead to misunderstanding at compile-time.
-The first thing we define in the language is the different types. In our language there are three types; num, string and bool. These types help define what is allowed in the language.
+The first thing we define in the language is the different datatypes, in our language there are three types; num, string and bool. These datatypes help define what is allowed in the language.
 Once these are defined, they can be broken up into even smaller parts, i.e. num is made up by digits or digits followed by the char '.' followed by digits, which in the grammar looks like this; number ::= digits | digits.digits.
-Then this is again split into even smaller parts, taking digits defined as; digits ::= digit | digit digits. And then the last part, digit ::= 1|2..9|0. This is done for every type if the language. We choose to make only one number type in our language, this type can hold both integer and floating points.\\
+Then this is again split into even smaller parts, taking digits defined as; digits ::= digit | digit digits. And then the last part, digit ::= 1|2..9|0. This is done for every datatype if the language.\\
+We choose only to make these datatypes as this would make the users decision of which datatype to use easier. Num can hold both integers and floating points, strings handles every aspect of text and bools is the only logical values in our language.\\
 \\
 In the grammar it is also defined how the general structure of the program is to be build. In the grammar it is defined where each part of a program can be placed, within what sections different things can be nested. A general program written in our language must consist of a mainblock, in which everything else is contained. The mainblock will be made up by the keyword Main, followed by the two brackets '(' ')', followed by a block.
 The block consists of a left bracket '{' some commands and then a right bracket '}'. In the grammar the mainblock and block look like this: mainblock ::= Main() block
