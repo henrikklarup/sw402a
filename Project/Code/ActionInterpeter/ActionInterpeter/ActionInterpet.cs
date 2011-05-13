@@ -21,13 +21,19 @@ namespace ActionInterpeter
         /// </summary>
         public static void Main()
         {
+            string output;
+            XML.initLists();
+            XML.returnLists(Environment.CurrentDirectory);
             while (true)
             {
                 input = Console.ReadLine();
                 if (input.Count() == 0)
                     continue;
-                Parse();
-                Console.WriteLine("Success");
+                output = Compile(input);
+                if (!output.Any())
+                    Console.WriteLine("Success");
+                else
+                    Console.WriteLine(output.ToString());
                 Console.ReadKey();
             }
         }
@@ -71,14 +77,15 @@ namespace ActionInterpeter
         /// <returns>Errors and Exceptions</returns>
         private static void StartCompile()
         {
-            try
-            {
-                Parse();
-            }
-            catch (Exception e)
-            {
-                Printer.WriteLine(e.Message);
-            }
+            Parse();
+            //try
+            //{
+            //    Parse();
+            //}
+            //catch (Exception e)
+            //{
+            //    Printer.WriteLine(e.Message);
+            //}
         }
 
         /// <summary>
@@ -88,15 +95,16 @@ namespace ActionInterpeter
         {
             Parser parser = new Parser();
 
-            try
-            {
-                newAst = parser.parse();
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
+            newAst = parser.parse();
+            //try
+            //{
+            //    newAst = parser.parse();
+            //}
+            //catch (GrammarException g)
+            //{
+            //    g.PrintExceptions();
+            //    return;
+            //}
             Decorate();
         }
 
@@ -106,15 +114,16 @@ namespace ActionInterpeter
         private static void Decorate()
         {
             visitor = new Visitor();
-            try
-            {
-                visitor.visitAST(newAst, null);
-            }
-            catch (GrammarException g)
-            {
-                g.PrintExceptions();
-                return;
-            }
+            visitor.visitAST(newAst, null);
+            //try
+            //{
+            //    visitor.visitAST(newAst, null);
+            //}
+            //catch (GrammarException g)
+            //{
+            //    g.PrintExceptions();
+            //    return;
+            //}
         }
         #endregion
     }

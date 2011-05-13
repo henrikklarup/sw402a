@@ -56,6 +56,9 @@ namespace ActionInterpeter
                 case (int)Token.keywords.ENCOUNTER:
                     single_Action.move_option.stance = (int)Stance.Stances.ENCOUNTER;
                     break;
+                case (int)Token.keywords.HOLD:
+                    single_Action.move_option.stance = (int)Stance.Stances.HOLD;
+                    break;
             }
             #endregion
 
@@ -246,6 +249,8 @@ namespace ActionInterpeter
                             break;
                         case "hold":
                             Lists.moveagents.RemoveAll(s => s.id == _agent.id);
+                            Functions.moveagent(_agent, num1, num2);
+                            Functions.moveagent(_agent, num1, num2);
                             return;
                     }
                     break;

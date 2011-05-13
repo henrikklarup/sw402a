@@ -135,8 +135,20 @@ namespace ActionInterpeter
             // Parse the units behaviour (e.g. move).
             singleAction.stance = parseStance();
 
-            // Parse which move option the selected unit is going to use.
-            singleAction.move_option = parseMove_Option();
+            if (singleAction.stance.stance.kind == (int)Token.keywords.HOLD)
+            {
+                singleAction.stance.stance = new Token((int)Token.keywords.MOVE, "move");
+                Move_Option moveOption = new Move_Option();
+                Direction dir = new Direction();
+                dir.dir = new Token((int)Token.keywords.HOLD, "hold");
+                moveOption.dir_coord = dir;
+                singleAction.move_option = moveOption;
+            }
+            else
+            {
+                // Parse which move option the selected unit is going to use.
+                singleAction.move_option = parseMove_Option();
+            }
             return singleAction;
         }
 
@@ -270,6 +282,7 @@ namespace ActionInterpeter
             {
                 case (int)Token.keywords.MOVE:
                 case (int)Token.keywords.ENCOUNTER:
+                case (int)Token.keywords.HOLD:
                     stance.stance = currentToken;
                     acceptIt();
                     break;
