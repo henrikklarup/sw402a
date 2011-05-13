@@ -486,6 +486,7 @@ namespace MASSIVE
             Printer.Collapse();
             return expression;
         }
+
         /// <summary>
         /// Visits an Identifier and returns its token.
         /// </summary>
