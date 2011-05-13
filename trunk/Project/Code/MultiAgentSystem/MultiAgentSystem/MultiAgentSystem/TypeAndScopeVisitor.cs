@@ -99,6 +99,16 @@ namespace MASSIVE
 
             int kind = _object.kind;
 
+            int retrieveKind = IdentificationTable.retrieve(ident);
+
+            if (retrieveKind != (int)Token.keywords.ERROR)
+            {
+                Printer.ErrorMarker();
+                throwException = true;
+                gException.containedExceptions.Add(
+                    new GrammarException("(Line " + _object.row + ") The " + Enum.GetName(typeof(Token.keywords), _object.kind) +
+                        "-object with the identifier " + ident + " has already been declared."));
+            }
             // Puts the kind and spelling into the Identification Table.
             IdentificationTable.enter(kind, ident);
 
