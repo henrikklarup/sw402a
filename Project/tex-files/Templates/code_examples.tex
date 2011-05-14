@@ -16,7 +16,7 @@
 % Source code boxes
 %
 
-\lstnewenvironment{source}[2]{
+\lstnewenvironment{source}[2][]{
     \def\lstlistingname{Source code}
     \lstset{
 				language=C,            			    % choose the language of the code
@@ -38,12 +38,13 @@
 				breaklines=true,  					  	% sets automatic line breaking
 				breakatwhitespace=false,   			% sets if automatic breaks should only happen at whitespace
 				escapeinside={\%}{)},       		% if you want to add a comment within your code
-				caption=[2]
+        label={#1},
+        caption={#2},
 				}
     }
 {}
 
-\lstnewenvironment{NetLogo}[2]{
+\lstnewenvironment{NetLogo}[2][]{
     \def\lstlistingname{NetLogo Source code}
     \lstset{
 				language=C,            			    % choose the language of the code
@@ -62,7 +63,8 @@
 				breaklines=true,  					  	% sets automatic line breaking
 				breakatwhitespace=false,   			% sets if automatic breaks should only happen at whitespace
 				escapeinside={\%}{)},       		% if you want to add a comment within your code
-				caption=[2]
+        label={#1},
+        caption={#2},
 				}
     }
 {}

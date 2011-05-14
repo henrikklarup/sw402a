@@ -46,8 +46,8 @@ The functions of the game interface is:
 \label{sec:drawing}
 The program make use of GDI+ \cite{misc:gdiplus} to draw the grid (the war zone) on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, this is done with the help of double buffering.
 We only use GDI+ graphics inside the usercontrol DBpanel, and make sure we draw things in the correct order, as we draw the pixels untop of each other. The first thing drawn is the background, which in our case is green, with the black gridlines on top of it, to create the game grid. Next the agents are drawn, one after the another.
-The agents start posistions are calculated by the following algorithem:
-\begin{source}[]{}                    
+The agent's start posistions are calculated by the following algorithm:
+\begin{source}{This code snippet calculates the agent's start positions}{}                 
             int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
             int it2 = (Grids / 2) - (agentsOnTeam2 / 2);
             int it3 = (Grids / 2) - (agentsOnTeam3 / 2);
