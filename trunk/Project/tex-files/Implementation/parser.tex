@@ -4,13 +4,13 @@ To accomodate all the different tokens, each token has a unique parsing method, 
 Each of these methods then generate their own subtree that is added to the AST. \\
 see section \ref{AST} for details on how the AST looks.
 
-\begin{source}{}{This is the main parsing method, which parses a mainblock and returns it as the AST.}{}
+\begin{source}{This is the main parsing method, which parses a mainblock and returns it as the AST.}{}
 public AST parse()
         {
             return parseMainblock();
         }
 \end{source}
-\begin{source}{}{This method parses a mainblock and returns a mainblock object, consisting of all subtrees created by the underlying parsing methods.}{}
+\begin{source}{This method parses a mainblock and returns a mainblock object, consisting of all subtrees created by the underlying parsing methods.}{}
 private AST parseMainblock()
         {
             Mainblock main;
