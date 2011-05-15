@@ -1,10 +1,3 @@
-In this project we will develop a multi agent system formed as a wargame. To do that we use C\# to make the wargame environment, and then we make our own language and compiler that will generate code to control the agents in the wargame.\\ \indent
-
-method, experimentation, conclusion - to come...
-
-
-\begin{comment} %nedenstående er måske lidt for teknisk til en synopsis?
-In this project we will develop a multi agent system formed as a wargame. The wargame environment and user interface is made in C\#, and we will therfore make a high-level to high-level compiler that generates C\# code, based on code input from a programming language we develop. The code generated from our compiler will  make an XLM-document, which, when is given as input in the user interface, sets up teams, agents and behaviors for the wargame.\\
-\\
-(Problem, method, experimentation, conclusion)
-\end{comment}
+In this project we will develop a high-level to high-level compiler and an agent oriented language, which can control agents in a multi agent system formed as a wargame. To do that we use C\# to make the wargame environment, and then we make our own language and compiler that will generate C\# code. When the generated code is run, it makes an XML file with data, which set up the agents in the wargame.\\ \indent
+The language we develop (called \textit{MASSIVE}) is optimized for the wargame we develop. This becomes evident from the lines of code it takes to program the agents and action patterns in \textit{MASSIVE} versus in C\#. Also a goal was to make the language more simple, for example by reducing the number of types. For example we have implemented af single type, \texttt{num}, to cover the types \texttt{int}, \texttt{long}, etc. \\ \indent
+------ conclusion ------
