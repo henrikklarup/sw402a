@@ -3,4 +3,38 @@ The final visitor is the CodeGenerationVisitor.
 This visitor is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
 To accomplish this, we use code templates. \newline
 A code template is basically a recipe for how the input code should be converted into C\# code. 
-Most of our 
+Many of our templates are printed as the code is visited by the visitor. 
+For example will a for command first have "for (" printed, followed by a type declaration, "num i = 0;", an expression, "i < 10;" and finally an assignment command, "i = i + 1" with a parenthesis to round off. \newline
+For the methods in our language, we have a different solution though. 
+Every class for a method or constructor, see \ref{inputvalidation}, in our language must define an overload for the method PrintGeneratedCode. 
+
+\begin{source}{The code printed for the squad constructor.}{}
+public override string PrintGeneratedCode(string one, string two)
+        {
+            // squad one = new squad(two)
+            return "squad " + one.ToLower() + " = new squad(" + two.ToLower() + ")";
+        }
+\end{source}
+
+In the code for the squad constructor, two strings are given as input. 
+One is the variable name, and two is the input given as a string. 
+It is therefor pretty straightforward to input the strings in their proper place. 
+A more complex example is the agent constructor, which takes both a name, a rank and a team as input.
+
+\begin{source}{The code printed for the agent constructor taking three arguments as input.}{}
+public override string PrintGeneratedCode(string one, string two)
+        {
+            string[] input = two.Split(',');
+						
+            // agent one = new agent(two);
+            // one.team = two
+            return "agent " + one.ToLower().Trim() + 
+							" = new agent(" + input[0].ToLower().Trim() + 
+							", " + input[1].ToLower().Trim() + ");\n" + 
+							one.ToLower().Trim() + ".team = " + 
+							input[2].ToLower().Trim();
+        }
+\end{source}
+
+Here the input string must be split up and put in the correct places, but the method still takes the same arguments as the other overloads. 
+This is what makes it possible to easily print the code for any method or constructor used in our language.
