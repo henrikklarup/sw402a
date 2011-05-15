@@ -1,5 +1,5 @@
 \section{Making the Scanner}
-The scanner is an algorithm that converts an input stream of text into a stream of tokens and keywords. The first method of the scanner is a big switch created to sort the current word according to the token starters \ref{ap:starters}. E.g. if the first character of a word is a letter, the word is automaticly assigned as an identifier and a string with the word is created.\\
+The scanner is an algorithm that converts an input stream of text into a stream of tokens and keywords. The first method of the scanner is a big switch created to sort the current word according to the token starters (which can be found in appendix \ref{ap:starters}). E.g. if the first character of a word is a letter, the word is automaticly assigned as an identifier and a string with the word is created.\\
 When an identifier is saved as a Token, the Token class searches for any keyword, that would be able to match the exact string, e.g. if the string spells the word "for", the Token class changes the string to a \textbf{for} token.\\
 
 \begin{source}{The token method with overloads.}{}
