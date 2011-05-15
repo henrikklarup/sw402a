@@ -2,5 +2,6 @@
 \label{sec:parser}
 The scanner \ref{sec:scannertheory} produces a stream of tokens. This stream provides an abstraction of the original input, and is used in determining the phrase structure, which is the purpose of the parser \cite{misc:spo}. We strive to make the language unambiguous\footnote{This means that every sentence has exactly one abstract syntax tree (AST). See section \ref{asttheory} for more about the abstract syntax tree.} to avoid the complication an ambiguous sentence would bring.\\
 \\
-There are two basic parsing strategies, \textit{bottom-up} and \textit{top-down}. We will here expand on the \textit{top-down} strategy, because that is what we have implemented.\\ \indent
+There are two basic parsing strategies, \textit{bottom-up} and \textit{top-down}, both of which produce an abstract syntax tree (AST). An AST is a representation of the phrase structure of the code, where the tokens found by the scanner are turned from a list into a tree, as defined by the structure of your grammar. \newline
+We will here expand on the \textit{top-down} strategy, because that is what we have implemented.\\ \indent
 The \textit{top-down} parsing algorithm is characterized by the way it builds the AST. The parser does not \textit{need} to make an AST, but it is convenient to describe the parsing strategy by making the AST. The \textit{top-down} approach considers the terminal symbols of a string, from left to right, and constructs its AST from top to bottom (from root node to terminal node).
