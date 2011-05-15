@@ -606,9 +606,9 @@ namespace MASSIVE
             string[] input = two.Split(',');
             // agent one = new agent(two);
             // one.team = two
-            return "agent " + one.ToLower() + " = new agent(" +
-                input[0].ToLower() + ", " + input[1].ToLower() + ");\n" + 
-                one + ".team = " + input[2].ToLower();
+            return "agent " + one.ToLower().Trim() + " = new agent(" +
+                input[0].ToLower().Trim() + ", " + input[1].ToLower().Trim() + ");\n" + 
+                one.ToLower().Trim() + ".team = " + input[2].ToLower().Trim();
         }
     }
 
