@@ -8,6 +8,7 @@
 We decided early on to develop our compiler in C\#, because it is a language we have a lot of experience with, and the object oriented paradigm is helpful in developing a compiler that uses an abstract syntax tree. 
 There were problems managing reference types in C\# though. 
 Reference types are the kinds of objects that when created refer to an existing object in memory rather than creating a new instance of the object. \newline
-Several bugs occurred due to difficulty in anticipating when something is a referenced type as opposed to a seperate object. 
-It might therefor have been beneficial to develop the compiler in a language using the functional paradigm, as a defining feature of these languages is that functions do not have side effects. 
-This means that no function will ever alter existing data, it will only create new data, and there would not be bugs of kind described above.
+Several bugs occurred due to difficulty in anticipating when something is a referenced type as opposed to a seperate object. \newline
+It might therefor have been beneficial to develop the compiler in a language like Haskell, which uses the functional paradigm. 
+This is because purely functional languages do not allow side effects in their functions, meaning that existing data is not altered. 
+Haskell is one such language, where new data is created and the alterations are applied to, so reference types are of no concern.
