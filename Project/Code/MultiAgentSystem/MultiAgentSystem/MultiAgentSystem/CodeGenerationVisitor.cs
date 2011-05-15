@@ -176,6 +176,54 @@ namespace MASSIVE
                 input = (string)objectDeclaration.input.visit(this, arg);
             }
 
+            if (builders.Count > 1)
+            {
+                Token firstVar, dummyVar;
+
+                Input temp1, temp2;
+
+                // Make a copy of arg.
+                List<MASConstructor> list = new List<MASConstructor>(builders);
+
+                // For each element in arg, the element is tested against the given input.
+                for (int i = 0; i < builders.Count; i++)
+                {
+                    temp1 = list.ElementAt(i).ValidInput;
+                    temp2 = objectDeclaration.input;
+
+                    // Test through the input.
+                    while (temp1 != null && temp2 != null)
+                    {
+                        firstVar = (Token)temp2.firstVar.visit(this, null);
+                        if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
+                        {
+                            firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
+                        }
+
+                        dummyVar = (Token)temp1.firstVar.visit(this, null);
+
+                        // If the inputs don't match, remove it from the list of potential valid inputs.
+                        if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
+                        {
+                            builders.Remove(list.ElementAt(i));
+                        }
+
+                        // Update the variables for the next round of testing.
+                        temp1 = temp1.nextVar;
+                        temp2 = temp2.nextVar;
+                    }
+
+                    if (temp1 != null && temp2 == null)
+                    {
+                        builders.Remove(list.ElementAt(i));
+                    }
+                    else if (temp1 == null && temp2 != null)
+                    {
+                        builders.Remove(list.ElementAt(i));
+                    }
+                }
+            }
+
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
             {
                 file.Write(builders.ElementAt(0).PrintGeneratedCode(identifier, input));
@@ -407,11 +455,59 @@ namespace MASSIVE
             int kind = IdentificationTable.retrieve(name);
 
             List<MASMethod> methods = MASLibrary.FindMethod(method, kind);
-
+            
             // Visit the input.
             if (methodCall.input != null)
             {
                 input = (string)methodCall.input.visit(this, arg);
+            }
+
+            if (methods.Count > 1)
+            {
+                Token firstVar, dummyVar;
+
+                Input temp1, temp2;
+
+                // Make a copy of arg.
+                List<MASMethod> list = new List<MASMethod>(methods);
+
+                // For each element in arg, the element is tested against the given input.
+                for (int i = 0; i < methods.Count; i++)
+                {
+                    temp1 = list.ElementAt(i).ValidInput;
+                    temp2 = methodCall.input;
+
+                    // Test through the input.
+                    while (temp1 != null && temp2 != null)
+                    {
+                        firstVar = (Token)temp2.firstVar.visit(this, null);
+                        if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
+                        {
+                            firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
+                        }
+
+                        dummyVar = (Token)temp1.firstVar.visit(this, null);
+
+                        // If the inputs don't match, remove it from the list of potential valid inputs.
+                        if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
+                        {
+                            methods.Remove(list.ElementAt(i));
+                        }
+
+                        // Update the variables for the next round of testing.
+                        temp1 = temp1.nextVar;
+                        temp2 = temp2.nextVar;
+                    }
+
+                    if (temp1 != null && temp2 == null)
+                    {
+                        methods.Remove(list.ElementAt(i));
+                    }
+                    else if (temp1 == null && temp2 != null)
+                    {
+                        methods.Remove(list.ElementAt(i));
+                    }
+                }
             }
 
             using (StreamWriter file = new StreamWriter(CodeGenerationPath, true))
