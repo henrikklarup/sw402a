@@ -1,8 +1,13 @@
-\section{Visitors}
+\section{Decoration}
+Decoration refers to decorating the abstract syntax tree. 
+Basically, up until this point we have only checked the structure of the code we are compiling, and decoration is the part where we do checks for validating the code it self.
+These are checks like type checks and scope checks. \newline
+To do this, we need a way of traversing the AST, while applying a lot of different logic to the various nodes in it.
+To this end, we utilize the visitor pattern.
+
+\subsection{Visitor Pattern}
 \label{visitors}
-Once the parser has created the abstract syntax tree, there are still many checks that need to be done, such as type checks and input validation. 
-This process is known as decoration, and refers to decorating the abstract syntax tree. \newline
-One of the ways to do this, which is also the one we are using, is with the visitor pattern, a design pattern specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand. \newline
+This design pattern is specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand. \newline
 Using the visitor pattern is advantageous because we do not need to know the structure of the tree when it is traversed.
 For example, every block in the code contains a number of commands. 
 We do not know what the type of each command is, we only know that there is a command object. 
@@ -52,7 +57,8 @@ internal override object visitForCommand(ForCommand forCommand, object arg)
     }
 \end{source}
 
-\subsection{Decoration}
-
-
-\subsection{Code Generation}
+\section{Code Generation}
+Code generation can be tricky, but because we are compiling to C\#, we are utilizing the underlying memory management in C\#, making the task much easier, and we won't expand on memory management for this reason.
+Code generation is therefor only a matter of printing the correct code. \newline
+A great tool for doing this is code templates. 
+Code templates are recipes for what code should be written under the current circumstances, which makes the visitor pattern well suited for this task as well (see section \ref{visitors}).
