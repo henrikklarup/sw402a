@@ -59,6 +59,6 @@ internal override object visitForCommand(ForCommand forCommand, object arg)
 
 \section{Code Generation}
 Code generation can be tricky, but because we are compiling to C\#, we are utilizing the underlying memory management in C\#, making the task much easier, and we won't expand on memory management for this reason.
-Code generation is therefor only a matter of printing the correct code. \newline
+Code generation is therefore only a matter of printing the correct code. \\ \indent
 A great tool for doing this is code templates. 
 Code templates are recipes for what code should be written under the current circumstances, which makes the visitor pattern well suited for this task as well (see section \ref{visitors}).
