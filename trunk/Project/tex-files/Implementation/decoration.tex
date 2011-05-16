@@ -43,5 +43,6 @@ The compiler then takes the information it needs to determine the validity of gi
 It's therefor easy to add new overloads to existing methods and constructors, as well as completely new methods and constructors, because you only need to create a new class for it and initialize it.
 
 \subsection{Variable Checking}
+\label{variabelcheck}
 The VariableVisitor is the third visitor, and its job is simply to check that the variables that are declared are also used. 
 While this will catch every unused variable, the main reason for the creation of this visitor is to catch unused objects, so the compiler can warn of agents, squads and teams that go unused in the code.
