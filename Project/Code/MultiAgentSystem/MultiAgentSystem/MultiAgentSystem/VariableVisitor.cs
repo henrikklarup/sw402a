@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using MASClassLibrary;
 
 namespace MASSIVE
 {
-    public class VariableVisitor : Visitor
+    class VariableVisitor : Visitor
     {
         // Exception for catching errors.
         private GrammarException gException =
-            new GrammarException("These errors where found while CHECKING VARIABLES:");
+            new GrammarException("These warnings and errors were found during VARIABLE CHECKING:");
+
+        private int Points;
+
+        private List<team> teams = new List<team>();
+        private List<squad> squads = new List<squad>();
+        private List<agent> agents = new List<agent>();
+
+        private double availablePoints
+        {
+            get { return Points / teams.Count; }
+        }
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
@@ -42,8 +54,8 @@ namespace MASSIVE
         {
             Printer.WriteLine("Main Block");
             Printer.Expand();
-            
-            block.input.visit(this, arg);
+
+            Points = int.Parse((string)block.input.visit(this, arg));
             block.block.visit(this, arg);
 
             Printer.Collapse();
@@ -72,7 +84,12 @@ namespace MASSIVE
             }
             // When all commands in the block have been visited
             // the scope is closed in the identification table.
-            IdentificationTable.closeScope();
+            List<GrammarException> list = IdentificationTable.varCloseScope();
+            if (list != null)
+            {
+                throwException = true;
+                gException.containedExceptions.AddRange(list);
+            }
 
             Printer.Collapse();
             return null;
@@ -95,86 +112,30 @@ namespace MASSIVE
 
             // Get the kind of Object and the spelling of the identifier.
             Token _object = (Token)objectDeclaration._object.visit(this, arg);
-            Token identifier = (Token)objectDeclaration.identifier.visit(this, arg);
+            string ident = (string)objectDeclaration.identifier.visit(this, arg);
 
             int kind = _object.kind;
-            string ident = identifier.spelling;
 
             // Puts the kind and spelling into the Identification Table.
-            IdentificationTable.enter(kind, ident);
+            IdentificationTable.enter(kind, ident, _object.row);
 
-            // The input to test against.
-            Input ValidInput = null;
-            string valids = "";
-
-            // The list of overloads for the method.
-            List<MASConstructor> Constructors = MASLibrary.FindConstructor(kind);
-
-            if (Constructors.Count < 1)
+            List<MASConstructor> builder = MASLibrary.FindConstructor(kind);
+            if (builder != null)
             {
-                // If no methods were found, the method name isn't correct.
-                gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(identifier.row, "'" + ident + "' is not a valid object.")));
-            }
-            else if (Constructors.Count == 1)
-            {
-                Constructors.ElementAt(0).InstantiateProperties(ident);
-                // If only one method is found, use its valid input to test against.
-                ValidInput = Constructors.ElementAt(0).ValidInput;
-                valids = ValidInput.PrintInput();
-            }
-            else
-            {
-                Constructors.ElementAt(0).InstantiateProperties(ident);
-
-                // If several overloads are found, use OverloadVisit to find the best match for the input.
-                List<Input> list = new List<Input>();
-                foreach (MASConstructor c in Constructors)
-                {
-                    list.Add(c.ValidInput);
-                }
-
-                foreach (Input i in list)
-                {
-                    valids += i.PrintInput() + "\n";
-                }
-
-                if (objectDeclaration.input != null)
-                {
-                    list = objectDeclaration.input.OverloadVisit(this, list, identifier.row);
-                }
-
-                // React to the overloads.
-                if (list.Count != 1)
-                {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "\tThese inputs are valid: \n" + valids)));
-                }
-                else
-                {
-                    ValidInput = list.ElementAt(0);
-                }
+                builder.ElementAt(0).InstantiateProperties(ident);
             }
 
+            string input = "";
+
+            // visit the input and check the spelling.
             if (objectDeclaration.input != null)
+                input = (string)objectDeclaration.input.visit(this, arg);
+
+            string[] inputStrings = input.Split(',');
+
+            if (inputStrings.Length > 2 && kind == (int)Token.keywords.AGENT)
             {
-                try
-                {
-                    objectDeclaration.input.visit(this, ValidInput);
-                }
-                catch (GrammarException)
-                {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                        "\tThese inputs are valid: \n" + valids)));
-                }
-            }
-            else if (objectDeclaration.input == null && ValidInput != null)
-            {
-                gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(identifier.row, "No valid overload was found for this constructor.\n" +
-                    "\tThese inputs are valid: \n" + valids)));
+                IdentificationTable.use(ident.Trim());
             }
 
             Printer.Collapse();
@@ -196,11 +157,15 @@ namespace MASSIVE
             Printer.Expand();
 
             // Stores the type and the identifier of the declaration
-            Token kind = (Token)typeDeclaration.Type.visit(this, arg);
-            Token name = (Token)typeDeclaration.VarName.visit(this, arg);
-            typeDeclaration.Becomes.visit(this, arg);
+            Token objectType = (Token)typeDeclaration.Type.visit(this, arg);
+            Token VarName = (Token)typeDeclaration.VarName.visit(this, arg);
 
-            IdentificationTable.enter(kind.kind, name.spelling);
+            int kind = objectType.kind;
+            string ident = VarName.spelling;
+
+            IdentificationTable.enter(kind, ident, VarName.row);
+
+            typeDeclaration.Becomes.visit(this, arg);
 
             Printer.Collapse();
             return null;
@@ -223,6 +188,8 @@ namespace MASSIVE
 
             // visit the expression, if the expression isn't boolean, report and error.
             ifCommand.Expression.visit(this, arg);
+
+            // visit the first block.
             ifCommand.IfBlock.visit(this, arg);
 
             // If the second block exists, visit it.
@@ -234,7 +201,6 @@ namespace MASSIVE
             Printer.Collapse();
             return null;
         }
-
 
         /// <summary>
         /// visit for loop, consitst of a declaration, a boolean expression, an expression, and a block.
@@ -249,6 +215,7 @@ namespace MASSIVE
             Printer.WriteLine("For Command");
             Printer.Expand();
 
+            // Opens a "virtual" for-scope to be able to remove the counterDeclaration.
             IdentificationTable.openScope();
 
             // visit the declaration, the two expressions and the block.
@@ -258,7 +225,13 @@ namespace MASSIVE
 
             forCommand.ForBlock.visit(this, arg);
 
-            IdentificationTable.closeScope();
+            // Closes the "virtual" for-scope.
+            List<GrammarException> list = IdentificationTable.varCloseScope();
+            if (list != null)
+            {
+                throwException = true;
+                gException.containedExceptions.AddRange(list);
+            }
 
             Printer.Collapse();
             return null;
@@ -283,95 +256,21 @@ namespace MASSIVE
             return null;
         }
 
+
         // identifier ( input ) | identifier . method-call
         internal override object visitMethodCall(MethodCall methodCall, object arg)
         {
             Printer.WriteLine("Method Call");
 
-            Token identifier = (Token)methodCall.linkedIdentifier.visit(this, arg);
+            string s = (string)methodCall.linkedIdentifier.visit(this, arg);
+            string[] names = s.Split('.');
+            s = s.Remove(s.Length - names[names.Length - 1].Length - 1);
 
-            /* To test the method, a list of overloads is found that matches the method,
-             * and a valid input is derived from the best matching overload. 
-             * This input is then tested against what was given in the method. */
+            IdentificationTable.use(s);
 
-            // Find the name of the method called.
-            string[] names = identifier.spelling.Split('.');
-            string method = names[names.Length - 1];
-
-            // Name of the object the method is called on, and its kind.
-            string name = identifier.spelling.Remove(identifier.spelling.Length - (method.Length + 1));
-            int kind = IdentificationTable.retrieve(name);
-
-            // The input to test against.
-            Input ValidInput = null;
-            string valids = "";
-
-            // The list of overloads for the method.
-            List<MASMethod> Methods = new List<MASMethod>(MASLibrary.FindMethod(method, kind));
-
-            if (Methods.Count < 1)
-            {
-                // If no methods were found, the method name isn't correct.
-                gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(identifier.row, "'" + method + "' is not a valid method.")));
-            }
-            else if (Methods.Count == 1)
-            {
-                // If only one method is found, use its valid input to test against.
-                ValidInput = Methods.ElementAt(0).ValidInput;
-                valids = ValidInput.PrintInput();
-            }
-            else
-            {
-                // If several overloads are found, use OverloadVisit to find the best match for the input.
-                List<Input> list = new List<Input>();
-                foreach (MASMethod m in Methods)
-                {
-                    list.Add(m.ValidInput);
-                }
-
-                foreach (Input i in list)
-                {
-                    valids += i.PrintInput() + "\n";
-                }
-
-                if (methodCall.input != null)
-                {
-                    list = methodCall.input.OverloadVisit(this, list, identifier.row);
-                }
-
-                if (list.Count != 1)
-                {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                        "\tThese inputs are valid for this method: \n" + valids)));
-                }
-                else
-                {
-                    ValidInput = list.ElementAt(0);
-                }
-            }
-
-            // Visit the input if it exists.
             if (methodCall.input != null)
             {
-                try
-                {
-                    methodCall.input.visit(this, ValidInput);
-                }
-                catch (GrammarException)
-                {
-                    gException.containedExceptions.Add(new GrammarException(
-                        GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                        "\tThese inputs are valid for this method: \n" + valids)));
-                }
-            }
-            else if (methodCall.input == null && ValidInput != null)
-            {
-                // If the two are different, but the input doesn't exist, give an error.
-                gException.containedExceptions.Add(new GrammarException(
-                    GenerateError(identifier.row, "No correct overload was found for this method. \n" +
-                    "\tThese inputs are valid for this method: \n" + valids)));
+                methodCall.input.visit(this, arg);
             }
 
             return null;
@@ -383,139 +282,97 @@ namespace MASSIVE
             Printer.WriteLine("Expression");
             Printer.Expand();
 
-            // Always a Token of kind number, boolean or identifier.
-            expression.primExpr1.visit(this, arg);
+            // If the parent expression is not null, visit it.
+            if (expression.parentExpr != null)
+            {
+                expression.parentExpr.visit(this, arg);
+            }
+            else
+            {
+                PrimaryExpression p1 = (PrimaryExpression)expression.primExpr1.visit(this, arg);
+                expression.opr.visit(this, arg);
+                PrimaryExpression p2 = (PrimaryExpression)expression.primExpr2.visit(this, arg);
 
-            // Always a Token of kind, operator, if this doesn't exists, 
-            // visit the primaryExpression and return null.
-            expression.opr.visit(this, arg);
+                if (p1.var != null)
+                {
+                    IdentificationTable.use(((Token)p1.var.visit(this, arg)).spelling);
+                }
 
-            // 2nd Primary expression can be both an expression or a token.
-            expression.primExpr2.visit(this, arg);
+                if (p2.var != null)
+                {
+                    IdentificationTable.use(((Token)p2.var.visit(this, arg)).spelling);
+                }
+            }
 
             Printer.Collapse();
-            return null;
+            return expression;
         }
 
+        /// <summary>
+        /// Visits an Identifier and returns its token.
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitIdentifier(Identifier identifier, object arg)
         {
             Printer.WriteLine("Identifier: " + identifier.token.spelling);
             return identifier.token;
         }
 
+        /// <summary>
+        /// Visits an Operator and returns its token.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitOperator(Operator p, object arg)
         {
             Printer.WriteLine("Operator: " + p.token.spelling);
             return p.token;
         }
 
+        /// <summary>
+        /// Visits and input and visits its variables.
+        /// The firstVar is always the first variable and read as a token.
+        /// The nextVar is an input if there is more than just the next variable,
+        /// and a token if this is the last variable in the input.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitInput(Input input, object arg)
         {
             Printer.WriteLine("Input");
             Printer.Expand();
 
-            // The current valid input is reset.
-            Input currentValidInput = new Input();
+            string s = (string)arg;
 
-            if (arg != null)
-            {
-                // If a new input was given, use it.
-                currentValidInput = (Input)arg;
-            }
-
-            Token firstVar, dummyVar;
-
+            // If the first input exists, print it.
             if (input.firstVar != null)
             {
-                // If the next input exists, visit it with the next valid input as arg.
-                if (input.nextVar != null)
-                {
-                    input.nextVar.visit(this, currentValidInput.nextVar);
-                }
+                Token firstVar = (Token)input.firstVar.visit(this, arg);
+                s += firstVar.spelling;
 
-                firstVar = (Token)input.firstVar.visit(this, arg);
+                IdentificationTable.use(firstVar.spelling);
+            }
 
-                if (currentValidInput.nextVar != null && input.nextVar == null)
-                {
-                    throw new GrammarException();
-                }
-
-                /* If firstVar turns out to be an identifier, 
-                 * look it up in the ID table to get the real kind. */
-                if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
-                {
-                    firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
-                }
-
-                if (currentValidInput.firstVar != null)
-                {
-                    dummyVar = (Token)currentValidInput.firstVar.visit(this, arg);
-                    /* So far in the proces, the valid input matches the given input
-                     * and if the kinds match too, then they match perfectly. If not, give an error. */
-                    if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
-                    {
-                        throw new GrammarException();
-                    }
-                }
-                // If the given input is different from null, but the valid input is not, set error.
-                else
-                {
-                    throw new GrammarException();
-                }
+            // If more input exists, print it.
+            if (input.nextVar != null)
+            {
+                s += ", ";
+                Printer.Collapse();
+                s = (string)input.nextVar.visit(this, s);
+                Printer.Expand();
             }
 
             Printer.Collapse();
-            return null;
+            return s;
         }
 
         internal override List<Input> visitOverload(Input input, List<Input> arg, int line)
         {
-            Token firstVar, dummyVar;
-
-            Input temp1, temp2;
-
-            // Make a copy of arg.
-            List<Input> list = new List<Input>(arg);
-
-            // For each element in arg, the element is tested against the given input.
-            for (int i = 0; i < arg.Count; i++)
-            {
-                temp1 = list.ElementAt(i);
-                temp2 = input;
-
-                // Test through the input.
-                while (temp1 != null && temp2 != null)
-                {
-                    firstVar = (Token)input.firstVar.visit(this, null);
-                    if (firstVar.kind == (int)Token.keywords.IDENTIFIER)
-                    {
-                        firstVar.kind = IdentificationTable.retrieve(firstVar.spelling);
-                    }
-
-                    dummyVar = (Token)temp1.firstVar.visit(this, null);
-
-                    // If the inputs don't match, remove it from the list of potential valid inputs.
-                    if (!MASLibrary.MatchingTypes(firstVar.kind, dummyVar.kind))
-                    {
-                        arg.Remove(list.ElementAt(i));
-                    }
-
-                    // Update the variables for the next round of testing.
-                    temp1 = temp1.nextVar;
-                    temp2 = temp2.nextVar;
-                }
-
-                if (temp1 != null && temp2 == null)
-                {
-                    arg.Remove(list.ElementAt(i));
-                }
-                else if (temp1 == null && temp2 != null)
-                {
-                    arg.Remove(list.ElementAt(i));
-                }
-            }
-
-            return arg;
+            return null;
         }
 
         internal override object visitLinkedIdentifier(LinkedIdentifier LinkedIdentifier, object arg)
@@ -523,18 +380,19 @@ namespace MASSIVE
             Printer.WriteLine("Linked Identifier");
             Printer.Expand();
 
-            Token t = (Token)LinkedIdentifier.Identifier.visit(this, arg);
+            Token identifier;
+            string ident;
 
-            Token identifier = new Token(t.kind, t.spelling, t.row, t.col);
+            identifier = (Token)LinkedIdentifier.Identifier.visit(this, arg);
+            ident = identifier.spelling;
 
             if (LinkedIdentifier.NextLinkedIdentifier != null)
             {
-                identifier.spelling += "." +
-                    ((Token)LinkedIdentifier.NextLinkedIdentifier.visit(this, arg)).spelling;
+                ident += "." + (string)LinkedIdentifier.NextLinkedIdentifier.visit(this, arg);
             }
 
             Printer.Collapse();
-            return identifier;
+            return ident;
         }
 
         internal override object visitMASNumber(MASNumber mASNumber, object arg)
@@ -573,6 +431,12 @@ namespace MASSIVE
             return mASVariable.token;
         }
 
+        /// <summary>
+        /// Visits the assign command, ensures that identifier and the assigned expression has the same type.
+        /// </summary>
+        /// <param name="assignCommand"></param>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         internal override object visitAssignCommand(AssignCommand assignCommand, object arg)
         {
             Printer.WriteLine("Assign Command");
@@ -587,12 +451,39 @@ namespace MASSIVE
 
         internal override object visitPrimaryExpression(PrimaryExpression primaryExpression, object arg)
         {
-            throw new NotImplementedException();
+            // If var is not null, the primary expression is a variable.
+            if (primaryExpression.var != null)
+            {
+                primaryExpression.var.visit(this, arg);
+            }
+            // If parentExpression is not null, the primary expression is a parentExpression.
+            else if (primaryExpression.parentExpression != null)
+            {
+                // Set the type to the same type as in its expression.
+                primaryExpression.parentExpression.visit(this, arg);
+            }
+            // If the expression is not null, the primary expression is a new expression.
+            else if (primaryExpression.expression != null)
+            {
+                // Set the type to the same type as in the expression.
+                primaryExpression.expression.visit(this, arg);
+            }
+
+            return primaryExpression;
         }
 
         internal override object visitParentExpression(ParentExpression parentExpression, object arg)
         {
-            throw new NotImplementedException();
+            parentExpression.expr.visit(this, arg);
+
+            return parentExpression;
+        }
+
+        private LinkedIdentifier CreateLinkedIdentifier(Token t)
+        {
+            LinkedIdentifier link = new LinkedIdentifier();
+            link.Identifier = new Identifier(t);
+            return link;
         }
     }
 }

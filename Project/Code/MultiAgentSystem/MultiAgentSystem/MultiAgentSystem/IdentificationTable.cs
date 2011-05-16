@@ -12,6 +12,8 @@ namespace MASSIVE
         public int scope;
         public string ident;
         public int kind;
+        public bool used;
+        public int line;
     }
 
     // The IdentificationTable class which holds all the declared identifiers.
@@ -28,6 +30,20 @@ namespace MASSIVE
             attr.scope = scope;
             attr.kind = kind;
             attr.ident = ident;
+            attr.used = false;
+
+            identificationTable.Add(attr);
+        }
+
+        public static void enter(int kind, string ident, int line)
+        {
+            Attributes attr = new Attributes();
+
+            attr.scope = scope;
+            attr.kind = kind;
+            attr.ident = ident;
+            attr.used = false;
+            attr.line = line;
 
             identificationTable.Add(attr);
         }
@@ -48,6 +64,18 @@ namespace MASSIVE
             return (int)Token.keywords.ERROR;
         }
 
+        public static void use(string ident)
+        {
+            foreach (Attributes a in identificationTable)
+            {
+                if (a.ident == ident)
+                {
+                    a.used = true;
+                    break;
+                }
+            }
+        }
+
         // When a new scope is identified, count the scopecounter 1 up.
         public static void openScope()
         {
@@ -60,6 +88,22 @@ namespace MASSIVE
         {
             scope--;
             identificationTable.RemoveAll(item => item.scope > scope);
+        }
+
+        public static List<GrammarException> varCloseScope()
+        {
+            scope--;
+            List<GrammarException> gExceptions = new List<GrammarException>();
+            foreach (Attributes a in identificationTable)
+            {
+                if (a.scope > scope && !a.used)
+                {
+                    gExceptions.Add(new GrammarException("(Line " + a.line + ") Variable " + a.ident + 
+                        " was declared, but never used.", false));
+                }
+            }
+            identificationTable.RemoveAll(item => item.scope > scope);
+            return gExceptions;
         }
     }
 }

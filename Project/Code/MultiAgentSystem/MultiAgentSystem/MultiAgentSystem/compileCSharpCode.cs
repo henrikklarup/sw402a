@@ -77,7 +77,7 @@ namespace MASSIVE
                     Printer.ErrorLine("Line number " + CompErr.Line +", Error Number: " + CompErr.ErrorNumber +", '" + CompErr.ErrorText + ";");
                 }
 
-                Program.Recompile();
+                Program.Recompile(true);
                 return;
             }
                 // Otherwise the Console tell the users the compilation succeeded and runs the compiled code.
