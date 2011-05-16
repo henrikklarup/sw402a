@@ -52,6 +52,25 @@ namespace MASSIVE
         }
 
         /// <summary>
+        /// Changes the cursor position, to match the indent, and changes the text color to yellow,
+        /// to display a warning. 
+        /// </summary>
+        /// <param name="error">The message printed.</param>
+        public static void Warning(String warning)
+        {
+            // Save the current text color.
+            ConsoleColor tmpColor = Console.ForegroundColor;
+
+            // Changes the text color to red.
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            // Writes the error to the console.
+            Console.Write(warning);
+            // Changes the text color to the original.
+            Console.ForegroundColor = tmpColor;
+        }
+
+        /// <summary>
         /// Extention of the Error method, changes the cursor to the next line. 
         /// </summary>
         /// <param name="text"></param>
@@ -65,11 +84,32 @@ namespace MASSIVE
         }
 
         /// <summary>
+        /// Extention of the Warning method, changes the cursor to the next line. 
+        /// </summary>
+        /// <param name="text"></param>
+        public static void WarningLine(string text)
+        {
+            Console.WriteLine();
+            // Changes the cursor position, to match the indent.
+            Console.SetCursorPosition(indent * 2, Console.CursorTop);
+            Warning(text);
+            Console.WriteLine("");
+        }
+
+        /// <summary>
         /// Prints a mark in the console where an error has occurred.
         /// </summary>
         public static void ErrorMarker()
         {
             Error(" <!>");
+        }
+
+        /// <summary>
+        /// Prints a mark in the console where a warning has occurred.
+        /// </summary>
+        public static void WarningMarker()
+        {
+            Warning(" <!>");
         }
 
         /// <summary>

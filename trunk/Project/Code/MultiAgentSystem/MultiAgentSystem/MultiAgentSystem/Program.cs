@@ -199,10 +199,8 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-            }
-            if (scanningError)
-            {
-                Recompile();
+                Recompile(g.ContainsErrors());
+                return;
             }
 
             // Starts the parser.
@@ -227,7 +225,7 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Recompile();
+                Recompile(g.ContainsErrors());
                 return;
             }
 
@@ -252,14 +250,14 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Recompile();
+                Recompile(g.ContainsErrors());
                 return;
             }
 
-            Intermediate();
+            InputValidation();
         }
 
-        private static void Intermediate()
+        private static void InputValidation()
         {
             Console.WriteLine();
             Console.CursorLeft = 0;
@@ -274,8 +272,33 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Recompile();
+                Recompile(g.ContainsErrors());
                 return;
+            }
+
+            CheckVariables();
+        }
+
+        private static void CheckVariables()
+        {
+            Console.WriteLine();
+            Console.CursorLeft = 0;
+            Printer.CompilationMarker("@Variable checking");
+
+            VariableVisitor visitor = new VariableVisitor();
+
+            try
+            {
+                visitor.visitAST(newAst, null);
+            }
+            catch (GrammarException g)
+            {
+                g.PrintExceptions();
+                Recompile(g.ContainsErrors());
+                if (g.ContainsErrors())
+                {
+                    return;
+                }
             }
 
             CodeGen();
@@ -297,7 +320,7 @@ namespace MASSIVE
             catch (GrammarException g)
             {
                 g.PrintExceptions();
-                Recompile();
+                Recompile(g.ContainsErrors());
                 return;
             }
             Completed();
@@ -334,13 +357,25 @@ namespace MASSIVE
         /// User option to compile the source file again,
         /// in case any changes have been made to the source file.
         /// </summary>
-        internal static void Recompile()
+        internal static void Recompile(bool error)
         {
             ConsoleKeyInfo cki;
 
+            string s, g;
+            if (error)
+            {
+                s = "Would you like to compile again? y/n";
+                g = "Goodbye.";
+            }
+            else
+            {
+                s = "Would you like to compile again? Press 'n' to continue. y/n";
+                g = "";
+            }
+
             while (true)
             {
-                Console.WriteLine("Would you like to compile again? y/n");
+                Console.WriteLine(s);
                 cki = Console.ReadKey();
 
                 if (cki.Key == ConsoleKey.Y)
@@ -350,7 +385,7 @@ namespace MASSIVE
                 }
                 if (cki.Key == ConsoleKey.N)
                 {
-                    Console.WriteLine("Goodbye.");
+                    Console.WriteLine(g);
                     break;
                 }
 

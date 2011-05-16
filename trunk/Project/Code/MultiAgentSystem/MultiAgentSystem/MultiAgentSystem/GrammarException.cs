@@ -7,11 +7,12 @@ using System.Runtime.Serialization;
 namespace MASSIVE
 {
     [Serializable]
-    class GrammarException : System.Exception
+    public class GrammarException : System.Exception
     {
         private string _failedString;
         private Token _failedToken;
         public List<GrammarException> containedExceptions = new List<GrammarException>();
+        private bool isError = true;
 
         public GrammarException()
         { }
@@ -19,6 +20,12 @@ namespace MASSIVE
         public GrammarException(string message)
             : base(message)
         { }
+
+        public GrammarException(string message, bool error)
+            : base(message)
+        {
+            this.isError = error;
+        }
 
         public GrammarException(Token token)
         {
@@ -72,12 +79,31 @@ namespace MASSIVE
             set { this._failedToken = value; }
         }
 
+        public bool ContainsErrors()
+        {
+            foreach (GrammarException g in containedExceptions)
+            {
+                if (g.isError)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void PrintExceptions()
         {
             Console.WriteLine("\n" + this.Message);
             foreach (GrammarException exc in this.containedExceptions)
             {
-                Printer.Error(exc.Message + "\n");
+                if (exc.isError)
+                {
+                    Printer.Error(exc.Message + "\n");
+                }
+                else
+                {
+                    Printer.Warning(exc.Message + "\n");
+                }
             }
             Console.WriteLine();
         }

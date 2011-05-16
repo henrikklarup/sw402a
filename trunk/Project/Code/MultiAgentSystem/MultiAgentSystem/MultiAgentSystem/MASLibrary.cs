@@ -556,6 +556,7 @@ namespace MASSIVE
             foreach (Attributes a in _properties)
             {
                 IdentificationTable.enter(a.kind, name + "." + a.ident);
+                IdentificationTable.use(name + "." + a.ident);
             }
         }
 

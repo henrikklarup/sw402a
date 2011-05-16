@@ -62,6 +62,7 @@
     <Compile Include="StartUp.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TypeAndScopeVisitor.cs" />
+    <Compile Include="VariableVisitor.cs" />
     <Compile Include="Visitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
