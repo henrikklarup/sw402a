@@ -1,6 +1,7 @@
-\subsection{Code Generation}
-The final visitor is the CodeGenerationVisitor. 
-This visitor is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
+\section{Code Generation}
+In order to print the C\# code, we must again traverse the AST, and determine what code should be printed. 
+Therefor, as with the decoration process, we use a visitor (see section \ref{visitors}) to accomplish this.
+This visitor is the CodeGenerationVisitor and is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
 To accomplish this, we use code templates. \newline
 A code template is basically a recipe for how the input code should be converted into C\# code. 
 Many of our templates are printed as the code is visited by the visitor. 
