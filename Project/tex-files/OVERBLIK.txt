@@ -3,7 +3,7 @@ Det vi mangler at få styr på er:
 
 - Heads'n tails
 - Synopsis conclusion
-- Lille tekst til problem statement
+- Lille tekst til problem statement (Simon)
 - Semantik (under tools)
 - Semantik (under language documentation)
 - Scanner, parser, visitors, code gen. (under GUI -> action interpreter) - (Rasmus)
