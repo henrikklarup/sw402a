@@ -3,7 +3,6 @@ Det vi mangler at få styr på er:
 
 - Heads'n tails
 - Synopsis conclusion
-- Kapitel 5 - Compilers and Interpreters - (Lasse)
 - Lille tekst til problem statement
 - Semantik (under tools)
 - Semantik (under language documentation)
