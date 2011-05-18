@@ -1,4 +1,20 @@
 \section{Semantics}
 \label{sec:semantics}
 
-The semantics of a programming language is a mathematical notation that explains langauge behavior. It defines the meaning of all the elements in a language \cite{misc:sem}.\\ \indent
+The semantics of a programming language is a mathematical notation that explains langauge behavior. 
+It defines the meaning of all the elements in a language \cite{misc:sem}.\\ \indent
+As an example of semantics, we view the semantics of the language $Bims$. 
+The first part of the language semantics are the syntactic categories, which define the different syntactic elements in the language.
+
+\begin{itemize}
+\item Numeric values $n \in$ Num.
+\item Variables $v \in$ Var.
+\item Arithmetic expressions $a \in$ Aexp.
+\item Boolean expressions $b \in$ Bexp.
+\item Statements $S \in$ Stm.
+\end{itemize}
+
+The next part of the semantics are the formation rules. 
+These rules define the different operations that can be executed in the language. 
+
+$S ::= x := a$ $|$ skip $|$ $S_1;S_2$ $|$ if $b$ then $S_1$ else $S_2$ $|$ while $b$ do $S$
