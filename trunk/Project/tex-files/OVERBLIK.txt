@@ -1,9 +1,8 @@
 Det vi mangler at få styr på er:
 
 
-- Heads'n tails
+- Heads'n tails :: Simon
 - Synopsis conclusion
-- Lille tekst til problem statement :: Simon
 - Semantik (under tools) :: Henrik & Kasper
 - Semantik (under language documentation) :: Henrik & Kasper
 - Scanner, parser, visitors, code gen. (under GUI -> action interpreter) - :: Rasmus
