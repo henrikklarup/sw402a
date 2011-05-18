@@ -8,7 +8,6 @@ Det vi mangler at få styr på er:
 - Scanner, parser, visitors, code gen. (under GUI -> action interpreter) - :: Rasmus
 - Advantages in the MAS Language (under discussion) :: Kristian
 - Conclusion (Under discussion) :: Lasse
-- Future Work (Under epologue) - :: Kasper
 
 
 
