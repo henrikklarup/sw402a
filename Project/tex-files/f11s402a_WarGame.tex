@@ -16,7 +16,7 @@
 \usepackage{verbatim}
 \usepackage{caption}
 
-\InputIfFileExists{Templates/standard}
+\InputIfFileExists{Templates/standard}{}{}
 
 %Code examples preamble input
 \InputIfFileExists{Templates/code_examples}{}{}
@@ -52,14 +52,14 @@
 \InputIfFileExists{Wargame/wargame}{}{}
 \InputIfFileExists{Compiler_Interpreter/compiler_interpreter}{}{}
 
-\part{Design}
+\part{Tools}
 \InputIfFileExists{Language_Components/language_components}{}{}
-\InputIfFileExists{Language_Documentation/language_documentation}{}{}
+\InputIfFileExists{Compiler_Components/compiler_components}{}{}
 
 \part{Implementation}
-\InputIfFileExists{Compiler_Components/compiler_components}{}{}
-\InputIfFileExists{Implementation/implementation}{}{}
+\InputIfFileExists{Language_Documentation/language_documentation}{}{}
 \InputIfFileExists{GUI/gui}{}{}
+\InputIfFileExists{Implementation/implementation}{}{}
 
 \part{Discussion}
 \InputIfFileExists{Discussion/discussion}{}{}
