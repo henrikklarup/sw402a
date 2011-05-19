@@ -2,7 +2,7 @@
 \label{sec:semantics}
 
 The semantics of a programming language is a mathematical notation that explains langauge behavior. 
-It defines the meaning of all the elements in a language \cite{misc:sem}.\\ \indent
+It defines the behaviour of all the elements in a language \cite{misc:sem}.\\ \indent
 As an example of semantics, we view the semantics of the language $Bims$. 
 The first part of the language semantics are the syntactic categories, which define the different syntactic elements in the language.
 
@@ -18,7 +18,7 @@ The next part of the semantics are the formation rules.
 These rules define the different operations that can be executed in the language. 
 Here are the rules for statements: \newline
 
-$S ::= x := a$ $|$ \texttt{skip} $|$ $S_1;S_2$ $|$ \texttt{if} $b$ \texttt{then} $S_1$ \texttt{else} $S_2$ $|$ \texttt{while} $b$ \texttt{do} $S$\newline
+$S ::= x := a$ $|$ \texttt{skip} $|$ $S_1;S_2$ $|$ \texttt{if} $b$ \texttt{then} $S_1$ \textt{else} $S_2$ $|$ \texttt{while} $b$ \textt{do} $S$\newline
 
 These rules imply what kind of transitions can be done in the language. 
 A transition happens when an operation is executed, and the program is moved into its next configuration. 
@@ -36,3 +36,6 @@ The model consists of the variable environment and the store function.
 The variable environment is the environment where variables are referenced, mimicking memory addresses in a computer. 
 The store function then uses the reference to find the actual value of the variable. \newline
 
+Finally, we will be using bigstep semantics to describe the different operational semantics. 
+Bigstep semantics represent transitions with a one to one mapping. 
+The opposite of this is the smallstep semantic, where each transition has several semantic steps described.
