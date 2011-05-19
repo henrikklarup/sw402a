@@ -18,15 +18,15 @@ The next part of the semantics are the formation rules.
 These rules define the different operations that can be executed in the language. 
 Here are the rules for statements: \newline
 
-$S ::= x := a$ $|$ \texttt{skip} $|$ $S_1;S_2$ $|$ \texttt{if} $b$ \texttt{then} $S_1$ \textt{else} $S_2$ $|$ \texttt{while} $b$ \textt{do} $S$\newline
+$S ::= x := a$ $|$ \texttt{skip} $|$ $S_1;S_2$ $|$ \texttt{if} $b$ \texttt{then} $S_1$ \texttt{else} $S_2$ $|$ \texttt{while} $b$ \texttt{do} $S$\newline
 
 These rules imply what kind of transitions can be done in the language. 
 A transition happens when an operation is executed, and the program is moved into its next configuration. 
-All the transitions that can happen are defined by a transition system, which consists of three things. 
+All transitions and configurations are defined by a transition system, which consists of three things. 
 
 \begin{itemize}
 \item $\Gamma$ represents all possible configurations. 
-\item $\rightarrow$ represents all the possible transitions.
+\item $\rightarrow$ represents all possible transitions.
 \item $T$ represents the terminal configurations, which are the configurations with no transitions leading away from them.
 \end{itemize}
 
@@ -36,6 +36,18 @@ The model consists of the variable environment and the store function.
 The variable environment is the environment where variables are referenced, mimicking memory addresses in a computer. 
 The store function then uses the reference to find the actual value of the variable. \newline
 
-Finally, we will be using bigstep semantics to describe the different operational semantics. 
+Finally, we will be using bigstep semantics to describe the different transition rules. 
 Bigstep semantics represent transitions with a one to one mapping. 
-The opposite of this is the smallstep semantic, where each transition has several semantic steps described.
+The opposite of this is the smallstep semantic, where each transition has several semantic steps described, but we will not detail this.\newline
+
+The first example is the bigstep transition rule for declaring a variable. 
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{VAR-DECL} & \infrule{\lag D_v, env_{V}'', sto[l \mapsto v] \rag \rightarrow_{DV} (env'_v, sto')}
+								{\lag var x := a; D_v, env_v, sto \rag \rightarrow_{DV} (env'_v, sto')}
+                \rag \ra sto'} \\
+                & $\mbox{hvor}\; env_{P}p = (S,env'_{P})$ \\
+& \\
+                \hline
+        \end{tabular}
