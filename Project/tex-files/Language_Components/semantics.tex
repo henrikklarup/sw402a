@@ -44,9 +44,9 @@ The first example is the bigstep transition rule for declaring a variable.
     \begin{tabular}{lc}
                 \mbox{} & \hspace{8cm} \\
                 \hline
-                \runa{VAR-DECL} & \infrule{\lag D_v, env_{V}'', sto[l \mapsto v] \rag \rightarrow_{DV} (env'_v, sto')}
-								{\lag var x := a; D_v, env_v, sto \rag \rightarrow_{DV} (env'_v, sto')}
-                \rag \ra sto'} \\
+                \runa{VAR-DECL} & \infrule{\lag D_v, env_{V}'', sto[l \mapsto v] \rag \rightarrow (env'_v, sto')}
+								{\lag var x := a; D_v, env_v, sto \rag \rightarrow (env'_v, sto')}
+                 \\
                 & $\mbox{hvor}\; env_{P}p = (S,env'_{P})$ \\
 & \\
                 \hline
