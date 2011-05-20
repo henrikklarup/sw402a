@@ -6,7 +6,8 @@ Det vi mangler at få styr på er:
 - Semantik (under tools) :: Henrik & Kasper
 - Semantik (under language documentation) :: Henrik & Kasper
 - Scanner, parser, visitors, code gen. (under GUI -> action interpreter) - :: Rasmus
-- Conclusion (Under discussion) :: Lasse
+- Conclusion (Under discussion) ::
+- Use Case :: Lasse
 
 
 
