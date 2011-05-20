@@ -1,7 +1,79 @@
-\subsection{Contextual Analysis}
+\subsection{Contextual Analysis \& Code Generation}
 \label{sec:ai_contextual_analysis}
-The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors. 
+The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors. In the contextual analysis, code generation is build in, since there is no need to parse the AST more than once, when all information used by the move function is given cronologically
 The first part of the decoration, is to verify the identification of the command.\\
+To verify the identification, the decorator finds the unit or units the user wants to move. E.g. the user gives the command "squad 1 move down".\\
+The parser then determines that the identifier "1" is a squad, and stores its token as a SquadID. The decorator then searches for the squad identifier in the squad list, and calls the move method to execute the action ("move down").\\
+\\
 
+\begin{source}{Example of the determination of the identifier in the visitors, this part identifies SquadID.}{}
+if (object.ReferenceEquals(
+	single_Action.selection.GetType(), 
+	new squadID().GetType()
+	))
+	{
+	// set arg to null if its an id.
+	visitCodeGen_MoveSquad(single_Action, null);
+	}
+\end{source}
 
-\subsection{Code Generation}
+When the squad has been identified the decorator calls the visitCodeGen\_MoveSquad method and moves all agents in the squad.\\
+
+\begin{source}{Snippit of the identification of the units in a squad.}{}
+squad squad;
+// If arg is null, the selection is an ID.
+if (arg == null)
+	{
+    squadID select = (squadID)single_Action.selection;
+    Token selectToken = select.num;
+    squad = Lists.RetrieveSquad(Convert.ToInt32(selectToken.spelling));
+	}
+else
+    {
+		Identifier ident = (Identifier)single_Action.selection;
+		squad = Lists.RetrieveSquad(ident.name.spelling);
+	}
+
+	foreach (agent a in squad.Agents)
+	{
+		visitCodeGen_MoveOption(a, single_Action.move_option);
+	}
+\end{source}
+
+The visitCodeGen\_MoveOption method, analyse the stance and the option. If the stance is encounter instead of move, a string with the agent, the agents name, the stance move and the option.\\
+
+\begin{source}{Code snippit, when the encounter stance is chosen instead of move.}{}
+// If the stance is an encounter call the add encounter function.
+if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+	{
+		Functions.addEncounter(_agent, _agent.name + " move " + token.spelling);
+		return;
+	}
+\end{source}
+
+If any of the directions have been choosen as the option, the agent will be moved one coordinate in the direction.\\
+Furthermore if an action pattern is choosen the action interpreter calls itself recursivly and adds the agent who is going to be moved along with the action pattern as the overload. This will interpret the action and instead of the unit keyword, insert the agent instead.\\
+
+\begin{source}{The method moving a unit if, the move option is an action pattern.}{}
+object moveOption = move_Option.dir_coord.visit(this, null);
+
+// If there was no actionpattern with this name, Exception.
+if (moveOption == null || !object.ReferenceEquals(moveOption.GetType(), new actionpattern().GetType()))
+	{
+		throw new InvalidMoveOptionException("The actionpattern was invalid!");
+	}
+actionpattern ap = (actionpattern)moveOption;
+
+// If the stance is an encounter call the add encounter function.
+if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+	{
+		Functions.addEncounter(_agent, _agent.name + " move " + ap.name);
+		return;
+	}
+
+foreach (string s in ap.actions)
+	{
+		ActionInterpet.Compile(s, _agent);
+	}
+return;
+\end{source}
