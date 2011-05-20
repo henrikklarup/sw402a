@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AUTOMATON>
+    <TYPE value="NEA"/>
+    <ALPHABET>
+        <ITEM value="0"/>
+        <ITEM value="1"/>
+        <ITEM value="2"/>
+        <ITEM value="3"/>
+        <ITEM value="4"/>
+        <ITEM value="5"/>
+        <ITEM value="6"/>
+        <ITEM value="7"/>
+        <ITEM value="8"/>
+        <ITEM value="9"/>
+        <ITEM value="a"/>
+        <ITEM value="b"/>
+        <ITEM value="c"/>
+        <ITEM value="d"/>
+        <ITEM value="down"/>
+        <ITEM value="e"/>
+        <ITEM value="encounter"/>
+        <ITEM value="f"/>
+        <ITEM value="g"/>
+        <ITEM value="h"/>
+        <ITEM value="hold"/>
+        <ITEM value="i"/>
+        <ITEM value="j"/>
+        <ITEM value="k"/>
+        <ITEM value="l"/>
+        <ITEM value="left"/>
+        <ITEM value="m"/>
+        <ITEM value="move"/>
+        <ITEM value="n"/>
+        <ITEM value="o"/>
+        <ITEM value="p"/>
+        <ITEM value="q"/>
+        <ITEM value="r"/>
+        <ITEM value="right"/>
+        <ITEM value="s"/>
+        <ITEM value="t"/>
+        <ITEM value="u"/>
+        <ITEM value="unit"/>
+        <ITEM value="up"/>
+        <ITEM value="v"/>
+        <ITEM value="w"/>
+        <ITEM value="x"/>
+        <ITEM value="y"/>
+        <ITEM value="z"/>
+    </ALPHABET>
+    <STATE name="Start" finalstate="false">
+        <TRANSITION target="Identifier">
+            <LABEL read="b"/>
+            <LABEL read="c"/>
+            <LABEL read="d"/>
+            <LABEL read="e"/>
+            <LABEL read="f"/>
+            <LABEL read="g"/>
+            <LABEL read="h"/>
+            <LABEL read="i"/>
+            <LABEL read="j"/>
+            <LABEL read="k"/>
+            <LABEL read="l"/>
+            <LABEL read="m"/>
+            <LABEL read="n"/>
+            <LABEL read="o"/>
+            <LABEL read="p"/>
+            <LABEL read="q"/>
+            <LABEL read="r"/>
+            <LABEL read="s"/>
+            <LABEL read="t"/>
+            <LABEL read="u"/>
+            <LABEL read="v"/>
+            <LABEL read="w"/>
+            <LABEL read="x"/>
+            <LABEL read="y"/>
+            <LABEL read="z"/>
+        </TRANSITION>
+        <TRANSITION target="Number">
+            <LABEL read="0"/>
+            <LABEL read="1"/>
+            <LABEL read="2"/>
+            <LABEL read="3"/>
+            <LABEL read="4"/>
+            <LABEL read="5"/>
+            <LABEL read="6"/>
+            <LABEL read="7"/>
+            <LABEL read="8"/>
+            <LABEL read="9"/>
+        </TRANSITION>
+        <TRANSITION target="Keyword">
+            <LABEL read="down"/>
+            <LABEL read="encounter"/>
+            <LABEL read="hold"/>
+            <LABEL read="left"/>
+            <LABEL read="move"/>
+            <LABEL read="right"/>
+            <LABEL read="unit"/>
+            <LABEL read="up"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="Identifier" finalstate="false">
+        <TRANSITION target="Identifier">
+            <LABEL read="0"/>
+            <LABEL read="1"/>
+            <LABEL read="2"/>
+            <LABEL read="3"/>
+            <LABEL read="4"/>
+            <LABEL read="5"/>
+            <LABEL read="6"/>
+            <LABEL read="7"/>
+            <LABEL read="8"/>
+            <LABEL read="9"/>
+            <LABEL read="a"/>
+            <LABEL read="b"/>
+            <LABEL read="c"/>
+            <LABEL read="d"/>
+            <LABEL read="e"/>
+            <LABEL read="f"/>
+            <LABEL read="g"/>
+            <LABEL read="h"/>
+            <LABEL read="i"/>
+            <LABEL read="j"/>
+            <LABEL read="k"/>
+            <LABEL read="l"/>
+            <LABEL read="m"/>
+            <LABEL read="n"/>
+            <LABEL read="o"/>
+            <LABEL read="p"/>
+            <LABEL read="q"/>
+            <LABEL read="r"/>
+            <LABEL read="s"/>
+            <LABEL read="t"/>
+            <LABEL read="u"/>
+            <LABEL read="v"/>
+            <LABEL read="w"/>
+            <LABEL read="x"/>
+            <LABEL read="y"/>
+            <LABEL read="z"/>
+        </TRANSITION>
+        <TRANSITION target="EOT">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="Number" finalstate="false">
+        <TRANSITION target="Expanded Number">
+            <LABEL read="."/>
+        </TRANSITION>
+        <TRANSITION target="Number">
+            <LABEL read="0"/>
+            <LABEL read="1"/>
+            <LABEL read="2"/>
+            <LABEL read="3"/>
+            <LABEL read="4"/>
+            <LABEL read="5"/>
+            <LABEL read="6"/>
+            <LABEL read="7"/>
+            <LABEL read="8"/>
+            <LABEL read="9"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="Expanded Number" finalstate="false">
+        <TRANSITION target="Expanded Number">
+            <LABEL read="0"/>
+            <LABEL read="1"/>
+            <LABEL read="2"/>
+            <LABEL read="3"/>
+            <LABEL read="4"/>
+            <LABEL read="5"/>
+            <LABEL read="6"/>
+            <LABEL read="7"/>
+            <LABEL read="8"/>
+            <LABEL read="9"/>
+        </TRANSITION>
+        <TRANSITION target="EOT">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="Keyword" finalstate="false">
+        <TRANSITION target="EOT">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="EOT" finalstate="true"/>
+    <INITIALSTATE value="Start"/>
+    <LAYOUT>
+        <STATELAYOUT name="Start">
+            <LEFT value="120"/>
+            <TOP value="100"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Identifier" drawvertical="false"/>
+            <TRANSITIONLAYOUT target="Number" drawvertical="false"/>
+            <TRANSITIONLAYOUT target="Keyword" drawvertical="false"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="Identifier">
+            <LEFT value="476"/>
+            <TOP value="100"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Identifier" drawvertical="false">
+                <TOP value="-172"/>
+            </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="Number">
+            <LEFT value="120"/>
+            <TOP value="257"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Expanded Number" drawvertical="false"/>
+            <TRANSITIONLAYOUT target="Number" drawvertical="false">
+                <TOP value="162"/>
+            </TRANSITIONLAYOUT>
+        </STATELAYOUT>
+        <STATELAYOUT name="Expanded Number">
+            <LEFT value="262"/>
+            <TOP value="257"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Expanded Number" drawvertical="false">
+                <TOP value="191"/>
+            </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="Keyword">
+            <LEFT value="323"/>
+            <TOP value="182"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
+        </STATELAYOUT>
+        <STATELAYOUT name="EOT">
+            <LEFT value="476"/>
+            <TOP value="257"/>
+            <RADIUS value="60"/>
+        </STATELAYOUT>
+        <NOTEPAD>
+            {\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+\viewkind4\uc1\pard\lang1030\fs20 
+\par }
+
+        </NOTEPAD>
+    </LAYOUT>
+</AUTOMATON>
