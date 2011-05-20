@@ -13,57 +13,57 @@
         <ITEM value="8"/>
         <ITEM value="9"/>
         <ITEM value="a"/>
+        <ITEM value="actionpattern"/>
+        <ITEM value="agent"/>
         <ITEM value="b"/>
+        <ITEM value="bool"/>
         <ITEM value="c"/>
+        <ITEM value="coord"/>
         <ITEM value="d"/>
         <ITEM value="down"/>
         <ITEM value="e"/>
+        <ITEM value="else"/>
         <ITEM value="encounter"/>
+        <ITEM value="EOT"/>
         <ITEM value="f"/>
+        <ITEM value="false"/>
+        <ITEM value="for"/>
         <ITEM value="g"/>
         <ITEM value="h"/>
         <ITEM value="hold"/>
         <ITEM value="i"/>
+        <ITEM value="if"/>
         <ITEM value="j"/>
         <ITEM value="k"/>
         <ITEM value="l"/>
         <ITEM value="left"/>
         <ITEM value="m"/>
+        <ITEM value="main"/>
         <ITEM value="move"/>
         <ITEM value="n"/>
+        <ITEM value="new"/>
+        <ITEM value="num"/>
         <ITEM value="o"/>
         <ITEM value="p"/>
         <ITEM value="q"/>
         <ITEM value="r"/>
         <ITEM value="right"/>
         <ITEM value="s"/>
+        <ITEM value="squad"/>
+        <ITEM value="string"/>
         <ITEM value="t"/>
+        <ITEM value="team"/>
+        <ITEM value="true"/>
         <ITEM value="u"/>
         <ITEM value="unit"/>
         <ITEM value="up"/>
         <ITEM value="v"/>
+        <ITEM value="void"/>
         <ITEM value="w"/>
+        <ITEM value="while"/>
         <ITEM value="x"/>
         <ITEM value="y"/>
         <ITEM value="z"/>
-        <ITEM value="actionpattern"/>
-        <ITEM value="agent"/>
-        <ITEM value="bool"/>
-        <ITEM value="coord"/>
-        <ITEM value="else"/>
-        <ITEM value="EOT"/>
-        <ITEM value="false"/>
-        <ITEM value="for"/>
-        <ITEM value="if"/>
-        <ITEM value="main"/>
-        <ITEM value="new"/>
-        <ITEM value="num"/>
-        <ITEM value="squad"/>
-        <ITEM value="string"/>
-        <ITEM value="team"/>
-        <ITEM value="true"/>
-        <ITEM value="void"/>
-        <ITEM value="while"/>
     </ALPHABET>
     <STATE name="Start" finalstate="false">
         <TRANSITION target="Identifier">
@@ -106,24 +106,24 @@
             <LABEL read="9"/>
         </TRANSITION>
         <TRANSITION target="Tokens">
-        <LABEL read="actionpattern"/>
-        <LABEL read="agent"/>
-        <LABEL read="bool"/>
-        <LABEL read="coord"/>
-        <LABEL read="else"/>
-        <LABEL read="EOT"/>
-        <LABEL read="false"/>
-        <LABEL read="for"/>
-        <LABEL read="if"/>
-        <LABEL read="main"/>
-        <LABEL read="new"/>
-        <LABEL read="num"/>
-        <LABEL read="squad"/>
-        <LABEL read="string"/>
-        <LABEL read="team"/>
-        <LABEL read="true"/>
-        <LABEL read="void"/>
-        <LABEL read="while"/>
+            <LABEL read="EOT"/>
+            <LABEL read="actionpattern"/>
+            <LABEL read="agent"/>
+            <LABEL read="bool"/>
+            <LABEL read="coord"/>
+            <LABEL read="else"/>
+            <LABEL read="false"/>
+            <LABEL read="for"/>
+            <LABEL read="if"/>
+            <LABEL read="main"/>
+            <LABEL read="new"/>
+            <LABEL read="num"/>
+            <LABEL read="squad"/>
+            <LABEL read="string"/>
+            <LABEL read="team"/>
+            <LABEL read="true"/>
+            <LABEL read="void"/>
+            <LABEL read="while"/>
         </TRANSITION>
     </STATE>
     <STATE name="Identifier" finalstate="false">
@@ -212,50 +212,48 @@
     <INITIALSTATE value="Start"/>
     <LAYOUT>
         <STATELAYOUT name="Start">
-            <LEFT value="120"/>
-            <TOP value="100"/>
+            <LEFT value="310"/>
+            <TOP value="191"/>
             <RADIUS value="60"/>
             <TRANSITIONLAYOUT target="Identifier" drawvertical="false"/>
             <TRANSITIONLAYOUT target="Number" drawvertical="false"/>
-            <TRANSITIONLAYOUT target="Keyword" drawvertical="false"/>
+            <TRANSITIONLAYOUT target="Tokens" drawvertical="false"/>
         </STATELAYOUT>
         <STATELAYOUT name="Identifier">
-            <LEFT value="476"/>
-            <TOP value="100"/>
-            <RADIUS value="60"/>
+            <LEFT value="325"/>
+            <TOP value="102"/>
             <TRANSITIONLAYOUT target="Identifier" drawvertical="false">
-                <TOP value="-172"/>
+                <TOP value="-120"/>
             </TRANSITIONLAYOUT>
             <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
         </STATELAYOUT>
         <STATELAYOUT name="Number">
-            <LEFT value="120"/>
-            <TOP value="257"/>
-            <RADIUS value="60"/>
+            <LEFT value="607"/>
+            <TOP value="206"/>
             <TRANSITIONLAYOUT target="Expanded Number" drawvertical="false"/>
             <TRANSITIONLAYOUT target="Number" drawvertical="false">
-                <TOP value="162"/>
+                <TOP value="-120"/>
             </TRANSITIONLAYOUT>
         </STATELAYOUT>
         <STATELAYOUT name="Expanded Number">
-            <LEFT value="262"/>
-            <TOP value="257"/>
-            <RADIUS value="60"/>
+            <LEFT value="750"/>
+            <TOP value="206"/>
             <TRANSITIONLAYOUT target="Expanded Number" drawvertical="false">
-                <TOP value="191"/>
+                <TOP value="-120"/>
             </TRANSITIONLAYOUT>
             <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
         </STATELAYOUT>
-        <STATELAYOUT name="Keyword">
-            <LEFT value="323"/>
-            <TOP value="182"/>
-            <RADIUS value="60"/>
-            <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
+        <STATELAYOUT name="Tokens">
+            <LEFT value="325"/>
+            <TOP value="345"/>
+            <TRANSITIONLAYOUT target="EOT" drawvertical="false">
+                <LEFT value="319"/>
+                <TOP value="161"/>
+            </TRANSITIONLAYOUT>
         </STATELAYOUT>
         <STATELAYOUT name="EOT">
-            <LEFT value="476"/>
-            <TOP value="257"/>
-            <RADIUS value="60"/>
+            <LEFT value="885"/>
+            <TOP value="102"/>
         </STATELAYOUT>
         <NOTEPAD>
             {\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
