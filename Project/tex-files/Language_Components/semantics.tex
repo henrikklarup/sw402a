@@ -44,10 +44,21 @@ The first example is the bigstep transition rule for declaring a variable.
     \begin{tabular}{lc}
                 \mbox{} & \hspace{8cm} \\
                 \hline
-                \runa{VAR-DECL} & \infrule{\lag D_v, env_{V}'', sto[l \mapsto v] \rag \rightarrow (env'_v, sto')}
-								{\lag var x := a; D_v, env_v, sto \rag \rightarrow (env'_v, sto')}
+                \runa{VAR-DECL} & \infrule{\lag D_v, env''_v, sto[l \mapsto v] \rag \rightarrow_{DV} (env'_v, sto')}
+								{\lag var x := a; D_v, env_v, sto \rag \rightarrow_{DV} (env'_v, sto')}
                  \\
-                & $\mbox{hvor}\; env_{P}p = (S,env'_{P})$ \\
+                & $\mbox{where}\; env_{v}, sto \vdash a \rightarrow_a v$ \\
+								& $\mbox{and}\; l = env_v \mbox{ next}\;$ \\
+								& $\mbox{and}\; env''_v = env_v[x \mapsto l][\mbox{next}\; \mapsto \mbox{new}\; l]$ \\
 & \\
                 \hline
         \end{tabular}
+
+This transition rule expects one variable declaration to be followed by another. 
+This next declaration can then either be empty, in order to end all the declarations, or a new variable declaration. 
+That is what the $D_v$ in the rule means. \newline
+The premises of this rule are the things that are written above the line. 
+These are the premises the transition will happen under. 
+This means the variable declaration will end with the environment being updated with the next available location $l$ being set to the value $v$, which is the value contained in $a$.\newline
+The $next$ location in the environment refers to the next available location, while $new$ refers to the neighbour of any variable given to it.\newline
+Furthermore, we will be using dynamic scope rules, which means all variables are available in scopes opened after they are declared.
