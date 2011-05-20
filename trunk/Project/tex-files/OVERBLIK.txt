@@ -3,11 +3,14 @@ Det vi mangler at få styr på er:
 
 - Heads'n tails :: Simon
 - Synopsis conclusion
-- Semantik (under tools) :: Henrik & Kasper
-- Semantik (under language documentation) :: Henrik & Kasper
+- Semantik (under tools) :: Kasper
+- Semantik (under language documentation) :: Kasper
 - Conclusion (Under discussion) ::
 - Use Case :: Lasse
 - MAS AOL :: Kristian
+- Wargame Scenario (introduction) :: Henrik
+- Lav pictures om i GUI ::
+- Usage of MASSIVE -> fjern det med at vi selv kan sætte point ::
 
 
 
