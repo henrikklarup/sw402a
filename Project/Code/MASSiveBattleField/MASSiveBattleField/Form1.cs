@@ -1,4 +1,4 @@
-﻿#region Usings
+#region Usings
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +30,8 @@ namespace MASSiveBattleField
         int turn;                           //Turnswitch
         agent selectedagent;                //Selected agent
         bool win;                           //Win?
+		bool simulate;						//Simulate?
+		int counter;						//Simulation Counter
         #endregion
 
         #region Constructor
@@ -947,6 +949,10 @@ namespace MASSiveBattleField
 
             //Set selectedagent to null
             selectedagent = null;
+			
+			counter = 0;
+            simulate = false;
+			win = false;
 
             //InitializeLists
             XML.initLists();
@@ -1005,8 +1011,6 @@ namespace MASSiveBattleField
         #endregion
 
         #region Execute
-        int counter = 0;
-        bool simulate = false;
         private void executeTimer_Tick(object sender, EventArgs e)
         {
             if (!simulate)
