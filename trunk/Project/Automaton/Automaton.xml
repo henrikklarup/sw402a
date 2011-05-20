@@ -20,9 +20,11 @@
         <ITEM value="7"/>
         <ITEM value="8"/>
         <ITEM value="9"/>
-        <ITEM value=":"/>
         <ITEM value=";"/>
+        <ITEM value="&lt;="/>
         <ITEM value="="/>
+        <ITEM value="=="/>
+        <ITEM value="&gt;="/>
         <ITEM value="a"/>
         <ITEM value="actionpattern"/>
         <ITEM value="agent"/>
@@ -33,6 +35,7 @@
         <ITEM value="d"/>
         <ITEM value="e"/>
         <ITEM value="else"/>
+        <ITEM value="EOT"/>
         <ITEM value="f"/>
         <ITEM value="false"/>
         <ITEM value="for"/>
@@ -70,7 +73,7 @@
         <ITEM value="}"/>
     </ALPHABET>
     <STATE name="q_0" finalstate="false">
-        <TRANSITION target="q_1">
+        <TRANSITION target="Identifier">
             <LABEL read="b"/>
             <LABEL read="c"/>
             <LABEL read="d"/>
@@ -97,7 +100,7 @@
             <LABEL read="y"/>
             <LABEL read="z"/>
         </TRANSITION>
-        <TRANSITION target="q_2">
+        <TRANSITION target="Digits">
             <LABEL read="0"/>
             <LABEL read="1"/>
             <LABEL read="2"/>
@@ -109,7 +112,12 @@
             <LABEL read="8"/>
             <LABEL read="9"/>
         </TRANSITION>
-        <TRANSITION target="q_4">
+        <TRANSITION target="Tokens">
+            <LABEL read="("/>
+            <LABEL read=")"/>
+            <LABEL read="*"/>
+            <LABEL read=";"/>
+            <LABEL read="="/>
             <LABEL read="actionpattern"/>
             <LABEL read="agent"/>
             <LABEL read="bool"/>
@@ -126,16 +134,24 @@
             <LABEL read="true"/>
             <LABEL read="void"/>
             <LABEL read="while"/>
+            <LABEL read="{"/>
+            <LABEL read="}"/>
         </TRANSITION>
-        <TRANSITION target="q_5">
+        <TRANSITION target="Operators">
             <LABEL read="*"/>
             <LABEL read="+"/>
             <LABEL read="-"/>
             <LABEL read="/"/>
+            <LABEL read="&lt;="/>
+            <LABEL read="=="/>
+            <LABEL read="&gt;="/>
+        </TRANSITION>
+        <TRANSITION target="EOT">
+            <LABEL read="EOT"/>
         </TRANSITION>
     </STATE>
-    <STATE name="q_1" finalstate="true">
-        <TRANSITION target="q_1">
+    <STATE name="Identifier" finalstate="false">
+        <TRANSITION target="Identifier">
             <LABEL read="0"/>
             <LABEL read="1"/>
             <LABEL read="2"/>
@@ -173,12 +189,15 @@
             <LABEL read="y"/>
             <LABEL read="z"/>
         </TRANSITION>
+        <TRANSITION target="q_0">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
     </STATE>
-    <STATE name="q_2" finalstate="true">
-        <TRANSITION target="q_3">
+    <STATE name="Digits" finalstate="false">
+        <TRANSITION target="_Digits">
             <LABEL read="."/>
         </TRANSITION>
-        <TRANSITION target="q_2">
+        <TRANSITION target="Digits">
             <LABEL read="0"/>
             <LABEL read="1"/>
             <LABEL read="2"/>
@@ -190,9 +209,12 @@
             <LABEL read="8"/>
             <LABEL read="9"/>
         </TRANSITION>
+        <TRANSITION target="q_0">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
     </STATE>
-    <STATE name="q_3" finalstate="true">
-        <TRANSITION target="q_3">
+    <STATE name="_Digits" finalstate="false">
+        <TRANSITION target="_Digits">
             <LABEL read="0"/>
             <LABEL read="1"/>
             <LABEL read="2"/>
@@ -204,59 +226,105 @@
             <LABEL read="8"/>
             <LABEL read="9"/>
         </TRANSITION>
+        <TRANSITION target="q_0">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
     </STATE>
-    <STATE name="q_4" finalstate="true"/>
-    <STATE name="q_5" finalstate="true"/>
+    <STATE name="Tokens" finalstate="false">
+        <TRANSITION target="q_0">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="Operators" finalstate="false">
+        <TRANSITION target="q_0">
+            <LABEL read="EPSILON"/>
+        </TRANSITION>
+    </STATE>
+    <STATE name="EOT" finalstate="true"/>
     <INITIALSTATE value="q_0"/>
     <LAYOUT>
         <STATELAYOUT name="q_0">
             <LEFT value="195"/>
             <TOP value="151"/>
-            <TRANSITIONLAYOUT target="q_1" drawvertical="false"/>
-            <TRANSITIONLAYOUT target="q_2" drawvertical="false">
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Identifier" drawvertical="false">
+                <LEFT value="-172"/>
+            </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="Digits" drawvertical="false">
                 <TOP value="25"/>
             </TRANSITIONLAYOUT>
-            <TRANSITIONLAYOUT target="q_4" drawvertical="false">
+            <TRANSITIONLAYOUT target="Tokens" drawvertical="false">
                 <LEFT value="276"/>
                 <TOP value="52"/>
             </TRANSITIONLAYOUT>
-            <TRANSITIONLAYOUT target="q_5" drawvertical="false">
-                <LEFT value="-40"/>
+            <TRANSITIONLAYOUT target="Operators" drawvertical="false">
+                <LEFT value="-36"/>
                 <TOP value="40"/>
             </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="EOT" drawvertical="false"/>
         </STATELAYOUT>
-        <STATELAYOUT name="q_1">
+        <STATELAYOUT name="Identifier">
             <LEFT value="195"/>
             <TOP value="61"/>
-            <TRANSITIONLAYOUT target="q_1" drawvertical="false">
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="Identifier" drawvertical="false">
                 <TOP value="-120"/>
             </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="q_0" drawvertical="false">
+                <LEFT value="158"/>
+                <TOP value="-49"/>
+            </TRANSITIONLAYOUT>
         </STATELAYOUT>
-        <STATELAYOUT name="q_2">
+        <STATELAYOUT name="Digits">
             <LEFT value="195"/>
             <TOP value="335"/>
-            <TRANSITIONLAYOUT target="q_3" drawvertical="false"/>
-            <TRANSITIONLAYOUT target="q_2" drawvertical="false">
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="_Digits" drawvertical="false"/>
+            <TRANSITIONLAYOUT target="Digits" drawvertical="false">
                 <TOP value="-120"/>
             </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="q_0" drawvertical="false">
+                <LEFT value="-194"/>
+                <TOP value="29"/>
+            </TRANSITIONLAYOUT>
         </STATELAYOUT>
-        <STATELAYOUT name="q_3">
+        <STATELAYOUT name="_Digits">
             <LEFT value="320"/>
             <TOP value="335"/>
-            <TRANSITIONLAYOUT target="q_3" drawvertical="false">
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="_Digits" drawvertical="false">
                 <TOP value="-120"/>
             </TRANSITIONLAYOUT>
+            <TRANSITIONLAYOUT target="q_0" drawvertical="false">
+                <LEFT value="312"/>
+                <TOP value="-60"/>
+            </TRANSITIONLAYOUT>
         </STATELAYOUT>
-        <STATELAYOUT name="q_4">
-            <LEFT value="646"/>
-            <TOP value="73"/>
+        <STATELAYOUT name="Tokens">
+            <LEFT value="645"/>
+            <TOP value="76"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="q_0" drawvertical="false">
+                <LEFT value="13"/>
+                <TOP value="-87"/>
+            </TRANSITIONLAYOUT>
         </STATELAYOUT>
-        <STATELAYOUT name="q_5">
+        <STATELAYOUT name="Operators">
             <LEFT value="345"/>
-            <TOP value="215"/>
+            <TOP value="212"/>
+            <RADIUS value="60"/>
+            <TRANSITIONLAYOUT target="q_0" drawvertical="false">
+                <LEFT value="20"/>
+                <TOP value="-25"/>
+            </TRANSITIONLAYOUT>
+        </STATELAYOUT>
+        <STATELAYOUT name="EOT">
+            <LEFT value="798"/>
+            <TOP value="197"/>
+            <RADIUS value="60"/>
         </STATELAYOUT>
         <NOTEPAD>
-            {\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+            {\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
 \viewkind4\uc1\pard\lang1030\fs20 
 \par }
 
