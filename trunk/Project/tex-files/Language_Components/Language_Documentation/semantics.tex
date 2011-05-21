@@ -1,12 +1,50 @@
 \section{Semantics}
 The transition rules for the MASSIVE language are operational semantics written in bigstep notation. 
-See section \ref{sec:semantics} for more information on semantics. \newline
+See section \ref{sec:semantics} for more theory on semantics. \newline
 
-The language encompasses:
-\begin{itemize}
-\item Numeric values $n \in$ Num.
-\item Variables $v \in$ Var.
-\item Arithmetic expressions $a \in$ Aexp.
-\item Boolean expressions $b \in$ Bexp.
-\item Statements $S \in$ Stm.
-\end{itemize}
+Here we will be describing the transition rules for some of the transitions in MASSIVE. 
+The first transition we will demonstrate is the one that happens with if commands. 
+This actually requires two separate transitions, because the if command can behave in several different ways depending on the input it is given. \newline
+The first transition is for an if command with no \texttt{else} block attached, where the expression it is given to evaluate, evaluates to true. 
+
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{IF-TRUE} & \infrule{env_v \vdash \lag S_1, sto \rag \rightarrow sto'}
+								{env_v \vdash \lag \mbox{\tt if (b)}\; \{ S_1 \}, sto \rag \rightarrow sto'}
+                 \\
+                & $\mbox{if}\; env_{v}, sto \vdash b \rightarrow tt$ \\
+& \\
+                \hline
+        \end{tabular}
+				
+Here we see that if the boolean value $b$ evaluates to true for this transition to happen. 
+The execution of $S_1$ leads to sto being altered, because we now $S_1$ can change the values of any variables in our environment. \newline
+If we then change the if command to where $b$ evaluates to false, and it has an \texttt{else} block, the transition rule looks like this:\newline
+
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{IF-ELSE-FALSE} & \infrule{env_v \vdash \lag S_2, sto \rag \rightarrow sto'}
+								{env_v \vdash \lag \mbox{\tt if (b)}\; \{ S_1 \} \mbox{\tt  else}\; \{ S_2 \}, sto \rag \rightarrow sto'}
+                 \\
+                & $\mbox{if}\; env_{v}, sto \vdash b \rightarrow ff$ \\
+& \\
+                \hline
+        \end{tabular}
+				
+Here we see that the premise only has $S_2$ and not $S_1$ to alter sto with. 
+This is because we know $b$ will evaluate to false, and so $S_1$ will never be evaluated, and therefor not have any effect on the environment. \newline
+Next we look at the method for adding an agent to a squad. 
+This method comes built into the language, and alters a squad by adding an agent to it. \newline
+
+    \begin{tabular}{lc}
+                \mbox{} & \hspace{8cm} \\
+                \hline
+                \runa{ADD-AGENT-SQUAD} & \infrule{env_v \vdash \lag s, a, sto \rag \rightarrow s', sto'}
+								{env_v \vdash \lag \mbox{\tt s.add(a)}\;, sto \rag \rightarrow s', sto'}
+                 \\
+                & $\mbox{if}\; env_{v}, sto \vdash b \rightarrow ff$ \\
+& \\
+                \hline
+        \end{tabular}
