@@ -11,6 +11,7 @@ Det vi mangler at få styr på er:
 - Wargame Scenario (introduction) :: Henrik -Done
 - Lav pictures om i GUI ::
 - Kan vi fjerne stykke om semantik under language doc.? ::
+- Implementation -> error handling -> section reference ?? ::
 
 
 
