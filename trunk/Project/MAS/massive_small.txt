@@ -1,0 +1,68 @@
+/* Initializes the game with the properties
+Maximum Units = 400 */
+Main ( 400 )
+{	
+	
+	// Creates team Disco.
+	new team teamDisco("Disco", "#FF6600");
+	num totalDiscos = 10;
+	for ( num i = 0; i < totalDiscos; i = i + 1)
+	{
+		num a = 0;
+		if ( i < totalDiscos-1 )
+		{
+			a = 1;
+		}
+		else
+		{
+			a = 21-totalDiscos;
+		}
+		
+		new Agent newAgent("Stue", a);
+		teamDisco.add(newAgent);
+	}
+	
+	new team teamKman("Kman", "#660000");
+	new squad squadNabs("noobs");
+	new squad squadRevo("Revolution");
+	
+	for(num i = 0; i < 4; i = i + 1)
+	{
+		num a = 0;
+		if(i =< 1)
+		{
+			a = 2;
+		}
+		if(i >= 2)
+		{
+			a = 8;
+		}
+		
+		new Agent newAgent("Kman", a);
+		teamKman.add(newAgent);
+		
+		if (i <= 1)
+		{
+			squadNabs.add(newAgent);
+		}
+		if (i => 2)
+		{
+			squadRevo.add(newAgent);
+		}
+	}
+	
+	// Moves used in the actionPatterns.
+	string moveUp = "unit move up";
+	string moveDown = "unit move down";
+	string moveLeft = "unit move left";
+	string moveRight = "unit move right";
+	
+	// Creates the action pattern Patrol Low.
+	// Patrols the lower part of the game area.
+	new actionpattern patrolLow("PatrolLow");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 25,24");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 0,23");
+	patrolLow.add(moveDown);
+}
