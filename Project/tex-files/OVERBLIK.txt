@@ -8,9 +8,9 @@ Det vi mangler at få styr på er:
 - Conclusion (Under discussion) ::
 - Use Case :: Lasse
 - MAS AOL :: Kristian
-- Wargame Scenario (introduction) :: Henrik
+- Wargame Scenario (introduction) :: Henrik -Done
 - Lav pictures om i GUI ::
-- Usage of MASSIVE -> fjern det med at vi selv kan sætte point ::
+- Usage of MASSIVE -> fjern det med at vi selv kan sætte point :: Henrik -Done
 
 
 
