@@ -12,3 +12,104 @@ Our wargame scenario should be very simple;
 	\item A higher ranked agent have a higher chance of winning
 	\item Agents fight when they are standing on the same grid-point
 \end{itemize}
+
+To get an overview of how the game operates, the layout of a game round is added in psuedocode.
+
+\begin{source}{Game Round}{}
+function gameRound()
+{
+	gameFrame();
+	EndTurn();
+}
+\end{source}
+
+The two functions called in the gameRound function, can be seen below.
+
+\begin{source}{Game Frame}{}
+for(i = 0; i <= 3; i = i + 1)
+{
+	//Check for encounters
+	foreach(agent a in agents)
+	{
+		if(a is within bounderies of another agent)
+		{
+			a.RemoveAllMovements();
+			a.encounter.Compile();
+		}
+	}	
+
+	//Random movement if non
+	foreach(agent a in agents)
+	{
+		if(a has no movement)
+		{
+			agent moveToAgent = getRandomAgent();
+			a.MoveToAgent(moveToAgent);
+		}
+	}
+
+	//Check if the list is empty
+	if(moveAgents contains no items)
+		return;
+
+	//Update agent positions
+	foreach(agent a in agents)
+	{
+		if(a.team == currentteam)
+		{
+			foreach(agent moveAgent in moveAgents)
+			{
+				a.CalculateNextPosition();
+				if(a.NextPosition.IsInBounds())
+				{
+					a.MoveAgent();
+				}
+				if(a.IsAtEndPosition())
+				{
+					moveAgents.Remove(a);
+				}
+			}
+		}
+	}
+
+
+	//Check for collision
+	for(agentCount = 0; agentCount < agnets.TotalAgents; agentCount++)
+	{
+		foreach(agent a in agents)
+		{
+			if(a.CollideWithAgentOnOtherTeam())
+			{
+				if(a.Roll > CollidedAgent.Roll)
+				{
+					agents.Remove(CollidedAgent);
+				}
+				else
+				{
+					agents.Remove(a);
+				}
+			}
+		}
+	}
+}
+
+\end{source}
+
+\begin{source}{End turn}{}
+if(only team 1 has agents)
+{
+	Team 1 wins!
+}
+
+...
+
+else if(only team n has agents)
+{
+	Team n wins!
+}
+
+else
+{
+	switchTurn();
+}
+\end{source}
