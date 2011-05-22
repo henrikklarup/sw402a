@@ -16,6 +16,27 @@
 \usepackage{verbatim}
 \usepackage{caption}
 
+%%%%%%% Protect against orhpans and widows %%%%%%%%%
+\widowpenalty=300
+\clubpenalty=300
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Virker ikke; Spørger Alex hvorfor. Alex ved alting.
+%%%%%%%%% Make links work %%%%%%%%%%
+%\usepackage[pdfborder={0 0 0 0}, backref=none]{hyperref}
+%\usepackage[a4paper, bookmarks=true, bookmarksopen=true, bookmarksnumbered=true, pdfborder={0 0 0 0}, colorlinks=true, breaklinks=true, backref=section]{hyperref}
+%\hypersetup{pdfborder=0 0 0}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%% Prettier chapters %%%%%
+%\usepackage[Lenny]{fncychap}%
+%\usepackage[Sonny]{fncychap}%
+%\usepackage[Bjornstrup]{fncychap}%
+%\usepackage[Conny]{fncychap}%
+%\usepackage[Rejne]{fncychap}%
+\usepackage{xparse}%
+%%%%%%%%%%%%%%%%%%%%
+
 \InputIfFileExists{Templates/standard}{}{}
 
 %Code examples preamble input
