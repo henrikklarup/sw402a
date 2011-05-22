@@ -1,7 +1,7 @@
 Det vi mangler at få styr på er:
 
 
-- Heads'n tails :: Simon
+- Heads'n tails (mangler discussion tail, epilogue tail, og lidt på conclusion tail) :: Simon
 - Synopsis conclusion
 - Semantik (under tools) :: Kasper
 - Semantik (under language documentation) :: Kasper
