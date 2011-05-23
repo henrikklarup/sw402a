@@ -2,7 +2,6 @@ Det vi mangler at få styr på er:
 
 
 - Heads'n tails (mangler discussion tail, og lidt på conclusion tail) :: Simon
-- Semantik (under tools) :: Kasper
 - Semantik (under language documentation) :: Kasper
 
 
@@ -18,3 +17,4 @@ DONE:
 - Conclusion (Under discussion) :: done
 - Implementation -> error handling -> section reference ?? :: Simon
 - Use Case :: Lasse
+- Semantik (under tools) :: Kasper
