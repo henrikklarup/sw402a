@@ -59,8 +59,6 @@ namespace MASSIVE
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            string input = (string)block.input.visit(this, arg);
-
             /* arg will always have boolean values in here. 
              * True is the default state, and false signals a special condition.
              * Here arg is set to false, so visitBlock knows not to write the first "{",

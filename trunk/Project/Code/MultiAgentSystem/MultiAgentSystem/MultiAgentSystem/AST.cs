@@ -24,7 +24,6 @@ namespace MASSIVE
     // Main input block
     public class Mainblock : AST
     {
-        public Input input;
         //The block part of the mainblock
         public Block block;
 

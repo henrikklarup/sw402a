@@ -68,8 +68,6 @@ namespace MASSIVE
             main = new Mainblock(parseBlock());
             accept(Token.keywords.EOT);
 
-            main.input = input;
-
             Printer.Collapse();
             return main;
         }

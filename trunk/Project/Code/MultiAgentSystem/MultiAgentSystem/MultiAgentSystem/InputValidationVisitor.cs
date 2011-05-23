@@ -43,11 +43,6 @@ namespace MASSIVE
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            // Valid input for the mainblock:
-            Input ValidInput = new Input();
-            ValidInput.firstVar = new Identifier(new Token((int)Token.keywords.NUMBER, "", -1, -1));
-
-            block.input.visit(this, ValidInput);
             block.block.visit(this, arg);
 
             Printer.Collapse();

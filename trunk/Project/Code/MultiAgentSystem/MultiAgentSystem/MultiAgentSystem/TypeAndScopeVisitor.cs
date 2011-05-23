@@ -43,7 +43,6 @@ namespace MASSIVE
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            block.input.visit(this, arg);
             block.block.visit(this, arg);
 
             Printer.Collapse();
