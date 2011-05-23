@@ -1,16 +1,13 @@
 \section{Decoration}
-The decoration of the abstract syntax tree can be a large task, depending on how many checks that need to be done. 
-To accomodate this task, we use the visitor pattern (see section \ref{visitors}), with several different visitors handling different parts of the task. \newline
+To decorate the AST we use the visitor pattern (see section \ref{visitors}) with several different visitors handling different parts of the task. \newline
 
 \subsection{Type and scope checking}
-The first one is the TypeAndScopeVisitor, which visits every node of the abstract syntax tree, and checks if the types and scopes of variables in the code are correct.\newline
-Therefor, this is where type safety is enforced in the compiler. 
-This works simply by taking the type of the variable's token and comparing it to the values it is being used with. \newline
-The scope checking is a little more complex. 
-We want to make sure that variables are not used outside of their scopes, which is done with the IdentificationTable class. 
-This class contains a list of declared variables, the current scope and methods for entering and retrieving variables and methods for changing the scope.\newline
-Every time a scope is exited, every variable that was declared inside that scope is deleted from the list. 
-This way, the list will only contain the variables that are accessible from the current scope, so long as the scopes are updated correctly.
+The first one is the \texttt{TypeAndScopeVisitor} which visits every node of the abstract syntax tree, and checks if the types and scopes of variables in the code are correct. Therefore this is where type safety is enforced in the compiler.\\
+This works by taking the type of the variable's token and comparing it to the values it is being used with. \newline
+In the scope checking we want to make sure that variables are not used outside their scopes, which is done with the \texttt{IdentificationTable} class. 
+This class contains a list of declared variables, the current scope and methods for entering and retrieving variables, and methods for changing the scope.\newline
+Every time a scope is exited, every variable that was declared inside that scope is deleted from the list.
+This way the list will only contain the variables that are accessible from the current scope, so long as the scopes are updated correctly.
 
 \begin{source}{A block is visited, and the scope is opened and closed respectively.}{}
 internal override object visitBlock(Block block, object arg)
@@ -25,10 +22,10 @@ internal override object visitBlock(Block block, object arg)
 
 \subsection{Input validation}
 \label{inputvalidation}
-The second decoration visitor is the InputValidationVisitor. 
+The second decoration visitor is the \texttt{InputValidationVisitor}. 
 The job of this visitor is to make sure that all methods and constructors in the language recieve the proper input, depending on the available overloads. 
 The overloads in our language represent the option for methods and constructors to work with different inputs.
-For example are all the following constructions legal in our langauge:
+For example are all the following declaration are legal in our langauge:
 
 \begin{source}{Examples of overloads.}{}
 	new Team teamAliens("Aliens", "#FF0000");
@@ -39,10 +36,10 @@ For example are all the following constructions legal in our langauge:
 \end{source}
 
 Every overload of every method and constructor in the language is handled as a class of its own in the compiler. 
-The compiler then takes the information it needs to determine the validity of given input, from these classes. 
-It's therefor easy to add new overloads to existing methods and constructors, as well as completely new methods and constructors, because you only need to create a new class for it and initialize it.
+The compiler then takes the information it needs, to determine if the given input i valid, from these classes. 
+It is therefore possible to add new overloads to existing methods and constructors, as well as add new methods and constructors, because you only need to create a new class for it and initialize it.
 
 \subsection{Variable Checking}
 \label{variabelcheck}
-The VariableVisitor is the third visitor, and its job is simply to check that the variables that are declared are also used. 
-While this will catch every unused variable, the main reason for the creation of this visitor is to catch unused objects, so the compiler can warn of agents, squads and teams that go unused in the code.
+The \texttt{VariableVisitor} is the third visitor, and its job is to check if the variables that are declared are also used. 
+While this will catch every unused variable, the main reason for the creation of this visitor is to catch unused objects, so the compiler can warn about unused agents, squads and teams.
