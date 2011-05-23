@@ -13,16 +13,9 @@ namespace MASSIVE
         private GrammarException gException =
             new GrammarException("These warnings and errors were found during VARIABLE CHECKING:");
 
-        private int Points;
-
         private List<team> teams = new List<team>();
         private List<squad> squads = new List<squad>();
         private List<agent> agents = new List<agent>();
-
-        private double availablePoints
-        {
-            get { return Points / teams.Count; }
-        }
 
         /// <summary>
         /// visit the AST, the first method called when visiting the AST.
@@ -55,7 +48,6 @@ namespace MASSIVE
             Printer.WriteLine("Main Block");
             Printer.Expand();
 
-            Points = int.Parse((string)block.input.visit(this, arg));
             block.block.visit(this, arg);
 
             Printer.Collapse();
@@ -85,7 +77,7 @@ namespace MASSIVE
             // When all commands in the block have been visited
             // the scope is closed in the identification table.
             List<GrammarException> list = IdentificationTable.varCloseScope();
-            if (list != null)
+            if (list.Count > 0)
             {
                 throwException = true;
                 gException.containedExceptions.AddRange(list);
@@ -227,7 +219,7 @@ namespace MASSIVE
 
             // Closes the "virtual" for-scope.
             List<GrammarException> list = IdentificationTable.varCloseScope();
-            if (list != null)
+            if (list.Count > 0)
             {
                 throwException = true;
                 gException.containedExceptions.AddRange(list);
