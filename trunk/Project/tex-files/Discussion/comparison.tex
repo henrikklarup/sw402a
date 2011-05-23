@@ -83,33 +83,41 @@ Main ( 400 )
 When compiling this code the compiler warns that there are unused variable (see \ref{fig:compiler}). We will disregard this for the purpose of this use case, however, if there were serious faults in the code the compiler would warn you the same manner and maybe even refuse to compile if the faults were serious enough.
 
 \begin{figure}[h]%
-\includegraphics[width=\columnwidth]{image/compiler.png}%
+\begin{center}
+\includegraphics[width=\columnwidth]{Images/compiler.png}%
 \caption{The MASSIVE compiler warning of unused variables.}%
 \label{fig:compiler}%
+\end{center}
 \end{figure}
 
 The compiler will happily compile the code again if that option is selected, which provides the programmer with an easy way of correcting erroneous code. After a succesfull compilation a file named "MASSIVECode.cs"and "MASSIVECode.exe" will have been created. The only purpose of creating the cs-file is allowing the programmer to have a look at the code our compiler generates. The cs-file will have been compiled into the exe-file wich is run automatically. This exe-file creates the actual data output in XML format, which is then run by the MASSIVE simulator, and the user of the simulator is given a choice of how large the game grid will be (see \ref{fig:game_promt}).
 
 \begin{figure}[h]%
+\begin{center}
 \includegraphics[width=\columnwidth]{images/massive_dialog.png}%
 \caption{Choosing the size of the game-grid}%
 \label{fig:game_promt}%
+\end{center}
 \end{figure}
 
 Upon choosing "large", the user will bee presented with the actual simulation (see \ref{fig:runninggame}). Here he will have the oppertunity to instruct the agents to use the action pattern defined in \ref{code:MASSIVE}, as shown in \ref{fig:runninggame}.
 
 \begin{figure}%
-\includegraphics[width=\columnwidth]{filename}%
+\begin{center}
+\includegraphics[width=\columnwidth]{Images/massive_small.png}%
 \caption{The simulation running with the input instructing som of the agents to use an actionpattern}%
 \label{fig:runninggame}%
+\end{center}
 \end{figure}
 
 At this point the user is presented with a choice; He can either press "Simulate" to let the simulation run to an end without any interaction, or he can choose to run the game turn-by-turn and control the agents as the game progresses. We see the result of this simulation in \ref{fig:winner}.
 
 \begin{figure}%
-\includegraphics[width=\columnwidth]{filename}%
+\begin{center}
+\includegraphics[width=\columnwidth]{Images/massive_patrollow.png}%
 \caption{The result of the use case simulation in MASSIVE}%
 \label{fig:winner}%
+\end{center}
 \end{figure}
 
 \section{OOP}
