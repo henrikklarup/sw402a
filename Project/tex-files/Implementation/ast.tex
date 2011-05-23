@@ -3,7 +3,7 @@
 The Abstract Syntax Tree (AST) is the virtuel image of a compiled source code. When the scanner has scanned the input successfully and created a list of tokens, the parser, as described in section \ref{sec:parser}, creates a syntax tree. This syntax tree will for eksample parse the source code:
 
 \begin{source}{Source code example.}{}
-Main ( 400 )
+Main (  )
 {	
 	new Team teamAliens("Aliens", "#FF0000");
 	new Agent agentAlice("Alice", 5);
@@ -22,7 +22,7 @@ To the AST:
 \label{fig:astexample}
 \end{figure}
 
-The AST can be printed by a pretty printer to give a better overview of the compiled source code. In the MAS compiler, the pretty printer prints all completed parses in the windows console, the MAS pretty printer indents whenever a new branch is added. The source code above will be printed:
+The AST can be printed by a pretty printer\footnote{A method for printing ASTs.} to give a better overview of the compiled source code. In the MASSIVE compiler, the pretty printer prints all completed parses in the windows console. The MASSIVE pretty printer indents whenever a new branch is added. The source code above will be printed as seen in figure \ref{fig:astmasexample}.
 
 \begin{figure}[H]
 \begin{center}
