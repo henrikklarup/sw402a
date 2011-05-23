@@ -1,21 +1,20 @@
 Det vi mangler at få styr på er:
 
 
-- Heads'n tails (mangler discussion tail, epilogue tail, og lidt på conclusion tail) :: Simon
-- Synopsis conclusion
+- Heads'n tails (mangler discussion tail, og lidt på conclusion tail) :: Simon
 - Semantik (under tools) :: Kasper
 - Semantik (under language documentation) :: Kasper
-- Conclusion (Under discussion) ::
-- Use Case :: Lasse
-- MAS AOL :: Kristian
-- Wargame Scenario (introduction) :: Henrik -Done
-- Lav pictures om i GUI ::
-- Kan vi fjerne stykke om semantik under language doc.? ::
-- Implementation -> error handling -> section reference ?? ::
-
 
 
 God idé hvis man lige skriver sig på når man snupper et afsnit, så andre kan se hvad man laver. Hvis der mangler afsnit, eller hvis man er ved at skrive på noget som ikke er på listen, så skriv det på.
 
+
 DONE:
 - Usage of MASSIVE -> fjern det med at vi selv kan sætte point :: Henrik
+- MAS AOL :: Kristian
+- GUI :: Henrik, Simon
+- Wargame Scenario (introduction) :: Henrik -Done
+- Synopsis conclusion :: Lasse
+- Conclusion (Under discussion) :: done
+- Implementation -> error handling -> section reference ?? :: Simon
+- Use Case :: Lasse
