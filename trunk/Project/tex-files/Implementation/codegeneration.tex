@@ -1,13 +1,13 @@
 \section{Code Generation}
-In order to print the C\# code, we must again traverse the AST, and determine what code should be printed. 
-Therefor, as with the decoration process, we use a visitor (see section \ref{visitors}) to accomplish this.
-This visitor is the CodeGenerationVisitor and is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
-To accomplish this, we use code templates. \newline
-A code template is basically a recipe for how the input code should be converted into C\# code. 
+In order to print the C\# code, we traverse the AST and determine what code should be printed. 
+Therefore, as with the decoration process, we use a visitor (see section \ref{visitors}) to accomplish this.
+This visitor is the \texttt{CodeGenerationVisitor} and is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
+To accomplish this we use code templates. \newline
+A code template is a recipe for how the input code should be converted into C\# code. 
 Many of our templates are printed as the code is visited by the visitor. 
-For example will a for command first have "for (" printed, followed by a type declaration, "num i = 0;", an expression, "i < 10;" and finally an assignment command, "i = i + 1" with a parenthesis to round off. \newline
+For example a \testtt{for}-statement first have \testtt{for (} printed, followed by a type declaration, \testtt{num i = 0;}, an expression, \testtt{i < 10;} and finally an assignment statement, \testtt{i = i + 1} with a parenthesis to round off. \newline
 For the methods in our language, we have a different solution though. 
-Every class for a method or constructor, see \ref{inputvalidation}, in our language must define an overload for the method PrintGeneratedCode. 
+Every class for a method or constructor, see \ref{inputvalidation}, in our language must define an overload for the method \testtt{PrintGeneratedCode}. 
 
 \begin{source}{The code printed for the squad constructor.}{}
 public override string PrintGeneratedCode(string one, string two)
@@ -17,10 +17,9 @@ public override string PrintGeneratedCode(string one, string two)
         }
 \end{source}
 
-In the code for the squad constructor, two strings are given as input. 
-One is the variable name, and two is the input given as a string. 
-It is therefor pretty straightforward to input the strings in their proper place. 
-A more complex example is the agent constructor, which takes both a name, a rank and a team as input.
+In the code for the \testtt{squad}-constructor, two strings are given as input. 
+The first is the variable name, and the second is the input given as a string. 
+A more complex example is the \testtt{agent}-constructor, which takes both a name, a rank and a team as input.
 
 \begin{source}{The code printed for the agent constructor taking three arguments as input.}{}
 public override string PrintGeneratedCode(string one, string two)
@@ -38,4 +37,4 @@ public override string PrintGeneratedCode(string one, string two)
 \end{source}
 
 Here the input string must be split up and put in the correct places, but the method still takes the same arguments as the other overloads. 
-These templates are what makes it possible to easily print the code for any method or constructor used in our language.
+These templates are what makes it possible to print the code for any method or constructor used in our language.
