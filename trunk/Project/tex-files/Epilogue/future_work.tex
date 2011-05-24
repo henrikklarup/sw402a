@@ -9,14 +9,13 @@ An expansion in states, like a comparison, will give the user the opportunity to
 
 \section{Implementation improvements}
 %Lille ide til future work, gore det muligt at kore teams og squads igennem et for loop, lidt som et array, pa den made kunne man nemt redigere agents
-Besides improving the language design, the current implementation could also be improved. As previously described, the purpose of the compiler is to provide data that can be used in a wargame environment. 
+Besides improving the language design, the current implementation could also be improved. As previously described, the purpose of the compiler is to provide data that can be used in a wargame environment.
 Currently this is achieved by compiling the MASSIVE language into C\# code, which then produces XML data. 
 A more efficient way of doing it is by compiling straight to XML, so a separate file with C\# does not have to be generated, compiled and run. 
 This will also cause the MASSIVE compiler to be more efficient when it comes to memory usage, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefor wont be optimized for the MASSIVE language, which for instance does not require the possibility to create new classes.\\
-\\
+ \\
 Currently, the compiler and wargame are two separate programs, however to make the user-experience more consistent the compiler and wargame can be integrated further by merging them into one program.
 This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can provide the user the opportunity to create custom actionpattern and states contrary to being locked to the default ones.\newline
-
-\\
+ \\
 %For example are actionpatterns very limited in functionality right now, and introducing language constructs that would allow for conditional movements could make a difference. 
 %Allowing users of the language to define their own encounters, like what would happen if an agent met an agent with three times as much rank, would also be a big improvement.
