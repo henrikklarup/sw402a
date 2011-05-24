@@ -1,8 +1,9 @@
 Det vi mangler at få styr på er:
 
 
-- Heads'n tails (mangler discussion tail, og lidt på conclusion tail) :: Simon
+- Heads'n tails (mangler discussion tail, og lidt på implementation tail) :: Simon
 - Semantik (under language documentation) :: Kasper
+- Future work :: Rasmus
 
 
 God idé hvis man lige skriver sig på når man snupper et afsnit, så andre kan se hvad man laver. Hvis der mangler afsnit, eller hvis man er ved at skrive på noget som ikke er på listen, så skriv det på.
