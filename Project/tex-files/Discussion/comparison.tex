@@ -126,42 +126,132 @@ At this point the user is presented with a choice; He can either press "Simulate
 \section{C\#}
 C\# is a object orientated language(OOP) that we have decided to compare MASSIVE with, we decided to use C\# to compare with because both our compile and enviroment are written in this language. C\# do not have built in functions or enviroment multi agent orientated, which means it is required for the programmer to build the multi agent wargame from scratch. To build a basic multi agent wargame in C\# you need to make constructors for agent and teams, furthermore you will also need to create functions for agents and teams, which might be movement, attack, and attack functions. At last you will need to create an enviroment where the agents and teams will simulate a wargame. However building a multi agent wargame in C\# enables you to create all the features you want in a wargame simulation.
 
-Using C\# you can declare objects and use them later.
-
+Using C\# you can declare objects and use them later.\\
 Pros
--No limits, you can create all the features you want.
+\begin{itemize}
+	\item No limits, you can create all the features you want.
+\end{itemize}
+
 Cons
--No existing multi agent enviroment.
--No existing multi agent constuctors.
--No existing multi agent functions.
+\begin{itemize}
+	\item No existing multi agent enviroment.
+	\item No existing multi agent constuctors.
+	\item No existing multi agent functions.
+\end{itemize}
 
 \section{MASSIVE}
-MASSIVE is a agent orientated language(AOL) which contains premade enviroment and functions for creating agents, squads, teams, and actionpatterns, which means that you do not have to make this yourself. It is relative fast to simulate a wargame in MASSIVE, since all the function you need is already made. You cannot declare new functions in MASSIVE which limit you to only use the built in functions. MASSIVE is not case sensitve. When declaring an object in MASSIVE you are forced to declare it with properties.
+MASSIVE is a agent orientated language(AOL) which contains premade enviroment and functions for creating agents, squads, teams, and actionpatterns, which means that you do not have to make this yourself. It is relative fast to simulate a wargame in MASSIVE, since all the function you need is already made. You cannot declare new functions in MASSIVE which limit you to only use the built in functions. MASSIVE is not case sensitve. When declaring an object in MASSIVE you are forced to declare it with properties.\\
 
 Pros
--Relative fast to simulate a wargame.
--Premade enviroment.
--Premade constructors for agent, squad, team, actionpattern.
--Not case sensitive
+\begin{itemize}
+	\item Relative fast to simulate a wargame.
+  \item	Premade enviroment.
+	\item Premade constructors for agent, squad, team, actionpattern.
+	\item Type and functions are not case sensitive.
+\end{itemize}
+
 Cons
--Limited to the languages functions.
+\begin{itemize}
+	\item Limited to the languages functions.
+\end{itemize}
 
 %Good and abd things about MASSIVE
 %Why is our MASSIVE better than OOP. 
 \section{C\# vs MASSIVE}
-In this section we will compare C\# and MASSIVE, we assume that we have already created constuctors, functions, and an enviroment for the C\# code.
+In this section we will compare a C\# code example identical to the MASSIVE code example earlier in this chapter, \ref{code:MASSIVE}. We assume that we have already created constuctors, functions, and an enviroment for the C\# code.
 
+\begin{source}{C\# code example \label{code:C\#}}{}
+
+/* Initializes the game/
+static void Main(string[] args)
+{	
+	
+	// Creates team Disco.
+	Team teamDisco = new Team("Disco", "#FF6600");
+	int totalDiscos = 10;
+	for ( int i = 0; i < totalDiscos; i++)
+	{
+		int a = 0;
+		if ( i < totalDiscos-1 )
+		{
+			a = 1;
+		}
+		else
+		{
+			a = 21-totalDiscos;
+		}
+		
+		Agent newAgent = new Agent("Stue", a);
+		teamDisco.add(newAgent);
+	}
+	
+	Team teamKman = new Team("Kman", "#660000");
+	Squad squadNabs = new Squad("noobs");
+	Squad squadRevo = new Squad("Revolution");
+	
+	for(int i = 0; i < 4; i = i + 1)
+	{
+		int a = 0;
+		if(i =< 1)
+		{
+			a = 2;
+		}
+		if(i >= 2)
+		{
+			a = 8;
+		}
+		
+		Agent newAgent = new Agent("Kman", a);
+		teamKman.add(newAgent);
+		
+		if (i <= 1)
+		{
+			squadNabs.add(newAgent);
+		}
+		if (i => 2)
+		{
+			squadRevo.add(newAgent);
+		}
+	}
+	
+	// Moves used in the actionPatterns.
+	string moveUp = "unit move up";
+	string moveDown = "unit move down";
+	string moveLeft = "unit move left";
+	string moveRight = "unit move right";
+	
+	// Creates the action pattern Patrol Low.
+	// Patrols the lower part of the game area.
+	ActionPattern patrolLow = new ActionPattern("PatrolLow");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 25,24");
+	patrolLow.add(moveUp);
+	patrolLow.add("unit move 0,23");
+	patrolLow.add(moveDown);
+	
+}
+
+In the above code examples you can see how one could generate teams, agents, squads, and actionspatterns using C\#. The structure of C\# and MASSIVE are every much alike, the only visible differences are how to declare objects, use num instead of int, type and functions are not case sensitive, and that you cannot increment a num by using "++". The importan difference cannot be seen in the code example above, because the code example only show how you call functions, declare objects, and perform loops. The importan difference between C\# and MASSIVE is that you have to create your own environment, constructors and functions when using C\# which takes a long time compared to MASSIVE where you quickly can make a wargame simulation since everything needed is premade in the language.
+% Her skal vi vise nogle eksempler på at det er bedre at bruge vores sprog end eksempelvis C\#.
+
+
+
+%Old code examples
+\begin{comment}
 \begin{source}{C\# ActionPattern code example}{}                    
 static void Main(string[] args)
     {
-        ActionPattern AP = new ActionPattern("unit move up");
+        ActionPattern AP = new ActionPattern("FirstAction");
+				ap.add("unit move up");
+				ap.add"unit move left");
+				ap.add("unit move up");
     }
 \end{source}
 
 \begin{source}{MASSIVE ActionPattern code example}{}                    
-	Main(400)
+	Main
 	{
-	new ActionPattern ap("Action1");
+	new ActionPattern ap("FirstAction");
 	ap.add("unit move up");
 	ap.add"unit move left");
 	ap.add("unit move up");
@@ -169,30 +259,78 @@ static void Main(string[] args)
 \end{source}
 
 \begin{source}{C\# Teams code example}{}                    
-	
+	static void Main(string[] args)
+    {
+        Team teamDisco = new Team("Disco", "#FF6600");
+				Team teamKman = new Team("Kman", "#660000");
+    }
 \end{source}
 
 \begin{source}{MASSIVE Teams code example}{}                    
-	Main(
-\end{source}
-
-\begin{source}{C\# Agent code example}{}                    
-	
-\end{source}
-
-\begin{source}{MASSIVE Agent code example}{}                    
-	Main(400)
+	Main
 	{
-	new Agent derp(
+		new team teamDisco("Disco", "#FF6600");
+		new team teamKman("Kman", "#660000");
 	}
 \end{source}
 
+\begin{source}{C\# Agent code example}{}
+	static void Main(string[] args)
+		{
+			for(int i = 0; i < 4; i++)
+			{
+				if(i < 2)
+				{
+					Agent newAgent = new Agent("Stue", i+1);
+					teamDisco.add(newAgent);
+				}
+				else
+				{
+					Agent newAgent = new Agent("Kman", i-1);
+					teamKman.add(newAgent);
+				}
+			}
+		}                    
+\end{source}
+
+\begin{source}{MASSIVE Agent code example}{}                    
+	Main
+	{
+		for(num i = 0; i < 4; i = i + 1)
+		{
+			if(i < 2)
+			{
+				new Agent newAgent("Stue", i+1);
+				teamDisco.add(newAgent);
+			}
+			else
+			{
+				new Agent newAgent("Kman", i-1);
+				teamKman.add(newAgent);
+			}
+		}
+	}
+\end{source}
+
+
+
 \begin{source}{C\# Squad code example}{}                    
-	
+	static void Main(string[] args)
+		{
+			Squad squadNabs = new Squad("noobs");
+			Squad squadRevo = new Squad("Revolution");
+			squadNabs.add(newAgent);
+			squadRevo.add(anotherAgent);
+		}     
 \end{source}
 
 \begin{source}{MASSIVE Squad code example}{}                    
-	
+	Main
+	{
+		new Squad squadNabs("noobs");
+		new squAd squadRevo("Revolution");
+		squadNabs.Add(newAgent);
+		squadRevo.add(anotherAgent);
+	}
 \end{source}
-
-% Her skal vi vise nogle eksempler på at det er bedre at bruge vores sprog end eksempelvis C\#.
+\end{comment}
