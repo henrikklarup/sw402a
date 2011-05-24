@@ -5,9 +5,9 @@ This visitor is the \texttt{CodeGenerationVisitor} and is responsible for printi
 To accomplish this we use code templates. \newline
 A code template is a recipe for how the input code should be converted into C\# code. 
 Many of our templates are printed as the code is visited by the visitor. 
-For example a \testtt{for}-statement first have \testtt{for (} printed, followed by a type declaration, \testtt{num i = 0;}, an expression, \testtt{i < 10;} and finally an assignment statement, \testtt{i = i + 1} with a parenthesis to round off. \newline
+For example a \texttt{for}-statement first have \texttt{for (} printed, followed by a type declaration, \texttt{num i = 0;}, an expression, \texttt{i < 10;} and finally an assignment statement, \texttt{i = i + 1} with a parenthesis to round off. \newline
 For the methods in our language, we have a different solution though. 
-Every class for a method or constructor, see \ref{inputvalidation}, in our language must define an overload for the method \testtt{PrintGeneratedCode}. 
+Every class for a method or constructor, see \ref{inputvalidation}, in our language must define an overload for the method \texttt{PrintGeneratedCode}. 
 
 \begin{source}{The code printed for the squad constructor.}{}
 public override string PrintGeneratedCode(string one, string two)
@@ -17,9 +17,9 @@ public override string PrintGeneratedCode(string one, string two)
         }
 \end{source}
 
-In the code for the \testtt{squad}-constructor, two strings are given as input. 
+In the code for the \texttt{squad}-constructor, two strings are given as input. 
 The first is the variable name, and the second is the input given as a string. 
-A more complex example is the \testtt{agent}-constructor, which takes both a name, a rank and a team as input.
+A more complex example is the \texttt{agent}-constructor, which takes both a name, a rank and a team as input.
 
 \begin{source}{The code printed for the agent constructor taking three arguments as input.}{}
 public override string PrintGeneratedCode(string one, string two)
