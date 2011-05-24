@@ -24,8 +24,8 @@ namespace MASSIVE
         static void Main(string[] args)
         {
             Console.Title = "MASSIVE (Multiple Agent Simulation System in Virtual Environment) Compiler";
-            StartUp.Aparture();
-            Console.ReadKey();
+            //StartUp.Aparture();
+            //Console.ReadKey();
             /*StartUp startUp = new StartUp();
             Thread thread = new Thread(new ThreadStart(startUp.first));
             thread.Start();

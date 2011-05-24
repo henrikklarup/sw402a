@@ -152,32 +152,17 @@ namespace MASSIVE
                     }
                     accept(Token.keywords.SEMICOLON);
                     break;
-                // or an expression, assignment or method call.
+                // or an assignment or method call.
                 case (int)Token.keywords.IDENTIFIER:
-                    /* If the next token is an operator, this is an expression. 
-                     * Else it's a method call. */
-                    if (tokenList.ElementAt(listCount + 1).kind ==
-                        (int)Token.keywords.OPERATOR)
+                    LinkedIdentifier linked = (LinkedIdentifier)parseLinkedIdentifier();
+
+                    if (currentToken.kind == (int)Token.keywords.BECOMES)
                     {
-                        returnObject = (Expression)parseExpression();
-                    }
-                    else if (tokenList.ElementAt(listCount + 1).kind ==
-                    (int)Token.keywords.LPAREN)
-                    {
-                        returnObject = (ParentExpression)parseParentExpression();
+                        returnObject = (AssignCommand)parseAssignCommand(linked);
                     }
                     else
                     {
-                        LinkedIdentifier linked = (LinkedIdentifier)parseLinkedIdentifier();
-
-                        if (currentToken.kind == (int)Token.keywords.BECOMES)
-                        {
-                            returnObject = (AssignCommand)parseAssignCommand(linked);
-                        }
-                        else
-                        {
-                            returnObject = (MethodCall)parseMethodCall(linked);
-                        }
+                        returnObject = (MethodCall)parseMethodCall(linked);
                     }
                     accept(Token.keywords.SEMICOLON);
                     break;
@@ -381,7 +366,7 @@ namespace MASSIVE
             else if (currentToken.kind ==
                     (int)Token.keywords.LPAREN)
             {
-                typeDeclaration.Becomes = (ParentExpression)parseParentExpression();
+                typeDeclaration.Becomes = (Expression)parseExpression();
             }
             else
             {
@@ -508,7 +493,7 @@ namespace MASSIVE
             else if (currentToken.kind ==
                     (int)Token.keywords.LPAREN)
             {
-                becomes = (ParentExpression)parseParentExpression();
+                becomes = (Expression)parseExpression();
             }
             else
             {
