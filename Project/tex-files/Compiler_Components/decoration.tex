@@ -1,32 +1,29 @@
 \section{Decoration}
 Decoration refers to decorating the abstract syntax tree. 
-Basically, up until this point we have only checked the structure of the code we are compiling, and decoration is the part where we do checks for validating the code it self.
-These are checks like type checks and scope checks. \newline
-To do this, we need a way of traversing the AST, while applying a lot of different logic to the various nodes in it.
-To this end, we utilize the visitor pattern.
+Until this pointonly the structure of the code compiled has been checked, and decoration is the part where the code is validated according to type and scope checking. \newline
+To do this, the AST have to be traversed. In order to traverse the AST, the visitor pattern is introduced.
 
 \subsection{Visitor Pattern}
 \label{visitors}
 This design pattern is specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand. \newline
-Using the visitor pattern is advantageous because we do not need to know the structure of the tree when it is traversed.
+Using the visitor pattern is convenient as we do not need to know the structure of the tree when it is traversed.
 For example, every block in the code contains a number of commands. 
-We do not know what the type of each command is, we only know that there is a command object. 
+The compiler does not know what type of command the command object is refering to, the compiler only knows that there is an object of type command. 
 When that object is "visited", the visitor is automatically redirected to the correct function based on the type of the object that is visited. \newline
-As an example, we will look at code from our own compiler. 
-Say we are running through all the commands in a block.
+As an example the block visitor calls the visit method on each of the command objects in the block.
 \newline
-\begin{source}{Here is the code that makes sure every command in a block is visited.}{}
+\begin{source}{The loop in the block visitor, ensuring that all commands are visited.}{}
 foreach (Command c in block.commands)
   {
 		c.visit(this, arg);
 	}
 \end{source}
 
-This is done from within a visitor class, so "this" refers to an instance of the visitor. 
+This is done from within a visitor class, so \texttt{this} refers to an instance of the visitor. 
 The reason the visitor is sent as input, is so all the visit functions can be kept in that visitor, and multiple visitors with different functionality can be used.
-If say, the next command is a for-loop (which inherits from the Command class), the visit function will lead to the visitForCommand function being called.
+If say, the next command is a \texttt{for}-loop (which inherits from the Command class), the visit function will lead to the \texttt{visitForCommand} function being called.
 
-\begin{source}{The ForCommand class from the AST.}{}
+\begin{source}{The \texttt{ForCommand} class from the AST.}{}
 public class ForCommand : Command
     {
         ...
@@ -37,9 +34,9 @@ public class ForCommand : Command
     }
 \end{source}
 
-And the visitForCommand function will then visit all the objects in the for-loop as they come.
+And the \texttt{visitForCommand} function will then visit all the objects in the \texttt{for}-loop as they come.
 \newline
-\begin{source}{The visitForCommand function.}{}
+\begin{source}{The \texttt{visitForCommand} function.}{}
 internal override object visitForCommand(ForCommand forCommand, object arg)
 		{
 				IdentificationTable.openScope();
@@ -58,7 +55,7 @@ internal override object visitForCommand(ForCommand forCommand, object arg)
 \end{source}
 
 \section{Code Generation}
-Code generation can be tricky, but because we are compiling to C\#, we are utilizing the underlying memory management in C\#, making the task much easier, and we won't expand on memory management for this reason.
-Code generation is therefor only a matter of printing the correct code. \newline
+We are compiling to C\#, and thereby utilizing the underlying memory management in C\#. Therefore we will not expand on memory management for this reason.
+Code generation is a matter of printing the correct code. \newline
 A great tool for doing this is code templates. 
-Code templates are recipes for what code should be written under the current circumstances, which makes the visitor pattern well suited for this task as well (see section \ref{visitors}).
+Code templates are recipes for how code should be written, under the current circumstances, which makes the visitor pattern well suited for this task as well (see section \ref{visitors}).
