@@ -58,7 +58,7 @@ namespace MASSIVE
             attr = identificationTable.Find(
                 delegate(Attributes att)
                 {
-                    return att.ident == ident;
+                    return att.ident.ToLower() == ident.ToLower();
                 });
             if (attr != null) return attr.kind;
             return (int)Token.keywords.ERROR;
@@ -68,7 +68,7 @@ namespace MASSIVE
         {
             foreach (Attributes a in identificationTable)
             {
-                if (a.ident == ident)
+                if (a.ident.ToLower() == ident.ToLower())
                 {
                     a.used = true;
                     break;
