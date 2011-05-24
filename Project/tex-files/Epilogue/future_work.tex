@@ -6,11 +6,11 @@ A more efficient way of doing it is by compiling straight to XML, so a seperate 
 This will also cause the MASSIVE compiler to be more effecient when it comes to memory usage, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefor wont be optimized for the MASSIVE language, which for instant does not require the possibility to create new classes.\\
 \\
 Currently, the compiler and wargame are two seperated programs, but to make it a more consistent experience the compiler and the wargame can be integrated further by merging them into one program.
-This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can give the user the opportunity to create custom action pattern states instead of being locked to the default states.\newline
+This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can give the user the opportunity to create custom actionpattern states instead of being locked to the default states.\newline
 Other improvements could be made to the language itself.
-For example is the action patterns limited to the encounter and move functionality, these functionalitys can be further expanded by adding more states to the action interpreter. 
+For example is the actionpatterns limited to the encounter and move functionality, these functionalitys can be further expanded by adding more states to the action interpreter. 
 For example a state which makes it possible to compare the current unit with all enemy units in its parameter and act according to the enemys rank.
 An expansion in states, like a comparison, will give the user the opportunity to set behaviours for all his units and give the units a more lifelike behaviour.\\
 \\
-%For example are action patterns very limited in functionality right now, and introducing language constructs that would allow for conditional movements could make a difference. 
+%For example are actionpatterns very limited in functionality right now, and introducing language constructs that would allow for conditional movements could make a difference. 
 %Allowing users of the language to define their own encounters, like what would happen if an agent met an agent with three times as much rank, would also be a big improvement.
