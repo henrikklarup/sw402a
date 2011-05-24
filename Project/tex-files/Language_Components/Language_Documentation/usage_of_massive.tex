@@ -1,36 +1,56 @@
-\section{Usage of the MASSIVE Language}
+\section{Language Reference}
 
 % Her skal vi skrive om hvordan man bruger vores sprog.
 % Beskriv keywords, tokens etc.
 % Lav eksempler p hvordan man skriver forskellige ting i vores sprog.
 
-MASSIVE language is made for the specific purpose of making data for a wargame in the form of xml.
-To start using MASSIVE one need to learn some basics of the language; functions, loops, assigning values to variables, and statements.
-The first thing one needs to define when writing a program in MASSIVE is the main function. This is done by writing \texttt{Main()}.
-Then one can start writing the program inside the '{' '}'.
+The first declared must always be the \textit{main} function. MASSIVE will not function without this function, as every bit of code goes into this function.
+The main function is declared as follows:
+
+\begin{source}{How to declare the main funcion in MASSIVE}{}
+main()
+{
+		/* Entire program code */
+}
+\end{source}
+
 There are 2 different loops in our language, the for-loop and the while-loop. The while-loop is written the following way:
 \begin{source}{While-loop}{}
-while(/* Some expression */)
+while(/* Expression */)
 {
-		/* Some code */
+		/* Code */
 }
 \end{source}
 
 The for-loop can be written in the following way:
 \begin{source}{For-loop}{}
-for(num i = 0; /* Some Expression */; i++)
+for(num i = 0; /* Some Expression */; i = i + 1)
 {
-		/* Some code */
+		/* Code */
 }
 \end{source}
 
-Assigning values is an essential part of MASSIVE language, and can be done as long as the assigned value matched the datatype selected.
+Declaring variables can be done as long as the assigned value matched the datatype selected. Only three datatypes exist in MASSIVE, and can be declared as follows
 
 \begin{source}{Variable assignment}{}
 num count = 42;
+string text = "hello world";
+bool logicoperator = true;
 \end{source}
 
-In MASSSIVE language we have some default classes one can use, these can be assigned using the following code:
+Besides declaring variables, they and also be used in the language, or in mathematical expressions. Below is examples of all the mathematical expressions useable in MASSIVE. The parser will not be able to compile if any redundant parenthises are used.
+
+\begin{source}{}{}
+
+num numberOne = 1;
+num result = 0;
+num number = 42;
+
+result = ((((number * 55)/)+number)-55)
+
+\end{source}
+
+In MASSSIVE language we have some default classes, these can be assigned using the following code:
 \begin{source}{Object assignment}{}
 new agent testAgent([name as string], [rank as num]);
 new squad testSquad([name as string]);
@@ -40,23 +60,35 @@ testSquad.Add(testAgent
 testTeam.Add(testAgent);
 \end{source}
 
-There are 2 statements in MASSIVE language, the \texttt{if}-statement and the \texttt{else}-statement. The \texttt{else}-statement can only be used if it follows an \texttt{if}-statement:
+There are 2 statements in MASSIVE language, the \texttt{if}-statement and the \texttt{else}-statement. The \texttt{else}-statement can only be used if it follows an \texttt{if}-statement. Below is an example of the if statement used along with all the logical operators.
 
 \begin{source}{Statements}{}
 num testNumber = 10;
+bool boolean = true;
 
-if(testNumber = 20)
+if(testNumber == 20)
 {
-		/* Some Code */
+		/* Code */
 }
-
-if(testNumber = 10)
+if(testNumber =< 20)
 {
-		/* Some code */
+		/* Code */
+}
+if(testNumber => 20)
+{
+		/* Code */
+}
+if(testNumber != 20)
+{
+		/* Code */
+}
+if(boolean == false)
+{
+		/* Code */
 }
 else
 {
-		/* Some code */
+		/* Code */
 }
 \end{source}
 
