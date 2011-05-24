@@ -1,7 +1,6 @@
 Det vi mangler at få styr på er:
 
 
-- Heads'n tails (discussion tail) :: Simon
 - Semantik (under language documentation) :: Kasper
 - future work - der kan altid skrives lidt mere.
 
@@ -19,3 +18,4 @@ DONE:
 - Use Case :: Lasse
 - Semantik (under tools) :: Kasper
 - Future work :: Rasmus
+- Heads'n tails :: Simon
