@@ -1,6 +1,6 @@
 \subsection{Contextual Analysis \& Code Generation}
 \label{sec:ai_contextual_analysis}
-The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors, see \ref{visitors} about visitors. In the contextual analysis code generation is build in, since there is no need to parse the AST more than once, when all information used by the move function is given cronologically.\\
+The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors, see \ref{visitors} about visitors. Code generation is the last methods of the contextual analysis visitors, since there is no need to parse the AST more than once, when all information used by the move functions is given cronologically.\\
 The first part of the decoration is to verify the identification of the command.
 To verify the identification the decorator finds the unit or units the user wants to move, e.g. the user gives the command \texttt{squad 1 move down}.\\
 The parser then determines that the identifier \texttt{1} is a squad, and stores its token as a SquadID. The decorator then searches for the squad identifier in the squad list, and calls the move method to execute the action \texttt{move down}.\\
@@ -40,11 +40,11 @@ else
 	}
 \end{source}
 
-The \texttt{visitCodeGen\_MoveOption} method analyze the stance and the option. If the stance is \texttt{encounter} instead of \texttt{move}, the function \texttt{addEncounter} is called with the parameters \texttt{currentAgent} (current agent object), and a string containing the agents name, the stance \texttt{move}, and the option.\\
+The \texttt{visitCodeGen\_MoveOption} method analyze the state and the option. If the state is \texttt{encounter} instead of \texttt{move}, the function \texttt{addEncounter} is called with the parameters \texttt{currentAgent} (current agent object), and a string containing the agents name, the state \texttt{move}, and the option.\\
 
-\begin{source}{Code snippet showing what happens when the encounter stance is chosen instead of move.}{}
-// If the stance is an encounter call the add encounter function.
-if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+\begin{source}{Code snippet showing what happens when the encounter state is chosen instead of move.}{}
+// If the state is an encounter call the add encounter function.
+if (move_Option.state == (int)State.States.ENCOUNTER)
 	{
 		Functions.addEncounter(_agent, _agent.name + " move " + token.spelling);
 		return;
@@ -64,8 +64,8 @@ if (moveOption == null || !object.ReferenceEquals(moveOption.GetType(), new acti
 	}
 actionpattern ap = (actionpattern)moveOption;
 
-// If the stance is an encounter call the add encounter function.
-if (move_Option.stance == (int)Stance.Stances.ENCOUNTER)
+// If the state is an encounter call the add encounter function.
+if (move_Option.state == (int)State.States.ENCOUNTER)
 	{
 		Functions.addEncounter(_agent, _agent.name + " move " + ap.name);
 		return;
