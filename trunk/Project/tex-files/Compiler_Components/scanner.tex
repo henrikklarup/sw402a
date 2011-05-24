@@ -1,9 +1,9 @@
 \section{Scanner}
 \label{sec:scannertheory}
-The purpose of the scanner is to recognize tokens in the source program. Tokens are abstractions of the code, and the scanner simplifies the code by recognising a string as a token. For example a + is recognised as an OPERATOR token. This process is called \textit{lexical analysis} and is a part of the \textit{syntactic analysis}.
+The purpose of the scanner is to recognize tokens in the source program. Tokens are abstractions of the code, and the scanner simplifies the code by recognising a string as a token. For example a "+" is recognised as an OPERATOR token. This process is called \textit{lexical analysis} and is a part of the \textit{syntactic analysis}.
 \\
 \\
-Terminal symbols are the individual characters in the code, which the scanner reads and creates an equivalent token for \cite{misc:spo}. The source program contain separators, such as blank spaces and comments, which separate the tokens and make the code readable for humans. Tokens and separators are nonterminal symbols.
+Terminal symbols are the individual characters in the code, which the scanner reads and creates equivalent tokens of \cite{misc:spo}. The source program contain separators, such as blank spaces and comments, which separate the tokens and make the code readable for humans. Tokens and separators are identified as nonterminal symbols.
 \\
 \\
 The development of the scanner can be divided into three steps:
@@ -12,9 +12,9 @@ The development of the scanner can be divided into three steps:
 \item For each EBNF production rule $N::=X$, a transcription to a scanning method \texttt{scanN} is made, where the body is determined by $X$.
 \item The scanner needs the following variables and methods: 
 \begin{enumerate}
-\item \texttt{currentChar}, which holds the currect character to scan.
-\item \texttt{take()}, which compares the current character to an expected character.
-\item \texttt{takeIt()}, which updates the current character to the next character in the string.
+\item \texttt{currentChar}, which holds the current character to scan.
+\item \texttt{take()}, which compares the current character to an expected character and adds it to the \texttt{spelling} of the token.
+\item \texttt{takeIt()}, which updates the current character to the next character in the string, and adds it to the \texttt{spelling} of the current token.
 \item \texttt{scanN()}, as seen in step 2, though improved so it records the kind and spelling of the token as well.
 \item \texttt{scan()}, which scans the combination 'Separator* Token', discarding the separator and returning the token.
 \end{enumerate}
