@@ -3,14 +3,18 @@ The transition rules for the MASSIVE language are operational semantics written 
 See section \ref{sec:semantics} for more theory on semantics. \newline
 
 Here we will be describing the transition rules for some of the transitions in MASSIVE. 
-The first transition we will demonstrate is the one that happens with if commands. 
-This actually requires two separate transitions, because the if command can behave in several different ways depending on the input it is given. \newline
-The first transition is for an if command with no \texttt{else} block attached, where the expression it is given to evaluate, evaluates to true. \\
+First the transition system for commands is shown. \newline
 
 \begin{tabular}{l}
 $\Gamma_{COM} = EnvV \times Sto$\\
 $T_{COM} = EnvV \times Sto$
 \end{tabular}
+
+Because commands can transition into any available state and any command can command can be the last command in the code, all combinations of sto and EnvV are possible transitions. \newline
+
+The first transition we will demonstrate is the one that happens with if commands. 
+This actually requires two separate transitions, because the if command can behave in several different ways depending on the input it is given. \newline
+The first transition is for an if command with no \texttt{else} block attached, where the expression it is given to evaluate, evaluates to true. \\
 
     \begin{tabular}{ll}
                 \mbox{} & \hspace{8cm} \\
@@ -55,40 +59,45 @@ This method comes built into the language, and alters a squad by adding an agent
         \end{tabular}
 				
 This transitions uses an agent $a$ and a squad $s$, and adds $a$ to $s$, which leads to both $s$ and sto being altered.\\
+The next example is the string declaration, which can add new variables to the environment. 
+Therefor, new transitions are needed for the available transtions.
 
 \begin{tabular}{l}
-$\Gamma_{DS} = (DecS \times EnvS \times Sto)\mbox{}\; \bigcup \mbox{}\;(EnvS \times Sto)$\\
-$T_{DS} = EnvS \times Sto$
+$\Gamma_{DS} = (DecS \times EnvV \times Sto)\mbox{}\; \bigcup \mbox{}\;(EnvV \times Sto)$\\
+$T_{DS} = EnvV \times Sto$
 \end{tabular}
 
     \begin{tabular}{ll}
                 \mbox{} & \hspace{8cm} \\
                 \hline
-                \runa{STRING-DECL} & \infrule{\lag D_s, env''_s, sto[l \mapsto s] \rag \rightarrow_{} (env'_s, sto')}
-								{\lag string  x = s; env_s, sto \rag \rightarrow_{} (env'_s, sto')}
+                \runa{STRING-DECL} & \infrule{\lag D_s, env''_v, sto[l \mapsto s] \rag \rightarrow_{} (env'_v, sto')}
+								{\lag string  x = s; env_v, sto \rag \rightarrow_{} (env'_v, sto')}
                  \\
                 & $\mbox{where}\; env_{v}, sto \vdash s \rightarrow_s v$ \\
-								& $\mbox{and}\; l = env_s \mbox{ next}\;$ \\
-								& $\mbox{and}\; env''_s = env_s[x \mapsto l][\mbox{next}\; \mapsto \mbox{new}\; l]$ \\
+								& $\mbox{and}\; l = env_v \mbox{ next}\;$ \\
+								& $\mbox{and}\; env''_v = env_v[x \mapsto l][\mbox{next}\; \mapsto \mbox{new}\; l]$ \\
 & \\
                 \hline
         \end{tabular}
+				
+The last transition that is demonstrated, is the declaration of an actionpattern. 
+An actionpattern needs a name when it is created, which is seperated as a string declaration. 
 
 \begin{tabular}{l}
-$\Gamma_{DAP} = (DecAP \times EnvAP \times Sto)\mbox{}\; \bigcup \mbox{}\;(EnvAP \times Sto)$\\
-$T_{DAP} = EnvAP \times Sto$
+$\Gamma_{DAP} = (DecAP \times EnvV \times Sto)\mbox{}\; \bigcup \mbox{}\;(EnvV \times Sto)$\\
+$T_{DAP} = EnvV \times Sto$
 \end{tabular}
 				
 				    \begin{tabular}{ll}
                 \mbox{} & \hspace{8cm} \\
                 \hline
-                \runa{AP-DECL} & \infrule{\lag D_{ap}, env''_{ap}, sto[l \mapsto ap] \rag \rightarrow_{} (env'_{ap}, sto')}
-								{\lag \mbox{new}\; \mbox{actionpattern}\; \mbox{ap}(name), env_{ap}, sto \rag \rightarrow_{} (env'_{ap}, sto')}
+                \runa{AP-DECL} & \infrule{\lag D_{ap}, D_s, env''_{v}, sto[l \mapsto ap] \rag \rightarrow_{} (env'_{v}, sto')}
+								{\lag \mbox{new}\; \mbox{actionpattern}\; \mbox{ap}(name), env_{v}, sto \rag \rightarrow_{} (env'_{v}, sto')}
                  \\
-                & $\mbox{where}\; env_{ap}, sto \vdash ap \rightarrow_{ap} v$ \\
+                & $\mbox{where}\; env_{v}, sto \vdash ap \rightarrow_{ap} v$ \\
 								& $\mbox{and}\; D_{s} \vdash name \rightarrow_s ap.name$\\
-								& $\mbox{and}\; l = env_{ap} \mbox{ next}\;$ \\
-								& $\mbox{and}\; env''_{ap} = env_{ap}[x \mapsto l][\mbox{next}\; \mapsto \mbox{new}\; l]$ \\
+								& $\mbox{and}\; l = env_{v} \mbox{ next}\;$ \\
+								& $\mbox{and}\; env''_{v} = env_{v}[x \mapsto l][\mbox{next}\; \mapsto \mbox{new}\; l]$ \\
 & \\
                 \hline
         \end{tabular}
