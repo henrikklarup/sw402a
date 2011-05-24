@@ -1,6 +1,6 @@
 \section{The Abstract Syntax Tree}
 \label{AST}
-The AST is the virtuel image of a compiled source code. When the scanner has scanned the input successfully and created a list of tokens, the parser, as described in section \ref{sec:parser}, creates a syntax tree. This syntax tree will for eksample parse the source code:
+The AST is the virtuel image of a compiled source code. When the scanner has scanned the input successfully and created a list of tokens, the parser, as described in section \ref{sec:parser}, creates a syntax tree. The AST for the following source code example is represented in figure \ref{fig:astexample}.
 
 \begin{source}{Source code example.}{}
 Main (  )
@@ -11,8 +11,6 @@ Main (  )
 	teamAliens.add(agentAlice);	
 }
 \end{source} 
-
-To the AST:
 
 \begin{figure}[H]
 \begin{center}
