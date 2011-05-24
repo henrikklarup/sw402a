@@ -1,8 +1,8 @@
 \section{Making the Scanner}
-The scanner is an algorithm that converts an input stream of text into a stream of tokens and keywords. The first method of the scanner is a big switch created to sort the current word according to the token starters (which can be found in appendix \ref{ap:starters}). E.g. if the first character of a word is a letter, the word is automatically assigned as an identifier, and a string with the word is created.\\
+The first method of the scanner \ref{sec:scannertheory} is a switch created to sort the current word according to the token starters (which can be found in appendix \ref{ap:starters}). E.g. if the first character of a word is a letter, the word is automatically assigned as an identifier, and a string with the word is created.\\
 When an identifier is saved as a \texttt{Token}, the \texttt{Token} class searches for any keyword, that would be able to match the exact string, e.g. if the string spells the word "for", the \texttt{Token} class changes the string to a \textbf{for}-token.\\
 
-\begin{source}{The token method with overloads.}{}
+\begin{source}{The token method with overloads, where \texttt{(int)keywords} refers to an enum list of all keywords.}{}
 public Token(int kind, string spelling, int row, int col)
         {
             this.kind = kind;
@@ -34,8 +34,8 @@ public static string[] spellings =
         };
 \end{source}
 
-The structure of the \texttt{Token} method applies for operators and digits as well. If the current word is an operator, the scanner builds the operator. If the operator is a boolean operator i.e. "<", ">", "<=", ">=", "==", the scanner ensures that it has built the entire operator before completing the token. In case the token build is just a "=", the scanner accepts it as the \textbf{Becomes}-token.\\
-Digits are build according to the grammar and can therefore contain both a single number og a number containing one punktuation.\\
+The structure of the \texttt{Token} method applies for operators and digits as well. If the current word is an operator, the scanner builds the operator. If the operator is a boolean operator i.e. $<$, $>$, $<=$, $>=$, $==$, $=<$, $<=$, $!=$, the scanner ensures that it has built the entire operator before completing the token. In case the token build is just a $=$, the scanner accepts it as the \texttt{Becomes}-token.\\
+Digits are build according to the grammar and can therefore contain both a single number and a number containing one ".".\\
 \\
 Every time the \texttt{scan()} method is called, the scanner checks if there is anything which should not be implemented in the token list, i.e. comments, spaces, end of line, or indents. Whenever any of these characters has been detected, the scanner ignores all characters untill the comment has ended or there is no more spaces, end of lines, or idents.\\
 All tokens returned by the scanner is saved in a list of tokens, which makes it easier to go back and forth in the list of tokens.\\
