@@ -79,7 +79,7 @@ Main ( 400 )
 	patrolLow.add(moveDown);
 	
 }
-\end{source}{}{}
+\end{source}
 When compiling this code the compiler warns that there are unused variable (see \ref{fig:compiler}). We will disregard this for the purpose of this use case, however, if there were serious faults in the code the compiler would warn you the same manner and maybe even refuse to compile if the faults were serious enough.
 
 \begin{figure}[h]%
@@ -227,8 +227,8 @@ static void Main(string[] args)
 	patrolLow.add(moveUp);
 	patrolLow.add("unit move 0,23");
 	patrolLow.add(moveDown);
-	
 }
+\end{source}
 
 In the above code examples you can see how one could generate teams, agents, squads, and actionspatterns using C\#. The structure of C\# and MASSIVE are very much alike, the only visible differences are how to declare objects, use num instead of int, types and functions are not case sensitive, and you cannot increment a num by using "++". The importan difference cannot be seen in the code example above, because the code example only show how you call functions, declare objects, and perform loops. The importan difference between C\# and MASSIVE is that you do not have to create your own environment, types and functions like you do with C\#, which would take a long time compared to MASSIVE, you can therefore simulate wargames relative fast.
 
