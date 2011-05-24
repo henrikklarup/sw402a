@@ -34,16 +34,19 @@ Declaring variables can be done as long as the assigned value matched the dataty
 
 \begin{source}{Variable assignment}{}
 num count = 42;
-string text = "hello world";
+string text = ``hello world'';
 bool logicoperator = true;
 \end{source}
 
 Besides declaring variables, they and also be used in the language, or in mathematical expressions. Below is examples of all the mathematical expressions usable in MASSIVE. The parser will not be able to compile if any redundant parenthesis are used.
 
 \begin{source}{}{}
-num result;
+num result = 0;
 
-result = ((((42 * 55)/)+67)-55)
+result = (42 * 55)/(67-55) + 49;
+
+/ * The below will fail * /
+result = ((42 * 55)/(67-55) + 49);
 
 \end{source}
 
@@ -107,13 +110,13 @@ As illustrated above the MASSIVE language uses the dot-syntax extensively. This 
 
 This code demonstrates how to change the properties of an agent, a squad and an actionpattern, the only property being the name.
 
-\begin{Source}{Changing properties using dot-syntax}{}
+\begin{source}{Changing properties using dot-syntax}{}
 
 agent.name = "new name";
 squad.name = "new name";
 actionapttern.name = "new name";
 
-\end{Source}
+\end{source}
 
 The below code demonstrates how to change the properties of teams; these being the name and the color.
 
