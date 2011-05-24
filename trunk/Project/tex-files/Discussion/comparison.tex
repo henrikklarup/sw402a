@@ -121,33 +121,32 @@ At this point the user is presented with a choice; He can either press "Simulate
 \end{figure}
 
 \section{Comparison}
-\indent This section is about how to make a multi agent wargame in C\# compared to our own language MASSIVE. We will take a look on some of the pros and cons by using C\# to build a multi agent wargame, aswell as the pros and cons while using MASSIVE. We will then compare C\# and MASSIVE to examine which language is the best to build a multi agent wargame.
+\indent This section is about how to build a multi agent wargame using C\# compared to our own language MASSIVE. We will take a look on some of the pros and cons by using C\#  aswell as the pros and cons using MASSIVE. We will then compare C\# and MASSIVE to examine which language is the best to build a multi agent wargame.
 
 \section{C\#}
-C\# is a object orientated language(OOP) that we have decided to compare MASSIVE with, we decided to use C\# to compare with because both our compile and enviroment are written in this language. C\# do not have built in functions or enviroment multi agent orientated, which means it is required for the programmer to build the multi agent wargame from scratch. To build a basic multi agent wargame in C\# you need to make constructors for agent and teams, furthermore you will also need to create functions for agents and teams, which might be movement, attack, and attack functions. At last you will need to create an enviroment where the agents and teams will simulate a wargame. However building a multi agent wargame in C\# enables you to create all the features you want in a wargame simulation.
+We have decided to compare MASSIVE with C\# which is an object orientated language(OOP). We decided to use C\# to compare with because both our compile and enviroment are written in this language. C\# do not have built in multi agent orientated functions or enviroments, which means it is required for the programmer to build the multi agent wargame from scratch. To build a basic multi agent wargame in C\# you need to make constructors for agent and teams, furthermore you will also need to create functions for agents and teams, which could be movement and attack functions. At last you would need to create an enviroment to simulate a wargame. However building a multi agent wargame in C\# enables you to create all the features you want in a wargame simulation.\\
 
-Using C\# you can declare objects and use them later.\\
 Pros
 \begin{itemize}
-	\item No limits, you can create all the features you want.
+	\item No limits, you can create all the features you want.\\
 \end{itemize}
 
 Cons
 \begin{itemize}
 	\item No existing multi agent enviroment.
-	\item No existing multi agent constuctors.
+	\item No existing multi agent types.
 	\item No existing multi agent functions.
 \end{itemize}
 
 \section{MASSIVE}
-MASSIVE is a agent orientated language(AOL) which contains premade enviroment and functions for creating agents, squads, teams, and actionpatterns, which means that you do not have to make this yourself. It is relative fast to simulate a wargame in MASSIVE, since all the function you need is already made. You cannot declare new functions in MASSIVE which limit you to only use the built in functions. MASSIVE is not case sensitve. When declaring an object in MASSIVE you are forced to declare it with properties.\\
+MASSIVE is a agent orientated language(AOL) which contains premade enviroment and functions for creating agents, squads, teams, and actionpatterns, which means that you do not have to build these yourself and it is therefore relative fast to simulate a wargame. You cannot declare new functions in MASSIVE which limit you to only use the built in functions. MASSIVE´s types and functions are not case sensitve, so you do not need to worry about writing in upper or lower case.\\
 
 Pros
 \begin{itemize}
 	\item Relative fast to simulate a wargame.
   \item	Premade enviroment.
-	\item Premade constructors for agent, squad, team, actionpattern.
-	\item Type and functions are not case sensitive.
+	\item Premade types for agent, squad, team, actionpattern.
+	\item Types and functions are not case sensitive.
 \end{itemize}
 
 Cons
@@ -158,7 +157,7 @@ Cons
 %Good and abd things about MASSIVE
 %Why is our MASSIVE better than OOP. 
 \section{C\# vs MASSIVE}
-In this section we will compare a C\# code example identical to the MASSIVE code example earlier in this chapter, \ref{code:MASSIVE}. We assume that we have already created constuctors, functions, and an enviroment for the C\# code.
+We will in this section compare a C\# code example to the MASSIVE code example earlier in this chapter \ref{code:MASSIVE}. We assume that we have already created constuctors, functions, and an enviroment for the C\# code.
 
 \begin{source}{C\# code example \label{code:C\#}}{}
 
@@ -231,8 +230,8 @@ static void Main(string[] args)
 	
 }
 
-In the above code examples you can see how one could generate teams, agents, squads, and actionspatterns using C\#. The structure of C\# and MASSIVE are every much alike, the only visible differences are how to declare objects, use num instead of int, type and functions are not case sensitive, and that you cannot increment a num by using "++". The importan difference cannot be seen in the code example above, because the code example only show how you call functions, declare objects, and perform loops. The importan difference between C\# and MASSIVE is that you have to create your own environment, constructors and functions when using C\# which takes a long time compared to MASSIVE where you quickly can make a wargame simulation since everything needed is premade in the language.
-% Her skal vi vise nogle eksempler på at det er bedre at bruge vores sprog end eksempelvis C\#.
+In the above code examples you can see how one could generate teams, agents, squads, and actionspatterns using C\#. The structure of C\# and MASSIVE are very much alike, the only visible differences are how to declare objects, use num instead of int, types and functions are not case sensitive, and you cannot increment a num by using "++". The importan difference cannot be seen in the code example above, because the code example only show how you call functions, declare objects, and perform loops. The importan difference between C\# and MASSIVE is that you do not have to create your own environment, types and functions like you do with C\#, which would take a long time compared to MASSIVE, you can therefore simulate wargames relative fast.
+
 
 
 
