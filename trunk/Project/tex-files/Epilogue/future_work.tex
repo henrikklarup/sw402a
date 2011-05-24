@@ -1,9 +1,12 @@
 \chapter{Future Work}
+\section{Design Improvements}
+
+\section{Implementation improvements}
 %Lille ide til future work, gore det muligt at kore teams og squads igennem et for loop, lidt som et array, pa den made kunne man nemt redigere agents
 The purpose of the compiler is to provide data that can be used in a wargame invironment. 
 Currently this is achieved by compiling the MASSIVE language into C\# code, which then produces XML data. 
 A more efficient way of doing it is by compiling straight to XML, so a seperate file with C\# does not have to be generated, compiled and run. 
-This will also cause the MASSIVE compiler to be more effecient when it comes to memory usage, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefor wont be optimized for the MASSIVE language, which for instant does not require the possibility to create new classes.\\
+This will also cause the MASSIVE compiler to be more effecient when it comes to memory usage, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefor wont be optimized for the MASSIVE language, which for instance does not require the possibility to create new classes.\\
 \\
 Currently, the compiler and wargame are two seperated programs, but to make it a more consistent experience the compiler and the wargame can be integrated further by merging them into one program.
 This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can give the user the opportunity to create custom actionpattern states instead of being locked to the default states.\newline
