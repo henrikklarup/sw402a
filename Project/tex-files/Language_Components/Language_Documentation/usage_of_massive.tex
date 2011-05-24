@@ -7,7 +7,7 @@
 The first declared must always be the \textit{main} function. MASSIVE will not function without this function, as every bit of code goes into this function.
 The main function is declared as follows:
 
-\begin{source}{How to declare the main funcion in MASSIVE}{}
+\begin{source}{How to declare the main function in MASSIVE}{}
 main()
 {
 		/* Entire program code */
@@ -50,17 +50,31 @@ result = ((((number * 55)/)+number)-55)
 
 \end{source}
 
-In MASSSIVE language we have some default classes, these can be assigned using the following code:
+To create new agents, team and squads MASSIVE is using constructors. These can a differnet number of inpus, as demonstrated below:
 \begin{source}{Object assignment}{}
-new agent testAgent([name as string], [rank as num]);
-new squad testSquad([name as string]);
-new team testTeam([name as string], [color as hex code as string]);
 
-testSquad.Add(testAgent
-testTeam.Add(testAgent);
+new team testTeam([name as string], [color as hex code as string]);
+new squad testSquad([name as string]);
+new agent testAgent([name as string], [rank as num]);
+
 \end{source}
 
-There are 2 statements in MASSIVE language, the \texttt{if}-statement and the \texttt{else}-statement. The \texttt{else}-statement can only be used if it follows an \texttt{if}-statement. Below is an example of the if statement used along with all the logical operators.
+Agent can also take a team as an argument, as demonstrated below.
+\begin{source}{Creating an agent with all possible arguments}{}
+
+new agent testAgent([name as string], [rank as num], [team as a team]);
+
+\end{source}
+
+You can also add agents to squads later on, as demonstrated in the below code example
+\begin{source}{Adding agents to a squad and team}{}
+
+testSquad.Add([agent as an agent]);
+testTeam.Add([agent as an agent]);
+
+\end{source}
+
+There are only one kind of conditional statement in the MASSIVE language, the \texttt{if ... then ... else}-statement. Below is an example of the if statement used along with all the logical operators of MASSIVE.
 
 \begin{source}{Statements}{}
 num testNumber = 10;
@@ -91,5 +105,3 @@ else
 		/* Code */
 }
 \end{source}
-
-When all the code has been written it can be run through the compiler, and it will generate an XML-file with the data entered.
