@@ -2,7 +2,7 @@ The user interface is made as a windows form application\footnote{graphical appl
    The main idea of the user interface design, is that it should be intuitive, so the user should not spend a lot of time figuring out what all the buttons do. We have designed the interface so the main structure looks like other strategy computer games (see \ref{pic:red_alert} and \ref{pic:coc} in appendix).
 	
 \subsection*{Game Start Settings}
-When the game is started, a dialog box is shown where one can choose the size of the \textit{war zone}. We have chosen to have three fixed grid sizes, because of the way we draw the grid, see \ref{sec:drawing}.\\
+When the game is started, a dialog box is shown where one can choose the size of the \textit{war zone}. The war zone has three fixed grid sizes, because of the way the grid is drawn, see \ref{sec:drawing}.\\
    The functions of the dialog box is:
 \begin{enumerate}
 	\item \textit{Small, Medium, Large} radio buttons - select one to choose the grid size.
@@ -46,7 +46,7 @@ The functions of the game interface is:
 \subsection*{Drawing the Grid and Agents}
 \label{sec:drawing}
 The program make use of GDI+ \cite{misc:gdiplus} to draw the grid (the war zone) on the screen. A usercontrol is added to eliminate the flickering GDI+ normally creates on windows forms, which is done with the help of double buffering.
-We only use GDI+ graphics inside the usercontrol \texttt{DBpanel}. We have to make sure we draw things in the correct order, as we draw the pixels untop of each other. The first thing drawn is the background, which in our case is green, with the black gridlines on top of it, to create the game grid. Finally the agents are drawn.
+GDI+ graphic is only used inside the usercontrol \texttt{DBpanel}. We have to make sure everything is drawn in the correct order, as the pixels are drawn on top of each other. The first thing drawn is the background, which in this case is green, with the black gridlines on top of it, to create the game grid. Finally the agents are drawn.
 The starting posistions of the agents are calculated by the following code:
 \begin{source}{This code snippet calculates the agents's start positions}{}                 
             int it1 = (Grids / 2) - (agentsOnTeam1 / 2);
