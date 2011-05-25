@@ -7,7 +7,24 @@ To allow the programmer to make more various and advanced battle scenarious, it 
 
 The action language and actionpatterns is every limited to encounter and move functionality. A way of implementing self defined logic into the agents would be converting action language and actionpatterns into a script language, this way MASSIVE would be more a simulation and less of a game.\\
 
-MASSIVE is based on hardcoded rules which the programmer cannot change, this makes the wargame scenario limited. The programmer should be able to either use the predefined rules or program his own set of rules, this would enable the programmer to design more complex wargame scenarios.
+MASSIVE is based on hardcoded rules which the programmer cannot change, this makes the wargame scenario limited. The programmer should be able to either use the predefined rules or program his own set of rules, this would enable the programmer to design more complex wargame scenarios. \\
+
+In order to improve the programmers experience with actionpatterns to make it feel more like a scripting language, it is possible to change the way actionpatterns are created. This can be done by creating conditions and loops instead of making actionpatterns by adding strings to a list of actions. For example can a script look like:
+\begin{source}{}{}
+new actionpattern ap("ap1")
+{
+	if(enemy)
+	{
+		move enemy.position;
+	}
+	else
+	{
+		move someActionPattern;
+	}
+}
+\end{source}
+
+This actionpattern will be translated to the actionpattern, "unit encounter enemyPosition", "unit move someActionpattern", which is the same as the current actionpatterns, but it will be more readable for the programmer if it is expanded with more states etc.
 
 %To make the language more of a simulation and less of a game, it could also be implemented that the actionpatterns are not limited to the encounter and move functionality. These functionalities could be expanded by adding more states to the action interpreter. \\
 %A feature which enables the programmer to compare the current unit with units in its vicinity and act accordingly could also be implemented, this would give the agents a more independent and life-like behavior.
