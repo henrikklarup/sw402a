@@ -1,9 +1,9 @@
 \section{Code Generation}
-In order to print the C\# code, the AST is traversed and it is determine what code should be printed. 
+In order to print the C\# code, the AST is traversed and it is determined what code should be printed. 
 Therefore the visitors (see section \ref{visitors}) are again used to to accomplish this.
-This visitor is the \texttt{CodeGenerationVisitor} and is responsible for printing out the correct C\# code, such that it can be compiled an run without errors. 
-To accomplish this, code templates are used for each class in the AST. \newline
-A code template is a recipe for how the input code should be converted into C\# code. 
+The visitor used for this is the \texttt{CodeGenerationVisitor}. It is responsible for printing out the correct C\# code, such that it can be compiled and run without errors. 
+The visitor uses code templates each class in the AST to insure that the code is correct. \newline
+A code template is a recipe describing how the input code is converted into C\# code. 
 Many templates are printed as the code is visited by the visitor. 
 For example a \texttt{for}-statement first have \texttt{for (} printed, followed by a type declaration \texttt{num i = 0;}, a boolean expression \texttt{i < 10;}, an assignment statement \texttt{i = i + 1}, and a \texttt{)} at the end.\newline
 For the methods in our language, we have a different solution. 
@@ -40,10 +40,10 @@ The input string must be split up and put in the correct places, but the method 
 These templates are what makes it possible to print the code for any method or constructor used in our language.
 
 \subsection{Compiling to XML}
-This section follows a piece of code from the time it is first coded in MASSIVE, to the generation of a .cs file, and untill it is stored in an XML file.\\
-The scenario is to create two teams with an agent on each team. This scenario can look like the source code below, when written in the MASSIVE language.
+This section follow a piece of code from it is written in MASSIVE, to the generation of a .cs file, and the final compilation of the .cs file to XML data.\\
+The scenario is to create two teams with one agent on each team. The scenario can look like the source code below, when written in the MASSIVE language.
 
-\begin{source}{MASSIVE code, creating two teams with an agent on each.}{}
+\begin{source}{MASSIVE code, creating two teams with one agent on each.}{}
 main()
 {
 	// Creating two teams.
@@ -56,7 +56,7 @@ main()
 }
 \end{source}
 
-When the MASSIVE compiler compiles the MASSIVE code to a .cs file, the MASSIVE compiler have to always start by adding the defaults to the .cs file. These defaults include the libraries used by the C\# compiler to be able to compile to XML and the initialization of the lists.
+When the MASSIVE compiler, compiles the MASSIVE code to a .cs file, the MASSIVE compiler starts by adding some default code to the .cs file. This default code include the libraries used by the C\# compiler, to be able to compile to XML and the initialization of the lists.
 \begin{source}{The default code added to the .cs file.}{}
 using System; 
 using System.Drawing; 
@@ -75,7 +75,7 @@ namespace MultiAgentSystem
 				Lists.actionPatterns = new List<actionpattern>();
 \end{source}
 
-When this is done the MASSIVE compiler can add the teams and agents to the lists, which looks like this in the .cs file.
+When the default code is added, the MASSIVE compiler can add the teams and agents to the lists, which looks like this in the .cs file.
 \begin{source}{The creation of the teams and agents.}{}
 team teamaliens = new team("aliens", "#ff0000"); 
 team teamrocket = new team("rockets", "#00cc00");
@@ -86,9 +86,9 @@ agent rocket = new agent("rocket", 2);
 rocket.team = teamrocket; 
 \end{source}
 
-To complete the .cs file the MASSIVE compiler ensures that the teams and agents are stored in the XML files by using the method XML.generateXML.
-\begin{source}{The method, which stores the data in the XML libraries.}{}
-			XML.generateXML(@"C:\Users\Rasmus\Documents\Studier\Projekter\P4 - Multi Agent System\Project\MAS");
+To complete the .cs file the MASSIVE compiler ensures that the teams and agents are stored in the XML files by using the method \texttt{XML.generateXML()}.
+\begin{source}{The method, which stores the data in the XML libraries, the output folder is a directory path.}{}
+			XML.generateXML(OutputFolder);
 			Console.WriteLine("XML generation complete.");
 		}
 	}

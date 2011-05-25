@@ -57,12 +57,12 @@ internal override object visitForCommand(ForCommand forCommand, object arg)
 \section{Code Generation}
 We are compiling to C\#, and thereby utilizing the underlying memory management in C\#. Therefore we will not expand on memory management for this reason.
 Code generation is a matter of printing the correct code. \newline
-A great tool for doing this is code templates. 
+A great tool for doing so is code templates. 
 Code templates are recipes for how code should be written, under the current circumstances, which makes the visitor pattern well suited for this task as well (see section \ref{visitors}).\newline
 When a specific pattern is recognized by the code generation visitor, it prints the correct C\# code based on what code template matches the pattern. 
-For example, when an object declaration occurs in MASSIVE, the compiler recognizes this declaration, the correct code template is found and the C\# code is printed from that template. \newline
+For example, when an object declaration occurs in MASSIVE, the compiler recognize this declaration, the correct code template is found and the C\# code is printed from that template. \newline
 
-\begin{source}{The code template for object declarations.}{}
+\begin{source}{The code template for object declaration.}{}
 // Object declaration in MASSIVE:
 new Object Identifier(input);
 
