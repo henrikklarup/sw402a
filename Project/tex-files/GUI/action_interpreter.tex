@@ -1,10 +1,10 @@
 \section{Action Interpreter}
-The action interpreter, is the interface for all commands the user can give to the units in the GUI. 
-It analyzes a single command at the time, and if the command is valid, it executes it directly in the GUI.
+The action interpreter, is the component that interprets action commands, e.g. commands that the user can give units while playing the game. 
+It analyzes a single command, if it is valid it executes it right away, applying the command to the given agent.
 A command in the action interpreter consists of three parts; \textit{identification}, \textit{state}, and \textit{option}.\\
 The \textit{identification} identifies which unit, team, or squad the user is giving the command to.\\
-The \textit{state} indicates in which state the unit should execute the command, e.g. the \texttt{encounter}-command waits untill there is an enemy unit in its perimeter.\\
-The \textit{option} identifies the coordinate or direction the unit should go to, e.g. the option \texttt{up} would move the unit one grid up. The full list of commands is seen in figure \ref{ac_commands}.\\
+The \textit{state} indicates when the unit should execute the command, e.g. the \texttt{encounter}-command waits until there is an enemy unit in its vicinity.\\
+The \textit{option} represents the coordinates to which the agent should move, or a direction that the unit should go in, e.g. the option \texttt{up} would move the unit one grid up. The full list of commands can be seen in figure \ref{ac_commands}.\\
 
 \begin{center}
 	\begin{table}[H]
@@ -12,7 +12,7 @@ The \textit{option} identifies the coordinate or direction the unit should go to
     \hline
     Command & Result of command\\ \hline
     \texttt{[identifier] Move [direction]} & Moves the selected agent in the selected direction\\ \hline
-    \texttt{[identifier] Move [coordinates]} & Moves the selected agent to specific grid coordiantes\\ \hline
+    \texttt{[identifier] Move [coordinates]} & Moves the selected agent to specific grid coordinates\\ \hline
 		\texttt{[identifier] Move [actionpattern]} & Moves the selected agent according to a specific predefined actionpattern\\ \hline
 		\texttt{[identifier] Encounter [direction]} & Moves the selected agent in a selected direction, when an opposing agent is in close\\ \hline
 		\texttt{[identifier] Encounter [coordinates]} & Moves the selected agent to a coordinate, when an opposing agent is in close\\ \hline
