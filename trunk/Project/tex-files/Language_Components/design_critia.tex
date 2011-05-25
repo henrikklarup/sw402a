@@ -1,19 +1,19 @@
 \section{Design Critia}
 \label{sec:designcrit}
-In this section the design critiaon for MASSIVE and the action language will be explained. These crition are based on thoughts made prior to making both languages.
+In this section the design critia for MASSIVE and the action language are explained. These critia are based on thoughts made prior to making both languages.
 
 \subsection{MASSIVE Language}
-Before creating the MASSIVE language we made some language priorities, which can be seen in table \ref{table:priorities}.
+Before creating the MASSIVE language we made some language quality goals, which can be seen in table \ref{table:priorities}.
 
 \begin{table}[ht]
-\caption{Table of the design priorities} % title of Table 
+\caption{Table of the design quality goals} % title of Table 
 \centering % used for centering table 
 \begin{tabular}{cccc} % centered columns (4 columns) 
 \hline\hline %inserts double horizontal lines
  & Irrelevant & Less important & Important \\ [0.5ex] % inserts table %heading
 \hline % inserts single horizontal line
 Writeable &  &  & X\\ % inserting body of the table
-Reliable &  &  & X\\
+Learnable &  &  & X\\
 Readable &  & X & \\
 Performance & X &  & \\
 Flexible & X &  & \\ [1ex] % [1ex] adds vertical space
@@ -22,7 +22,7 @@ Flexible & X &  & \\ [1ex] % [1ex] adds vertical space
 \label{table:priorities} % is used to refer this table in the text 
 \end{table}
 
-we want the language to be easy to use, and therefore we focus on writeability, reliability, and consistency. By writeable and consistency we mean that the language should be intuitive.\\
+We want the language to be easy to use and learn, therefore we focus on writeability and reliability. Writeable means that the language should be very easy to write.\\
 The word reliability implies unambiguity, which means that a snippet of code can be interpreted i one way only.\\ \indent
 We consider performance to be irrelevant for our language, because we do not believe that out language will be very extensive, and thereby have any serious performance issues.\\ \\
 General goals with the language:
