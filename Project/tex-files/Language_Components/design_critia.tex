@@ -15,31 +15,27 @@ Before creating the MASSIVE language we made some language priorities, which can
 Writeable &  &  & X\\ % inserting body of the table
 Reliable &  &  & X\\
 Readable &  & X & \\
-Consistent &  & X & \\
+Performance & X &  & \\
 Flexible & X &  & \\ [1ex] % [1ex] adds vertical space
 \hline %inserts single line 
 \end{tabular} 
 \label{table:priorities} % is used to refer this table in the text 
 \end{table}
 
-We focus on writeability, reliability, and consistency because we want the language to be easy to use. By writeable and consistency we mean that the language should be intuitive.\\
+we want the language to be easy to use, and therefore we focus on writeability, reliability, and consistency. By writeable and consistency we mean that the language should be intuitive.\\
 The word reliability implies unambiguity, which means that a snippet of code can be interpreted i one way only.\\ \indent
-General goals with the language
+We consider performance to be irrelevant for our language, because we do not believe that out language will be very extensive, and thereby have any serious performance issues.\\ \\
+General goals with the language:
 
 \begin{itemize}
-	\item Be simple to use for building a wargame scenario.
-	\item Contain build-in classes for teams, agents, squads and actionpatterns.
-	\item Contain build-in functions for manipulating build-in classes.
-	\item Only use a few data types, to make it easy to choose which one to use.
+	\item It should be simple to use for building a wargame scenario.
+	\item It should Contain build-in classes for teams, agents, squads and actionpatterns.
+	\item It should Contain build-in functions for manipulating build-in classes.
+	\item It should Only use a few data types, to make it easy to choose which one to use.
 \end{itemize}
 
 These language goals need to be considered in every step when the MASSIVE language is designed.
-The language crition has a large influence on how the language is designed. Multiple critias was made to make the MASSIVE as good as possible.
-
-\begin{itemize}
-	\item Writeability - This will ensure that the language is clear and corret in it's formulation.
-	\item Reliability - This will ensure that the language does not behave unexpected.
-\end{itemize}
+The language crition has a large influence on how the language is designed. Multiple crition was made to make the MASSIVE as good as possible.
 
 \subsection{Action language}
 When designing the GUI a scripting language for controling the agents was needed. This language is called Action language, and is build around making it avaliable for the user to move agents, teams and squads.
