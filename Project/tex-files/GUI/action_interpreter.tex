@@ -1,14 +1,31 @@
 \section{Action Interpreter}
-The Action Interpreter, is the interface for all commands the user can give to the units in the GUI. 
-It analyzes a single command at the time and if the command is valid, it executes it directly in the GUI.
-A command in the Action Interpreter consists of three parts; \textit{identification}, \textit{state}, and \textit{option}.\\
+The action interpreter, is the interface for all commands the user can give to the units in the GUI. 
+It analyzes a single command at the time, and if the command is valid, it executes it directly in the GUI.
+A command in the action interpreter consists of three parts; \textit{identification}, \textit{state}, and \textit{option}.\\
 The \textit{identification} identifies which unit, team, or squad the user is giving the command to.\\
 The \textit{state} indicates in which state the unit should execute the command, e.g. the \texttt{encounter}-command waits untill there is an enemy unit in its perimeter.\\
-The \textit{option} identifies the coordinate or direction the unit should go to, e.g. the option \texttt{up} would move the unit one grid up.\\
+The \textit{option} identifies the coordinate or direction the unit should go to, e.g. the option \texttt{up} would move the unit one grid up. The full list of commands is seen in figure \ref{ac_commands}.\\
+
+\begin{center}
+	\begin{table}[H]
+    \begin{tabular}{| l | p{6.5cm} |}
+    \hline
+    Command & Result of command\\ \hline
+    \texttt{[identifier] Move [direction]} & Moves the selected agent in the selected direction\\ \hline
+    \texttt{[identifier] Move [coordinates]} & Moves the selected agent to specific grid coordiantes\\ \hline
+		\texttt{[identifier] Move [actionpattern]} & Moves the selected agent according to a specific predefined actionpattern\\ \hline
+		\texttt{[identifier] Encounter [direction]} & Moves the selected agent in a selected direction, when an opposing agent is in close\\ \hline
+		\texttt{[identifier] Encounter [coordinates]} & Moves the selected agent to a coordinate, when an opposing agent is in close\\ \hline
+		\texttt{[identifier] Encounter [actionpattern]} & Moves the selected agent according to a predefined actionpattern, when an opposing agent is in close\\ \hline
+    \end{tabular}
+		\caption{Table with all the commands in the action language. \texttt{[identifier]} refers to \textit{agent id, agent name, squad,} or \textit{team}. [direction] can be \textit{up, down, left,} and \textit{right}. [coordinates] is a grid point, i.e. \texttt{2,3}}
+		\label{ac_commands}
+	\end{table}
+\end{center}
+
+The commands in the action interpreter are simple. There is the \texttt{move}-commands, e.g. \texttt{12 move 1,2}, which would move the unit with ID \texttt{12} to the coordinate \texttt{1,2}.
 \\
-Some of the most simple commands in the action interpreter would be the \texttt{move}-commands, e.g. \texttt{12 move 1,2} would move the unit with the ID 12 to the coordinate 1,2.
-\\
-Furthermore the \texttt{encounter}-command can give the user the ability to do a certain sequence of movements, whenever the unit is in range of an enemy unit, e.g. \texttt{12 encounter 1,2} would move the unit with the ID 12 to the coordinate 1,2 when its in range of an enemy unit.
+Furthermore the \texttt{encounter}-command can give the user the ability to do a certain sequence of movements, whenever the unit is in range of an enemy unit, e.g. \texttt{12 encounter 1,2} would move the unit with the ID \texttt{12} to the coordinate \texttt{1,2} when it is in range of an enemy unit.
 
 \InputIfFileExists{GUI/action_interpreter/lexicalanalysis}{}{}
 
