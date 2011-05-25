@@ -1,8 +1,8 @@
 \subsection{Contextual Analysis \& Code Generation}
 \label{sec:ai_contextual_analysis}
-The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors, see \ref{visitors} about visitors. Code generation is the last methods of the contextual analysis visitors, since there is no need to parse the AST more than once, when all information used by the move functions is given cronologically.\\
+The contextual analysis is the decoration of the AST, which is done by traversing the AST with the visitors, see \ref{visitors} about visitors. Code generation is the last method of the contextual analysis visitor, since there is no need to parse the AST more than once, when all information used by the move functions is given cronologically.\\
 The first part of the decoration is to verify the identification of the command.
-To verify the identification the decorator finds the unit or units the user wants to move, e.g. the user gives the command \texttt{squad 1 move down}.\\
+To verify the identification the decorator finds the unit or units the user wants to move, e.g. if the user gives the command \texttt{squad 1 move down}.\\
 The parser then determines that the identifier \texttt{1} is a squad, and stores its token as a SquadID. The decorator then searches for the squad identifier in the squad list, and calls the move method to execute the action \texttt{move down}.\\
 \\
 

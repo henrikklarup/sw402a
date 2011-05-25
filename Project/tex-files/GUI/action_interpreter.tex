@@ -1,10 +1,10 @@
 \section{Action Interpreter}
 The action interpreter, is the component that interprets action commands, e.g. commands that the user can give units while playing the game. 
-It analyzes a single command, if it is valid it executes it right away, applying the command to the given agent.
+It analyzes a single command, if the command is valid it is executed, applying the command to the given agent.
 A command in the action interpreter consists of three parts; \textit{identification}, \textit{state}, and \textit{option}.\\
 The \textit{identification} identifies which unit, team, or squad the user is giving the command to.\\
 The \textit{state} indicates when the unit should execute the command, e.g. the \texttt{encounter}-command waits until there is an enemy unit in its vicinity.\\
-The \textit{option} represents the coordinates to which the agent should move, or a direction that the unit should go in, e.g. the option \texttt{up} would move the unit one grid up. The full list of commands can be seen in figure \ref{ac_commands}.\\
+The \textit{option} represents the coordinate or direction the agent should head, e.g. the option \texttt{up} would move the unit one grid up. The full list of commands can be seen in figure \ref{ac_commands}.\\
 
 \begin{center}
 	\begin{table}[H]
@@ -23,9 +23,9 @@ The \textit{option} represents the coordinates to which the agent should move, o
 	\end{table}
 \end{center}
 
-The commands in the action interpreter are simple. There is the \texttt{move}-commands, e.g. \texttt{12 move 1,2}, which would move the unit with ID \texttt{12} to the coordinate \texttt{1,2}.
+The commands in the action interpreter are simple. One of which is the \texttt{move}-command, e.g. \texttt{12 move 1,2}, which would move the unit with ID \texttt{12} to the coordinate \texttt{1,2}.
 \\
-Furthermore the \texttt{encounter}-command can give the user the ability to do a certain sequence of movements, whenever the unit is in range of an enemy unit, e.g. \texttt{12 encounter 1,2} would move the unit with the ID \texttt{12} to the coordinate \texttt{1,2} when it is in range of an enemy unit.
+Another command is the \texttt{encounter}-command, which gives the user the ability to do a certain sequence of movements, whenever the unit is in range of an enemy unit, e.g. \texttt{12 encounter 1,2} would move the unit with the ID \texttt{12} to the coordinate \texttt{1,2} when it is in range of an enemy unit.
 
 \InputIfFileExists{GUI/action_interpreter/lexicalanalysis}{}{}
 
