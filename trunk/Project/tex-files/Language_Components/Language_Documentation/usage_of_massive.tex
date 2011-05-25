@@ -1,22 +1,22 @@
 \section{Language Reference}
 \label{sec:language_reference}
 
-This section will provide codeexamples of all the features of the MASSIVE language.
+This section will provide code examples of all the features of MASSIVE.
 
-The first thing declared must always be the \textit{main} function. MASSIVE will not compile without this function, as every bit of code goes into it.
+The first part of code written in MASSIVE must always be the \textit{main} function. MASSIVE will not compile without this function, as every bit of code goes into it.
 The main function is declared as follows:
 
-\begin{source}{How to declare the main function in MASSIVE}{}
+\begin{source}{How to declare the main function in MASSIVE.}{}
 main()
 {
 		/* Entire program code */
 }
 \end{source}
 
-There are two different loops in our language, the for-loop and the while-loop.\\
+There are two different loops in MASSIVE, the for-loop and the while-loop.\\
 The while-loop is used in the following manner:
-\begin{source}{While-loop}{}
-while(/* Expression */)
+\begin{source}{While-loop.}{}
+while(/* Boolean Expression */)
 {
 		/* Code */
 }
@@ -24,23 +24,23 @@ while(/* Expression */)
 
 The for-loop is used in the following way:
 \begin{source}{For-loop}{}
-for(num i = 0; /* Some Expression */; i = i + 1)
+for(/* Type declaration */; /* Some Expression */; /* Assignment */)
 {
 		/* Code */
 }
 \end{source}
 
-Declaring variables can be done as long as the assigned value matched the datatype selected. Only three datatypes exist in MASSIVE, and can be declared as follows
+Declaring variables can be done as long as the assigned value matches the datatype selected. Only three datatypes exist in MASSIVE, and can be declared as follows:
 
-\begin{source}{Variable assignment}{}
+\begin{source}{Variable assignment.}{}
 num count = 42;
 string text = ``hello world'';
 bool logicoperator = true;
 \end{source}
 
-Besides declaring variables, they and also be used in the language, or in mathematical expressions. Below is examples of all the mathematical expressions usable in MASSIVE. The parser will not be able to compile if any redundant parenthesis are used.
+Aside from variable declarations, the values of the datatypes can also be used in expressions. Below is examples of all the mathematical expressions usable in MASSIVE. The parser will not be able to compile if any redundant parenthesis are used.
 
-\begin{source}{Examples of mathematical expressions}{}
+\begin{source}{Examples of mathematical expressions.}{}
 num result = 0;
 
 result = (42 * 55)/(67-55) + 49;
@@ -50,8 +50,8 @@ result = ((42 * 55)/(67-55) + 49);
 
 \end{source}
 
-To create new agents, team and squads MASSIVE is using constructors. These can be used with a different number of inputs, as demonstrated in the next two code examples.
-\begin{source}{Object assignment}{}
+To create new agents, team and squads, MASSIVE uses constructors. These can be used with a different number of inputs, as demonstrated in the next two code examples.
+\begin{source}{Object assignment.}{}
 
 new team testTeam([name as string], [Hexcode as a string]);
 new squad testSquad([name as string]);
@@ -60,21 +60,21 @@ new agent testAgent([name as string], [rank as num]);
 \end{source}
 
 Agent can also take a team as an argument, as demonstrated below.
-\begin{source}{Creating an agent with all possible arguments}{}
+\begin{source}{Creating an agent with all possible arguments.}{}
 
 new agent testAgent([name as string], [rank as num], [team as a team]);
 
 \end{source}
 
-You can also add agents to squads later on, as demonstrated in the below code example
-\begin{source}{Adding agents to a squad and team}{}
+The user can also add agents to squads later on, as demonstrated in the code example below.
+\begin{source}{Adding agents to a squad and team.}{}
 
 testSquad.Add([agent as an agent]);
 testTeam.Add([agent as an agent]);
 
 \end{source}
 
-There is only one kind of conditional statement in the MASSIVE language, the \texttt{if ... then ... else}-statement. Below is an example of the statement used along with all the logical operators available in MASSIVE.
+The \texttt{if ... then ... else}-statement is a conditional statement in MASSIVE. Below is an example of the statement used along with all the logical operators available in MASSIVE.
 
 \begin{source}{Statements}{}
 num testNumber = 10;
@@ -106,11 +106,11 @@ else
 }
 \end{source}
 
-As illustrated above the MASSIVE language uses the dot-syntax extensively. This syntax can also be used to change properties about agents, teams, squads and actionpatterns. The below code examples will be used to demonstrate that.
+As illustrated above, MASSIVE uses dot-syntax extensively. This syntax can also be used to change properties about agents, teams, squads and actionpatterns. The below code examples will be used to demonstrate that.
 
 This code demonstrates how to change the properties of an agent, a squad and an actionpattern, the only property being the name.
 
-\begin{source}{Changing properties using dot-syntax}{}
+\begin{source}{Changing properties using dot-syntax.}{}
 
 agent.name = "new name";
 squad.name = "new name";
@@ -120,7 +120,7 @@ actionapttern.name = "new name";
 
 The below code demonstrates how to change the properties of teams; these being the name and the color.
 
-\begin{source}{Changing properties using dot-syntax}{}
+\begin{source}{Changing properties using dot-syntax.}{}
 
 team.name = "new name";
 team.color = "new hexcolor as a string";
