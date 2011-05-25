@@ -1,27 +1,30 @@
 \section{Design Critia}
 \label{sec:designcrit}
-In this section the design critias for MASSIVE and action language will be explained. These crition are based on thoughts made prior to making both languages.
+In this section the design critiaon for MASSIVE and the action language will be explained. These crition are based on thoughts made prior to making both languages.
 
 \subsection{MASSIVE Language}
-Before creating the MASSIVE language we made some design crition. These crition determine the properties of the language. The language should:
+Before creating the MASSIVE language we made some language priorities, which can be seen in table \ref{table:priorities}.
 
-
-\begin{table}[ht] \caption{Table of the design priorities} % title of Table 
+\begin{table}[ht]
+\caption{Table of the design priorities} % title of Table 
 \centering % used for centering table 
 \begin{tabular}{cccc} % centered columns (4 columns) 
 \hline\hline %inserts double horizontal lines
  & Irrelevant & Less important & Important \\ [0.5ex] % inserts table %heading
 \hline % inserts single horizontal line
-Writeability &  &  & X\\ % inserting body of the table
-Reliability &  &  & X\\
-Readability &  & X & \\
-1 & 4 & 35 & 144 \\
-1 & 5 & 45 & 300 \\ [1ex] % [1ex] adds vertical space 
+Writeable &  &  & X\\ % inserting body of the table
+Reliable &  &  & X\\
+Readable &  & X & \\
+Consistent &  & X & \\
+Flexible & X &  & \\ [1ex] % [1ex] adds vertical space
 \hline %inserts single line 
 \end{tabular} 
 \label{table:priorities} % is used to refer this table in the text 
 \end{table}
 
+We focus on writeability, reliability, and consistency because we want the language to be easy to use. By writeable and consistency we mean that the language should be intuitive.\\
+The word reliability implies unambiguity, which means that a snippet of code can be interpreted i one way only.\\ \indent
+General goals with the language
 
 \begin{itemize}
 	\item Be simple to use for building a wargame scenario.
