@@ -5,12 +5,21 @@ Before launching the wargame, the user should be able to express agents and pred
 \section{Rules}
 These rules should apply to the wargame:
 \begin{itemize}
-	\item The game is turn-based.
-	\item The game is played on a grid.
+	\item The game is turn-based. The turn end when the user is done executing commands, and press the \textit{End Turn} button.
+	\item The game is played on a grid \ref{fig:ex_grid}.
 	\item Each agent can move three grid-points in each turn.
 	\item A higher ranked agent has a higher chance of winning.
 	\item Agents fight when they are standing on the same grid location.
+	\item The game rules are based on a classical deathmatch game. There is one winner only, and the winner is the team which eliminates all other team.
 \end{itemize}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.9]{Images/ex_grid.png}
+\end{center}
+\caption{Example of the grid setup with two opposing teams}
+\label{fig:ex_grid}
+\end{figure}
 
 To get an overview of how the game operates, the layout of a game round is added in psuedocode.
 
