@@ -1,20 +1,37 @@
 \section{Design Critia}
 \label{sec:designcrit}
-In this section the design critias for MASSIVE and action language will be explained. These critias are based on thoughts made prior to making both languages.
+In this section the design critias for MASSIVE and action language will be explained. These crition are based on thoughts made prior to making both languages.
 
 \subsection{MASSIVE Language}
-Before creating the MASSIVE language we made some design critias. Those critias will determine which goals the language should fulfill when it is finished. The language should:
+Before creating the MASSIVE language we made some design crition. These crition determine the properties of the language. The language should:
+
+
+\begin{table}[ht] \caption{Table of the design priorities} % title of Table 
+\centering % used for centering table 
+\begin{tabular}{cccc} % centered columns (4 columns) 
+\hline\hline %inserts double horizontal lines
+ & Irrelevant & Less important & Important \\ [0.5ex] % inserts table %heading
+\hline % inserts single horizontal line
+Writeability &  &  & X\\ % inserting body of the table
+Reliability &  &  & X\\
+Readability &  & X & \\
+1 & 4 & 35 & 144 \\
+1 & 5 & 45 & 300 \\ [1ex] % [1ex] adds vertical space 
+\hline %inserts single line 
+\end{tabular} 
+\label{table:priorities} % is used to refer this table in the text 
+\end{table}
+
 
 \begin{itemize}
 	\item Be simple to use for building a wargame scenario.
 	\item Contain build-in classes for teams, agents, squads and actionpatterns.
 	\item Contain build-in functions for manipulating build-in classes.
-	\item Only use a few data types, to make it easier to choose which one to use.
-	\item Have a simple syntax, specified for quickly writing a wargame scenario
+	\item Only use a few data types, to make it easy to choose which one to use.
 \end{itemize}
 
-Those language goals need to be considered every step of the way when the MASSIVE language is designed, but some of them can not be seen untill the language is finished.
-When making the MASSIVE language, language critias had a large influence on how the language was designed. Multiple critias was made to make the MASSIVE as good as possible:
+These language goals need to be considered in every step when the MASSIVE language is designed.
+The language crition has a large influence on how the language is designed. Multiple critias was made to make the MASSIVE as good as possible.
 
 \begin{itemize}
 	\item Writeability - This will ensure that the language is clear and corret in it's formulation.
@@ -35,4 +52,4 @@ The action language is a simple language based around a few commands.
 	\item Right
 \end{itemize}
 
-Those commands are made so it is clear to see what the code compiled is gonna do. The action language is made with the language critias of high Readability and Writeability. For the action language, the syntax should be simple and quick to write.
+Those commands are made so it is clear to see what the code compiled is gonna do. The action language is made with the language critias of high readability and writeability. For the action language, the syntax should be simple and quick to write.
