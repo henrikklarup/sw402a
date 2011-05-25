@@ -1,10 +1,10 @@
 \vspace{30pt}
 
-\textit{Compilers and interpreters are two types of translators. A compiler has to translate the entire input before the result can be used and an interpreter runs one instruction at a time from the input, thus enabling it to start utilizing the input before it is done translating.\\ \indent
+\textit{Compilers and interpreters are two types of translators. A compiler has to translate the entire input before the result can be used. An interpreter runs one instruction at a time from the input, thus enabling it to start utilizing the input before it is done translating.\\ \indent
   The scanner produces a stream of the tokens it has recognized in the source program. The parser then recognizes the phrase structure of the token stream, and produces an abstract syntax tree.\\ \indent
-  To decorate the AST, we use the visitor pattern. There is a visitor for type and scope checking, one for input validation, one that checks for unused variables, and one for code generation.
-This design pattern is specifically used for traversing data structures and executing operations on objects without adding the logic to that object beforehand.\\ \indent
-  Our compiler can catch errors after every parsing of the code. This is convenient for the programmer when he needs to debug the code he writes.\\ \indent
+  To decorate the AST, the visitor pattern is used. There is a visitor for type and scope checking, one for input validation, one that checks for unused variables, and one for code generation.
+This design pattern is specifically used for traversing data structures and executing operations on objects without adding the logic to that object first.\\ \indent
+  Our compiler can catch errors after every parsing of the code. This is convenient for the programmer, when debugging code.\\ \indent
   The user interface is implemented using Windows forms and C\#. }
 	
 	%We structure the interface such that it has the same basic structure as other strategic computer games, which should make it easier to learn to use.
