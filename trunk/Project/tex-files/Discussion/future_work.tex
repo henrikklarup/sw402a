@@ -1,16 +1,16 @@
 \chapter{Future Work}
 \section{Design Improvements}
-The design of a language can be difficult to improve because it is very subjective whether or not a language is well designed or not. However, a wider range of features could be implemented to provide the users with more functions.\\\\
-If you want to modify agents in a team or squad you have to go through them statically, this could be made dynamic by implementing a foreach loop, this loop would then be able to loop through, for instance, all agents in teams.\\
+The design of a language can be difficult to improve because it is subjective whether or not a language is well designed or not. However, a more features could be implemented to provide the users with more functions.\\ \\
+If you want to modify agents in a team or squad you have to go through them statically, this could be made dynamic by implementing a \texttt{for-each}-loop, that way you could loop through all the agents.\\
 \\
-To allow the programmer to make more varied and advanced battle scenarios, it should be possible for the programmer to decide where the created team, squad or agent should start on the battlefield. The programmer should also be able to create obstacles, such as rivers, lakes, forests or moutains. These could have different kind of movement penalties which would enable the programmer to simulate more realistic battle scenarios.\\
+To allow the programmer to make more varied and advanced battle scenarios, it should be possible for the programmer to decide where the created team, squad or agent should start on the battlefield. The programmer should also be able to create obstacles, with different kind of values, on the battlefield, this would enable the programmer to simulate more realistic battle scenarios.\\
 
-The action language and actionpatterns is limited to encounter and move functionalities. A way of implementing self defined logic into the agents could to convert action language and actionpatterns into a script language, this way MASSIVE would be more of a simulation and less of a game. A feature which enables the programmer to compare the current unit with units in its vicinity and act accordingly could also be implemented, this would give the agents a more independent and life-like behavior
+The action language and actionpatterns are limited to \texttt{encounter} and \texttt{move} functionality. A way of implementing self-defined logic into the agents would be converting action language and actionpatterns into a scripting language, this way MASSIVE would be more a simulation and less of a game.\\
 
-MASSIVE is based on hardcoded rules which the programmer cannot change, this makes the wargame scenario limited. The programmer should be able to either use the predefined rules or program his own set of rules, this would enable the programmer to design more complex wargame scenarios. \\
+MASSIVE is based on hardcoded rules which the programmer cannot change, which makes the wargame scenario more limited. The programmer should be able to either use the predefined rules or program his own set of rules, which would enable the programmer to design more complex wargame scenarios. \\
 
-In order to improve the programmers experience with actionpatterns to make it feel more like a scripting language, it is possible to change the way actionpatterns are created. This can be done by creating conditions and loops instead of making actionpatterns by adding strings to a list of actions. For example can a script look like:
-\begin{source}{}{}
+In order to improve the programmers experience with actionpatterns, to make it feel more like a scripting language, it is possible to change the way actionpatterns are created. This can be done by creating conditions and loops instead of making actionpatterns by adding strings to a list of actions. For example a script can look like:
+\begin{source}{Example of a actionpattern script}{}
 new actionpattern ap("ap1")
 {
 	if(enemy)
@@ -24,21 +24,22 @@ new actionpattern ap("ap1")
 }
 \end{source}
 
-This actionpattern will be translated to the actionpattern, "unit encounter enemyPosition", "unit move someActionpattern", which is the same as the current actionpatterns, but it will be more readable for the programmer if it is expanded with more states etc.
+This actionpattern will be translated to the actionpattern, \texttt{unit encounter enemyPosition}, \rexttt{unit move someActionpattern}, which is the same as the current actionpatterns, but it will be more readable for the programmer if it is expanded with more states etc.
 
 %To make the language more of a simulation and less of a game, it could also be implemented that the actionpatterns are not limited to the encounter and move functionality. These functionalities could be expanded by adding more states to the action interpreter. \\
+%A feature which enables the programmer to compare the current unit with units in its vicinity and act accordingly could also be implemented, this would give the agents a more independent and life-like behavior.
 
-\section{Implementation improvements}
+\section{Implementation Improvements}
 %Lille ide til future work, gore det muligt at kore teams og squads igennem et for loop, lidt som et array, pa den made kunne man nemt redigere agents
-Besides improving the language design, the current implementation could also be improved. As previously described, the purpose of the compiler is to provide data to the wargame environment.
-Currently this is achieved by compiling the MASSIVE language into C\# code, which then produces XML data. 
-A more efficient way of doing this could to compile straight to XML, so a separate file with C\# does not have to be generated, compiled and run. 
-This will also cause the MASSIVE compiler to be more efficient, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefore wont be optimized for the MASSIVE language, which for instance does not require the possibility to create new classes.\\
+Besides improving the language design, the implementation could also be improved. As previously described, the purpose of the compiler is to provide data to the wargame environment.
+Currently this is achieved by compiling the MASSIVE language into C\# code, which then produce XML data. 
+A more efficient way of doing it is by compiling directly to XML, so a separate file with C\# does not have to be generated, compiled, and run. 
+This will also cause the MASSIVE compiler to be more efficient, since it relies on the C\# compiler, which is build for the more complicated language C\# and therefore will not be optimized for the MASSIVE language, which for instance does not require the possibility to create new classes.\\
  \\
-Currently, the compiler and wargame are two separate programs, however to make the user-experience more consistent the compiler and wargame can be integrated further by merging them into one program.
-This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can provide the user the opportunity to create custom actionpattern and states contrary to being locked to the default ones.\newline
+The compiler and wargame are two separate programs. To make the user experience more fluent, the compiler and wargame can be integrated further by merging them into one program.
+This allows the compiler to skip the XML generation, and generate data directly to the wargame. By doing so it can provide the user the opportunity to create custom states to the actionpattern environment, contrary to being locked to the default ones.\newline
  \\
-The wargame can be enjoyed as a multiplayer game up to four players, sadly it is required that they use the same MASSIVE code and battlefield. A way to improve the wargame multiplayer function would be implementing a way to play it though a network, this way each player could write their own code and play it on different computers against eachother.\\
-\\
+The wargame can be enjoyed as a multiplayer game up to four players, sadly it is required that they use the same MASSIVE code and battlefield on the same computer. A way to improve the wargame multiplayer function would be implementing a way to play it though a network, this way each player could write their own code and play it on different computers against each other.
+
 %For example are actionpatterns very limited in functionality right now, and introducing language constructs that would allow for conditional movements could make a difference. 
 %Allowing users of the language to define their own encounters, like what would happen if an agent met an agent with three times as much rank, would also be a big improvement.
