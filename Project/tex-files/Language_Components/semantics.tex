@@ -3,7 +3,7 @@
 
 The semantics of a programming language is a mathematical notation that explains langauge behavior. 
 It defines the behaviour of all the elements in a language \cite{misc:sem}.\\ \indent
-As an example of semantics, we view the semantics of the language $Bims$. 
+The semantics of the language $Bims$, and various extensions of it, are used as an example. 
 The first part of the language semantics are the syntactic categories, which define the different syntactic elements in the language.
 
 \begin{itemize}
@@ -20,7 +20,7 @@ Here are the rules for statements: \newline
 
 $S ::= x := a$ $|$ \texttt{skip} $|$ $S_1;S_2$ $|$ \texttt{if} $b$ \texttt{then} $S_1$ \texttt{else} $S_2$ $|$ \texttt{while} $b$ \texttt{do} $S$\newline
 
-These rules imply what kind of transitions can be done in the language. 
+These rules define what kind of transitions can be done in the language. 
 A transition happens when an operation is executed, and the program is moved into its next configuration. 
 All transitions and configurations are defined by a transition system, which consists of three things. 
 
@@ -30,22 +30,21 @@ All transitions and configurations are defined by a transition system, which con
 \item $T$ represents the terminal configurations, which are the configurations with no transitions leading away from them.
 \end{itemize}
 
-The environment-store model is a way of storing variables, and it is the one we will be using in our semantics. 
-We will therefore explain it here. \newline
-The model consists of the variable environment and the store function. 
+The environment-store model is a way of storing variables, and it is used to store variables in the semantics. \newline
+The model consists of a variable environment and a store function. 
 The variable environment is the environment where variables are referenced, mimicking memory addresses in a computer. 
 The store function then uses the reference to find the actual value of the variable. \newline
 
-Finally, we will be using bigstep semantics to describe the different transition rules. 
+Finally, bigstep semantics are used to describe the different transition rules. 
 Bigstep semantics represent transitions with a one to one mapping. 
-The opposite of this is the smallstep semantic, where each transition has several semantic steps described, but we will not detail this.\newline
+The opposite of this is the smallstep semantic, where each transition has several semantic steps described, but will not be described further.\newline
 
 The first example is the bigstep transition rule for declaring a variable. 
-    \begin{tabular}{lc}
+    \begin{tabular}{ll}
                 \mbox{} & \hspace{8cm} \\
                 \hline
                 \runa{VAR-DECL} & \infrule{\lag D_v, env''_v, sto[l \mapsto v] \rag \rightarrow_{DV} (env'_v, sto')}
-								{\lag var x := a; D_v, env_v, sto \rag \rightarrow_{DV} (env'_v, sto')}
+								{\lag var \mbox{}\; x \mbox{}\; := \mbox{}\; a; \mbox{}\; D_v, env_v, sto \rag \rightarrow_{DV} (env'_v, sto')}
                  \\
                 & $\mbox{where}\; env_{v}, sto \vdash a \rightarrow_a v$ \\
 								& $\mbox{and}\; l = env_v \mbox{ next}\;$ \\
@@ -53,11 +52,11 @@ The first example is the bigstep transition rule for declaring a variable.
 & \\
                 \hline
         \end{tabular}
-
+\newline
 This transition rule expects one variable declaration to be followed by another. 
 This next declaration can then either be empty, in order to end all the declarations, or a new variable declaration. 
-That is what the $D_v$ in the rule means. \newline
-The premises of this rule are the things that are written above the line. 
+That is what the $D_v$ in the conclusion of the rule means. \newline
+The conclusion of the rule is what is written below the line, where the premises of the rule are the things that are written above the line. 
 These are the premises the transition will happen under. 
 This means the variable declaration will end with the environment being updated with the next available location $l$ being set to the value $v$, which is the value contained in $a$.\newline
 The $next$ location in the environment refers to the next available location, while $new$ refers to the neighbour of any variable given to it.\newline
