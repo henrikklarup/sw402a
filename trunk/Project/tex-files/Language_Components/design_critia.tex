@@ -5,7 +5,17 @@ Before we start developing our languages, we need to set some design criteria, w
 \subsection{MASSIVE Language}
 Before creating the MASSIVE language we made some language quality goals, which can be seen in table \ref{table:priorities}.
 
-\begin{table}[ht]
+
+\begin{sable}[h]{0.3}{0.7}{Definition of criteria}{fig:defOfCrit}
+ \shfone{Criterion}&\shftwo{Definition} \\
+\hline \\
+  Writeable&Writable means that the language should be very easy to write \\ \\
+	Learnable&Learnability means that the language should be easy to learn\\ \\
+	Readable&Readable means that it is easy to read\\ \\
+	Performance&Performance means the compile time\\ \\
+	Flexible&Flexible means that its limited to the wargame\\ \\
+\end{sable}
+\begin{table}[h]
 \caption{Table of the design quality goals} % title of Table 
 \centering % used for centering table 
 \begin{tabular}{cccc} % centered columns (4 columns) 
@@ -22,8 +32,13 @@ Flexible & X &  & \\ [1ex] % [1ex] adds vertical space
 \label{table:priorities} % is used to refer this table in the text 
 \end{table}
 
+We want the language to be easy to use and learn, therefore we focus on writeability and Learnability. If a programmer is adapting to a new language, the most difficult things to remember is usually the context of the language and the name of the datatypes. That is why a high learnability can be achieved by creating a syntax that is very similar to popular languages such as Java, C\# or C\cite{langpop}. Furthermore the number of datatypes could be kept at a minimum, to ensure that programmers do not need to learn more types than they can remember.\\
+\indent Performance is considered to be irrelevant because it is not believed that the language will be complex and therefore not have any real performance issues, almost no matter how poorly it runs, it is only a matter of milliseconds.\\
+
+\begin{comment}
 We want the language to be easy to use and learn, therefore we focus on writeability and Learnability. Writable means that the language should be very easy to write, whereas learnability means that the language should be easy to learn. If a programmer is adapting to a new language, the most difficult things to remember is usually the context of the language and the name of the datatypes. That is why a high learnability can be achieved by creating a syntax that is very similar to popular languages such as Java, C\# or C. Furthermore the number of datatypes could be kept at a minimum, to ensure that programmers do not need to learn more types than they can remember.\\
 \indent Performance is considered to be irrelevant because it is not believed that the language will be big enough to have any real performance issues, almost no matter how poorly it runs.\\
+\end{comment}
 General goals of the language:
 
 \begin{itemize}
@@ -37,16 +52,5 @@ These language goals need to be considered in every step when the MASSIVE langua
 The language criteria has a large influence on how the language is designed.
 
 \subsection{Action language}
-Because of the desire to control agents while the game was running, a second language was needed. We have named this language Action Language; This language is designed with the purpose of making it easy for the user to move agents, teams and squads.\\
+Because of the desire to control agents while the game is running, a second language is needed. This language is called the Action Language and is designed with the purpose of making it easy for the user to move agents, teams and squads.\\
 That is why the language is designed to have a very limited feature-set and only a few commands. It is also designed to have a high readability and writeability, and it is accepted that this is limiting the features a the language somewhat. \\
-The commands that the language is suppose to contain are listed below:
-
-\begin{itemize}
-	\item Move
-	\item Encounter
-	\item Hold
-	\item Up
-	\item Down
-	\item Left
-	\item Right
-\end{itemize}
