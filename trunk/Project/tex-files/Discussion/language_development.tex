@@ -5,5 +5,14 @@
 % Vis at vores sprog kan construere funktionerne til wargame, med færre linier kode end f.eks. C#. Vi skal
 % vise at vores sprog har et formål. Hvad er fordele og ulemper ved vores sprog?
 \section{Compiler language}
+<<<<<<< .mine
+The MASSIVE compiler is developed in the C\# language, which is because C\# is an object oriented language and therefore provides a good base to create classes and objects used in the compiler. E.g. the abstract syntax trees.\\
+Java provides the same base as an object oriented language, but due to developing the GUI in C\# in Visual Studio, it is convenient to create the MASSIVE compiler in the same programming language.\newline
+There were problems managing reference types in C\# though. 
+Reference types are the kinds of objects that when created refer to an existing object in memory rather than creating a new instance of the object. \newline
+Several bugs occurred due to difficulty in anticipating when something is a referenced type as opposed to a seperate object. \newline
+It might therefor have been beneficial to develop the compiler in a language like Haskell, which uses the functional paradigm. 
+This is because purely functional languages do not allow side effects in their functions, meaning that existing data is not altered. 
+Haskell is one such language \cite{misc:haskell}, where new data is created and the alterations are applied to, so reference types are of no concern.=======
 The MASSIVE compiler is developed in the C\# language, this is done because C\# is an object oriented language and therefore provides a good base to create classes and objects used in the compiler. E.g. the abstract syntax trees.\\
-Java provides the same base as an object oriented language, but due to developing the GUI in C\# in Visual Studio, it is convenient to create the MASSIVE compiler in the same programming language.
+Java provides the same base as an object oriented language, but due to developing the GUI in C\# in Visual Studio, it is convenient to create the MASSIVE compiler in the same programming language.>>>>>>> .r1149
