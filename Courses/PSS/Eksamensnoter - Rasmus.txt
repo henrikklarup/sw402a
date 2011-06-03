@@ -1,0 +1,7 @@
+Filerne kan og skal ikke ændres af andre en Rasmus tak, i skal være velkomne til at oprette en ny fil som kan deles med alle.
+
+Processer og Tråde: Begreber og implementation
+https://docs.google.com/document/d/14I1jpWgLTvw7pme-wB7BpqWR9ToHza3WTfvNSUMXi0o/edit?hl=da&authkey=CMOU-JoM
+
+Multithreading
+https://docs.google.com/document/d/1ldSmGzSQfKGIBJXm3p4Ac5rIIR7PrWHKHxyde2C6hTk/edit?hl=da&authkey=CJfp_MoK
