@@ -5,3 +5,6 @@ https://docs.google.com/document/d/14I1jpWgLTvw7pme-wB7BpqWR9ToHza3WTfvNSUMXi0o/
 
 Multithreading
 https://docs.google.com/document/d/1ldSmGzSQfKGIBJXm3p4Ac5rIIR7PrWHKHxyde2C6hTk/edit?hl=da&authkey=CJfp_MoK
+
+Semaforer
+https://docs.google.com/document/d/1csKr5XZJOIlOTnr-aCLJ9KqoebBftWNK5vprqvcg8FM/edit?hl=da&authkey=CN-hupwC
