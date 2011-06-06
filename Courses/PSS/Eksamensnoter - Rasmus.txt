@@ -1,4 +1,6 @@
-Filerne kan og skal ikke ændres af andre en Rasmus tak, i skal være velkomne til at oprette en ny fil som kan deles med alle.
+Filerne kan og skal ikke ændres af andre en Rasmus tak, 
+i skal være velkomne til at oprette et nyt dokument, 
+som kan deles med og ændres af alle.
 
 Processer og Tråde: Begreber og implementation
 https://docs.google.com/document/d/14I1jpWgLTvw7pme-wB7BpqWR9ToHza3WTfvNSUMXi0o/edit?hl=da&authkey=CMOU-JoM
@@ -11,3 +13,6 @@ https://docs.google.com/document/d/1csKr5XZJOIlOTnr-aCLJ9KqoebBftWNK5vprqvcg8FM/
 
 Deadlocks og Deadlockhåndtering
 https://docs.google.com/document/d/1aXhTwuTI6SFR5vdoJYSzvRxjR4tIJ1FsaJ7TOTOPVuM/edit?hl=da&authkey=COTZrK4H
+
+Lageradministration i primær lager
+https://docs.google.com/document/d/1eLx5wl_z1CkbkGZCpF0k5YXssuhFG1jJ71MDCuEp3QE/edit?hl=da&authkey=CLHtv8IJ
