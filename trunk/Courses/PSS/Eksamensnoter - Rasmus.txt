@@ -21,7 +21,7 @@ Virtuelt lager, adresseoversættelse og sidetabeller
 https://docs.google.com/document/d/1SzK0oASxzcnEZevhLvPa5f0jpdM0Cpfiy2aYmVZ6DqA/edit?hl=da&authkey=COjjpcEF
 
 Virtuelt lager, sideerstatning og rammeallokering
-
+https://docs.google.com/document/d/1O-CtWKmd9PcvnmN6c1l80ex6QJAvjy6kI4JecyDnMZc/edit?hl=da&authkey=CNyx66sP
 
 Filsystemer
 
