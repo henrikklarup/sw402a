@@ -16,3 +16,14 @@ https://docs.google.com/document/d/1aXhTwuTI6SFR5vdoJYSzvRxjR4tIJ1FsaJ7TOTOPVuM/
 
 Lageradministration i primær lager
 https://docs.google.com/document/d/1eLx5wl_z1CkbkGZCpF0k5YXssuhFG1jJ71MDCuEp3QE/edit?hl=da&authkey=CLHtv8IJ
+
+Virtuelt lager, adresseoversættelse og sidetabeller
+https://docs.google.com/document/d/1SzK0oASxzcnEZevhLvPa5f0jpdM0Cpfiy2aYmVZ6DqA/edit?hl=da&authkey=COjjpcEF
+
+Virtuelt lager, sideerstatning og rammeallokering
+
+
+Filsystemer
+
+
+Interrupts og styresystemkernen
