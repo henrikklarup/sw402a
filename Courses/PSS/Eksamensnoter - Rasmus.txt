@@ -2,28 +2,9 @@ Filerne kan og skal ikke ændres af andre en Rasmus tak,
 i skal være velkomne til at oprette et nyt dokument, 
 som kan deles med og ændres af alle.
 
-Processer og Tråde: Begreber og implementation
-https://docs.google.com/document/d/14I1jpWgLTvw7pme-wB7BpqWR9ToHza3WTfvNSUMXi0o/edit?hl=da&authkey=CMOU-JoM
+---------------------------
 
-Multithreading
-https://docs.google.com/document/d/1ldSmGzSQfKGIBJXm3p4Ac5rIIR7PrWHKHxyde2C6hTk/edit?hl=da&authkey=CJfp_MoK
+Link til samling af alle 9 dokumenter
+https://docs.google.com/leaf?id=0B6_O5s2PiU0oZmY3YjVmYmYtZmI0My00YjE0LTkzODUtZDllZmNhODYxY2Rj&hl=da
 
-Semaforer
-https://docs.google.com/document/d/1csKr5XZJOIlOTnr-aCLJ9KqoebBftWNK5vprqvcg8FM/edit?hl=da&authkey=CN-hupwC
-
-Deadlocks og Deadlockhåndtering
-https://docs.google.com/document/d/1aXhTwuTI6SFR5vdoJYSzvRxjR4tIJ1FsaJ7TOTOPVuM/edit?hl=da&authkey=COTZrK4H
-
-Lageradministration i primær lager
-https://docs.google.com/document/d/1eLx5wl_z1CkbkGZCpF0k5YXssuhFG1jJ71MDCuEp3QE/edit?hl=da&authkey=CLHtv8IJ
-
-Virtuelt lager, adresseoversættelse og sidetabeller
-https://docs.google.com/document/d/1SzK0oASxzcnEZevhLvPa5f0jpdM0Cpfiy2aYmVZ6DqA/edit?hl=da&authkey=COjjpcEF
-
-Virtuelt lager, sideerstatning og rammeallokering
-https://docs.google.com/document/d/1O-CtWKmd9PcvnmN6c1l80ex6QJAvjy6kI4JecyDnMZc/edit?hl=da&authkey=CNyx66sP
-
-Filsystemer
-
-
-Interrupts og styresystemkernen
+--------------------------- 
