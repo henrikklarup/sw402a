@@ -1,0 +1,51 @@
+﻿SLIDE 1
+Purpose of the compiler is to recognize and translate
+MASSIVE into executeable C# code.
+
+The compiler has three components: syntactic analysis,
+contextual analysis and code genereation.
+
+
+SLIDE 2
+The syntactic analysis can also be divided into components,
+the scanner and the parser. The scanner recognize and saves
+tokens in the input. For example "plus"-sign and "equal"-sign
+is recognized as operators, and is therefore saved as an operator-
+token.
+
+The parser recognize the order of the tokens, and makes sure that
+the the grammar is correct. It also build an abstract syntax tree.
+
+
+SLIDE 3
+The first method of the scanner scans according to the starting
+symbol of every word in the input. If it is a letter, the word is
+saved as an identifier-token. If it is a number, then it is saved
+as a digit-token, and if it is an operator, it is saved as an
+operator-token.
+
+When an identifier-token is saved, a token-class searches in the
+list of keywords, to see if it has to be changed to another token, for example, if a saved identifier spells "for", then it is changed
+to a for-token.
+
+
+SLIDE 4
+Comments, spaces, end-of-lines and indents should not be compiled,
+so these are not saved as tokens. The scanner therefore recognize
+these, and ignores them. An example is the method for recognizing
+multiline comments. A switch recognize the first slash(/) and asterix(*), and then another method is called in the while-loop which recognize the ending asterix(*) and slash(/) of the multiline comment. everything in between is ignored.
+
+
+SLIDE 5
+The parser checks the grammar and builds the AST. Every token has
+its own parsing method, which generate a subtree of the AST. We
+here have an example of how a main-block is parsed. If the code 
+input is not of the expected type, the parser returns an error, including linenumber and wrong token.
+
+
+SLIDE 6
+The abstract syntax tree makes it possible to use the visitor pattern, which Lasse will expand on.
+Furthermore it gives a good overview of the code input, as seen in
+the compiler console in the picture. A so called pretty-printer can be used to represent the AST in the console in a nice way, for
+example by changing spacing an colors, making the output more
+readable.
